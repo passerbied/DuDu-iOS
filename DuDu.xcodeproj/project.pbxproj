@@ -54,7 +54,7 @@
 		486F52A71BEE71690043874E /* CustomOverlayView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 486F52A11BEE71690043874E /* CustomOverlayView.mm */; };
 		486F52A81BEE71690043874E /* MyAnimatedAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52A31BEE71690043874E /* MyAnimatedAnnotationView.m */; };
 		486F52A91BEE71690043874E /* UIImage+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52A51BEE71690043874E /* UIImage+Rotate.m */; };
-		486F52AF1BF0ABD90043874E /* LocationPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52AE1BF0ABD90043874E /* LocationPickerViewController.m */; };
+		486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52AE1BF0ABD90043874E /* AddressPickerViewController.m */; };
 		486F52B31BF0E7D00043874E /* ZBCNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52B21BF0E7D00043874E /* ZBCNavVC.m */; };
 		486F52B81BF0E87F0043874E /* YBNavigationContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52B51BF0E87F0043874E /* YBNavigationContoller.m */; };
 		486F52B91BF0E87F0043874E /* YBNavSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52B71BF0E87F0043874E /* YBNavSearchBar.m */; };
@@ -155,8 +155,8 @@
 		486F52A31BEE71690043874E /* MyAnimatedAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnimatedAnnotationView.m; sourceTree = "<group>"; };
 		486F52A41BEE71690043874E /* UIImage+Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Rotate.h"; sourceTree = "<group>"; };
 		486F52A51BEE71690043874E /* UIImage+Rotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Rotate.m"; sourceTree = "<group>"; };
-		486F52AD1BF0ABD90043874E /* LocationPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationPickerViewController.h; sourceTree = "<group>"; };
-		486F52AE1BF0ABD90043874E /* LocationPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationPickerViewController.m; sourceTree = "<group>"; };
+		486F52AD1BF0ABD90043874E /* AddressPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressPickerViewController.h; sourceTree = "<group>"; };
+		486F52AE1BF0ABD90043874E /* AddressPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressPickerViewController.m; sourceTree = "<group>"; };
 		486F52B11BF0E7D00043874E /* ZBCNavVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCNavVC.h; sourceTree = "<group>"; };
 		486F52B21BF0E7D00043874E /* ZBCNavVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCNavVC.m; sourceTree = "<group>"; };
 		486F52B41BF0E87F0043874E /* YBNavigationContoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNavigationContoller.h; sourceTree = "<group>"; };
@@ -357,8 +357,8 @@
 		486F52AC1BF0AB0B0043874E /* 地点选择页 */ = {
 			isa = PBXGroup;
 			children = (
-				486F52AD1BF0ABD90043874E /* LocationPickerViewController.h */,
-				486F52AE1BF0ABD90043874E /* LocationPickerViewController.m */,
+				486F52AD1BF0ABD90043874E /* AddressPickerViewController.h */,
+				486F52AE1BF0ABD90043874E /* AddressPickerViewController.m */,
 			);
 			name = "地点选择页";
 			sourceTree = "<group>";
@@ -655,7 +655,7 @@
 				486F52771BEE08140043874E /* NSDate+Utilities.m in Sources */,
 				486F52801BEE093F0043874E /* TopToolBar.m in Sources */,
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
-				486F52AF1BF0ABD90043874E /* LocationPickerViewController.m in Sources */,
+				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
 				486F52B81BF0E87F0043874E /* YBNavigationContoller.m in Sources */,
 				486F52A91BEE71690043874E /* UIImage+Rotate.m in Sources */,
 				486F52611BEE07F40043874E /* UIAlertView+KAddition.m in Sources */,

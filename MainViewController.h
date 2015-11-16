@@ -12,9 +12,9 @@
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>
-#import "LocationPickerViewController.h"
+#import "AddressPickerViewController.h"
 #import "TimePicker.h"
-#import "LocationPickerViewController.h"
+#import "YBNavigationContoller.h"
 
 @interface MainViewController : UIViewController <TopToolBarDelegate, BottomToolBarDelegate, BMKMapViewDelegate, BMKLocationServiceDelegate, BMKRouteSearchDelegate, TimePickerDelegate>
 

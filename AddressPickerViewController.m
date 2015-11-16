@@ -1,18 +1,18 @@
 //
-//  LocationPickerViewController.m
+//  AddressPickerViewController.m
 //  DuDu
 //
 //  Created by i-chou on 11/9/15.
 //  Copyright © 2015 i-chou. All rights reserved.
 //
 
-#import "LocationPickerViewController.h"
+#import "AddressPickerViewController.h"
 
-@interface LocationPickerViewController ()
+@interface AddressPickerViewController ()
 
 @end
 
-@implementation LocationPickerViewController
+@implementation AddressPickerViewController
 
 - (void)viewDidLoad
 {

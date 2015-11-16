@@ -16,6 +16,8 @@
     UIView *_timeView;
     UIView *_locationView;
     BOOL _is_showing;
+    UIButton *_fromAddress_btn;
+    UIButton *_toAddress_btn;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -90,13 +92,15 @@
                                                    text:@"蓝戴时空汇"];
         [_locationView addSubview:self.fromAddressLabel];
         
-        UIButton *fromAddress_btn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {
+        _fromAddress_btn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {
             if ([self.delegate respondsToSelector:@selector(bottomToolBar:didTapped:)]) {
                 [self.delegate bottomToolBar:self didTapped:self.fromAddressLabel];
             }
         }];
-        fromAddress_btn.frame = self.fromAddressLabel.frame;
-        [_locationView addSubview:fromAddress_btn];
+        self.fromAddressLabel.userInteractionEnabled = YES;
+        _fromAddress_btn.backgroundColor = [UIColor orangeColor];
+        _fromAddress_btn.frame = self.fromAddressLabel.bounds;
+        [self.fromAddressLabel addSubview:_fromAddress_btn];
         
         UIImageView *line2 = [[UIImageView alloc] initWithFrame:ccr(
                                                                     PADDING,
@@ -121,14 +125,16 @@
                                                    font:HSFONT(15)
                                                    text:@"你要去哪儿"];
         [_locationView addSubview:self.toAddressLabel];
+        self.toAddressLabel.userInteractionEnabled = YES;
         
-        UIButton *toAddress_btn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {
+        _toAddress_btn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {
             if ([self.delegate respondsToSelector:@selector(bottomToolBar:didTapped:)]) {
                 [self.delegate bottomToolBar:self didTapped:self.toAddressLabel];
             }
         }];
-        toAddress_btn.frame = self.startTimeLabel.frame;
-        [_locationView addSubview:toAddress_btn];
+        _toAddress_btn.backgroundColor = [UIColor redColor];
+        _toAddress_btn.frame = self.startTimeLabel.bounds;
+        [self.toAddressLabel addSubview:_toAddress_btn];
         
         _closeBtn = [UIButton buttonWithImageName:@"arrow_up"
                                       hlImageName:@"arrow_up_pressed"
@@ -159,6 +165,8 @@
                                           CGRectGetMaxY(_timeView.frame),
                                           self.width,
                                           88);
+//                _fromAddress_btn.frame = self.fromAddressLabel.frame;
+//                _toAddress_btn.frame = self.toAddressLabel.frame;
                 _closeBtn.y = 0;
             }];
         }];
@@ -176,6 +184,8 @@
                                           0,
                                           self.width,
                                           self.height);
+//                _fromAddress_btn.frame = self.fromAddressLabel.frame;
+//                _toAddress_btn.frame = self.toAddressLabel.frame;
                 _closeBtn.y = (self.height-32)/2;
             }];
         }];

@@ -1,5 +1,5 @@
 //
-//  LocationPickerViewController.h
+//  AddressPickerViewController.h
 //  DuDu
 //
 //  Created by i-chou on 11/9/15.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BottomToolBar.h"
 
-@interface LocationPickerViewController : UIViewController
+@interface AddressPickerViewController : UIViewController
 
 
 @end
