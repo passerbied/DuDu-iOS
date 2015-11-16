@@ -12,6 +12,8 @@
 {
     BOOL _isToday;
     BOOL _isNow;
+    NSInteger _hour;
+    NSInteger _minute;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -46,6 +48,7 @@
                                               title:@"确定" font:HSFONT(16)
                                          titleColor:[UIColor blackColor]
                                          onTapBlock:^(UIButton *btn){
+            self.pickedTime = [self getTime];
             if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectTime:)]) {
                 [self.delegate timePickerView:self didSelectTime:self.pickedTime];
             }
@@ -82,7 +85,7 @@
         return 3;
     } else if (component == 1){  // hour
         if (_isToday) {
-            NSInteger left_hour = 24 - dateComponent.hour;
+            NSInteger left_hour = 24 - dateComponent.hour+1;
             return left_hour;
         } else {
             return 24;
@@ -92,7 +95,9 @@
             return 0;
         } else {
             if ([pickerView selectedRowInComponent:1] == 1  && _isToday) {
-                NSInteger left_minute = 6 - dateComponent.minute;
+                NSLog(@"dateComponent:%ld",(long)dateComponent.minute);
+                NSInteger left_minute = floor((60 - dateComponent.minute)/10);
+                NSLog(@"left_minute:%ld",(long)left_minute);
                 return left_minute;
             } else {
                 return 6;
@@ -139,20 +144,25 @@
         if (_isToday) {
             if (row == 0) {
                 tView.text = @"现在";
+                _hour = dateComponent.hour;
             } else {
-                tView.text = [NSString stringWithFormat:@"%ld点",(long)(dateComponent.hour+row)];
+                tView.text = [NSString stringWithFormat:@"%ld点",(long)(dateComponent.hour+row-1)];
+                _hour = dateComponent.hour+row-1;
             }
         } else {
             tView.text = [NSString stringWithFormat:@"%ld点",(long)row];
+            _hour = row;
         }
     } else {
         if (_isNow) {
             tView.text = @"";
         } else {
             if ([pickerView selectedRowInComponent:1] == 1 && _isToday) {
-                tView.text = [NSString stringWithFormat:@"%ld分",(long)(dateComponent.minute+row)*10];
+                tView.text = [NSString stringWithFormat:@"%ld分",(long)(floor(dateComponent.minute/10)+row+1)*10];
+                _minute = (floor(dateComponent.minute/10)+row+1)*10;
             } else {
                 tView.text = [NSString stringWithFormat:@"%ld分",(long)row*10];
+                _minute = row*10;
             }
         }
     }
@@ -164,30 +174,28 @@
 {
     _isToday = ![pickerView selectedRowInComponent:0];
     _isNow = (![pickerView selectedRowInComponent:0] && ![pickerView selectedRowInComponent:1]);
+    [pickerView reloadComponent:0];
     [pickerView reloadComponent:1];
     [pickerView reloadComponent:2];
-    
-    self.pickedTime = [self getTime];
 }
 
 - (NSInteger)getTime
 {
+    NSInteger today = [[NSDate date] day];
+    NSInteger day  = [self.pickerView selectedRowInComponent:0] + today;
+    
     if (_isNow) {
         NSDate *now = [NSDate date];
         return [now timeIntervalSince1970];
     }
-    NSInteger today = [[NSDate date] day];
-    NSInteger day  = [self.pickerView selectedRowInComponent:0] + today;
-    NSInteger hour = [self.pickerView selectedRowInComponent:1];
-    NSInteger minute = [self.pickerView selectedRowInComponent:2] * 10;
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [[NSDateComponents alloc] init];
     [components setYear:[[NSDate date] year]];
     [components setMonth:[[NSDate date] month]];
     [components setDay:day];
-    [components setHour:hour];
-    [components setMinute:minute];
+    [components setHour:_hour];
+    [components setMinute:_minute];
     
     NSDate *selectedTime = [calendar dateFromComponents:components];
     NSInteger timeStamp = [selectedTime timeIntervalSince1970];

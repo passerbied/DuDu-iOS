@@ -19,7 +19,6 @@
 		482741411BE8EA0C00EF6FD8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 482741401BE8EA0C00EF6FD8 /* libsqlite3.0.tbd */; };
 		482741451BE9B84700EF6FD8 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 482741441BE9B84700EF6FD8 /* mapapi.bundle */; };
 		482741481BE9FAFA00EF6FD8 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 482741471BE9FAFA00EF6FD8 /* MainViewController.mm */; };
-		4861C4DC1BEC9585008FA0A5 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4861C4DB1BEC9585008FA0A5 /* MapViewController.m */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -92,8 +91,6 @@
 		482741461BE9FAFA00EF6FD8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		482741471BE9FAFA00EF6FD8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		48606E7B1BE7C15D00F34138 /* DuDuURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuDuURL.h; sourceTree = "<group>"; };
-		4861C4DA1BEC9585008FA0A5 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		4861C4DB1BEC9585008FA0A5 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		4861C4DD1BECB88A008FA0A5 /* DuDu-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DuDu-Prefix.pch"; sourceTree = "<group>"; };
 		4861C4DE1BECB8D1008FA0A5 /* FastCodeDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FastCodeDefines.h; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
@@ -227,15 +224,6 @@
 				486F527C1BEE09140043874E /* Views */,
 			);
 			name = "首页";
-			sourceTree = "<group>";
-		};
-		4861C4D91BEC9568008FA0A5 /* 地图 */ = {
-			isa = PBXGroup;
-			children = (
-				4861C4DA1BEC9585008FA0A5 /* MapViewController.h */,
-				4861C4DB1BEC9585008FA0A5 /* MapViewController.m */,
-			);
-			name = "地图";
 			sourceTree = "<group>";
 		};
 		486F52431BEDFE680043874E /* UIView+Utils */ = {
@@ -451,7 +439,6 @@
 			isa = PBXGroup;
 			children = (
 				486F52AC1BF0AB0B0043874E /* 地点选择页 */,
-				4861C4D91BEC9568008FA0A5 /* 地图 */,
 				482741491BE9FB0000EF6FD8 /* 首页 */,
 			);
 			name = Featrues;
@@ -687,7 +674,6 @@
 				486F52A61BEE71690043874E /* CustomOverlay.mm in Sources */,
 				486F52B91BF0E87F0043874E /* YBNavSearchBar.m in Sources */,
 				486F52751BEE08140043874E /* NSArray+Additions.m in Sources */,
-				4861C4DC1BEC9585008FA0A5 /* MapViewController.m in Sources */,
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
 				486F52A81BEE71690043874E /* MyAnimatedAnnotationView.m in Sources */,
@@ -793,6 +779,7 @@
 				);
 				GCC_PREFIX_HEADER = "DuDu/DuDu-Prefix.pch";
 				INFOPLIST_FILE = DuDu/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -820,6 +807,7 @@
 				);
 				GCC_PREFIX_HEADER = "DuDu/DuDu-Prefix.pch";
 				INFOPLIST_FILE = DuDu/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

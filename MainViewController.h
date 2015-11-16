@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "TopToolBar.h"
 #import "BottomToolBar.h"
-#import "MapViewController.h"
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>
 #import "LocationPickerViewController.h"
 #import "TimePicker.h"
+#import "LocationPickerViewController.h"
 
 @interface MainViewController : UIViewController <TopToolBarDelegate, BottomToolBarDelegate, BMKMapViewDelegate, BMKLocationServiceDelegate, BMKRouteSearchDelegate, TimePickerDelegate>
 
