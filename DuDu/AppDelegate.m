@@ -10,8 +10,11 @@
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import "UIKit+AFNetworking.h"
 #import "MainViewController.h"
+#import "MMDrawerController.h"
+#import "YBNavigationContoller.h"
 
 @interface AppDelegate ()
+@property (nonatomic,strong) MMDrawerController * drawerController;
 
 @end
 
@@ -31,16 +34,33 @@ BMKMapManager *_mapManager;
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
-    MainViewController *mainVC = [[MainViewController alloc] init];
-    UINavigationController *mainNavCtl = [[UINavigationController alloc] initWithRootViewController:mainVC];
-    mainVC.title = @"嘟嘟快车";
-    mainNavCtl.navigationBar.translucent = NO;
-    
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = mainNavCtl;
-    [self.window makeKeyAndVisible];
+    [self setUpViewController];
 
     return YES;
+}
+
+- (void)setUpViewController
+{
+    MainViewController *mainVC = [[MainViewController alloc] init];
+    YBNavigationContoller *mainNavCtl = [[YBNavigationContoller alloc] initWithRootViewController:mainVC];
+    
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 31)];
+    logo.image = IMG(@"icon_huge");
+    [mainVC.navigationItem setTitleView:logo];
+    [mainVC.navigationController.view.layer setCornerRadius:10.0f];
+    
+    MainViewController *mainVC2 = [[MainViewController alloc] init];
+    
+    self.drawerController = [[MMDrawerController alloc]
+                             initWithCenterViewController:mainNavCtl
+                             leftDrawerViewController:mainVC2];
+    [self.drawerController setMaximumRightDrawerWidth:200.0];
+    [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeCustom];
+    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = self.drawerController;
+    [self.window makeKeyAndVisible];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

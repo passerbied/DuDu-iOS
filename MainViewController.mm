@@ -9,6 +9,8 @@
 #import "MainViewController.h"
 #import "UIImage+Rotate.h"
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
+#import "UIViewController+MMDrawerController.h"
+#import "MMDrawerBarButtonItem.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -45,7 +47,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.mapView = [[BMKMapView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-NAV_BAR_HEIGHT_IOS7)];
+    [self setupLeftMenuButton];
+    
+    self.mapView = [[BMKMapView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     [self.view addSubview:self.mapView];
     self.locService = [[BMKLocationService alloc] init];
     [self startLocation];
@@ -55,7 +59,7 @@
     [self.view addSubview:_TopToolBar];
     
     _bottomToolBar = [[BottomToolBar alloc] initWithFrame:ccr(PADDING,
-                                                              SCREEN_HEIGHT-bottomToolBar_Height-PADDING-NAV_BAR_HEIGHT_IOS7,
+                                                              SCREEN_HEIGHT-bottomToolBar_Height-PADDING,
                                                               SCREEN_WIDTH-PADDING*2,
                                                               bottomToolBar_Height)];
     _bottomToolBar.delegate = self;
@@ -80,6 +84,17 @@
     self.mapView.delegate = nil;
     self.locService.delegate = nil;
     self.routesearch.delegate = self;
+}
+
+-(void)setupLeftMenuButton
+{
+    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
+    [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+}
+
+-(void)leftDrawerButtonPress:(id)sender
+{
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
 - (void)startLocation
@@ -453,7 +468,7 @@
 
 #pragma mark - TopToolBarDelegate
 
-- (void)didCarButonTapped:(int)index
+- (void)topToolBar:(TopToolBar *)topToolBar didCarButonTapped:(int)index
 {
     _current_type = index;
 }
@@ -467,7 +482,6 @@
     } else if (label == toolBar.fromAddressLabel) {
 //        [self onClickDriveSearch];
         [self showFromAddressPicker];
-        
     } else if (label == toolBar.toAddressLabel) {
 //        [self onClickDriveSearch];
         [self showToAddressPicker];

@@ -41,5 +41,5 @@ pod 'HTAutocompleteTextField'       # https://github.com/hoteltonight/HTAutocomp
 #pod 'MLSelectPhoto'
 #pod 'SDWebImage'
 #pod 'YOLOKit'
-pod 'MMDrawerController', '~> 0.5.7' #https://github.com/mutualmobile/MMDrawerController
+#pod 'MMDrawerController', '~> 0.6.0' #https://github.com/mutualmobile/MMDrawerController
 

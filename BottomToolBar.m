@@ -85,7 +85,7 @@
         
         self.fromAddressLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(fromIcon.frame)+PADDING,
                                                             0,
-                                                            self.width-PADDING*2,
+                                                            _locationView.width-PADDING*2-fromIcon.width,
                                                             44)
                                                   color:COLORRGB(0x63666b)
                                                    font:HSFONT(15)
@@ -98,9 +98,8 @@
             }
         }];
         self.fromAddressLabel.userInteractionEnabled = YES;
-        _fromAddress_btn.backgroundColor = [UIColor orangeColor];
-        _fromAddress_btn.frame = self.fromAddressLabel.bounds;
-        [self.fromAddressLabel addSubview:_fromAddress_btn];
+        _fromAddress_btn.frame = ccr(self.fromAddressLabel.x,self.fromAddressLabel.y,self.fromAddressLabel.width,44);
+        [_locationView addSubview:_fromAddress_btn];
         
         UIImageView *line2 = [[UIImageView alloc] initWithFrame:ccr(
                                                                     PADDING,
@@ -119,7 +118,7 @@
         
         self.toAddressLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(toIcon.frame)+PADDING,
                                                             CGRectGetMaxY(line2.frame),
-                                                            self.width-PADDING*2,
+                                                            _locationView.width-PADDING*2-toIcon.width,
                                                             44)
                                                   color:COLORRGB(0x63666b)
                                                    font:HSFONT(15)
@@ -132,9 +131,8 @@
                 [self.delegate bottomToolBar:self didTapped:self.toAddressLabel];
             }
         }];
-        _toAddress_btn.backgroundColor = [UIColor redColor];
-        _toAddress_btn.frame = self.startTimeLabel.bounds;
-        [self.toAddressLabel addSubview:_toAddress_btn];
+        _toAddress_btn.frame = ccr(self.toAddressLabel.x,self.toAddressLabel.y,self.toAddressLabel.width,44);
+        [_locationView addSubview:_toAddress_btn];
         
         _closeBtn = [UIButton buttonWithImageName:@"arrow_up"
                                       hlImageName:@"arrow_up_pressed"
@@ -158,7 +156,7 @@
             [UIView animateWithDuration:0.3 animations:^{
                 _timeView.alpha = 1;
                 self.frame = ccr(PADDING,
-                                 SCREEN_HEIGHT-154-PADDING-NAV_BAR_HEIGHT_IOS7,
+                                 SCREEN_HEIGHT-154-PADDING,
                                  SCREEN_WIDTH-PADDING*2,
                                  154);
                 _locationView.frame = ccr(0,
@@ -175,7 +173,7 @@
             [UIView animateWithDuration:0.3 animations:^{
                 _timeView.alpha = 0;
                 self.frame = ccr(PADDING,
-                                 SCREEN_HEIGHT-88-PADDING-NAV_BAR_HEIGHT_IOS7,
+                                 SCREEN_HEIGHT-88-PADDING,
                                  SCREEN_WIDTH-PADDING*2,
                                  88);
                 _locationView.frame = ccr(0,
