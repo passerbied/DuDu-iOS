@@ -17,7 +17,7 @@
 
 @implementation YBNavigationContoller
 {
-    BOOL _isShowingBackBtn;
+    UIButton *_cityBtn;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -33,34 +33,33 @@
 {
     [super viewDidLoad];
 
-    self.delegate = self;
     self.view.backgroundColor = COLORRGB(0xffffff);
+    
+    _cityBtn = [UIButton buttonWithImageName:nil
+                                 hlImageName:nil
+                                       title:@"北京"
+                                  titleColor:COLORRGB(0x63666b)
+                                        font:HSFONT(15)
+                                  onTapBlock:^(UIButton *btn) {
+                                      
+        
+    }];
+    [self.navigationBar addSubview:_cityBtn];
     
     self.searchBar = [[YBNavSearchBar alloc] initWithFrame:ccr(10, (NAV_BAR_HEIGHT-NAV_INPUTUBAR_HEIGHT)/2, NAV_INPUTUBAR_WIDTH, NAV_INPUTUBAR_HEIGHT)];
     self.searchBar.alpha = 0;
     self.searchBar.locationField.frame = ccr(5, 0, self.searchBar.width-5, 30);
     
     self.searchBar.locationField.attributedPlaceholder =
-    [[NSAttributedString alloc] initWithString:LocalStr(@"pholder_input_destination")
+    [[NSAttributedString alloc] initWithString:@"请输入地点"
                                     attributes:@{NSForegroundColorAttributeName:COLORRGBA(0xFFFFFF, 0.3)}];
-    
     [self.navigationBar addSubview:self.searchBar];
 }
 
--(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+- (void)showSearchBar:(BOOL)show
 {
-    [super navigationController:navigationController willShowViewController:viewController animated:animated];
-    
-    if ([viewController isKindOfClass:[viewController class]]){
-                                                                   
-    } else {
-        
-            [UIView animateWithDuration:0.3 animations:^{
-                self.searchBar.frame = ccr(10, (NAV_BAR_HEIGHT-NAV_INPUTUBAR_HEIGHT)/2, NAV_INPUTUBAR_WIDTH, NAV_INPUTUBAR_HEIGHT);
-                [self.searchBar layoutIfNeeded];
-                self.searchBar.locationField.frame = ccr(5, 0, self.searchBar.width-5, 30);
-            }];
-    }
+    self.searchBar.alpha = show;
 }
+
 
 @end

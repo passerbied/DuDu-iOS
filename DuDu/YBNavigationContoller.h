@@ -10,8 +10,18 @@
 #import "YBNavSearchBar.h"
 #import "ZBCNavVC.h"
 
-@interface YBNavigationContoller : ZBCNavVC <UINavigationControllerDelegate,UIGestureRecognizerDelegate>
+@protocol YBNavigationContollerDelegate;
+
+@interface YBNavigationContoller : UINavigationController
 
 @property (nonatomic, strong) YBNavSearchBar *searchBar;
+@property (nonatomic, strong) id<YBNavigationContollerDelegate> delegate;
+
+@end
+
+@protocol YBNavigationContollerDelegate <NSObject>
+
+- (void)searchBarDidTappedInViewController:(UIViewController *)vc;
+- (void)cityBtnDidTappedInViewController:(UIViewController *)vc;
 
 @end

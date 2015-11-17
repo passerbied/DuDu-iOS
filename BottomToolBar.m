@@ -165,8 +165,6 @@
                                           CGRectGetMaxY(_timeView.frame),
                                           self.width,
                                           88);
-//                _fromAddress_btn.frame = self.fromAddressLabel.frame;
-//                _toAddress_btn.frame = self.toAddressLabel.frame;
                 _closeBtn.y = 0;
             }];
         }];
@@ -184,8 +182,6 @@
                                           0,
                                           self.width,
                                           self.height);
-//                _fromAddress_btn.frame = self.fromAddressLabel.frame;
-//                _toAddress_btn.frame = self.toAddressLabel.frame;
                 _closeBtn.y = (self.height-32)/2;
             }];
         }];
