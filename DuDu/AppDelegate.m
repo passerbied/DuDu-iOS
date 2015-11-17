@@ -42,24 +42,16 @@ BMKMapManager *_mapManager;
 - (void)setUpViewController
 {
     MainViewController *mainVC = [[MainViewController alloc] init];
-    YBNavigationContoller *mainNavCtl = [[YBNavigationContoller alloc] initWithRootViewController:mainVC];
     
-    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 31)];
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
     logo.image = IMG(@"icon_huge");
     [mainVC.navigationItem setTitleView:logo];
     [mainVC.navigationController.view.layer setCornerRadius:10.0f];
     
-    MainViewController *mainVC2 = [[MainViewController alloc] init];
-    
-    self.drawerController = [[MMDrawerController alloc]
-                             initWithCenterViewController:mainNavCtl
-                             leftDrawerViewController:mainVC2];
-    [self.drawerController setMaximumRightDrawerWidth:200.0];
-    [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeCustom];
-    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    UINavigationController *mainNavCtl = [[UINavigationController alloc] initWithRootViewController:mainVC];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = self.drawerController;
+    self.window.rootViewController = mainNavCtl;
     [self.window makeKeyAndVisible];
 }
 

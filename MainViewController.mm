@@ -9,8 +9,6 @@
 #import "MainViewController.h"
 #import "UIImage+Rotate.h"
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
-#import "UIViewController+MMDrawerController.h"
-#import "MMDrawerBarButtonItem.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -88,13 +86,16 @@
 
 -(void)setupLeftMenuButton
 {
-    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-    [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
-}
-
--(void)leftDrawerButtonPress:(id)sender
-{
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+    UIButton *leftBtn = [UIButton buttonWithImageName:@"account"
+                                          hlImageName:@"account_pressed"
+                                           onTapBlock:^(UIButton *btn) {
+                                               MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
+                                               menuVC.title = @"设置";
+                                               [self.navigationController pushViewController:menuVC animated:YES];
+    }];
+    leftBtn.frame = ccr(0, 0, 30, 30);
+    UIBarButtonItem *BarItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    [self.navigationItem setLeftBarButtonItem:BarItem animated:YES];
 }
 
 - (void)startLocation
@@ -456,14 +457,19 @@
 - (void)showFromAddressPicker
 {
     AddressPickerViewController *addressPickerVC = [[AddressPickerViewController alloc] init];
-    YBNavigationContoller *nav = [[YBNavigationContoller alloc] initWithRootViewController:addressPickerVC];
-    nav.navigationBar.barStyle = UIBarStyleDefault;
+    addressPickerVC.title = @"出发地";
+//    YBNavigationContoller *nav = [[YBNavigationContoller alloc] initWithRootViewController:addressPickerVC];
+//    nav.navigationBar.barStyle = UIBarStyleDefault;
     [self.navigationController pushViewController:addressPickerVC animated:YES];
 }
 
 - (void)showToAddressPicker
 {
-    
+    AddressPickerViewController *addressPickerVC = [[AddressPickerViewController alloc] init];
+    addressPickerVC.title = @"目的地";
+    //    YBNavigationContoller *nav = [[YBNavigationContoller alloc] initWithRootViewController:addressPickerVC];
+    //    nav.navigationBar.barStyle = UIBarStyleDefault;
+    [self.navigationController pushViewController:addressPickerVC animated:YES];
 }
 
 #pragma mark - TopToolBarDelegate
