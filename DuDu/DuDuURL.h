@@ -39,7 +39,7 @@
 #define Weixin_RedirectUrl              ADD(BASE_URL,@"auth/weixin/callback")
 
 //MAP_KEY
-#define MAP_KEY @"shCldcuLlkZDGcdQfgTT4Tzd"
+#define MAP_KEY @"d42442167ce54d6fe790fdb161bb96f6"
 
 
 

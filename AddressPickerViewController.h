@@ -8,8 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import "BottomToolBar.h"
+#import <AMapSearchKit/AMapSearchKit.h>
 
-@interface AddressPickerViewController : UIViewController
+@protocol AddressPickerViewControllerDelegate;
 
+@interface AddressPickerViewController : UIViewController <AMapSearchDelegate>
+
+@property(nonatomic, strong) AMapTip *tip;
+@property (nonatomic, strong) id<AddressPickerViewControllerDelegate> delegate;
+@property (nonatomic, strong) AMapSearchAPI *search;
+@property (nonatomic, copy) NSString *location;
+@property (nonatomic, assign) BOOL isFrom;
+
+- (id)initWithLocation:(NSString *)location;
+
+@end
+
+@protocol AddressPickerViewControllerDelegate <NSObject>
+
+- (void)addressPicker:(AddressPickerViewController *)pickerVC forFromAddress:(BOOL)isFrom pickedTip:(AMapTip *)tip;
 
 @end

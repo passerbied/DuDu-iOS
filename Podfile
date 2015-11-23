@@ -42,4 +42,6 @@ pod 'HTAutocompleteTextField'       # https://github.com/hoteltonight/HTAutocomp
 #pod 'SDWebImage'
 #pod 'YOLOKit'
 #pod 'MMDrawerController', '~> 0.6.0' #https://github.com/mutualmobile/MMDrawerController
+pod 'AMap2DMap'
+pod 'AMapSearch'
 

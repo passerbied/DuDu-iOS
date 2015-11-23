@@ -34,6 +34,7 @@
     _avator.backgroundColor = COLORRGB(0xcccccc);
     _avator.layer.cornerRadius = _avator.width/2;
     _avator.layer.masksToBounds = YES;
+    _avator.image = IMG(@"account");
     
     [headerView addSubview:_avator];
     

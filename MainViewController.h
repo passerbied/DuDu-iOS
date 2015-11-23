@@ -9,17 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "TopToolBar.h"
 #import "BottomToolBar.h"
-#import <BaiduMapAPI_Map/BMKMapComponent.h>
-#import <BaiduMapAPI_Search/BMKSearchComponent.h>
-#import <BaiduMapAPI_Location/BMKLocationComponent.h>
 #import "AddressPickerViewController.h"
 #import "TimePicker.h"
 #import "MenuTableViewController.h"
+#import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
-@interface MainViewController : UIViewController <TopToolBarDelegate, BottomToolBarDelegate, BMKMapViewDelegate, BMKLocationServiceDelegate, BMKRouteSearchDelegate, TimePickerDelegate>
+@interface MainViewController : UIViewController <TopToolBarDelegate, BottomToolBarDelegate,TimePickerDelegate, MAMapViewDelegate, AMapSearchDelegate, AddressPickerViewControllerDelegate>
 
-@property (nonatomic, strong) BMKMapView *mapView;
-@property (nonatomic, strong) BMKLocationService *locService;
-@property (nonatomic, strong) BMKRouteSearch *routesearch;
+@property (nonatomic, strong) MAMapView *mapView;
+@property (nonatomic, strong) AMapSearchAPI *search;
 
 @end

@@ -20,6 +20,8 @@ PODS:
   - AFNetworking/UIKit (2.6.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - AMap2DMap (3.1.0)
+  - AMapSearch (3.0.1)
   - CRToast (0.0.9)
   - DCAnimationKit (0.0.6)
   - HTAutocompleteTextField (1.3.2)
@@ -32,6 +34,8 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - AMap2DMap
+  - AMapSearch
   - CRToast
   - DCAnimationKit
   - HTAutocompleteTextField
@@ -44,6 +48,8 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
+  AMap2DMap: a6741139dd16d237713c4fd6cae9a0399ca1fe25
+  AMapSearch: 431b082417bd3da0c2fe594c4822b664607891e9
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DCAnimationKit: 7133bef877ce1aa113dcfeea1380ca67f91f7608
   HTAutocompleteTextField: ce809f04875e843e20f214ab973bb496ba7a93b1

@@ -7,30 +7,20 @@
 //
 
 #import "AppDelegate.h"
-#import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import "UIKit+AFNetworking.h"
 #import "MainViewController.h"
-#import "MMDrawerController.h"
 #import "YBNavigationContoller.h"
 
 @interface AppDelegate ()
-@property (nonatomic,strong) MMDrawerController * drawerController;
 
 @end
 
 @implementation AppDelegate
 
-BMKMapManager *_mapManager;
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    // 要使用百度地图，请先启动BaiduMapManager
-    _mapManager = [[BMKMapManager alloc]init];
-    BOOL ret = [_mapManager start:MAP_KEY generalDelegate:self];
-    if (!ret) {
-        NSLog(@"manager start failed!");
-    }
+    [MAMapServices sharedServices].apiKey = MAP_KEY;
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     

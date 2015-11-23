@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <BaiduMapAPI_Base/BMKBaseComponent.h>
 #import "DuDuURL.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, BMKGeneralDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
