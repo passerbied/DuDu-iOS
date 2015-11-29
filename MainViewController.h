@@ -19,5 +19,6 @@
 
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;
+@property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 
 @end

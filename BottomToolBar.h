@@ -19,6 +19,7 @@
 @property (nonatomic, strong) id<BottomToolBarDelegate> delegate;
 
 - (void)updateLocation:(NSString *)location;
+- (void)updateCharge:(NSString *)money;
 
 @end
 

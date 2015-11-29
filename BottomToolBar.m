@@ -15,9 +15,11 @@
     UIButton *_closeBtn;
     UIView *_timeView;
     UIView *_locationView;
-    BOOL _is_showing;
-    UIButton *_fromAddress_btn;
-    UIButton *_toAddress_btn;
+    BOOL _is_time_showing;
+    UIButton *_fromAddressBtn;
+    UIButton *_toAddressBtn;
+    UIView *_chargeView;
+    UIButton *_submitBtn;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -92,14 +94,14 @@
                                                    text:@"蓝戴时空汇"];
         [_locationView addSubview:self.fromAddressLabel];
         
-        _fromAddress_btn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {
+        _fromAddressBtn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {
             if ([self.delegate respondsToSelector:@selector(bottomToolBar:didTapped:)]) {
                 [self.delegate bottomToolBar:self didTapped:self.fromAddressLabel];
             }
         }];
         self.fromAddressLabel.userInteractionEnabled = YES;
-        _fromAddress_btn.frame = ccr(self.fromAddressLabel.x,self.fromAddressLabel.y,self.fromAddressLabel.width,44);
-        [_locationView addSubview:_fromAddress_btn];
+        _fromAddressBtn.frame = ccr(self.fromAddressLabel.x,self.fromAddressLabel.y,self.fromAddressLabel.width,44);
+        [_locationView addSubview:_fromAddressBtn];
         
         UIImageView *line2 = [[UIImageView alloc] initWithFrame:ccr(
                                                                     PADDING,
@@ -120,27 +122,39 @@
                                                             CGRectGetMaxY(line2.frame),
                                                             _locationView.width-PADDING*2-toIcon.width,
                                                             44)
-                                                  color:COLORRGB(0x63666b)
+                                                  color:COLORRGB(0xff8830)
                                                    font:HSFONT(15)
                                                    text:@"你要去哪儿"];
         [_locationView addSubview:self.toAddressLabel];
         self.toAddressLabel.userInteractionEnabled = YES;
         
-        _toAddress_btn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {
+        _toAddressBtn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {
             if ([self.delegate respondsToSelector:@selector(bottomToolBar:didTapped:)]) {
                 [self.delegate bottomToolBar:self didTapped:self.toAddressLabel];
             }
         }];
-        _toAddress_btn.frame = ccr(self.toAddressLabel.x,self.toAddressLabel.y,self.toAddressLabel.width,44);
-        [_locationView addSubview:_toAddress_btn];
+        _toAddressBtn.frame = ccr(self.toAddressLabel.x,self.toAddressLabel.y,self.toAddressLabel.width,44);
+        [_locationView addSubview:_toAddressBtn];
         
         _closeBtn = [UIButton buttonWithImageName:@"arrow_up"
                                       hlImageName:@"arrow_up_pressed"
                                        onTapBlock:^(UIButton *btn) {
-                                           [self showTimeLabel:!_is_showing];
+                                           [self showTimeLabel:!_is_time_showing];
                                        }];
         _closeBtn.frame = ccr(self.width-32-PADDING, (self.height-32)/2, 32, 32);
         [self addSubview:_closeBtn];
+        
+        _chargeView = [[UIView alloc] initWithFrame:ccr(PADDING, CGRectGetMaxY(_locationView.frame), _locationView.width, 92)];
+        
+        UIImageView *line3 = [[UIImageView alloc] initWithFrame:ccr(
+                                                                    PADDING,
+                                                                    0,
+                                                                    self.width-PADDING*2,
+                                                                    0.5)];
+        line3.backgroundColor = COLORRGB(0xdddddd);
+        [_chargeView addSubview:line3];
+        
+        
         
     }
     return self;
@@ -148,7 +162,7 @@
 
 - (void)showTimeLabel:(BOOL)show
 {
-    _is_showing = show;
+    _is_time_showing = show;
     if (show) {
         [UIView animateWithDuration:0.3 animations:^{
             _closeBtn.transform = CGAffineTransformMakeRotation(M_PI);
