@@ -389,7 +389,6 @@
 		4827413D1BE8E9E700EF6FD8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4827413C1BE8E9E700EF6FD8 /* CoreGraphics.framework */; };
 		4827413F1BE8E9F300EF6FD8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4827413E1BE8E9F300EF6FD8 /* Security.framework */; };
 		482741411BE8EA0C00EF6FD8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 482741401BE8EA0C00EF6FD8 /* libsqlite3.0.tbd */; };
-		482741451BE9B84700EF6FD8 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 482741441BE9B84700EF6FD8 /* mapapi.bundle */; };
 		482741481BE9FAFA00EF6FD8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 482741471BE9FAFA00EF6FD8 /* MainViewController.m */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
@@ -834,7 +833,6 @@
 		4827413C1BE8E9E700EF6FD8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		4827413E1BE8E9F300EF6FD8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		482741401BE8EA0C00EF6FD8 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		482741441BE9B84700EF6FD8 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = mapapi.bundle; path = ../../../Downloads/BaiduMap_IOSSDK_v2.9.0_All/BaiduMapAPI_Map.framework/Resources/mapapi.bundle; sourceTree = "<group>"; };
 		482741461BE9FAFA00EF6FD8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		482741471BE9FAFA00EF6FD8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		48606E7B1BE7C15D00F34138 /* DuDuURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuDuURL.h; sourceTree = "<group>"; };
@@ -1629,7 +1627,6 @@
 			isa = PBXGroup;
 			children = (
 				4861C4DD1BECB88A008FA0A5 /* DuDu-Prefix.pch */,
-				482741441BE9B84700EF6FD8 /* mapapi.bundle */,
 				48EAD5D01BE7A65500AFF1D4 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -2101,7 +2098,6 @@
 				480E51E21C02F0BB006D545A /* animatedTrain_2.png in Resources */,
 				480E52F61C02F0BC006D545A /* 13_6747_3099.png in Resources */,
 				486F52981BEE6E450043874E /* path_mark_end@2x.png in Resources */,
-				482741451BE9B84700EF6FD8 /* mapapi.bundle in Resources */,
 				480E52131C02F0BB006D545A /* 12_3370_1550.png in Resources */,
 				480E51DD1C02F0BB006D545A /* animatedCar_1.png in Resources */,
 				480E52831C02F0BB006D545A /* 13_6740_3096.png in Resources */,
@@ -2356,7 +2352,7 @@
 			baseConfigurationReference = EF8D5C95255EB9D93E51C410 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2366,16 +2362,11 @@
 				INFOPLIST_FILE = DuDu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/DuDu/BaiduNavi_iOSSDK_v2.0.4_Lib/BaiduStatistics",
-					"$(PROJECT_DIR)/DuDu/BaiduNavi_iOSSDK_v2.0.4_Lib",
-					"$(PROJECT_DIR)/ZBCool",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metasolo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "01bd1910-708a-4ac3-874e-588be3f7a890";
+				PROVISIONING_PROFILE = "41fb0f2c-e082-4ad6-b5a7-62a5de37c34a";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -2385,6 +2376,8 @@
 			baseConfigurationReference = 07B21FC550B7DA0ECD623690 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2394,14 +2387,10 @@
 				INFOPLIST_FILE = DuDu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/DuDu/BaiduNavi_iOSSDK_v2.0.4_Lib/BaiduStatistics",
-					"$(PROJECT_DIR)/DuDu/BaiduNavi_iOSSDK_v2.0.4_Lib",
-					"$(PROJECT_DIR)/ZBCool",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metasolo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
