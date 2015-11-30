@@ -8,6 +8,7 @@
 
 #import "MenuTableViewController.h"
 #import "MenuCell.h"
+#import "MyRouteVC.h"
 
 #define PADDING 10
 
@@ -117,7 +118,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        
+        MyRouteVC *myRouteVC = [[MyRouteVC alloc] init];
+        myRouteVC.title = @"我的行程";
+        [self.navigationController pushViewController:myRouteVC animated:YES];
     } else if (indexPath.row == 1) {
         
     } else if (indexPath.row == 2) {

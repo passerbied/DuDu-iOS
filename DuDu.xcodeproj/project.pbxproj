@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32F039F61C0C9A9C00A2C4BD /* RouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039F51C0C9A9C00A2C4BD /* RouteCell.m */; };
+		32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039F91C0CA95000A2C4BD /* MyRouteVC.m */; };
+		32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */; };
+		32F03A021C0CDF1300A2C4BD /* CheckDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A011C0CDF1300A2C4BD /* CheckDetailVC.m */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
 		480E504A1BFB5196006D545A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50491BFB5196006D545A /* arrow_right@2x.png */; };
@@ -448,6 +452,14 @@
 
 /* Begin PBXFileReference section */
 		07B21FC550B7DA0ECD623690 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		32F039F41C0C9A9B00A2C4BD /* RouteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteCell.h; sourceTree = "<group>"; };
+		32F039F51C0C9A9C00A2C4BD /* RouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteCell.m; sourceTree = "<group>"; };
+		32F039F81C0CA95000A2C4BD /* MyRouteVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRouteVC.h; sourceTree = "<group>"; };
+		32F039F91C0CA95000A2C4BD /* MyRouteVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRouteVC.m; sourceTree = "<group>"; };
+		32F039FB1C0CB6DF00A2C4BD /* RouteDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailVC.h; sourceTree = "<group>"; };
+		32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailVC.m; sourceTree = "<group>"; };
+		32F03A001C0CDF1300A2C4BD /* CheckDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDetailVC.h; sourceTree = "<group>"; };
+		32F03A011C0CDF1300A2C4BD /* CheckDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDetailVC.m; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		480E50471BFB4CDA006D545A /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
@@ -958,6 +970,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32F039F71C0CA8DA00A2C4BD /* 我的行程Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F039F81C0CA95000A2C4BD /* MyRouteVC.h */,
+				32F039F91C0CA95000A2C4BD /* MyRouteVC.m */,
+			);
+			name = "我的行程Controller";
+			sourceTree = "<group>";
+		};
+		32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F039FB1C0CB6DF00A2C4BD /* RouteDetailVC.h */,
+				32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */,
+			);
+			name = "行程详情Controller";
+			sourceTree = "<group>";
+		};
+		32F039FF1C0CDEC900A2C4BD /* 查看明细Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A001C0CDF1300A2C4BD /* CheckDetailVC.h */,
+				32F03A011C0CDF1300A2C4BD /* CheckDetailVC.m */,
+			);
+			name = "查看明细Controller";
+			sourceTree = "<group>";
+		};
 		480E50451BFB4CA8006D545A /* 菜单页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -972,6 +1011,8 @@
 			children = (
 				480E50511BFB5DF6006D545A /* MenuCell.h */,
 				480E50521BFB5DF6006D545A /* MenuCell.m */,
+				32F039F41C0C9A9B00A2C4BD /* RouteCell.h */,
+				32F039F51C0C9A9C00A2C4BD /* RouteCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -983,6 +1024,9 @@
 				480E50471BFB4CDA006D545A /* MenuTableViewController.m */,
 				480E50651C02252D006D545A /* HistoryTableViewController.h */,
 				480E50661C02252D006D545A /* HistoryTableViewController.m */,
+				32F039F71C0CA8DA00A2C4BD /* 我的行程Controller */,
+				32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */,
+				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -2236,6 +2280,8 @@
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
 				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
 				486F52B81BF0E87F0043874E /* YBNavigationContoller.m in Sources */,
+				32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */,
+				32F03A021C0CDF1300A2C4BD /* CheckDetailVC.m in Sources */,
 				486F52D31BFB28AD0043874E /* MMDrawerBarButtonItem.m in Sources */,
 				486F52611BEE07F40043874E /* UIAlertView+KAddition.m in Sources */,
 				480E50531BFB5DF6006D545A /* MenuCell.m in Sources */,
@@ -2244,6 +2290,7 @@
 				486F52781BEE08140043874E /* NSObject+Additions.m in Sources */,
 				486F527B1BEE08140043874E /* Swizzle.c in Sources */,
 				482741481BE9FAFA00EF6FD8 /* MainViewController.m in Sources */,
+				32F039F61C0C9A9C00A2C4BD /* RouteCell.m in Sources */,
 				486F52421BEDFE650043874E /* UIView+Utils.m in Sources */,
 				486F525F1BEE07F40043874E /* UIActionSheet+KAddition.m in Sources */,
 				486F525E1BEE07F40043874E /* KUIButton.m in Sources */,
@@ -2258,6 +2305,7 @@
 				486F52751BEE08140043874E /* NSArray+Additions.m in Sources */,
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
+				32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */,
 				486F52651BEE07F40043874E /* UILabel+KAddition.m in Sources */,
 				486F52BD1BF1E1DE0043874E /* YBTextField.m in Sources */,
 				486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */,
@@ -2284,7 +2332,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2306,6 +2355,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "41fb0f2c-e082-4ad6-b5a7-62a5de37c34a";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2342,6 +2392,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2352,7 +2403,8 @@
 			baseConfigurationReference = EF8D5C95255EB9D93E51C410 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2376,7 +2428,7 @@
 			baseConfigurationReference = 07B21FC550B7DA0ECD623690 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
