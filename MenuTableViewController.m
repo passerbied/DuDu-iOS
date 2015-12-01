@@ -9,6 +9,7 @@
 #import "MenuTableViewController.h"
 #import "MenuCell.h"
 #import "MyRouteVC.h"
+#import "MyWalletVC.h"
 
 #define PADDING 10
 
@@ -29,6 +30,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     UIView *headerView = [[UIView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, 90)];
     _avator = [[UIImageView alloc] initWithFrame:ccr(20, 20, 50, 50)];
@@ -78,12 +80,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 5;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    return 0;
+//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 0;
+    return 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -95,20 +102,21 @@
     }
     
     if (indexPath.row == 0) {
-        cell.icon.image = IMG(@"tiny_history");
-        cell.title.text = @"我的行程";
+        cell.iconImage.image = IMG(@"tiny_history");
+        cell.title = @"我的行程";
     } else if (indexPath.row == 1) {
-        cell.icon.image = IMG(@"tiny_coupon");
-        cell.title.text = @"我的优惠券";
+        cell.iconImage.image = IMG(@"tiny_coupon");
+        cell.title = @"我的钱包";
+        [cell addSubview:[self walletLabel]];
     } else if (indexPath.row == 2) {
-        cell.icon.image = IMG(@"tiny_shared");
-        cell.title.text = @"好友分享礼券";
+        cell.iconImage.image = IMG(@"tiny_shared");
+        cell.title = @"好友分享礼券";
     } else if (indexPath.row == 3) {
-        cell.icon.image = IMG(@"tiny_bill");
-        cell.title.text = @"邮寄发票";
+        cell.iconImage.image = IMG(@"tiny_bill");
+        cell.title = @"邮寄发票";
     } else {
-        cell.icon.image = IMG(@"tiny_unbind");
-        cell.title.text = @"解除手机绑定";
+        cell.iconImage.image = IMG(@"tiny_unbind");
+        cell.title = @"解除手机绑定";
     }
     return cell;
 }
@@ -122,13 +130,32 @@
         myRouteVC.title = @"我的行程";
         [self.navigationController pushViewController:myRouteVC animated:YES];
     } else if (indexPath.row == 1) {
-        
+        MyWalletVC *myWalletVC = [[MyWalletVC alloc] init];
+        myWalletVC.title = @"我的钱包";
+        [self.navigationController pushViewController:myWalletVC animated:YES];
     } else if (indexPath.row == 2) {
         
     } else if (indexPath.row == 3) {
         
     } else {
     }
+}
+
+- (UILabel *)walletLabel
+{
+    UILabel *walletLabel = [UILabel labelWithFrame:CGRectZero
+                                             color:COLORRGB(0xd7d7d7)
+                                              font:HSFONT(12)
+                                              text:@"券、发票、余额"
+                                         alignment:NSTextAlignmentRight
+                                     numberOfLines:1];
+    CGSize walletSize = [walletLabel.text sizeWithAttributes:@{NSFontAttributeName:walletLabel.font}];
+    [walletLabel sizeToFit];
+    walletLabel.frame = ccr(SCREEN_WIDTH-20-walletSize.width,
+                            (60-walletSize.height)/2,
+                            walletSize.width,
+                            walletSize.height);
+    return walletLabel;
 }
 
 @end

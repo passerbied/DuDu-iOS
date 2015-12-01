@@ -9,6 +9,9 @@
 #import "MenuCell.h"
 
 @implementation MenuCell
+{
+    UILabel     *_titleLabel;
+}
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -21,23 +24,43 @@
 
 - (void)createSubViews
 {
-    self.icon = [[UIImageView alloc]initWithFrame:ccr(20, (self.height-20)/2, 20, 20)];
-    [self.contentView addSubview:self.icon];
+    self.iconImage = [[UIImageView alloc]initWithFrame:CGRectZero];
+    self.iconImage.userInteractionEnabled = YES;
+    [self.contentView addSubview:self.iconImage];
     
-    self.title = [UILabel labelWithFrame:ccr(CGRectGetMaxX(self.icon.frame)+5,
-                                             0,
-                                             self.width-5*2-self.icon.width,
-                                             self.contentView.height)
-                                   color:COLORRGB(0x000000)
-                                    font:HSFONT(15)
-                                    text:@""];
-    [self.contentView addSubview:self.title];
+    _titleLabel = [UILabel labelWithFrame:CGRectZero
+                                    color:COLORRGB(0x000000)
+                                     font:HSFONT(15)
+                                     text:@""];
+    _titleLabel.textAlignment = NSTextAlignmentLeft;
+    [self.contentView addSubview:_titleLabel];
 }
 
+- (void)setData
+{
+    _titleLabel.text = self.title;
+}
+
+- (void)calculateFrame
+{
+    [self setData];
+    self.iconImage.frame = ccr(20, (60-20)/2, 20, 20);
+    CGSize titleSize = [_titleLabel.text sizeWithAttributes:@{NSFontAttributeName:_titleLabel.font}];
+    [_titleLabel sizeToFit];
+    _titleLabel.frame = ccr(CGRectGetMaxX(_iconImage.frame)+5,
+                           (60-titleSize.height)/2,
+                           titleSize.width,
+                           titleSize.height);
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    [self calculateFrame];
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
 }
 
 @end

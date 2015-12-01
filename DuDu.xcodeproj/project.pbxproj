@@ -11,6 +11,7 @@
 		32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039F91C0CA95000A2C4BD /* MyRouteVC.m */; };
 		32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */; };
 		32F03A021C0CDF1300A2C4BD /* CheckDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A011C0CDF1300A2C4BD /* CheckDetailVC.m */; };
+		32F03A061C0DA23A00A2C4BD /* MyWalletVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A051C0DA23A00A2C4BD /* MyWalletVC.m */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
 		480E504A1BFB5196006D545A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50491BFB5196006D545A /* arrow_right@2x.png */; };
@@ -460,6 +461,8 @@
 		32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailVC.m; sourceTree = "<group>"; };
 		32F03A001C0CDF1300A2C4BD /* CheckDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDetailVC.h; sourceTree = "<group>"; };
 		32F03A011C0CDF1300A2C4BD /* CheckDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDetailVC.m; sourceTree = "<group>"; };
+		32F03A041C0DA23A00A2C4BD /* MyWalletVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletVC.h; sourceTree = "<group>"; };
+		32F03A051C0DA23A00A2C4BD /* MyWalletVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletVC.m; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		480E50471BFB4CDA006D545A /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
@@ -997,6 +1000,15 @@
 			name = "查看明细Controller";
 			sourceTree = "<group>";
 		};
+		32F03A031C0DA18400A2C4BD /* 我的钱包Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A041C0DA23A00A2C4BD /* MyWalletVC.h */,
+				32F03A051C0DA23A00A2C4BD /* MyWalletVC.m */,
+			);
+			name = "我的钱包Controller";
+			sourceTree = "<group>";
+		};
 		480E50451BFB4CA8006D545A /* 菜单页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1027,6 +1039,7 @@
 				32F039F71C0CA8DA00A2C4BD /* 我的行程Controller */,
 				32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */,
 				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller */,
+				32F03A031C0DA18400A2C4BD /* 我的钱包Controller */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -2306,6 +2319,7 @@
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
 				32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */,
+				32F03A061C0DA23A00A2C4BD /* MyWalletVC.m in Sources */,
 				486F52651BEE07F40043874E /* UILabel+KAddition.m in Sources */,
 				486F52BD1BF1E1DE0043874E /* YBTextField.m in Sources */,
 				486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */,
