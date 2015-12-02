@@ -72,6 +72,7 @@
         SettingCell *settingCell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!settingCell) {
             settingCell = [[SettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            settingCell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         switch (indexPath.row) {
             case 1:
@@ -127,9 +128,9 @@
 
 - (UIImageView *)bottomLine
 {
-    UIImageView *bottomLine = [[UIImageView alloc] initWithFrame:ccr(0,
+    UIImageView *bottomLine = [[UIImageView alloc] initWithFrame:ccr(10,
                                                                      60-0.5,
-                                                                     SCREEN_WIDTH,
+                                                                     SCREEN_WIDTH-10*2,
                                                                      0.5)];
     bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
     return bottomLine;

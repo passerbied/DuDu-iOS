@@ -11,7 +11,6 @@
 @implementation SettingCell
 {
     UILabel     *_conditionLabel;
-    UIImageView *_bottomLine;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -32,10 +31,6 @@
                                     alignment:NSTextAlignmentCenter
                                 numberOfLines:1];
     [self.contentView addSubview:_conditionLabel];
-    
-//    _bottomLine = [[UIImageView alloc] initWithFrame:ccr(0, 60-0.5, SCREEN_WIDTH, 0.5)];
-//    _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
-//    [self.contentView addSubview:_bottomLine];
 }
 
 - (void)layoutSubviews

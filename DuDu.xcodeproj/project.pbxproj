@@ -1075,7 +1075,6 @@
 		32F03A141C0E929500A2C4BD /* 发票Cell */ = {
 			isa = PBXGroup;
 			children = (
-				32F03A261C0EE81D00A2C4BD /* 设置Cell */,
 				32F03A151C0E92C000A2C4BD /* InvoiceCell.h */,
 				32F03A161C0E92C000A2C4BD /* InvoiceCell.m */,
 				32F03A1B1C0EBAD300A2C4BD /* InvoiceDetailCell.h */,
@@ -1127,6 +1126,7 @@
 				32F03A0A1C0E0E0600A2C4BD /* 行程Cell */,
 				32F03A0C1C0E0E2700A2C4BD /* 钱包Cell */,
 				32F03A141C0E929500A2C4BD /* 发票Cell */,
+				32F03A261C0EE81D00A2C4BD /* 设置Cell */,
 			);
 			name = Views;
 			sourceTree = "<group>";
