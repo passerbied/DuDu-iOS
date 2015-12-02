@@ -11,7 +11,15 @@
 		32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039F91C0CA95000A2C4BD /* MyRouteVC.m */; };
 		32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */; };
 		32F03A021C0CDF1300A2C4BD /* CheckDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A011C0CDF1300A2C4BD /* CheckDetailVC.m */; };
-		32F03A061C0DA23A00A2C4BD /* MyWalletVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A051C0DA23A00A2C4BD /* MyWalletVC.m */; };
+		32F03A091C0DFCFF00A2C4BD /* MyWalletVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A081C0DFCFF00A2C4BD /* MyWalletVC.m */; };
+		32F03A0F1C0E0EFF00A2C4BD /* WalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A0E1C0E0EFF00A2C4BD /* WalletCell.m */; };
+		32F03A131C0E8F6900A2C4BD /* InvoiceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A121C0E8F6900A2C4BD /* InvoiceVC.m */; };
+		32F03A171C0E92C000A2C4BD /* InvoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A161C0E92C000A2C4BD /* InvoiceCell.m */; };
+		32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A191C0EB52200A2C4BD /* InvoiceDetailVC.m */; };
+		32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A1C1C0EBAD300A2C4BD /* InvoiceDetailCell.m */; };
+		32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A201C0ED6E700A2C4BD /* RecommendVC.m */; };
+		32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */; };
+		32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A281C0EE84300A2C4BD /* SettingCell.m */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
 		480E504A1BFB5196006D545A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50491BFB5196006D545A /* arrow_right@2x.png */; };
@@ -461,8 +469,24 @@
 		32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailVC.m; sourceTree = "<group>"; };
 		32F03A001C0CDF1300A2C4BD /* CheckDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDetailVC.h; sourceTree = "<group>"; };
 		32F03A011C0CDF1300A2C4BD /* CheckDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDetailVC.m; sourceTree = "<group>"; };
-		32F03A041C0DA23A00A2C4BD /* MyWalletVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletVC.h; sourceTree = "<group>"; };
-		32F03A051C0DA23A00A2C4BD /* MyWalletVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletVC.m; sourceTree = "<group>"; };
+		32F03A071C0DFCFF00A2C4BD /* MyWalletVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletVC.h; sourceTree = "<group>"; };
+		32F03A081C0DFCFF00A2C4BD /* MyWalletVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletVC.m; sourceTree = "<group>"; };
+		32F03A0D1C0E0EFF00A2C4BD /* WalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalletCell.h; sourceTree = "<group>"; };
+		32F03A0E1C0E0EFF00A2C4BD /* WalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletCell.m; sourceTree = "<group>"; };
+		32F03A111C0E8F6800A2C4BD /* InvoiceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvoiceVC.h; sourceTree = "<group>"; };
+		32F03A121C0E8F6900A2C4BD /* InvoiceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvoiceVC.m; sourceTree = "<group>"; };
+		32F03A151C0E92C000A2C4BD /* InvoiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvoiceCell.h; sourceTree = "<group>"; };
+		32F03A161C0E92C000A2C4BD /* InvoiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvoiceCell.m; sourceTree = "<group>"; };
+		32F03A181C0EB52200A2C4BD /* InvoiceDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvoiceDetailVC.h; sourceTree = "<group>"; };
+		32F03A191C0EB52200A2C4BD /* InvoiceDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvoiceDetailVC.m; sourceTree = "<group>"; };
+		32F03A1B1C0EBAD300A2C4BD /* InvoiceDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvoiceDetailCell.h; sourceTree = "<group>"; };
+		32F03A1C1C0EBAD300A2C4BD /* InvoiceDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvoiceDetailCell.m; sourceTree = "<group>"; };
+		32F03A1F1C0ED6E700A2C4BD /* RecommendVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendVC.h; sourceTree = "<group>"; };
+		32F03A201C0ED6E700A2C4BD /* RecommendVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendVC.m; sourceTree = "<group>"; };
+		32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsVC.h; sourceTree = "<group>"; };
+		32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
+		32F03A271C0EE84300A2C4BD /* SettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCell.h; sourceTree = "<group>"; };
+		32F03A281C0EE84300A2C4BD /* SettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingCell.m; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		480E50471BFB4CDA006D545A /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
@@ -1003,10 +1027,87 @@
 		32F03A031C0DA18400A2C4BD /* 我的钱包Controller */ = {
 			isa = PBXGroup;
 			children = (
-				32F03A041C0DA23A00A2C4BD /* MyWalletVC.h */,
-				32F03A051C0DA23A00A2C4BD /* MyWalletVC.m */,
+				32F03A071C0DFCFF00A2C4BD /* MyWalletVC.h */,
+				32F03A081C0DFCFF00A2C4BD /* MyWalletVC.m */,
+				32F03A101C0E8ED500A2C4BD /* 按行程开票Controller */,
 			);
 			name = "我的钱包Controller";
+			sourceTree = "<group>";
+		};
+		32F03A0A1C0E0E0600A2C4BD /* 行程Cell */ = {
+			isa = PBXGroup;
+			children = (
+				32F039F41C0C9A9B00A2C4BD /* RouteCell.h */,
+				32F039F51C0C9A9C00A2C4BD /* RouteCell.m */,
+			);
+			name = "行程Cell";
+			sourceTree = "<group>";
+		};
+		32F03A0B1C0E0E1700A2C4BD /* 菜单Cell */ = {
+			isa = PBXGroup;
+			children = (
+				480E50511BFB5DF6006D545A /* MenuCell.h */,
+				480E50521BFB5DF6006D545A /* MenuCell.m */,
+			);
+			name = "菜单Cell";
+			sourceTree = "<group>";
+		};
+		32F03A0C1C0E0E2700A2C4BD /* 钱包Cell */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A0D1C0E0EFF00A2C4BD /* WalletCell.h */,
+				32F03A0E1C0E0EFF00A2C4BD /* WalletCell.m */,
+			);
+			name = "钱包Cell";
+			sourceTree = "<group>";
+		};
+		32F03A101C0E8ED500A2C4BD /* 按行程开票Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A111C0E8F6800A2C4BD /* InvoiceVC.h */,
+				32F03A121C0E8F6900A2C4BD /* InvoiceVC.m */,
+				32F03A181C0EB52200A2C4BD /* InvoiceDetailVC.h */,
+				32F03A191C0EB52200A2C4BD /* InvoiceDetailVC.m */,
+			);
+			name = "按行程开票Controller";
+			sourceTree = "<group>";
+		};
+		32F03A141C0E929500A2C4BD /* 发票Cell */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A151C0E92C000A2C4BD /* InvoiceCell.h */,
+				32F03A161C0E92C000A2C4BD /* InvoiceCell.m */,
+				32F03A1B1C0EBAD300A2C4BD /* InvoiceDetailCell.h */,
+				32F03A1C1C0EBAD300A2C4BD /* InvoiceDetailCell.m */,
+			);
+			name = "发票Cell";
+			sourceTree = "<group>";
+		};
+		32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A1F1C0ED6E700A2C4BD /* RecommendVC.h */,
+				32F03A201C0ED6E700A2C4BD /* RecommendVC.m */,
+			);
+			name = "推荐有奖Controller";
+			sourceTree = "<group>";
+		};
+		32F03A221C0EE45D00A2C4BD /* 设置Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */,
+				32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */,
+			);
+			name = "设置Controller";
+			sourceTree = "<group>";
+		};
+		32F03A261C0EE81D00A2C4BD /* 设置Cell */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A271C0EE84300A2C4BD /* SettingCell.h */,
+				32F03A281C0EE84300A2C4BD /* SettingCell.m */,
+			);
+			name = "设置Cell";
 			sourceTree = "<group>";
 		};
 		480E50451BFB4CA8006D545A /* 菜单页 */ = {
@@ -1021,10 +1122,11 @@
 		480E504F1BFB5DCC006D545A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				480E50511BFB5DF6006D545A /* MenuCell.h */,
-				480E50521BFB5DF6006D545A /* MenuCell.m */,
-				32F039F41C0C9A9B00A2C4BD /* RouteCell.h */,
-				32F039F51C0C9A9C00A2C4BD /* RouteCell.m */,
+				32F03A0B1C0E0E1700A2C4BD /* 菜单Cell */,
+				32F03A0A1C0E0E0600A2C4BD /* 行程Cell */,
+				32F03A0C1C0E0E2700A2C4BD /* 钱包Cell */,
+				32F03A141C0E929500A2C4BD /* 发票Cell */,
+				32F03A261C0EE81D00A2C4BD /* 设置Cell */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1040,6 +1142,8 @@
 				32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */,
 				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller */,
 				32F03A031C0DA18400A2C4BD /* 我的钱包Controller */,
+				32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */,
+				32F03A221C0EE45D00A2C4BD /* 设置Controller */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -2283,15 +2387,22 @@
 				480E50671C02252D006D545A /* HistoryTableViewController.m in Sources */,
 				486F52C31BF889EB0043874E /* TimePicker.m in Sources */,
 				486F52601BEE07F40043874E /* UIActionSheetItem.m in Sources */,
+				32F03A171C0E92C000A2C4BD /* InvoiceCell.m in Sources */,
 				486F52B31BF0E7D00043874E /* ZBCNavVC.m in Sources */,
 				486F52951BEE684A0043874E /* ZBCToast.m in Sources */,
 				486F52641BEE07F40043874E /* UIImage+PL.m in Sources */,
 				486F529C1BEE6F6C0043874E /* Utils.m in Sources */,
+				32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */,
 				486F52771BEE08140043874E /* NSDate+Utilities.m in Sources */,
 				486F52801BEE093F0043874E /* TopToolBar.m in Sources */,
 				486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */,
+				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
+				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,
+				32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */,
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
 				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
+				32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */,
+				32F03A131C0E8F6900A2C4BD /* InvoiceVC.m in Sources */,
 				486F52B81BF0E87F0043874E /* YBNavigationContoller.m in Sources */,
 				32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */,
 				32F03A021C0CDF1300A2C4BD /* CheckDetailVC.m in Sources */,
@@ -2316,10 +2427,11 @@
 				486F52791BEE08140043874E /* NSString+Additions.m in Sources */,
 				486F52B91BF0E87F0043874E /* YBNavSearchBar.m in Sources */,
 				486F52751BEE08140043874E /* NSArray+Additions.m in Sources */,
+				32F03A0F1C0E0EFF00A2C4BD /* WalletCell.m in Sources */,
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
 				32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */,
-				32F03A061C0DA23A00A2C4BD /* MyWalletVC.m in Sources */,
+				32F03A091C0DFCFF00A2C4BD /* MyWalletVC.m in Sources */,
 				486F52651BEE07F40043874E /* UILabel+KAddition.m in Sources */,
 				486F52BD1BF1E1DE0043874E /* YBTextField.m in Sources */,
 				486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */,

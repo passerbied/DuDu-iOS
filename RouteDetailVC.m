@@ -23,6 +23,7 @@
     UILabel     *_successLabel;
     UIImageView *_rightLine;
     UILabel     *_priceLabel;
+    UIImageView *_detailImage;
     UIButton    *_detailButton;
     UIImageView *_leftLine2;
     UILabel     *_impressLabel;
@@ -124,11 +125,16 @@
     
     _priceLabel = [UILabel labelWithFrame:CGRectZero
                                     color:COLORRGB(0x000000)
-                                     font:HSFONT(15)
+                                     font:HSFONT(12)
                                      text:@""
                                 alignment:NSTextAlignmentCenter
                             numberOfLines:1];
     [self.view addSubview:_priceLabel];
+    
+    _detailImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _detailImage.image = IMG(@"tiny_history");
+    _detailImage.userInteractionEnabled = YES;
+    [self.view addSubview:_detailImage];
     
     _detailButton = [UIButton buttonWithImageName:@""
                                       hlImageName:@""
@@ -200,7 +206,8 @@
     _carColorLabel.text = @"白色";
     _phoneImage.image = nil;
     _phoneImage.backgroundColor = [UIColor redColor];
-    _priceLabel.text = @"9元";
+    NSString *price = @"9";
+    _priceLabel.text = [NSString stringWithFormat:@"%@元",price];
     _estimateLabel.text = @"大多数人对他(她)的印象是:驾驶平稳";
 }
 
@@ -211,27 +218,23 @@
     _avatarImage.layer.cornerRadius = _avatarImage.width/2;
     _avatarButton.frame = _avatarImage.frame;
     _avatarButton.layer.cornerRadius = _avatarButton.width/2;
-    CGSize screenSize = [_screenNameLabel.text sizeWithAttributes:@{NSFontAttributeName:_screenNameLabel.font}];
-    [_screenNameLabel sizeToFit];
+    CGSize screenSize = [self getTextFromLabel:_screenNameLabel];
     CGFloat gap = (50-screenSize.height*2)/3;
     _screenNameLabel.frame = ccr(CGRectGetMaxX(_avatarImage.frame)+10,
                                  NAV_BAR_HEIGHT_IOS7+10+gap,
                                  screenSize.width,
                                  screenSize.height);
-    CGSize numberSize = [_carNumberLabel.text sizeWithAttributes:@{NSFontAttributeName:_carNumberLabel.font}];
-    [_carNumberLabel sizeToFit];
+    CGSize numberSize = [self getTextFromLabel:_carNumberLabel];
     _carNumberLabel.frame = ccr(_screenNameLabel.origin.x,
                                 CGRectGetMaxY(_screenNameLabel.frame)+gap,
                                 numberSize.width,
                                 numberSize.height);
-    CGSize typeSize = [_carTypeLabel.text sizeWithAttributes:@{NSFontAttributeName:_carTypeLabel.font}];
-    [_carTypeLabel sizeToFit];
+    CGSize typeSize = [self getTextFromLabel:_carTypeLabel];
     _carTypeLabel.frame = ccr(CGRectGetMaxX(_carNumberLabel.frame)+5,
                               _carNumberLabel.origin.y,
                               typeSize.width,
                               typeSize.height);
-    CGSize colorSize = [_carColorLabel.text sizeWithAttributes:@{NSFontAttributeName:_carColorLabel.font}];
-    [_carColorLabel sizeToFit];
+    CGSize colorSize = [self getTextFromLabel:_carColorLabel];
     _carColorLabel.frame = ccr(CGRectGetMaxX(_carTypeLabel.frame)+5,
                                _carTypeLabel.origin.y,
                                colorSize.width,
@@ -243,8 +246,7 @@
     _phoneImage.layer.cornerRadius = _phoneImage.width/2;
     _phoneButton.frame = _phoneButton.frame;
     _phoneButton.layer.cornerRadius = _phoneButton.width/2;
-    CGSize successSize = [_successLabel.text sizeWithAttributes:@{NSFontAttributeName:_successLabel.font}];
-    [_successLabel sizeToFit];
+    CGSize successSize = [self getTextFromLabel:_successLabel];
     CGFloat lineLength = (SCREEN_WIDTH-successSize.width-5*2)/4;
     _leftLine.frame = ccr(lineLength,
                           CGRectGetMaxY(_avatarImage.frame)+10+(successSize
@@ -259,18 +261,27 @@
                            _leftLine.origin.y,
                            _leftLine.width,
                            _leftLine.height);
-    CGSize priceSize = [_priceLabel.text sizeWithAttributes:@{NSFontAttributeName:_priceLabel.font}];
-    [_priceLabel sizeToFit];
+    NSString *price = _priceLabel.text;
+    NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:price];
+    NSUInteger priceLength = price.length-1;
+    [priceString addAttributes:@{NSFontAttributeName:HSFONT(20)}
+                         range:NSMakeRange(0, priceLength)];
+    _priceLabel.attributedText = priceString;
+    CGSize priceSize = [self getTextFromLabel:_priceLabel];
     _priceLabel.frame = ccr((SCREEN_WIDTH-priceSize.width)/2,
                             CGRectGetMaxY(_successLabel.frame)+30,
                             priceSize.width,
                             priceSize.height);
-    _detailButton.frame = ccr((SCREEN_WIDTH-100)/2,
-                              CGRectGetMaxY(_priceLabel.frame)+10,
-                              100,
-                              20);
-    CGSize impressSize = [_impressLabel.text sizeWithAttributes:@{NSFontAttributeName:_impressLabel.font}];
-    [_impressLabel sizeToFit];
+    CGSize detailSize = [self getTextFromLabel:_detailButton.titleLabel];
+    _detailImage.frame = ccr((SCREEN_WIDTH-detailSize.width-16)/2,
+                             CGRectGetMaxY(_priceLabel.frame)+10,
+                             16,
+                             16);
+    _detailButton.frame = ccr(CGRectGetMaxX(_detailImage.frame),
+                              _detailImage.origin.y+1,
+                              detailSize.width,
+                              detailSize.height);
+    CGSize impressSize = [self getTextFromLabel:_impressLabel];
     CGFloat lineLength2 = (SCREEN_WIDTH-impressSize.width-5*2)/4;
     _leftLine2.frame = ccr(lineLength2,
                            CGRectGetMaxY(_detailButton.frame)+50+
@@ -288,8 +299,7 @@
                                CGRectGetMaxY(_impressLabel.frame)+20,
                                100,
                                20);
-    CGSize estimateSize = [_estimateLabel.text sizeWithAttributes:@{NSFontAttributeName:_estimateLabel.font}];
-    [_estimateLabel sizeToFit];
+    CGSize estimateSize = [self getTextFromLabel:_estimateLabel];
     _estimateLabel.frame = ccr((SCREEN_WIDTH-estimateSize.width)/2,
                                CGRectGetMaxY(_commentButton.frame)+10,
                                estimateSize.width,
@@ -310,6 +320,13 @@
     CheckDetailVC *checkDetailVC = [[CheckDetailVC alloc] init];
     checkDetailVC.title = @"查看明细";
     [self.navigationController pushViewController:checkDetailVC animated:YES];
+}
+
+- (CGSize)getTextFromLabel:(UILabel *)label
+{
+    CGSize textSize = [label.text sizeWithAttributes:@{NSFontAttributeName:label.font}];
+    [label sizeToFit];
+    return textSize;
 }
 
 - (void)didReceiveMemoryWarning {

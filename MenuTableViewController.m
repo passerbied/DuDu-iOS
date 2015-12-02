@@ -10,6 +10,8 @@
 #import "MenuCell.h"
 #import "MyRouteVC.h"
 #import "MyWalletVC.h"
+#import "RecommendVC.h"
+#import "SettingsVC.h"
 
 #define PADDING 10
 
@@ -110,13 +112,13 @@
         [cell addSubview:[self walletLabel]];
     } else if (indexPath.row == 2) {
         cell.iconImage.image = IMG(@"tiny_shared");
-        cell.title = @"好友分享礼券";
+        cell.title = @"推荐有奖";
     } else if (indexPath.row == 3) {
-        cell.iconImage.image = IMG(@"tiny_bill");
-        cell.title = @"邮寄发票";
-    } else {
         cell.iconImage.image = IMG(@"tiny_unbind");
         cell.title = @"解除手机绑定";
+    } else {
+        cell.iconImage.image = IMG(@"tiny_bill");
+        cell.title = @"设置";
     }
     return cell;
 }
@@ -134,10 +136,15 @@
         myWalletVC.title = @"我的钱包";
         [self.navigationController pushViewController:myWalletVC animated:YES];
     } else if (indexPath.row == 2) {
-        
+        RecommendVC *recommendVC = [[RecommendVC alloc] init];
+        recommendVC.title = @"推荐有奖";
+        [self.navigationController pushViewController:recommendVC animated:YES];
     } else if (indexPath.row == 3) {
         
     } else {
+        SettingsVC *settingsVC = [[SettingsVC alloc] init];
+        settingsVC.title = @"设置";
+        [self.navigationController pushViewController:settingsVC animated:YES];
     }
 }
 
