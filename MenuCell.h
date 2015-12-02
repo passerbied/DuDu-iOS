@@ -10,7 +10,7 @@
 
 @interface MenuCell : UITableViewCell
 
-@property (nonatomic, strong) UIImageView *icon;
-@property (nonatomic, strong) UILabel *title;
+@property (nonatomic, strong) UIImageView *iconImage;
+@property (nonatomic, copy)   NSString *title;
 
 @end
