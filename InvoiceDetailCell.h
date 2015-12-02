@@ -1,5 +1,5 @@
 //
-//  MyWalletVC.h
+//  InvoiceDetailCell.h
 //  DuDu
 //
 //  Created by 教路浩 on 15/12/2.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyWalletVC : UIViewController
-<UITableViewDataSource,
-UITableViewDelegate>
+@interface InvoiceDetailCell : UITableViewCell
+
+@property (nonatomic, copy)NSString *message;
 
 @end
