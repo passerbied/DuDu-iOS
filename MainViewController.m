@@ -122,7 +122,7 @@
                                           hlImageName:@"account_pressed"
                                            onTapBlock:^(UIButton *btn) {
                                                MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
-                                               menuVC.title = @"设置";
+                                               menuVC.title = @"个人中心";
                                                [self.navigationController pushViewController:menuVC animated:YES];
     }];
     leftBtn.frame = ccr(0, 0, 30, 30);

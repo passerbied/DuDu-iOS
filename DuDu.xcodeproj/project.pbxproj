@@ -17,6 +17,9 @@
 		32F03A171C0E92C000A2C4BD /* InvoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A161C0E92C000A2C4BD /* InvoiceCell.m */; };
 		32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A191C0EB52200A2C4BD /* InvoiceDetailVC.m */; };
 		32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A1C1C0EBAD300A2C4BD /* InvoiceDetailCell.m */; };
+		32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A201C0ED6E700A2C4BD /* RecommendVC.m */; };
+		32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */; };
+		32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A281C0EE84300A2C4BD /* SettingCell.m */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
 		480E504A1BFB5196006D545A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50491BFB5196006D545A /* arrow_right@2x.png */; };
@@ -478,6 +481,12 @@
 		32F03A191C0EB52200A2C4BD /* InvoiceDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvoiceDetailVC.m; sourceTree = "<group>"; };
 		32F03A1B1C0EBAD300A2C4BD /* InvoiceDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvoiceDetailCell.h; sourceTree = "<group>"; };
 		32F03A1C1C0EBAD300A2C4BD /* InvoiceDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvoiceDetailCell.m; sourceTree = "<group>"; };
+		32F03A1F1C0ED6E700A2C4BD /* RecommendVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendVC.h; sourceTree = "<group>"; };
+		32F03A201C0ED6E700A2C4BD /* RecommendVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendVC.m; sourceTree = "<group>"; };
+		32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsVC.h; sourceTree = "<group>"; };
+		32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
+		32F03A271C0EE84300A2C4BD /* SettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCell.h; sourceTree = "<group>"; };
+		32F03A281C0EE84300A2C4BD /* SettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingCell.m; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		480E50471BFB4CDA006D545A /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
@@ -1066,12 +1075,40 @@
 		32F03A141C0E929500A2C4BD /* 发票Cell */ = {
 			isa = PBXGroup;
 			children = (
+				32F03A261C0EE81D00A2C4BD /* 设置Cell */,
 				32F03A151C0E92C000A2C4BD /* InvoiceCell.h */,
 				32F03A161C0E92C000A2C4BD /* InvoiceCell.m */,
 				32F03A1B1C0EBAD300A2C4BD /* InvoiceDetailCell.h */,
 				32F03A1C1C0EBAD300A2C4BD /* InvoiceDetailCell.m */,
 			);
 			name = "发票Cell";
+			sourceTree = "<group>";
+		};
+		32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A1F1C0ED6E700A2C4BD /* RecommendVC.h */,
+				32F03A201C0ED6E700A2C4BD /* RecommendVC.m */,
+			);
+			name = "推荐有奖Controller";
+			sourceTree = "<group>";
+		};
+		32F03A221C0EE45D00A2C4BD /* 设置Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */,
+				32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */,
+			);
+			name = "设置Controller";
+			sourceTree = "<group>";
+		};
+		32F03A261C0EE81D00A2C4BD /* 设置Cell */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A271C0EE84300A2C4BD /* SettingCell.h */,
+				32F03A281C0EE84300A2C4BD /* SettingCell.m */,
+			);
+			name = "设置Cell";
 			sourceTree = "<group>";
 		};
 		480E50451BFB4CA8006D545A /* 菜单页 */ = {
@@ -1105,6 +1142,8 @@
 				32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */,
 				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller */,
 				32F03A031C0DA18400A2C4BD /* 我的钱包Controller */,
+				32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */,
+				32F03A221C0EE45D00A2C4BD /* 设置Controller */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -2353,10 +2392,13 @@
 				486F52951BEE684A0043874E /* ZBCToast.m in Sources */,
 				486F52641BEE07F40043874E /* UIImage+PL.m in Sources */,
 				486F529C1BEE6F6C0043874E /* Utils.m in Sources */,
+				32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */,
 				486F52771BEE08140043874E /* NSDate+Utilities.m in Sources */,
 				486F52801BEE093F0043874E /* TopToolBar.m in Sources */,
 				486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */,
+				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
 				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,
+				32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */,
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
 				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
 				32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */,
