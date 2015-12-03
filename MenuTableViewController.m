@@ -66,7 +66,7 @@
     [headerView addSubview:arrow];
     
     UIImageView *line = [[UIImageView alloc] initWithFrame:ccr(15, CGRectGetMaxY(headerView.frame)-0.7, SCREEN_WIDTH-15, 0.7)];
-    line.backgroundColor = COLORRGB(0xdddddd);
+    line.backgroundColor = COLORRGB(0xd7d7d7);
     [headerView addSubview:line];
     
     self.tableView.tableHeaderView = headerView;

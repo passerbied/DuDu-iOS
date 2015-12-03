@@ -22,6 +22,7 @@
 		32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A281C0EE84300A2C4BD /* SettingCell.m */; };
 		32F03A2D1C0FF0C400A2C4BD /* TicketVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A2C1C0FF0C400A2C4BD /* TicketVC.m */; };
 		32F03A311C0FF49A00A2C4BD /* TicketCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A301C0FF49A00A2C4BD /* TicketCell.m */; };
+		32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A341C102BE700A2C4BD /* AddressVC.m */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
 		480E504A1BFB5196006D545A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50491BFB5196006D545A /* arrow_right@2x.png */; };
@@ -493,6 +494,8 @@
 		32F03A2C1C0FF0C400A2C4BD /* TicketVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketVC.m; sourceTree = "<group>"; };
 		32F03A2F1C0FF49A00A2C4BD /* TicketCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketCell.h; sourceTree = "<group>"; };
 		32F03A301C0FF49A00A2C4BD /* TicketCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketCell.m; sourceTree = "<group>"; };
+		32F03A331C102BE700A2C4BD /* AddressVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressVC.h; sourceTree = "<group>"; };
+		32F03A341C102BE700A2C4BD /* AddressVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressVC.m; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		480E50471BFB4CDA006D545A /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
@@ -1106,6 +1109,7 @@
 			children = (
 				32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */,
 				32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */,
+				32F03A321C102B9C00A2C4BD /* 常用地址Controller */,
 			);
 			name = "设置Controller";
 			sourceTree = "<group>";
@@ -1135,6 +1139,15 @@
 				32F03A301C0FF49A00A2C4BD /* TicketCell.m */,
 			);
 			name = "打车券Cell";
+			sourceTree = "<group>";
+		};
+		32F03A321C102B9C00A2C4BD /* 常用地址Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A331C102BE700A2C4BD /* AddressVC.h */,
+				32F03A341C102BE700A2C4BD /* AddressVC.m */,
+			);
+			name = "常用地址Controller";
 			sourceTree = "<group>";
 		};
 		480E50451BFB4CA8006D545A /* 菜单页 */ = {
@@ -2447,6 +2460,7 @@
 				486F525E1BEE07F40043874E /* KUIButton.m in Sources */,
 				480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */,
 				486F52661BEE07F40043874E /* UIView+KAddition.m in Sources */,
+				32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */,
 				486F52621BEE07F40043874E /* UIButton+KAddition.m in Sources */,
 				486F52D41BFB28AD0043874E /* MMDrawerController.m in Sources */,
 				32F03A311C0FF49A00A2C4BD /* TicketCell.m in Sources */,

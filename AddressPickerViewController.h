@@ -19,6 +19,7 @@
 @property (nonatomic, strong) AMapSearchAPI *search;
 @property (nonatomic, copy) NSString *location;
 @property (nonatomic, assign) BOOL isFrom;
+@property (nonatomic, assign) BOOL isFromAddressVC;
 
 - (id)initWithLocation:(NSString *)location;
 

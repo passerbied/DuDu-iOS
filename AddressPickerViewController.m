@@ -127,7 +127,11 @@
     if ([self.delegate respondsToSelector:@selector(addressPicker:forFromAddress:pickedTip:)]) {
         [self.delegate addressPicker:self forFromAddress:self.isFrom pickedTip:tip];
     }
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    if (!self.isFromAddressVC) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - Initialization
