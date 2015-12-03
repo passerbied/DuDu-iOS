@@ -131,7 +131,11 @@
             [self.delegate addressPicker:self fromAddress:nil toAddress:tip];
         }
     }
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    if (!self.isFromAddressVC) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - Initialization

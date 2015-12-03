@@ -20,6 +20,9 @@
 		32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A201C0ED6E700A2C4BD /* RecommendVC.m */; };
 		32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */; };
 		32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A281C0EE84300A2C4BD /* SettingCell.m */; };
+		32F03A2D1C0FF0C400A2C4BD /* TicketVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A2C1C0FF0C400A2C4BD /* TicketVC.m */; };
+		32F03A311C0FF49A00A2C4BD /* TicketCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A301C0FF49A00A2C4BD /* TicketCell.m */; };
+		32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A341C102BE700A2C4BD /* AddressVC.m */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
 		480E504A1BFB5196006D545A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50491BFB5196006D545A /* arrow_right@2x.png */; };
@@ -487,6 +490,12 @@
 		32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
 		32F03A271C0EE84300A2C4BD /* SettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCell.h; sourceTree = "<group>"; };
 		32F03A281C0EE84300A2C4BD /* SettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingCell.m; sourceTree = "<group>"; };
+		32F03A2B1C0FF0C400A2C4BD /* TicketVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketVC.h; sourceTree = "<group>"; };
+		32F03A2C1C0FF0C400A2C4BD /* TicketVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketVC.m; sourceTree = "<group>"; };
+		32F03A2F1C0FF49A00A2C4BD /* TicketCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketCell.h; sourceTree = "<group>"; };
+		32F03A301C0FF49A00A2C4BD /* TicketCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketCell.m; sourceTree = "<group>"; };
+		32F03A331C102BE700A2C4BD /* AddressVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressVC.h; sourceTree = "<group>"; };
+		32F03A341C102BE700A2C4BD /* AddressVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressVC.m; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		480E50471BFB4CDA006D545A /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
@@ -1030,6 +1039,7 @@
 				32F03A071C0DFCFF00A2C4BD /* MyWalletVC.h */,
 				32F03A081C0DFCFF00A2C4BD /* MyWalletVC.m */,
 				32F03A101C0E8ED500A2C4BD /* 按行程开票Controller */,
+				32F03A2A1C0FF07100A2C4BD /* 打车券Controller */,
 			);
 			name = "我的钱包Controller";
 			sourceTree = "<group>";
@@ -1057,6 +1067,8 @@
 			children = (
 				32F03A0D1C0E0EFF00A2C4BD /* WalletCell.h */,
 				32F03A0E1C0E0EFF00A2C4BD /* WalletCell.m */,
+				32F03A141C0E929500A2C4BD /* 发票Cell */,
+				32F03A2E1C0FF47200A2C4BD /* 打车券Cell */,
 			);
 			name = "钱包Cell";
 			sourceTree = "<group>";
@@ -1097,6 +1109,7 @@
 			children = (
 				32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */,
 				32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */,
+				32F03A321C102B9C00A2C4BD /* 常用地址Controller */,
 			);
 			name = "设置Controller";
 			sourceTree = "<group>";
@@ -1108,6 +1121,33 @@
 				32F03A281C0EE84300A2C4BD /* SettingCell.m */,
 			);
 			name = "设置Cell";
+			sourceTree = "<group>";
+		};
+		32F03A2A1C0FF07100A2C4BD /* 打车券Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A2B1C0FF0C400A2C4BD /* TicketVC.h */,
+				32F03A2C1C0FF0C400A2C4BD /* TicketVC.m */,
+			);
+			name = "打车券Controller";
+			sourceTree = "<group>";
+		};
+		32F03A2E1C0FF47200A2C4BD /* 打车券Cell */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A2F1C0FF49A00A2C4BD /* TicketCell.h */,
+				32F03A301C0FF49A00A2C4BD /* TicketCell.m */,
+			);
+			name = "打车券Cell";
+			sourceTree = "<group>";
+		};
+		32F03A321C102B9C00A2C4BD /* 常用地址Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A331C102BE700A2C4BD /* AddressVC.h */,
+				32F03A341C102BE700A2C4BD /* AddressVC.m */,
+			);
+			name = "常用地址Controller";
 			sourceTree = "<group>";
 		};
 		480E50451BFB4CA8006D545A /* 菜单页 */ = {
@@ -1125,7 +1165,6 @@
 				32F03A0B1C0E0E1700A2C4BD /* 菜单Cell */,
 				32F03A0A1C0E0E0600A2C4BD /* 行程Cell */,
 				32F03A0C1C0E0E2700A2C4BD /* 钱包Cell */,
-				32F03A141C0E929500A2C4BD /* 发票Cell */,
 				32F03A261C0EE81D00A2C4BD /* 设置Cell */,
 			);
 			name = Views;
@@ -2410,6 +2449,7 @@
 				486F52611BEE07F40043874E /* UIAlertView+KAddition.m in Sources */,
 				480E50531BFB5DF6006D545A /* MenuCell.m in Sources */,
 				48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */,
+				32F03A2D1C0FF0C400A2C4BD /* TicketVC.m in Sources */,
 				486F52D51BFB28AD0043874E /* MMDrawerVisualState.m in Sources */,
 				486F52781BEE08140043874E /* NSObject+Additions.m in Sources */,
 				486F527B1BEE08140043874E /* Swizzle.c in Sources */,
@@ -2420,8 +2460,10 @@
 				486F525E1BEE07F40043874E /* KUIButton.m in Sources */,
 				480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */,
 				486F52661BEE07F40043874E /* UIView+KAddition.m in Sources */,
+				32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */,
 				486F52621BEE07F40043874E /* UIButton+KAddition.m in Sources */,
 				486F52D41BFB28AD0043874E /* MMDrawerController.m in Sources */,
+				32F03A311C0FF49A00A2C4BD /* TicketCell.m in Sources */,
 				486F52761BEE08140043874E /* NSData+Additions.m in Sources */,
 				48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */,
 				486F52791BEE08140043874E /* NSString+Additions.m in Sources */,

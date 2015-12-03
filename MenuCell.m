@@ -56,7 +56,7 @@
                            (60-titleSize.height)/2,
                            titleSize.width,
                            titleSize.height);
-    _bottomLine.frame = ccr(0, 60-0.5, SCREEN_WIDTH, 0.5);
+    _bottomLine.frame = ccr(15, 60-0.5, SCREEN_WIDTH, 0.5);
 }
 
 - (void)layoutSubviews

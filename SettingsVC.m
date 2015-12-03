@@ -8,6 +8,7 @@
 
 #import "SettingsVC.h"
 #import "SettingCell.h"
+#import "AddressVC.h"
 
 @interface SettingsVC ()
 {
@@ -98,7 +99,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.row==0) {
+        AddressVC *addressVC = [[AddressVC alloc] init];
+        addressVC.title = @"常用地址";
+        [self.navigationController pushViewController:addressVC animated:YES];
+    } else if (indexPath.row==1) {
+        
+    } else if (indexPath.row==2) {
+        
+    } else if (indexPath.row==3) {
+        
+    } else {
+        
+    }
 }
 
 - (UILabel *)addressLabel
