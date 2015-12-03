@@ -10,6 +10,7 @@
 
 @interface InvoiceDetailVC : UIViewController
 <UITableViewDataSource,
-UITableViewDelegate>
+UITableViewDelegate,
+UITextFieldDelegate>
 
 @end

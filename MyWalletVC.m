@@ -9,6 +9,7 @@
 #import "MyWalletVC.h"
 #import "WalletCell.h"
 #import "InvoiceVC.h"
+#import "TicketVC.h"
 
 @interface MyWalletVC ()
 {
@@ -88,7 +89,9 @@
         invoiceVC.title = @"按行程开票";
         [self.navigationController pushViewController:invoiceVC animated:YES];
     } else if (indexPath.row==1) {
-        
+        TicketVC *ticketVC = [[TicketVC alloc] init];
+        ticketVC.title = @"我的打车券";
+        [self.navigationController pushViewController:ticketVC animated:YES];
     } else {
         
     }
