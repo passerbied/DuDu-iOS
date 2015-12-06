@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "CouponModel.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -194,7 +195,11 @@
 
 - (void)didSubmited
 {
-    NSLog(@"dididid");
+    CouponModel *coupon = [[CouponModel alloc] init];
+    coupon.title = @"新用户优惠9折优惠";
+    coupon.max_money = @"20";
+    coupon.isUsed = 0;
+    [_bottomToolBar updateCharge:@"20" coupon:coupon];
 }
 
 #pragma mark - TimePickerDelegate

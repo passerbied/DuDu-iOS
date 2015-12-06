@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CouponModel.h"
 
 @protocol BottomToolBarDelegate;
 
@@ -21,7 +22,7 @@
 @property (nonatomic, strong) id<BottomToolBarDelegate> delegate;
 
 - (void)updateLocation:(NSString *)location;
-- (void)updateCharge:(NSString *)money;
+- (void)updateCharge:(NSString *)money coupon:(CouponModel *)coupon;
 - (void)showChargeView:(BOOL)show;
 
 @end

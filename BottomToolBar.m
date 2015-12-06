@@ -158,14 +158,23 @@
         [_budgetView addSubview:line3];
         
         self.budgetLabel = [UILabel labelWithFrame:ccr(0, 3, _budgetView.width, 22)
-                                             color:COLORRGB(0xff8830)
-                                              font:HSFONT(20)
-                                              text:@"约 0 元"
+                                             color:COLORRGB(0x63666b)
+                                              font:HSFONT(12)
+                                              text:@"计算中..."
                                          alignment:NSTextAlignmentCenter
                                      numberOfLines:1];
+//        NSString *budget = @"0";
+//        NSMutableAttributedString *budgetString = [[NSMutableAttributedString alloc] initWithString:@"约0元"];
+//        NSUInteger budgetLength = budget.length;
+//        [budgetString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xff8830)}
+//                             range:NSMakeRange(1, budgetLength)];
+//        [budgetString addAttributes:@{NSFontAttributeName:HSFONT(22)}
+//                              range:NSMakeRange(1, budgetLength)];
+//        self.budgetLabel.attributedText = budgetString;
+        
         [_budgetView addSubview:self.budgetLabel];
         
-        self.couponLabel = [UILabel labelWithFrame:ccr(0, CGRectGetMaxY(self.budgetLabel.frame), _budgetView.width, 20) color:COLORRGB(0xff8830) font:HSFONT(12) text:@"豪华年度代金券立减69元" alignment:NSTextAlignmentCenter numberOfLines:1];
+        self.couponLabel = [UILabel labelWithFrame:ccr(0, CGRectGetMaxY(self.budgetLabel.frame), _budgetView.width, 20) color:COLORRGB(0xff8830) font:HSFONT(12) text:@"暂无优惠" alignment:NSTextAlignmentCenter numberOfLines:1];
         [_budgetView addSubview:self.couponLabel];
         
         UIButton *coupenBtn = [UIButton buttonWithImageName:@"" hlImageName:@"" onTapBlock:^(UIButton *btn) {
@@ -189,6 +198,18 @@
         [self addSubview:_submitBtn];
     }
     return self;
+}
+
+- (void)updateCharge:(NSString *)money coupon:(CouponModel *)coupon
+{
+    NSMutableAttributedString *budgetString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约%@元",money]];
+    [budgetString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xff8830)}
+                          range:NSMakeRange(1, money.length)];
+    [budgetString addAttributes:@{NSFontAttributeName:HSFONT(22)}
+                          range:NSMakeRange(1, money.length)];
+    self.budgetLabel.attributedText = budgetString;
+    
+    self.couponLabel.text = coupon.title;
 }
 
 - (void)showChargeView:(BOOL)show
