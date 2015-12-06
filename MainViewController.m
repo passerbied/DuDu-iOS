@@ -185,9 +185,16 @@
     } else if (label == toolBar.toAddressLabel) {
         [self showToAddressPicker];
         
+    } else if (label == toolBar.couponLabel){
+        
     } else {
         
     }
+}
+
+- (void)didSubmited
+{
+    NSLog(@"dididid");
 }
 
 #pragma mark - TimePickerDelegate
@@ -301,6 +308,7 @@ updatingLocation:(BOOL)updatingLocation
     if (toTip){
         _bottomToolBar.toAddressLabel.text = toTip.name;
         _bottomToolBar.toAddressLabel.textColor = COLORRGB(0x63666b);
+        [_bottomToolBar showChargeView:YES];
     }
 }
 

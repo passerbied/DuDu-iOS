@@ -49,11 +49,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>UMengFeedback.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -62,16 +57,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>01B24134C4FB479B8EB6B8864A11D6BD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1D94E6A734A0785E59B0ED167D8D6908</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>410B25DF16EA5C5B3E2698F74F9625FB</key>
 		<dict>
 			<key>primary</key>
@@ -82,12 +67,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7112751ACED56349A420B879DDAD76F8</key>
+		<key>622E4908A843342CBD08D756440378DA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>82475521500782F52BF7B7369411DB2B</key>
+		<key>7112751ACED56349A420B879DDAD76F8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,17 +82,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A98C9E866A704D1BB209B8140C5DE551</key>
+		<key>CD59D172879942FBC7DA5CCE2F87B198</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AE5A9CEED384E315359C4FCE80CFBF48</key>
+		<key>DE7D9E61F17F2A93CC340CD73A6C539B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B73600E81BB4755166D8406B7256D22A</key>
+		<key>ECB2222D2A15E6F42C77900316FF8776</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EF5E2CC4103F2E84030B7718B43A9FCD</key>
 		<dict>
 			<key>primary</key>
 			<true/>

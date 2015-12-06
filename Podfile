@@ -8,7 +8,7 @@ pod 'CRToast'
 pod 'pop'
 #pod 'EDStarRating'                  # https://github.com/erndev/EDStarRating
 pod 'UMengAnalytics', '~> 3.5.16'
-pod 'UMengFeedback'
+#pod 'UMengFeedback'
 pod 'DCAnimationKit'                # https://github.com/daltoniam/DCAnimationKit
 #pod 'GTScrollNavigationBar'         # https://github.com/luugiathuy/GTScrollNavigationBar
 #pod 'RDVTabBarController'           # https://github.com/robbdimitrov/RDVTabBarController

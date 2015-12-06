@@ -15,16 +15,20 @@
 @property (nonatomic, strong) UILabel *startTimeLabel;
 @property (nonatomic, strong) UILabel *fromAddressLabel;
 @property (nonatomic, strong) UILabel *toAddressLabel;
+@property (nonatomic, strong) UILabel *budgetLabel;
+@property (nonatomic, strong) UILabel *couponLabel;
 
 @property (nonatomic, strong) id<BottomToolBarDelegate> delegate;
 
 - (void)updateLocation:(NSString *)location;
 - (void)updateCharge:(NSString *)money;
+- (void)showChargeView:(BOOL)show;
 
 @end
 
 @protocol BottomToolBarDelegate <NSObject>
 
 - (void)bottomToolBar:(BottomToolBar *)toolBar didTapped:(UILabel *)label;
+- (void)didSubmited;
 
 @end
