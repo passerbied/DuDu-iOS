@@ -124,8 +124,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AMapTip *tip = self.tips[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(addressPicker:forFromAddress:pickedTip:)]) {
-        [self.delegate addressPicker:self forFromAddress:self.isFrom pickedTip:tip];
+    if ([self.delegate respondsToSelector:@selector(addressPicker:fromAddress:toAddress:)]) {
+        if (self.isFrom) {
+            [self.delegate addressPicker:self fromAddress:tip toAddress:nil];
+        } else {
+            [self.delegate addressPicker:self fromAddress:nil toAddress:tip];
+        }
     }
     if (!self.isFromAddressVC) {
         [self.navigationController popToRootViewControllerAnimated:YES];
@@ -152,7 +156,7 @@
 
 - (void)initTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:ccr(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT-self.searchBar.height)];
+    self.tableView = [[UITableView alloc] initWithFrame:ccr(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, SCREEN_HEIGHT-CGRectGetMaxY(self.searchBar.frame))];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];

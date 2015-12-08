@@ -30,7 +30,6 @@ PODS:
   - TOWebViewController (2.0.19)
   - UICKeyChainStore (2.1.0)
   - UMengAnalytics (3.5.16)
-  - UMengFeedback (2.3.4)
 
 DEPENDENCIES:
   - AFNetworking
@@ -44,7 +43,6 @@ DEPENDENCIES:
   - TOWebViewController
   - UICKeyChainStore
   - UMengAnalytics (~> 3.5.16)
-  - UMengFeedback
 
 SPEC CHECKSUMS:
   AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
@@ -58,6 +56,5 @@ SPEC CHECKSUMS:
   TOWebViewController: accd62ec0acc8d5c2e1e195c6f7ff7654c3c840c
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
   UMengAnalytics: fdf0c0a8c07d8bffc012ffa3c68e5d490af42098
-  UMengFeedback: 5283cc0e324dffca4dd54c4abb3cbded56487817
 
 COCOAPODS: 0.39.0

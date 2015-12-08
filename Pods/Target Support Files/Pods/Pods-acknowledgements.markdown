@@ -326,11 +326,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 Copyright 2011 - 2015 UMeng.com. All rights reserved.
 
 
-## UMengFeedback
-
-Copyright 2011 - 2015 UMeng.com. All rights reserved.
-
-
 ## pop
 
 BSD License

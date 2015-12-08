@@ -27,6 +27,6 @@
 
 @protocol AddressPickerViewControllerDelegate <NSObject>
 
-- (void)addressPicker:(AddressPickerViewController *)pickerVC forFromAddress:(BOOL)isFrom pickedTip:(AMapTip *)tip;
+- (void)addressPicker:(AddressPickerViewController *)pickerVC fromAddress:(AMapTip *)fromTip toAddress:(AMapTip *)toTip;
 
 @end

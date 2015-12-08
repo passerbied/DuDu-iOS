@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "CouponModel.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -23,11 +24,25 @@
     TimePicker *_timePicker;
     UIActivityIndicatorView *_activityView;
     AMapReGeocode *_currentReGeocode;
+    NSMutableArray *_annotations;
+    BOOL _isFirstAppear;
+    UIButton *_locationBtn;
 
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _annotations = [NSMutableArray array];
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _isFirstAppear = YES;
     
     [self setupLeftMenuButton];
     
@@ -38,6 +53,8 @@
     self.mapView = [[MAMapView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
+    
+    self.mapView.userTrackingMode = MAUserTrackingModeNone;
     
     _TopToolBar = [[TopToolBar alloc] initWithFrame:ccr(0, NAV_BAR_HEIGHT_IOS7, SCREEN_WIDTH, 50) carNames:@[@"不限",@"普通车",@"豪华车"]]; //TODO:可能为接口返回数据
     _TopToolBar.delegate = self;
@@ -54,13 +71,25 @@
     _timePicker.delegate = self;
     [self.view addSubview:_timePicker];
     
-    [self startLocation];
+    _locationBtn = [UIButton buttonWithImageName:@"userPosition" hlImageName:@"userPosition" onTapBlock:^(UIButton *btn) {
+        self.mapView.showsUserLocation = YES;
+        [self.mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
+    }];
+    _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(_TopToolBar.frame)+PADDING, 30, 30);
+    _locationBtn.layer.masksToBounds = YES;
+    _locationBtn.layer.borderWidth = 2;
+    _locationBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+    _locationBtn.layer.cornerRadius = _locationBtn.width/2;
+    [self.view addSubview:_locationBtn];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    
+    [super viewDidAppear:animated];
+    if (_isFirstAppear) {
+        _isFirstAppear = NO;
+        [self startLocation];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -71,42 +100,15 @@
 - (void)clearMapView
 {
     self.mapView.showsUserLocation = NO;
-    
     [self.mapView removeAnnotations:self.mapView.annotations];
-    
     [self.mapView removeOverlays:self.mapView.overlays];
-    
-    self.mapView.delegate = nil;
-}
-
-- (void)clearSearch
-{
-    self.search.delegate = nil;
 }
 
 - (void)startLocation
 {
     self.mapView.showsUserLocation = YES;
-//    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
     [self.mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
-}
-
-/**
- *  hook,子类覆盖它,实现想要在viewDidAppear中执行一次的方法,搜索中有用到
- */
-- (void)hookAction
-{
-}
-
-#pragma mark - Handle Action
-
-- (void)returnAction
-{
-    [self.navigationController popViewControllerAnimated:YES];
-    
-    [self clearMapView];
-    
-    [self clearSearch];
+    [self.mapView setZoomLevel:16.1 animated:YES];
 }
 
 #pragma mark - AMapSearchDelegate
@@ -176,15 +178,28 @@
 {
     if (label == toolBar.startTimeLabel) {
         [self showTimePicker:YES];
+        
     } else if (label == toolBar.fromAddressLabel) {
-//        [self onClickDriveSearch];
+        self.mapView.showsUserLocation = NO;
         [self showFromAddressPicker];
+        
     } else if (label == toolBar.toAddressLabel) {
-//        [self onClickDriveSearch];
         [self showToAddressPicker];
+        
+    } else if (label == toolBar.couponLabel){
+        
     } else {
         
     }
+}
+
+- (void)didSubmited
+{
+    CouponModel *coupon = [[CouponModel alloc] init];
+    coupon.title = @"新用户优惠9折优惠";
+    coupon.max_money = @"20";
+    coupon.isUsed = 0;
+    [_bottomToolBar updateCharge:@"20" coupon:coupon];
 }
 
 #pragma mark - TimePickerDelegate
@@ -222,7 +237,35 @@
     return nil;
 }
 
--(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
+- (void)mapView:(MAMapView *)mapView didAddAnnotationViews:(NSArray *)views
+{
+    for (MAAnnotationView *view in views) {
+        // 放到该方法中用以保证userlocation的annotationView已经添加到地图上了。
+        if ([view.annotation isKindOfClass:[MAUserLocation class]])
+        {
+            view.image = [UIImage imageNamed:@"path_mark_start"];
+            self.userLocationAnnotationView = view;
+        }
+    }
+}
+
+- (void)mapView:(MAMapView *)mapView annotationView:(MAAnnotationView *)view didChangeDragState:(MAAnnotationViewDragState)newState fromOldState:(MAAnnotationViewDragState)oldState
+{
+    NSLog(@"old :%ld - new :%ld", (long)oldState, (long)newState);
+    
+}
+
+- (void)mapViewWillStartLocatingUser:(MAMapView *)mapView
+{
+    NSLog(@"Location start");
+}
+
+- (void)mapViewDidStopLocatingUser:(MAMapView *)mapView
+{
+    NSLog(@"Location stop");
+}
+
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
 updatingLocation:(BOOL)updatingLocation
 {
     if(updatingLocation)
@@ -232,7 +275,7 @@ updatingLocation:(BOOL)updatingLocation
         //构造AMapReGeocodeSearchRequest对象
         AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
         regeo.location = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
-        regeo.radius = 10000;
+        regeo.radius = 1000;
         regeo.requireExtension = YES;
         [self.search AMapReGoecodeSearch:regeo];
     }
@@ -251,13 +294,35 @@ updatingLocation:(BOOL)updatingLocation
 
 #pragma mark - AddressPickerViewControllerDelegate
 
-- (void)addressPicker:(AddressPickerViewController *)pickerVC forFromAddress:(BOOL)isFrom pickedTip:(AMapTip *)tip
+- (void)addressPicker:(AddressPickerViewController *)pickerVC fromAddress:(AMapTip *)fromTip toAddress:(AMapTip *)toTip
 {
-    if (isFrom) {
-        _bottomToolBar.fromAddressLabel.text = tip.name;
-    } else {
-        _bottomToolBar.toAddressLabel.text = tip.name;
+    if (fromTip) {
+        _bottomToolBar.fromAddressLabel.text = fromTip.name;
+        MAPointAnnotation *fromAnnotation = [[MAPointAnnotation alloc] init];
+        fromAnnotation.coordinate =  CLLocationCoordinate2DMake(fromTip.location.latitude, fromTip.location.longitude);
+        fromAnnotation.title = fromTip.name;
+        
+        [_annotations removeAllObjects];
+        [_annotations addObject:fromAnnotation];
+       
+        [self clearMapView];
+        
+        [self.mapView addAnnotation:fromAnnotation];
+        [self updateAnnotations:_annotations];
+    }
+    if (toTip){
+        _bottomToolBar.toAddressLabel.text = toTip.name;
+        _bottomToolBar.toAddressLabel.textColor = COLORRGB(0x63666b);
+        [_bottomToolBar showChargeView:YES];
     }
 }
+
+- (void)updateAnnotations:(NSMutableArray *)Annotations
+{
+    [self.mapView showAnnotations:_annotations
+                      edgePadding:UIEdgeInsetsMake(0, 0, 0, 0)
+                         animated:YES];
+}
+
 
 @end

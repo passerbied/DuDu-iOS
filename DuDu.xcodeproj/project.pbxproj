@@ -407,6 +407,9 @@
 		4827413F1BE8E9F300EF6FD8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4827413E1BE8E9F300EF6FD8 /* Security.framework */; };
 		482741411BE8EA0C00EF6FD8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 482741401BE8EA0C00EF6FD8 /* libsqlite3.0.tbd */; };
 		482741481BE9FAFA00EF6FD8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 482741471BE9FAFA00EF6FD8 /* MainViewController.m */; };
+		4847D3AA1C147D75004634F5 /* orgbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4847D3A91C147D75004634F5 /* orgbtn@2x.png */; };
+		4847D3AC1C147D8C004634F5 /* orgbtn_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4847D3AB1C147D8C004634F5 /* orgbtn_pressed@2x.png */; };
+		4847D3AF1C148D82004634F5 /* CouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4847D3AE1C148D82004634F5 /* CouponModel.m */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -886,6 +889,10 @@
 		482741401BE8EA0C00EF6FD8 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		482741461BE9FAFA00EF6FD8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		482741471BE9FAFA00EF6FD8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		4847D3A91C147D75004634F5 /* orgbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orgbtn@2x.png"; sourceTree = "<group>"; };
+		4847D3AB1C147D8C004634F5 /* orgbtn_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orgbtn_pressed@2x.png"; sourceTree = "<group>"; };
+		4847D3AD1C148D82004634F5 /* CouponModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponModel.h; sourceTree = "<group>"; };
+		4847D3AE1C148D82004634F5 /* CouponModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponModel.m; sourceTree = "<group>"; };
 		48606E7B1BE7C15D00F34138 /* DuDuURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuDuURL.h; sourceTree = "<group>"; };
 		4861C4DD1BECB88A008FA0A5 /* DuDu-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DuDu-Prefix.pch"; sourceTree = "<group>"; };
 		4861C4DE1BECB8D1008FA0A5 /* FastCodeDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FastCodeDefines.h; sourceTree = "<group>"; };
@@ -1632,10 +1639,20 @@
 		482741491BE9FB0000EF6FD8 /* 首页 */ = {
 			isa = PBXGroup;
 			children = (
+				4847D3B01C148D89004634F5 /* Models */,
 				486F527D1BEE091B0043874E /* Controllers */,
 				486F527C1BEE09140043874E /* Views */,
 			);
 			name = "首页";
+			sourceTree = "<group>";
+		};
+		4847D3B01C148D89004634F5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4847D3AD1C148D82004634F5 /* CouponModel.h */,
+				4847D3AE1C148D82004634F5 /* CouponModel.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		486F52431BEDFE680043874E /* UIView+Utils */ = {
@@ -1731,6 +1748,8 @@
 		486F52851BEE225E0043874E /* imgs */ = {
 			isa = PBXGroup;
 			children = (
+				4847D3AB1C147D8C004634F5 /* orgbtn_pressed@2x.png */,
+				4847D3A91C147D75004634F5 /* orgbtn@2x.png */,
 				480E50541BFB62A6006D545A /* tiny_bill@2x.png */,
 				480E50551BFB62A6006D545A /* tiny_coupon@2x.png */,
 				480E50561BFB62A6006D545A /* tiny_history@2x.png */,
@@ -2221,6 +2240,7 @@
 				480E52471C02F0BB006D545A /* 13_6736_3100.png in Resources */,
 				480E53181C02F0BC006D545A /* 13_6749_3101.png in Resources */,
 				480E51F61C02F0BB006D545A /* 11_1685_776.png in Resources */,
+				4847D3AC1C147D8C004634F5 /* orgbtn_pressed@2x.png in Resources */,
 				480E52291C02F0BB006D545A /* 12_3373_1548.png in Resources */,
 				480E532B1C02F0BC006D545A /* 13_6750_3104.png in Resources */,
 				480E52501C02F0BB006D545A /* 13_6737_3093.png in Resources */,
@@ -2260,6 +2280,7 @@
 				480E52841C02F0BB006D545A /* 13_6740_3097.png in Resources */,
 				480E52F41C02F0BC006D545A /* 13_6747_3097.png in Resources */,
 				480E52F21C02F0BC006D545A /* 13_6747_3095.png in Resources */,
+				4847D3AA1C147D75004634F5 /* orgbtn@2x.png in Resources */,
 				480E52DC1C02F0BC006D545A /* 13_6745_3105.png in Resources */,
 				480E53461C02F0BC006D545A /* startPoint.png in Resources */,
 				480E520B1C02F0BB006D545A /* 12_3369_1550.png in Resources */,
@@ -2442,6 +2463,7 @@
 				32F03A171C0E92C000A2C4BD /* InvoiceCell.m in Sources */,
 				486F52B31BF0E7D00043874E /* ZBCNavVC.m in Sources */,
 				486F52951BEE684A0043874E /* ZBCToast.m in Sources */,
+				4847D3AF1C148D82004634F5 /* CouponModel.m in Sources */,
 				486F52641BEE07F40043874E /* UIImage+PL.m in Sources */,
 				486F529C1BEE6F6C0043874E /* Utils.m in Sources */,
 				32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */,
@@ -2597,7 +2619,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metasolo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "41fb0f2c-e082-4ad6-b5a7-62a5de37c34a";
@@ -2622,6 +2645,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.metasolo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
