@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentVC.h"
 
 @interface RouteDetailVC : UIViewController
+<CommentVCDelegate>
 
 @end

@@ -105,6 +105,7 @@
                 break;
             case 2:
                 detailCell.message = @"所在地区";
+                [detailCell addSubview:[self areaTextField]];
                 break;
             case 3:
                 detailCell.message = @"详细地址";
@@ -161,8 +162,8 @@
 
 - (UILabel *)priceLabel
 {
-    NSString *number = @"50.50";
-    NSString *price = [NSString stringWithFormat:@"%@元",number];
+    float number = 50.50;
+    NSString *price = [NSString stringWithFormat:@"%.2f元",number];
     UILabel *priceLabel = [UILabel labelWithFrame:CGRectZero
                                             color:COLORRGB(0x000000)
                                              font:HSFONT(12)
@@ -242,11 +243,26 @@
     return phoneTextField;
 }
 
+- (UITextField *)areaTextField
+{
+    UITextField *areaTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
+                                                                        0,
+                                                                        SCREEN_WIDTH-_titleWidth-10
+                                                                        *3,
+                                                                        50)];
+    areaTextField.font = HSFONT(12);
+    areaTextField.textColor = COLORRGB(0x000000);
+    areaTextField.textAlignment = NSTextAlignmentLeft;
+    areaTextField.delegate = self;
+    return areaTextField;
+}
+
 - (UITextField *)addressTextField
 {
     UITextField *addressTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
                                                                            0,
-                                                                           SCREEN_WIDTH-_titleWidth-10*3,
+                                                                           SCREEN_WIDTH-_titleWidth
+                                                                           -10*3,
                                                                            50)];
     addressTextField.font = HSFONT(12);
     addressTextField.textColor = COLORRGB(0x000000);

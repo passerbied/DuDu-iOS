@@ -39,6 +39,7 @@
     
     self.selectImage = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.selectImage.userInteractionEnabled = YES;
+    self.selectImage.backgroundColor = COLORRGB(0xd7d7d7);
     [self.contentView addSubview:self.selectImage];
     
     _startSiteImage = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -72,8 +73,7 @@
 
 - (void)setData
 {
-    _routeInforLabel.text = [NSString stringWithFormat:@"%@ %@-%@ 车费%@元",self.date,self.startTime,self.endTime,self.price];
-    _selectImage.backgroundColor = COLORRGB(0xedad49);
+    _routeInforLabel.text = [NSString stringWithFormat:@"%@ %@-%@ 车费%.2f元",self.date,self.startTime,self.endTime,self.price];
     _startSiteImage.image = IMG(@"tiny_circle_green");
     _endSiteImage.image = IMG(@"tiny_circle_red");
     _startSiteLabel.text = self.startSite;
@@ -83,7 +83,7 @@
 - (CGRect)calculateFrame
 {
     [self setData];
-    NSString *price = self.price;
+    NSString *price = [NSString stringWithFormat:@"%.2f",self.price];
     NSString *infor = _routeInforLabel.text;
     NSMutableAttributedString *inforString = [[NSMutableAttributedString alloc] initWithString:infor];
     NSUInteger priceLength = price.length;

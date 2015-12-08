@@ -28,6 +28,7 @@
     UIImageView *_leftLine2;
     UILabel     *_impressLabel;
     UIImageView *_rightLine2;
+    UIImageView *_commentImage;
     UIButton    *_commentButton;
     UILabel     *_estimateLabel;
     UIImageView *_shareImage;
@@ -162,13 +163,18 @@
     _rightLine2.backgroundColor = COLORRGB(0xd7d7d7);
     [self.view addSubview:_rightLine2];
     
+    _commentImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _commentImage.image = IMG(@"tiny_history");
+    _commentImage.userInteractionEnabled = YES;
+    [self.view addSubview:_commentImage];
+    
     _commentButton = [UIButton buttonWithImageName:@""
                                        hlImageName:@""
                                              title:@"添加印象"
                                         titleColor:COLORRGB(0x000000)
                                               font:HSFONT(12)
                                         onTapBlock:^(UIButton *btn) {
-                                            
+                                            [self didClickCommentButtonAction];
                                         }];
     [self.view addSubview:_commentButton];
     
@@ -295,10 +301,15 @@
                             _leftLine2.origin.y,
                             _leftLine2.width,
                             _leftLine2.height);
-    _commentButton.frame = ccr((SCREEN_WIDTH-100)/2,
-                               CGRectGetMaxY(_impressLabel.frame)+20,
-                               100,
-                               20);
+    CGSize commentSize = [self getTextFromLabel:_commentButton.titleLabel];
+    _commentImage.frame = ccr(_detailImage.origin.x,
+                              CGRectGetMaxY(_impressLabel.frame)+20,
+                              16,
+                              16);
+    _commentButton.frame = ccr(CGRectGetMaxX(_commentImage.frame),
+                               _commentImage.origin.y+1,
+                               commentSize.width,
+                               commentSize.height);
     CGSize estimateSize = [self getTextFromLabel:_estimateLabel];
     _estimateLabel.frame = ccr((SCREEN_WIDTH-estimateSize.width)/2,
                                CGRectGetMaxY(_commentButton.frame)+10,
@@ -322,11 +333,26 @@
     [self.navigationController pushViewController:checkDetailVC animated:YES];
 }
 
+- (void)didClickCommentButtonAction
+{
+    CommentVC *commentVC = [[CommentVC alloc] init];
+    commentVC.title = @"添加印象";
+    commentVC.delegate = self;
+    [self.navigationController pushViewController:commentVC animated:YES];
+}
+
 - (CGSize)getTextFromLabel:(UILabel *)label
 {
     CGSize textSize = [label.text sizeWithAttributes:@{NSFontAttributeName:label.font}];
     [label sizeToFit];
     return textSize;
+}
+
+#pragma mark - CommentVC delegate
+
+- (void)didClickSubmitButtonWithComment:(NSString *)comment
+{
+    
 }
 
 - (void)didReceiveMemoryWarning {

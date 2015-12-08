@@ -12,7 +12,14 @@
 
 @interface InvoiceVC ()
 {
-    UITableView *_tableView;
+    UITableView     *_tableView;
+    BOOL            _isSelected;
+    NSMutableArray  *_selects;
+    NSMutableArray  *_images;
+    NSMutableArray  *_prices;
+    UILabel         *_totalLabel;
+    float           _totalPrice;
+    int             _totalRoute;
 }
 
 @end
@@ -23,7 +30,10 @@
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xffffff);
     [self createTableView];
-    [self.view addSubview:[self loadFooterView]];
+//    [self.view addSubview:[self loadFooterView]];
+    _selects = [NSMutableArray array];
+    _images = [NSMutableArray array];
+    _prices = [NSMutableArray array];
 }
 
 - (void)createTableView
@@ -31,7 +41,7 @@
     _tableView = [[UITableView alloc] initWithFrame:ccr(0,
                                                         NAV_BAR_HEIGHT_IOS7,
                                                         SCREEN_WIDTH,
-                                                        SCREEN_HEIGHT-NAV_BAR_HEIGHT_IOS7)];
+                                                        SCREEN_HEIGHT-NAV_BAR_HEIGHT_IOS7-[self loadFooterView].height)];
     _tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -39,6 +49,7 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.tableHeaderView = [self loadHeaderView];
     [self.view addSubview:_tableView];
+    [self.view addSubview:[self loadFooterView]];
 }
 
 - (UIView *)loadHeaderView
@@ -126,30 +137,31 @@
     nextButton.backgroundColor = COLORRGB(0xedad49);
     [footerView addSubview:nextButton];
     
-    NSString *price = @"50.50";
-    NSString *number = @"3";
-    NSString *total = [NSString stringWithFormat:@"合计:%@元 共%@个行程",price,number];
-    UILabel *totalLabel = [UILabel labelWithFrame:CGRectZero
-                                            color:COLORRGB(0x000000)
-                                             font:HSFONT(12)
-                                             text:total
-                                        alignment:NSTextAlignmentLeft
-                                    numberOfLines:1];
-    NSMutableAttributedString *totalString = [[NSMutableAttributedString alloc] initWithString:total];
-    NSUInteger priceLength = price.length;
-    NSUInteger numberLength = number.length;
-    NSUInteger numberLocation = total.length-3-numberLength;
+    _totalPrice = 0;
+    _totalRoute = 0;
+    _totalLabel = [UILabel labelWithFrame:CGRectZero
+                                    color:COLORRGB(0x000000)
+                                     font:HSFONT(12)
+                                     text:[NSString stringWithFormat:@"合计:%.2f元 共%d个行程",_totalPrice,_totalRoute]
+                                alignment:NSTextAlignmentLeft
+                            numberOfLines:1];
+    NSMutableAttributedString *totalString = [[NSMutableAttributedString alloc] initWithString:_totalLabel.text];
+    NSString *priceText = [NSString stringWithFormat:@"%.2f",_totalPrice];
+    NSUInteger priceLength = priceText.length;
+    NSString *numberText = [NSString stringWithFormat:@"%d",_totalRoute];
+    NSUInteger numberLength = numberText.length;
+    NSUInteger numberLocation = _totalLabel.text.length-3-numberLength;
     [totalString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
                          range:NSMakeRange(3, priceLength)];
     [totalString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
                                  range:NSMakeRange(numberLocation, numberLength)];
-    totalLabel.attributedText = totalString;
-    CGSize totalSize = [self getTextFromLabel:totalLabel];
-    totalLabel.frame = ccr(selectAllImage.origin.x,
+    _totalLabel.attributedText = totalString;
+    CGSize totalSize = [self getTextFromLabel:_totalLabel];
+    _totalLabel.frame = ccr(selectAllImage.origin.x,
                            nextButton.origin.y+(nextButton.height-totalSize.height)/2,
                            SCREEN_WIDTH-selectAllImage.origin.x-nextButton.width-10-20,
                            totalSize.height);
-    [footerView addSubview:totalLabel];
+    [footerView addSubview:_totalLabel];
     CGFloat footHeight = CGRectGetMaxY(nextButton.frame)+10;
     footerView.frame = ccr(0,
                            SCREEN_HEIGHT-footHeight,
@@ -188,8 +200,15 @@
     InvoiceCell *invoiceCell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!invoiceCell) {
         invoiceCell = [[InvoiceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        invoiceCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [self configureCell:invoiceCell atIndexPath:indexPath];
+    [_images addObject:invoiceCell.selectImage];
+    NSNumber *n = [NSNumber numberWithFloat:invoiceCell.price];
+    [_prices addObject:n];
+    BOOL isSelected = NO;
+    NSNumber *s = [NSNumber numberWithBool:isSelected];
+    [_selects addObject:s];
     return invoiceCell;
 }
 
@@ -198,7 +217,7 @@
     cell.date = @"10月27日";
     cell.startTime = @"11:03";
     cell.endTime = @"11:26";
-    cell.price = @"20.90";
+    cell.price = 20.90;
     cell.startSite = @"沙河口区春柳河公交站";
     cell.endSite = @"大连软件园15号楼";
 }
@@ -207,7 +226,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+//    for (int i=0; i<_images.count; i++) {
+//        if (i==indexPath.row) {
+            UIImageView *image = _images[indexPath.row];
+            BOOL isSelected = [_selects[indexPath.row] boolValue];
+            if (!isSelected) {
+                image.backgroundColor = COLORRGB(0xedad49);
+                isSelected = YES;
+                _totalRoute+=1;
+                _totalPrice+=[_prices[indexPath.row] floatValue];
+            } else {
+                image.backgroundColor = COLORRGB(0xd7d7d7);
+                isSelected = NO;
+                _totalRoute-=1;
+                _totalPrice-=[_prices[indexPath.row] floatValue];
+            }
+            _selects[indexPath.row] = [NSNumber numberWithBool:isSelected];
+            _images[indexPath.row] = image;
+            if (_totalPrice==-0) {
+                _totalPrice = 0;
+            }
+            _totalLabel.text = [NSString stringWithFormat:@"合计:%.2f元 共%d个行程",_totalPrice,_totalRoute];
+//        }
+//    }
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label
