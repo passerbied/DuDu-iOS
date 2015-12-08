@@ -214,7 +214,13 @@
     _phoneImage.backgroundColor = [UIColor redColor];
     NSString *price = @"9";
     _priceLabel.text = [NSString stringWithFormat:@"%@元",price];
-    _estimateLabel.text = @"大多数人对他(她)的印象是:驾驶平稳";
+    NSString *mostComment = @"驾驶平稳";
+    NSString *personalComment = @"";
+    if ([personalComment isEqualToString:@""]) {
+        _estimateLabel.text = [NSString stringWithFormat:@"大多数人对他(她)的印象是:%@",mostComment];
+    } else {
+        _estimateLabel.text = personalComment;
+    }
 }
 
 - (void)calculateFrame
@@ -352,7 +358,7 @@
 
 - (void)didClickSubmitButtonWithComment:(NSString *)comment
 {
-    
+    _estimateLabel.text = comment;
 }
 
 - (void)didReceiveMemoryWarning {

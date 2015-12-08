@@ -39,9 +39,7 @@
                                                 titleColor:COLORRGB(0xffffff)
                                                       font:HSFONT(15)
                                                 onTapBlock:^(UIButton *btn) {
-                                                    if ([self.delegate respondsToSelector:@selector(didClickSubmitButtonWithComment:)]) {
-                                                        [self.delegate didClickSubmitButtonWithComment:textView.text];
-                                                    }
+                                                    [self submitImpress:textView.text];
                                                 }];
     submitButton.frame = ccr(10,
                              CGRectGetMaxY(textView.frame)+20,
@@ -73,6 +71,17 @@
         return NO;
     }
     return YES;
+}
+
+- (void)submitImpress:(NSString *)impress
+{
+    //如果成功
+    if ([self.delegate respondsToSelector:@selector(didClickSubmitButtonWithComment:)]) {
+        [self.delegate didClickSubmitButtonWithComment:impress];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+    //如果失败
+//    [ZBCToast showMessage:@"提交失败"];
 }
 
 - (void)didReceiveMemoryWarning {

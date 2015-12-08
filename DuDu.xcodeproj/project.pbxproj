@@ -24,6 +24,7 @@
 		32F03A311C0FF49A00A2C4BD /* TicketCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A301C0FF49A00A2C4BD /* TicketCell.m */; };
 		32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A341C102BE700A2C4BD /* AddressVC.m */; };
 		32F03A391C15821800A2C4BD /* CommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A381C15821300A2C4BD /* CommentVC.m */; };
+		32F03A3D1C16B3D600A2C4BD /* OrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A3C1C16B3D600A2C4BD /* OrderVC.m */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
 		480E504A1BFB5196006D545A /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50491BFB5196006D545A /* arrow_right@2x.png */; };
@@ -502,6 +503,8 @@
 		32F03A341C102BE700A2C4BD /* AddressVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressVC.m; sourceTree = "<group>"; };
 		32F03A371C15821300A2C4BD /* CommentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentVC.h; sourceTree = "<group>"; };
 		32F03A381C15821300A2C4BD /* CommentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentVC.m; sourceTree = "<group>"; };
+		32F03A3B1C16B3D600A2C4BD /* OrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderVC.h; sourceTree = "<group>"; };
+		32F03A3C1C16B3D600A2C4BD /* OrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderVC.m; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		480E50471BFB4CDA006D545A /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
@@ -1169,6 +1172,15 @@
 			name = "添加印象Controller";
 			sourceTree = "<group>";
 		};
+		32F03A3A1C168F2800A2C4BD /* 预约车Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A3B1C16B3D600A2C4BD /* OrderVC.h */,
+				32F03A3C1C16B3D600A2C4BD /* OrderVC.m */,
+			);
+			name = "预约车Controller";
+			sourceTree = "<group>";
+		};
 		480E50451BFB4CA8006D545A /* 菜单页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1732,6 +1744,7 @@
 			children = (
 				482741461BE9FAFA00EF6FD8 /* MainViewController.h */,
 				482741471BE9FAFA00EF6FD8 /* MainViewController.m */,
+				32F03A3A1C168F2800A2C4BD /* 预约车Controller */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -2462,6 +2475,7 @@
 				486F52601BEE07F40043874E /* UIActionSheetItem.m in Sources */,
 				32F03A171C0E92C000A2C4BD /* InvoiceCell.m in Sources */,
 				486F52B31BF0E7D00043874E /* ZBCNavVC.m in Sources */,
+				32F03A3D1C16B3D600A2C4BD /* OrderVC.m in Sources */,
 				486F52951BEE684A0043874E /* ZBCToast.m in Sources */,
 				4847D3AF1C148D82004634F5 /* CouponModel.m in Sources */,
 				486F52641BEE07F40043874E /* UIImage+PL.m in Sources */,

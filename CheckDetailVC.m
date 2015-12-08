@@ -150,14 +150,21 @@
 
 - (void)setData
 {
-    _priceLabel.text = @"20.9元";
-    _startPrice.text = @"0.0元";
-    _mileageLabel.text = @"里程(8.3公里)";
-    _mileagePrice.text = @"9.9元";
-    _timeLabel.text = @"时长费(22分钟)";
-    _timePrice.text = @"11.0元";
+    float price = 20.9;
+    _priceLabel.text = [NSString stringWithFormat:@"%.1f元",price];
+    float startPrice = 0;
+    _startPrice.text = [NSString stringWithFormat:@"%.1f元",startPrice];
+    float mileage = 8.3;
+    _mileageLabel.text = [NSString stringWithFormat:@"里程(%.1f公里)",mileage];
+    float mileagePrice = 9.9;
+    _mileagePrice.text = [NSString stringWithFormat:@"%.1f元",mileagePrice];
+    int time = 22;
+    _timeLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",time];
+    float timePrice = 11;
+    _timePrice.text = [NSString stringWithFormat:@"%.1f元",timePrice];
     _payTypeLabel.text = @"微信支付";
-    _payPrice.text = @"-20.9元";
+    float payPrice = -20.9;
+    _payPrice.text = [NSString stringWithFormat:@"%.1f元",payPrice];
 }
 
 - (void)calculateFrame

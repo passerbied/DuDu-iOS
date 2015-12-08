@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "CouponModel.h"
+#import "OrderVC.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -200,6 +201,9 @@
     coupon.max_money = @"20";
     coupon.isUsed = 0;
     [_bottomToolBar updateCharge:@"20" coupon:coupon];
+    OrderVC *orderVC =[[OrderVC alloc] init];
+    orderVC.title = @"正在为你预约顺风车";
+    [self.navigationController pushViewController:orderVC animated:YES];
 }
 
 #pragma mark - TimePickerDelegate
