@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 //#import "UIKit+AFNetworking.h"
 #import "MainViewController.h"
-#import "YBNavigationContoller.h"
 
 @interface AppDelegate ()
 
