@@ -23,7 +23,7 @@
 #define UM_APP_KEY                      @""
 
 //Jpush key
-#define JPUSH_Key                       @""
+#define JPUSH_Key                       @"d31c0b7595c24685d3e1fafa"
 
 //Agreement
 

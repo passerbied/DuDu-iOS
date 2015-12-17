@@ -21,7 +21,7 @@ pod 'MBProgressHUD'                 # https://github.com/jdg/MBProgressHUD
 #pod "WeiboSDK", :git => "https://github.com/sinaweibosdk/weibo_ios_sdk"
 #pod 'DACircularProgress'
 #pod 'JMStaticContentTableViewController' # https://github.com/jakemarsh/JMStaticContentTableViewController
-#pod 'JPushSDK' 新版JpushSDK的pod报错，直接移到项目工程中使用
+pod 'JPush'
 #pod 'HZActivityIndicatorView'       # https://github.com/hezi/HZActivityIndicatorView
 #pod 'Mantle'                        # https://github.com/Mantle/Mantle
 #pod 'PulsingHalo'                   # https://github.com/shu223/PulsingHalo

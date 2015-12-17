@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 //#import "UIKit+AFNetworking.h"
 #import "MainViewController.h"
+#import "APService.h"
 
 @interface AppDelegate ()
 
@@ -24,8 +25,27 @@
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
     [self setUpViewController];
+    
+    //可以添加自定义categories
+    [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                   UIUserNotificationTypeSound |
+                                                   UIUserNotificationTypeAlert)
+                                       categories:nil];
+    
+    // Required
+    [APService setupWithOption:launchOptions];
+    
+    [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                 alias:@"1000000"
+      callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                object:self];
 
     return YES;
+}
+
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
+{
+        NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 
 - (void)setUpViewController
@@ -43,6 +63,46 @@
     self.window.rootViewController = mainNavCtl;
     [self.window makeKeyAndVisible];
 }
+
+//推送内容处理
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [self application:application handleReceiveRemoteNotification:userInfo];
+    
+    // Required
+    [APService handleRemoteNotification:userInfo];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [self application:application handleReceiveRemoteNotification:userInfo];
+    // IOS 7 Support Required
+    [APService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application handleReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    application.applicationIconBadgeNumber = 0;
+    NSString *alert;
+    NSString *type;
+    if ([UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        alert = userInfo[@"aps"][@"alert"];
+        type = userInfo[@"type"];
+    }
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    // Required
+    [APService registerDeviceToken:deviceToken];
+}
+
+- (void)applicationhandleRemoteNotification:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

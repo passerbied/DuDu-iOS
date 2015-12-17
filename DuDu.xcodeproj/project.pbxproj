@@ -76,6 +76,7 @@
 		4847D3AA1C147D75004634F5 /* orgbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4847D3A91C147D75004634F5 /* orgbtn@2x.png */; };
 		4847D3AC1C147D8C004634F5 /* orgbtn_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4847D3AB1C147D8C004634F5 /* orgbtn_pressed@2x.png */; };
 		4847D3AF1C148D82004634F5 /* CouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4847D3AE1C148D82004634F5 /* CouponModel.m */; };
+		4867CDB41C22FD56003B1744 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4867CDB31C22FD56003B1744 /* PushConfig.plist */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -228,6 +229,7 @@
 		48606E7B1BE7C15D00F34138 /* DuDuURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuDuURL.h; sourceTree = "<group>"; };
 		4861C4DD1BECB88A008FA0A5 /* DuDu-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DuDu-Prefix.pch"; sourceTree = "<group>"; };
 		4861C4DE1BECB8D1008FA0A5 /* FastCodeDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FastCodeDefines.h; sourceTree = "<group>"; };
+		4867CDB31C22FD56003B1744 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -838,6 +840,7 @@
 		48EAD5CF1BE7A65500AFF1D4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4867CDB31C22FD56003B1744 /* PushConfig.plist */,
 				4861C4DD1BECB88A008FA0A5 /* DuDu-Prefix.pch */,
 				48EAD5D01BE7A65500AFF1D4 /* main.m */,
 			);
@@ -1032,6 +1035,7 @@
 				486F527A1BEE08140043874E /* README.txt in Resources */,
 				480E53491C02F0BC006D545A /* userPosition@2x.png in Resources */,
 				480E505D1BFB62A6006D545A /* tiny_unbind@2x.png in Resources */,
+				4867CDB41C22FD56003B1744 /* PushConfig.plist in Resources */,
 				486F52881BEE225E0043874E /* tiny_circle_green@2x.png in Resources */,
 				480E51E21C02F0BB006D545A /* animatedTrain_2.png in Resources */,
 				4803E5C51C19CCB4000395AA /* Images.xcassets in Resources */,
