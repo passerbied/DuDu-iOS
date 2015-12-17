@@ -973,7 +973,11 @@
 				TargetAttributes = {
 					48EAD5CB1BE7A65500AFF1D4 = {
 						CreatedOnToolsVersion = 7.1;
+<<<<<<< HEAD
 						DevelopmentTeam = QJVNV7NGTA;
+=======
+						DevelopmentTeam = BZX56RD9W2;
+>>>>>>> b49e1ef7779cb9267f414a0349d51f3ec88e517c
 					};
 				};
 			};
@@ -1275,7 +1279,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.metasolo.DuDu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kupo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7 armv7s";
@@ -1304,7 +1308,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.metasolo.DuDu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kupo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7 armv7s";
