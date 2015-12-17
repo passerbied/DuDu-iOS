@@ -96,10 +96,8 @@
     _typeLabel.text = self.routeType;
     _statusLabel.text = self.routeStatus;
     _arrowImage.image = IMG(@"arrow_right");
-    _startSiteImage.image = nil;
-    _startSiteImage.backgroundColor = [UIColor greenColor];
-    _endSiteImage.image = nil;
-    _endSiteImage.backgroundColor = [UIColor redColor];
+    _startSiteImage.image = IMG(@"path_mark_start");
+    _endSiteImage.image = IMG(@"path_mark_end");
     _startSiteLabel.text = self.startSite;
     _endSiteLabel.text = self.endSite;
 }
@@ -135,12 +133,13 @@
     
     _startSiteImage.frame = ccr(_timeLabel.origin.x,
                                 CGRectGetMaxY(_timeLabel.frame)+12,
-                                10,
-                                10);
+                                16,
+                                23.5);
     
     CGSize siteSize = [_startSiteLabel.text sizeWithAttributes:@{NSFontAttributeName:_startSiteLabel.font}];
     _startSiteLabel.frame = ccr(CGRectGetMaxX(_startSiteImage.frame)+10,
-                                CGRectGetMaxY(_timeLabel.frame)+10,
+                                _startSiteImage.origin.y+(_startSiteImage.height-siteSize.height)/2
+                                ,
                                 _statusLabel.origin.x-CGRectGetMaxX
                                 (_startSiteImage.frame)-10-50,
                                 siteSize.height);
@@ -151,12 +150,12 @@
                               _startSiteImage.height);
     
     _endSiteLabel.frame = ccr(_startSiteLabel.origin.x,
-                              CGRectGetMaxY(_startSiteLabel.frame)+10,
+                              _endSiteImage.origin.y+(_endSiteImage.height-siteSize.height)/2,
                               _startSiteLabel.width,
                               siteSize.height);
     
     _bottomLine.frame = ccr(0,
-                            CGRectGetMaxY(_endSiteLabel.frame)+9.5,
+                            CGRectGetMaxY(_endSiteImage.frame)+9.5,
                             SCREEN_WIDTH,
                             0.5);
     CGRect cellFrame = ccr(0,

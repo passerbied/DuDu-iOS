@@ -36,7 +36,6 @@
     
     UIView *headerView = [[UIView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, 90)];
     _avator = [[UIImageView alloc] initWithFrame:ccr(20, 20, 50, 50)];
-    _avator.backgroundColor = COLORRGB(0xcccccc);
     _avator.layer.cornerRadius = _avator.width/2;
     _avator.layer.masksToBounds = YES;
     _avator.image = IMG(@"account");
