@@ -25,6 +25,7 @@
 		32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A341C102BE700A2C4BD /* AddressVC.m */; };
 		32F03A391C15821800A2C4BD /* CommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A381C15821300A2C4BD /* CommentVC.m */; };
 		32F03A3D1C16B3D600A2C4BD /* OrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A3C1C16B3D600A2C4BD /* OrderVC.m */; };
+		32F03A6F1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A6E1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m */; };
 		4803E5C51C19CCB4000395AA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4803E5C41C19CCB4000395AA /* Images.xcassets */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
@@ -169,6 +170,8 @@
 		32F03A381C15821300A2C4BD /* CommentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentVC.m; sourceTree = "<group>"; };
 		32F03A3B1C16B3D600A2C4BD /* OrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderVC.h; sourceTree = "<group>"; };
 		32F03A3C1C16B3D600A2C4BD /* OrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderVC.m; sourceTree = "<group>"; };
+		32F03A6D1C226C6600A2C4BD /* DuDuJSONResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuDuJSONResponseSerializer.h; sourceTree = "<group>"; };
+		32F03A6E1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuDuJSONResponseSerializer.m; sourceTree = "<group>"; };
 		4803E5C41C19CCB4000395AA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
@@ -866,6 +869,8 @@
 		48EAD5EC1BE7B72F00AFF1D4 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				32F03A6D1C226C6600A2C4BD /* DuDuJSONResponseSerializer.h */,
+				32F03A6E1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -968,6 +973,7 @@
 				TargetAttributes = {
 					48EAD5CB1BE7A65500AFF1D4 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = QJVNV7NGTA;
 					};
 				};
 			};
@@ -1154,6 +1160,7 @@
 				32F03A0F1C0E0EFF00A2C4BD /* WalletCell.m in Sources */,
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
+				32F03A6F1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m in Sources */,
 				32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */,
 				32F03A091C0DFCFF00A2C4BD /* MyWalletVC.m in Sources */,
 				486F52651BEE07F40043874E /* UILabel+KAddition.m in Sources */,
@@ -1254,8 +1261,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1270,7 +1277,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metasolo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "01bd1910-708a-4ac3-874e-588be3f7a890";
+				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -1281,7 +1288,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
