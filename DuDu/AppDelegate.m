@@ -10,6 +10,7 @@
 //#import "UIKit+AFNetworking.h"
 #import "MainViewController.h"
 #import "APService.h"
+#import "ZBCProgressHUD.h"
 
 @interface AppDelegate ()
 
@@ -24,7 +25,18 @@
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
+    
     [self setUpViewController];
+    
+    /*
+    [[DuDuAPIClient sharedClient] GET:LOGIN_REGEDIT(18698600911) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@",[DuDuAPIClient parseJSONFrom:responseObject]);
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        [UICKeyChainStore setString:dic[@"token"] forKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    }];
+     */
     
     //可以添加自定义categories
     [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |

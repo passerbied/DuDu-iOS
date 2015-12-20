@@ -34,7 +34,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>只有开启定位功能才能正常使用嘟嘟打车</string>
+	<string>只有开启定位功能才能正常使用嘟嘟出行</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
