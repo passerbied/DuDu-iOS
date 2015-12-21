@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "CouponModel.h"
 #import "OrderVC.h"
+#import "LoginVC.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -124,9 +125,12 @@
     UIButton *leftBtn = [UIButton buttonWithImageName:@"account"
                                           hlImageName:@"account_pressed"
                                            onTapBlock:^(UIButton *btn) {
-                                               MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
-                                               menuVC.title = @"个人中心";
-                                               [self.navigationController pushViewController:menuVC animated:YES];
+//                                               MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
+//                                               menuVC.title = @"个人中心";
+//                                               [self.navigationController pushViewController:menuVC animated:YES];
+                                               LoginVC *loginVC = [[LoginVC alloc] init];
+                                               loginVC.title = @"验证手机";
+                                               [self.navigationController pushViewController:loginVC animated:YES];
     }];
     leftBtn.frame = ccr(0, 0, 30, 30);
     UIBarButtonItem *BarItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];

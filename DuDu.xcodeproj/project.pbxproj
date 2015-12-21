@@ -26,6 +26,7 @@
 		32F03A391C15821800A2C4BD /* CommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A381C15821300A2C4BD /* CommentVC.m */; };
 		32F03A3D1C16B3D600A2C4BD /* OrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A3C1C16B3D600A2C4BD /* OrderVC.m */; };
 		32F03A6F1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A6E1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m */; };
+		32F03A721C228BBD00A2C4BD /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A711C228BBD00A2C4BD /* LoginVC.m */; };
 		4803E5C51C19CCB4000395AA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4803E5C41C19CCB4000395AA /* Images.xcassets */; };
 		480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50431BFB2BF1006D545A /* icon_huge@2x.png */; };
 		480E50481BFB4CDA006D545A /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50471BFB4CDA006D545A /* MenuTableViewController.m */; };
@@ -172,6 +173,8 @@
 		32F03A3C1C16B3D600A2C4BD /* OrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderVC.m; sourceTree = "<group>"; };
 		32F03A6D1C226C6600A2C4BD /* DuDuJSONResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuDuJSONResponseSerializer.h; sourceTree = "<group>"; };
 		32F03A6E1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuDuJSONResponseSerializer.m; sourceTree = "<group>"; };
+		32F03A701C228BBD00A2C4BD /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
+		32F03A711C228BBD00A2C4BD /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		4803E5C41C19CCB4000395AA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		480E50431BFB2BF1006D545A /* icon_huge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_huge@2x.png"; sourceTree = "<group>"; };
 		480E50461BFB4CDA006D545A /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
@@ -515,6 +518,8 @@
 		4803E5C61C19CF8A000395AA /* 登录注册页 */ = {
 			isa = PBXGroup;
 			children = (
+				32F03A701C228BBD00A2C4BD /* LoginVC.h */,
+				32F03A711C228BBD00A2C4BD /* LoginVC.m */,
 			);
 			name = "登录注册页";
 			sourceTree = "<group>";
@@ -973,11 +978,7 @@
 				TargetAttributes = {
 					48EAD5CB1BE7A65500AFF1D4 = {
 						CreatedOnToolsVersion = 7.1;
-<<<<<<< HEAD
 						DevelopmentTeam = QJVNV7NGTA;
-=======
-						DevelopmentTeam = BZX56RD9W2;
->>>>>>> b49e1ef7779cb9267f414a0349d51f3ec88e517c
 					};
 				};
 			};
@@ -1125,6 +1126,7 @@
 				32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */,
 				486F52771BEE08140043874E /* NSDate+Utilities.m in Sources */,
 				486F52801BEE093F0043874E /* TopToolBar.m in Sources */,
+				32F03A721C228BBD00A2C4BD /* LoginVC.m in Sources */,
 				486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */,
 				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
 				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,
@@ -1193,8 +1195,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 张 伟 (N2MS4NNN4C)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dalian Kupo Technology Co., Ltd. (BZX56RD9W2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dalian Kupo Technology Co., Ltd. (BZX56RD9W2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1216,7 +1218,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "01bd1910-708a-4ac3-874e-588be3f7a890";
+				PROVISIONING_PROFILE = "67da340c-f4f6-4c04-8e5f-62de9fc409be";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1265,8 +1267,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dalian Kupo Technology Co., Ltd. (BZX56RD9W2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dalian Kupo Technology Co., Ltd. (BZX56RD9W2)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1281,7 +1283,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kupo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "67da340c-f4f6-4c04-8e5f-62de9fc409be";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -1292,8 +1294,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dalian Kupo Technology Co., Ltd. (BZX56RD9W2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dalian Kupo Technology Co., Ltd. (BZX56RD9W2)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1310,7 +1312,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kupo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "67da340c-f4f6-4c04-8e5f-62de9fc409be";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
