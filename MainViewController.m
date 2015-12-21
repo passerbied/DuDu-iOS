@@ -130,7 +130,9 @@
 //                                               [self.navigationController pushViewController:menuVC animated:YES];
                                                LoginVC *loginVC = [[LoginVC alloc] init];
                                                loginVC.title = @"验证手机";
-                                               [self.navigationController pushViewController:loginVC animated:YES];
+                                               ZBCNavVC *navVC = [[ZBCNavVC alloc] initWithRootViewController:loginVC];
+                                               [self presentViewController:navVC animated:YES completion:nil];
+                                               
     }];
     leftBtn.frame = ccr(0, 0, 30, 30);
     UIBarButtonItem *BarItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];

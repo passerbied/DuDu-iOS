@@ -60,8 +60,7 @@
     [super viewDidLoad];
     self.delegate =self;
     self.interactivePopGestureRecognizer.delegate = self;
-    self.view.backgroundColor = COLORRGB(0xF4F4F4);
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:HSFONT(18),NSFontAttributeName, COLORRGB(0xffffff),NSForegroundColorAttributeName,nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:HSFONT(16),NSFontAttributeName, COLORRGB(0xff8830),NSForegroundColorAttributeName,nil];
     self.navigationBar.titleTextAttributes = dict;
 }
 
@@ -71,8 +70,8 @@
     
     if (index != 0) {
         
-        UIButton* btLeft = [UIButton buttonWithImageName:self.backBtnImageName?self.backBtnImageName:@"gn_nav_icon_back"
-                                             hlImageName:self.backBtnHlImageName?self.backBtnHlImageName:@"gn_nav_icon_back_hl"
+        UIButton* btLeft = [UIButton buttonWithImageName:self.backBtnImageName?self.backBtnImageName:@"nav_btn_back_88_88"
+                                             hlImageName:self.backBtnHlImageName?self.backBtnHlImageName:@"nav_btn_back_hl_88_88"
                                               onTapBlock:^(UIButton *btn) {
                                                   [self popViewControllerAnimated:YES];
                                               }];

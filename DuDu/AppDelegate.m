@@ -69,7 +69,7 @@
     [mainVC.navigationItem setTitleView:logo];
     [mainVC.navigationController.view.layer setCornerRadius:10.0f];
     
-    UINavigationController *mainNavCtl = [[UINavigationController alloc] initWithRootViewController:mainVC];
+    ZBCNavVC *mainNavCtl = [[ZBCNavVC alloc] initWithRootViewController:mainVC];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = mainNavCtl;

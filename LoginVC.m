@@ -18,16 +18,46 @@
     UILabel     *_agreeLabel;
     UILabel     *_lawLabel;
     UIButton    *_lawButton;
+    BOOL        _isCountingDown;
+    NSTimer     *_timer;
+    NSInteger   _timerCount;
 }
 
 @end
 
 @implementation LoginVC
 
+- (void)loadView
+{
+    [super loadView];
+    UIButton * back = [UIButton buttonWithImageName:@"nav_btn_back_88_88"
+                                        hlImageName:@"nav_btn_back_hl_88_88"
+                                  DisabledImageName:@""
+                                         onTapBlock:^(UIButton *btn) {
+                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                         }];
+    UIBarButtonItem *barBtnShare = [[UIBarButtonItem alloc] initWithCustomView:back];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                    target:nil
+                                                                                    action:nil];
+    negativeSpacer.title = @"";
+    negativeSpacer.width = -18;
+    
+    self.navigationItem.leftBarButtonItems = [NSArray
+                                              arrayWithObjects:negativeSpacer, barBtnShare,
+                                              nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createSubViews];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_timer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)createSubViews
@@ -43,6 +73,7 @@
     _phoneTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     _phoneTextField.placeholder = @"手机号";
     _phoneTextField.textColor = COLORRGB(0x000000);
+    _phoneTextField.font = HSFONT(15);
     _phoneTextField.textAlignment = NSTextAlignmentLeft;
     _phoneTextField.borderStyle = UITextBorderStyleRoundedRect;
     _phoneTextField.keyboardType = UIKeyboardTypeNumberPad;
@@ -51,25 +82,24 @@
     _verifyButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _verifyButton.frame = CGRectZero;
     _verifyButton.titleLabel.textColor = COLORRGB(0xffffff);
+    _verifyButton.titleLabel.font = HSFONT(15);
     [_verifyButton setTitle:@"验证" forState:UIControlStateNormal];
     [_verifyButton setBackgroundColor:COLORRGB(0xd7d7d7)];
-    [_verifyButton setEnabled:NO];
+    [_verifyButton addTarget:self action:@selector(getVerifyCode) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_verifyButton];
     
     _verifyTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     _verifyTextField.placeholder = @"验证码";
     _verifyTextField.textColor = COLORRGB(0x000000);
+    _verifyTextField.font = HSFONT(15);
     _verifyTextField.textAlignment = NSTextAlignmentLeft;
     _verifyTextField.borderStyle = UITextBorderStyleRoundedRect;
     _verifyTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:_verifyTextField];
     
-    _startButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _startButton.frame = CGRectZero;
-    _startButton.titleLabel.textColor = COLORRGB(0xffffff);
-    [_startButton setTitle:@"开始" forState:UIControlStateNormal];
-    [_startButton setBackgroundColor:COLORRGB(0xd7d7d7)];
-    [_startButton setEnabled:NO];
+    _startButton = [UIButton buttonWithImageName:@"orgbtn" hlImageName:@"orgbtn_pressed" title:@"开 始" titleColor:COLORRGB(0xffffff) font:HSFONT(15) onTapBlock:^(UIButton *btn) {
+        [self sentOrder];
+    }];
     [self.view addSubview:_startButton];
     
     _agreeLabel = [UILabel labelWithFrame:CGRectZero
@@ -91,7 +121,7 @@
     _lawButton = [UIButton buttonWithImageName:@""
                                    hlImageName:@""
                                     onTapBlock:^(UIButton *btn) {
-                                        
+                                        NSLog(@"法律条款被点击");
                                     }];
     _lawButton.frame = CGRectZero;
     [self.view addSubview:_lawButton];
@@ -121,7 +151,7 @@
     _startButton.frame = ccr(_verifyTextField.origin.x,
                              CGRectGetMaxY(_verifyTextField.frame)+5,
                              _verifyTextField.width,
-                             _verifyTextField.height);
+                             30);
     CGSize agreeSize = [self getTextFromLabel:_agreeLabel];
     _agreeLabel.frame = ccr(_startButton.origin.x,
                             CGRectGetMaxY(_startButton.frame)+10,
@@ -133,6 +163,47 @@
                           lawSize.width,
                           lawSize.height);
     _lawButton.frame = _lawLabel.frame;
+}
+
+- (void)getVerifyCode
+{
+    if ([Utils isMobileNumber:_phoneTextField.text]) {
+        [self verifyCountDown];
+    } else {
+        [ZBCToast showMessage:@"请输入正确的手机号码"];
+    }
+}
+
+- (void)verifyCountDown
+{
+    _isCountingDown = YES;
+    [_timer setFireDate:[NSDate distantPast]];
+    _timerCount = 59;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                              target:self
+                                            selector:@selector(timerFireMethod:)
+                                            userInfo:nil
+                                             repeats:YES];
+}
+
+- (void)timerFireMethod:(NSTimer*)theTimer
+{
+    if (_timerCount>0) {
+        [_verifyButton setTitle:STR_D(_timerCount--) forState:UIControlStateNormal];
+        _verifyButton.enabled = NO;
+    } else {
+        [_verifyButton setTitle:@"验证" forState:UIControlStateNormal];
+        _verifyButton.enabled = YES;
+        _isCountingDown = NO;
+        [_timer setFireDate:[NSDate distantFuture]];
+        [_timer invalidate];
+        _timer = nil;
+    }
+}
+
+- (void)sentOrder
+{
+    NSLog(@"开始按钮被点击");
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label
