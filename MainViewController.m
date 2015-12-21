@@ -129,6 +129,7 @@
 //                                               menuVC.title = @"个人中心";
 //                                               [self.navigationController pushViewController:menuVC animated:YES];
                                                LoginVC *loginVC = [[LoginVC alloc] init];
+                                               loginVC.delegate = self;
                                                loginVC.title = @"验证手机";
                                                ZBCNavVC *navVC = [[ZBCNavVC alloc] initWithRootViewController:loginVC];
                                                [self presentViewController:navVC animated:YES completion:nil];
@@ -334,5 +335,13 @@ updatingLocation:(BOOL)updatingLocation
                          animated:YES];
 }
 
+
+#pragma mark - LoginVCDelegate
+- (void)loginSucceed:(UserModel *)userInfo
+{
+    MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
+    menuVC.title = @"个人中心";
+    [self.navigationController pushViewController:menuVC animated:YES];
+}
 
 @end

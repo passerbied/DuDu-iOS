@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LoginVCDelegate;
+
 @interface LoginVC : UIViewController
 <UITextFieldDelegate>
+
+@property (nonatomic, strong) id<LoginVCDelegate> delegate;
+
+@end
+
+@protocol LoginVCDelegate <NSObject>
+
+- (void)loginSucceed:(UserModel *)userInfo;
 
 @end

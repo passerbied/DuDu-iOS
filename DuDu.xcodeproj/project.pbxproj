@@ -85,6 +85,7 @@
 		4867CE291C271387003B1744 /* find_keep_icon_fail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE281C271387003B1744 /* find_keep_icon_fail@2x.png */; };
 		4867CE2D1C284821003B1744 /* nav_btn_back_88_88@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE2B1C284821003B1744 /* nav_btn_back_88_88@2x.png */; };
 		4867CE2E1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE2C1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png */; };
+		4867CE331C285533003B1744 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE321C285533003B1744 /* UserModel.m */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -250,6 +251,8 @@
 		4867CE281C271387003B1744 /* find_keep_icon_fail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "find_keep_icon_fail@2x.png"; sourceTree = "<group>"; };
 		4867CE2B1C284821003B1744 /* nav_btn_back_88_88@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_btn_back_88_88@2x.png"; sourceTree = "<group>"; };
 		4867CE2C1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_btn_back_hl_88_88@2x.png"; sourceTree = "<group>"; };
+		4867CE311C285533003B1744 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		4867CE321C285533003B1744 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -667,6 +670,15 @@
 			name = ProgressHUD;
 			sourceTree = "<group>";
 		};
+		4867CE301C285509003B1744 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				4867CE311C285533003B1744 /* UserModel.h */,
+				4867CE321C285533003B1744 /* UserModel.m */,
+			);
+			name = UserInfo;
+			sourceTree = "<group>";
+		};
 		486F52431BEDFE680043874E /* UIView+Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -892,6 +904,7 @@
 		48EAD5EB1BE7B6F500AFF1D4 /* Featrues */ = {
 			isa = PBXGroup;
 			children = (
+				4867CE301C285509003B1744 /* UserInfo */,
 				4803E5C61C19CF8A000395AA /* 登录注册页 */,
 				480E50451BFB4CA8006D545A /* 菜单页 */,
 				486F52AC1BF0AB0B0043874E /* 地点选择页 */,
@@ -1165,6 +1178,7 @@
 				486F52771BEE08140043874E /* NSDate+Utilities.m in Sources */,
 				486F52801BEE093F0043874E /* TopToolBar.m in Sources */,
 				32F03A721C228BBD00A2C4BD /* LoginVC.m in Sources */,
+				4867CE331C285533003B1744 /* UserModel.m in Sources */,
 				486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */,
 				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
 				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,

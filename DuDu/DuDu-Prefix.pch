@@ -22,4 +22,6 @@
     #import "NSDate+Utilities.h"
     #import "DuDuAPIClient.h"
     #import "ZBCNavVC.h"
+    #import "UserModel.h"
+    #import "LoginVC.h"
 #endif

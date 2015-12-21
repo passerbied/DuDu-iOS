@@ -7,6 +7,7 @@
 //
 
 #import "LoginVC.h"
+#import "MenuTableViewController.h"
 
 @interface LoginVC ()
 {
@@ -21,6 +22,7 @@
     BOOL        _isCountingDown;
     NSTimer     *_timer;
     NSInteger   _timerCount;
+    UserModel   *_userInfo;
 }
 
 @end
@@ -34,7 +36,11 @@
                                         hlImageName:@"nav_btn_back_hl_88_88"
                                   DisabledImageName:@""
                                          onTapBlock:^(UIButton *btn) {
-                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                             [self dismissViewControllerAnimated:YES completion:^{
+                                                 [_timer setFireDate:[NSDate distantFuture]];
+                                                 [_timer invalidate];
+                                                 _timer = nil;
+                                             }];
                                          }];
     UIBarButtonItem *barBtnShare = [[UIBarButtonItem alloc] initWithCustomView:back];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
@@ -203,7 +209,11 @@
 
 - (void)sentOrder
 {
-    NSLog(@"开始按钮被点击");
+    [self dismissViewControllerAnimated:YES completion:^{
+        if ([self.delegate respondsToSelector:@selector(loginSucceed:)]) {
+            [self.delegate loginSucceed:_userInfo];
+        }
+    }];
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label
