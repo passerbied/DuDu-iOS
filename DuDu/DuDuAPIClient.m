@@ -49,12 +49,12 @@
         } else {
             if (success) {
                 NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-                if (dic && [dic[@"err"] integerValue] > 0) {
-                    if ([dic[@"err"] integerValue] == 88) { // err == 88 -> 认证失败，清token
+                if (dic && [dic[@"err"] integerValue] > 0) { //err > 0 -> 返回操作错误信息
+                    if ([dic[@"err"] integerValue] == 2) { // err == 2 -> 认证失败，清token
                         [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
-                    } else {
-                        [self showErrorMessage:dic[@"info"]];
                     }
+                    [self showErrorMessage:dic[@"info"]];
+                    failure(task, error);
                 } else {
                     success(task, responseObject);
                     [ZBCProgressHUD hideHUDForWindow:KEY_WINDOW animated:NO];

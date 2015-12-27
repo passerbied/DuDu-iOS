@@ -190,6 +190,11 @@
                                             selector:@selector(timerFireMethod:)
                                             userInfo:nil
                                              repeats:YES];
+    [[DuDuAPIClient sharedClient] GET:LOGIN_REGEDIT(_phoneTextField.text) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        NSLog(dic);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    }];
 }
 
 - (void)timerFireMethod:(NSTimer*)theTimer

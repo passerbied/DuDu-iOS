@@ -17,8 +17,9 @@
 #define KEY_STORE_ACCESS_TOKEN          @"accesstoken"
 
 //APIs
+
 //向短信服务注册手机
-#define LOGIN_REGEDIT(telephone)        [NSString stringWithFormat:@"/login/regedit?user_telephone=%lld",telephone]
+#define LOGIN_REGEDIT(telephone)        [NSString stringWithFormat:@"/login/regedit?user_telephone=%@",telephone]
 
 //请求服务器发送验证码（参数：token）
 #define LOGIN_SET_MOBILE(telephone)     [NSString stringWithFormat:@"/login/set-mobile-phone-number=%lld",telephone]

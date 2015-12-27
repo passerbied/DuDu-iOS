@@ -86,6 +86,7 @@
 		4867CE2D1C284821003B1744 /* nav_btn_back_88_88@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE2B1C284821003B1744 /* nav_btn_back_88_88@2x.png */; };
 		4867CE2E1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE2C1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png */; };
 		4867CE331C285533003B1744 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE321C285533003B1744 /* UserModel.m */; };
+		4867CE381C29492E003B1744 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE371C29492E003B1744 /* BaseViewController.m */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -253,6 +254,8 @@
 		4867CE2C1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_btn_back_hl_88_88@2x.png"; sourceTree = "<group>"; };
 		4867CE311C285533003B1744 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		4867CE321C285533003B1744 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		4867CE361C29492E003B1744 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		4867CE371C29492E003B1744 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -679,6 +682,15 @@
 			name = UserInfo;
 			sourceTree = "<group>";
 		};
+		4867CE351C29490A003B1744 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				4867CE361C29492E003B1744 /* BaseViewController.h */,
+				4867CE371C29492E003B1744 /* BaseViewController.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
 		486F52431BEDFE680043874E /* UIView+Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -870,6 +882,7 @@
 		48EAD5CE1BE7A65500AFF1D4 /* DuDu */ = {
 			isa = PBXGroup;
 			children = (
+				4867CE351C29490A003B1744 /* Common */,
 				486F52841BEE22290043874E /* Resource */,
 				48EAD5EF1BE7B77C00AFF1D4 /* Extends */,
 				48EAD5ED1BE7B73400AFF1D4 /* Utils */,
@@ -1183,6 +1196,7 @@
 				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
 				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,
 				32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */,
+				4867CE381C29492E003B1744 /* BaseViewController.m in Sources */,
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
 				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
 				32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */,
