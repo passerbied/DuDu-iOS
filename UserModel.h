@@ -7,7 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MTLModel.h"
+#import "MTLJSONAdapter.h"
 
-@interface UserModel : NSObject
+@interface UserModel : MTLModel<MTLJSONSerializing>
+
+@property (nonatomic, strong) NSString *objectId;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *token;
+@property (nonatomic, strong) NSString *mobile;
+@property (nonatomic, strong) NSString *user_id;
 
 @end

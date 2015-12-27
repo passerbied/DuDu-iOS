@@ -8,6 +8,8 @@
 
 #import "LoginVC.h"
 #import "MenuTableViewController.h"
+#import "APService.h"
+#import "UserModel.h"
 
 @interface LoginVC ()
 {
@@ -103,9 +105,23 @@
     _verifyTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:_verifyTextField];
     
-    _startButton = [UIButton buttonWithImageName:@"orgbtn" hlImageName:@"orgbtn_pressed" title:@"开 始" titleColor:COLORRGB(0xffffff) font:HSFONT(15) onTapBlock:^(UIButton *btn) {
-        [self sentOrder];
-    }];
+    _startButton = [UIButton buttonWithImageName:@"orgbtn"
+                                     hlImageName:@"orgbtn_pressed"
+                                           title:@"开 始"
+                                      titleColor:COLORRGB(0xffffff)
+                                            font:HSFONT(15)
+                                      onTapBlock:^(UIButton *btn) {
+                                          if (![Utils isMobileNumber:_phoneTextField.text]) {
+                                              [ZBCToast showMessage:@"请输入正确的手机号码"];
+                                              return;
+                                          }
+                                          if (![Utils filterUnNumber:_verifyTextField.text]) {[ZBCToast showMessage:@"请输入验证码"];
+                                              return;
+                                          }
+                                          [self loginWithPhone:_phoneTextField.text
+                                                       verCode:_verifyTextField.text];
+                                          
+                                      }];
     [self.view addSubview:_startButton];
     
     _agreeLabel = [UILabel labelWithFrame:CGRectZero
@@ -190,9 +206,41 @@
                                             selector:@selector(timerFireMethod:)
                                             userInfo:nil
                                              repeats:YES];
-    [[DuDuAPIClient sharedClient] GET:LOGIN_REGEDIT(_phoneTextField.text) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    
+    [self sendVerCodeForPhoneNumber:_phoneTextField.text];
+}
+
+- (void)sendVerCodeForPhoneNumber:(NSString *)phone_number
+{
+    [[DuDuAPIClient sharedClient] GET:LOGIN_SEND_VER_CODE(phone_number) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        NSLog(dic);
+        [UICKeyChainStore setString:[Utils emptyIfNull:dic[@"token"]]
+                             forKey:KEY_STORE_ACCESS_TOKEN
+                            service:KEY_STORE_SERVICE];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    }];
+}
+
+- (void)loginWithPhone:(NSString *)phone verCode:(NSString *)verCode
+{
+    [[DuDuAPIClient sharedClient] GET:LOGIN_NEW_LOGIN(phone,verCode) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+                                  
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        _userInfo = [MTLJSONAdapter modelOfClass:[UserModel class]
+                              fromJSONDictionary:dic[@"user"]
+                                           error:nil];
+        
+        [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                     alias:_userInfo.user_id
+          callbackSelector:nil
+                    object:self];
+        [self dismissViewControllerAnimated:YES completion:^{
+            if ([self.delegate respondsToSelector:@selector(loginSucceed:)]) {
+                [self.delegate loginSucceed:_userInfo];
+            }
+        }];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];
 }
@@ -210,15 +258,6 @@
         [_timer invalidate];
         _timer = nil;
     }
-}
-
-- (void)sentOrder
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-        if ([self.delegate respondsToSelector:@selector(loginSucceed:)]) {
-            [self.delegate loginSucceed:_userInfo];
-        }
-    }];
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label

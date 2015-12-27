@@ -10,4 +10,24 @@
 
 @implementation UserModel
 
++ (NSDictionary *)JSONKeyPathsByPropertyKey
+{
+    return @{
+             @"objectId" : @"objectId",
+             @"name"     : @"name",
+             @"token"    : @"token",
+             @"mobile"   : @"mobile",
+             @"user_id"  : @"user_id",
+             };
+}
+
++ (NSString *)managedObjectEntityName {
+    return @"UserModel";
+}
+
++ (NSDictionary *)managedObjectKeysByPropertyKey {
+    return nil;
+}
+
+
 @end

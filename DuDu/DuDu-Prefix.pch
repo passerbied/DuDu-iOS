@@ -24,4 +24,5 @@
     #import "ZBCNavVC.h"
     #import "UserModel.h"
     #import "LoginVC.h"
+    #import "Mantle.h"
 #endif

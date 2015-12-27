@@ -14,5 +14,5 @@ pod 'TOWebViewController'           # https://github.com/TimOliver/TOWebViewCont
 pod 'HTAutocompleteTextField'       # https://github.com/hoteltonight/HTAutocompleteTextField
 pod 'AMap2DMap'
 pod 'AMapSearch'
-pod 'Mantle'
+pod 'Mantle','~> 2.0.2'
 

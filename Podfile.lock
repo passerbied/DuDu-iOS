@@ -43,7 +43,7 @@ DEPENDENCIES:
   - DCAnimationKit
   - HTAutocompleteTextField
   - JPush
-  - Mantle
+  - Mantle (~> 2.0.2)
   - MBProgressHUD
   - pop
   - TOWebViewController

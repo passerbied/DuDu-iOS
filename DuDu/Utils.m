@@ -25,6 +25,18 @@
     return nil ;
 }
 
++ (NSString *)urlWithToken:(NSString *)href
+{
+    NSString *url;
+    if ([href rangeOfString:@"?"].location == NSNotFound) {
+        url = [NSString stringWithFormat:@"%@?token=%@",href,[self emptyIfNull:[UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]]];
+    } else {
+        url = [NSString stringWithFormat:@"%@&token=%@",href,[self emptyIfNull:[UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]]];
+    }
+    
+    return [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
 + (NSString*)emptyIfNull:(id)obj
 {
     if([obj isKindOfClass:[NSNull class]]){

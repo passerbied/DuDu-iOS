@@ -14,6 +14,8 @@
 
 + (NSString*)emptyIfNull:(NSString *)string;
 
++ (NSString *)urlWithToken:(NSString *)href;
+
 + (BOOL)isMobileNumber:(NSString *)mobileNum;
 
 /**

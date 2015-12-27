@@ -18,19 +18,25 @@
 
 //APIs
 
+//请求验证码，并取得token
+#define LOGIN_SEND_VER_CODE(telephone)          [NSString stringWithFormat:@"/login/send-ver-code?user_telephone=%@",telephone]
+
+//登陆用户
+#define LOGIN_NEW_LOGIN(telephone,verCode)      [NSString stringWithFormat:@"/login/new-login?user_telephone=%@&verCode=%@",telephone,verCode]
+
 //向短信服务注册手机
 #define LOGIN_REGEDIT(telephone)        [NSString stringWithFormat:@"/login/regedit?user_telephone=%@",telephone]
 
-//请求服务器发送验证码（参数：token）
+//请求服务器发送验证码（参数：token）：弃用
 #define LOGIN_SET_MOBILE(telephone)     [NSString stringWithFormat:@"/login/set-mobile-phone-number=%lld",telephone]
 
 //用户端版本检查并返回车型列表（参数：APP名称，用于标记APP平台）
 #define ECK_VERSION                     @"/exam/eck-version?app_name=dudu-ios"
 
-//初次绑定手机	（参数：token，verCode）
+//初次绑定手机	（参数：token，verCode）：弃用
 #define PHONE_SMS(vercode)              [NSString stringWithFormat:@"/login/phone-sms?verCode=%d",vercode]
 
-//重复绑定手机(参数：telephone，verCode，token)
+//重复绑定手机(参数：telephone，verCode，token)：弃用
 #define LOGIN_WITH_SMS_CODE(telephone,verCode) [NSString stringWithFormat:@"/login/login-with-sms-code?user_telephone=%lld&verCode=%ld",telephone,verCode]
 
 //获取用户基本信息（参数：token）
