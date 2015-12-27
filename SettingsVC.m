@@ -9,6 +9,7 @@
 #import "SettingsVC.h"
 #import "SettingCell.h"
 #import "AddressVC.h"
+#import "APService.h"
 
 @interface SettingsVC ()
 {
@@ -110,8 +111,17 @@
     } else if (indexPath.row==3) {
         
     } else {
-        
+        [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
+        [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                     alias:@"-1"
+          callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                    object:self];
     }
+}
+
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
+{
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 
 - (UILabel *)addressLabel

@@ -8,6 +8,7 @@
 
 #import "DuDuAPIClient.h"
 #import "ZBCProgressHUD.h"
+#import "APService.h"
 
 @implementation DuDuAPIClient
 
@@ -53,6 +54,10 @@
                 if (dic && [dic[@"err"] integerValue] > 0) { //err > 0 -> 返回操作错误信息
                     if ([dic[@"err"] integerValue] == 2) { // err == 2 -> 认证失败，清token，解除JPUSH绑定
                         [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
+                        [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                                     alias:@"-1"
+                          callbackSelector:nil
+                                    object:self];
                     }
                     [self showErrorMessage:dic[@"info"]];
                     failure(task, error);

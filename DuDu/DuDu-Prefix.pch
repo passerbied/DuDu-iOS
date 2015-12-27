@@ -22,7 +22,7 @@
     #import "NSDate+Utilities.h"
     #import "DuDuAPIClient.h"
     #import "ZBCNavVC.h"
+    #import "Mantle.h"
     #import "UserModel.h"
     #import "LoginVC.h"
-    #import "Mantle.h"
 #endif

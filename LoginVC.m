@@ -233,9 +233,10 @@
                                            error:nil];
         
         [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
-                     alias:_userInfo.user_id
-          callbackSelector:nil
+                     alias:[_userInfo.user_id description]
+          callbackSelector:@selector(tagsAliasCallback:tags:alias:)
                     object:self];
+        
         [self dismissViewControllerAnimated:YES completion:^{
             if ([self.delegate respondsToSelector:@selector(loginSucceed:)]) {
                 [self.delegate loginSucceed:_userInfo];
@@ -243,6 +244,11 @@
         }];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];
+}
+
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
+{
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 
 - (void)timerFireMethod:(NSTimer*)theTimer

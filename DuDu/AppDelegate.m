@@ -46,18 +46,8 @@
     
     // Required
     [APService setupWithOption:launchOptions];
-    
-    [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
-                 alias:@"1000000"
-      callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                object:self];
 
     return YES;
-}
-
-- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
-{
-        NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 
 - (void)setUpViewController
