@@ -87,7 +87,6 @@
 - (void)loadLoginVC:(BOOL)showBackButton animation:(BOOL)animation
 {
     LoginVC *loginVC = [[LoginVC alloc] init];
-    loginVC.delegate = self;
     loginVC.title = @"验证手机";
     ZBCNavVC *navVC = [[ZBCNavVC alloc] initWithRootViewController:loginVC];
     [self presentViewController:navVC animated:YES completion:nil];

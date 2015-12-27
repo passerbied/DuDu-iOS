@@ -25,4 +25,5 @@
     #import "Mantle.h"
     #import "UserModel.h"
     #import "LoginVC.h"
+    #import "BaseViewController.h"
 #endif

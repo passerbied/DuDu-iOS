@@ -18,6 +18,7 @@
              @"token"    : @"token",
              @"mobile"   : @"mobile",
              @"user_id"  : @"user_id",
+             @"avator"   : @"avator"
              };
 }
 

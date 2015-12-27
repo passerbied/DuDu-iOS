@@ -34,11 +34,15 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    if (!self.userInfo) {
+        [self getUserInfo];
+    }
+    
     UIView *headerView = [[UIView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, 90)];
     _avator = [[UIImageView alloc] initWithFrame:ccr(20, 20, 50, 50)];
+    [_avator setImageWithURL:URL(self.userInfo.avator) placeholderImage:IMG(@"account")];
     _avator.layer.cornerRadius = _avator.width/2;
     _avator.layer.masksToBounds = YES;
-    _avator.image = IMG(@"account");
     
     [headerView addSubview:_avator];
     
@@ -48,7 +52,7 @@
                                              _avator.height/2)
                                    color:COLORRGB(0x000000)
                                     font:HSFONT(15)
-                                    text:@"Passerbied"];
+                                    text:self.userInfo.name];
     [headerView addSubview:_nameLabel];
     
     _phoneLabel = [UILabel labelWithFrame:ccr(_nameLabel.x,
@@ -57,7 +61,7 @@
                                               _avator.height/2)
                                     color:COLORRGB(0x000000)
                                      font:HSFONT(15)
-                                     text:@"18698600911"];
+                                     text:self.userInfo.mobile];
     [headerView addSubview:_phoneLabel];
     
     UIImageView *arrow = [[UIImageView alloc] initWithFrame:ccr(SCREEN_WIDTH-20-20, (headerView.height - 30)/2, 30, 30)];
@@ -71,6 +75,20 @@
     self.tableView.tableHeaderView = headerView;
 }
 
+- (void)getUserInfo
+{
+    [[DuDuAPIClient sharedClient] GET:TOKEN_LOGIN parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        self.userInfo = [MTLJSONAdapter modelOfClass:[UserModel class]
+                              fromJSONDictionary:dic[@"user"]
+                                           error:nil];
+        [_avator setImageWithURL:URL(self.userInfo.avator) placeholderImage:IMG(@"account")];
+        _nameLabel.text = self.userInfo.name;
+        _phoneLabel.text = self.userInfo.mobile;
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
 
 #pragma mark - Table view data source
 

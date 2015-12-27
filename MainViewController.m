@@ -125,14 +125,19 @@
     UIButton *leftBtn = [UIButton buttonWithImageName:@"account"
                                           hlImageName:@"account_pressed"
                                            onTapBlock:^(UIButton *btn) {
-//                                               MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
-//                                               menuVC.title = @"个人中心";
-//                                               [self.navigationController pushViewController:menuVC animated:YES];
-                                               LoginVC *loginVC = [[LoginVC alloc] init];
-                                               loginVC.delegate = self;
-                                               loginVC.title = @"验证手机";
-                                               ZBCNavVC *navVC = [[ZBCNavVC alloc] initWithRootViewController:loginVC];
-                                               [self presentViewController:navVC animated:YES completion:nil];
+                                               
+                                               if ([self checkHaveLogin]) {
+                                                   MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
+                                                   menuVC.title = @"个人中心";
+                                                   [self.navigationController pushViewController:menuVC animated:YES];
+                                               } else {
+                                                   LoginVC *loginVC = [[LoginVC alloc] init];
+                                                   loginVC.delegate = self;
+                                                   loginVC.title = @"验证手机";
+                                                   ZBCNavVC *navVC = [[ZBCNavVC alloc] initWithRootViewController:loginVC];
+                                                   [self presentViewController:navVC animated:YES completion:nil];
+                                               }
+                                               
                                                
     }];
     leftBtn.frame = ccr(0, 0, 30, 30);
@@ -340,6 +345,7 @@ updatingLocation:(BOOL)updatingLocation
 - (void)loginSucceed:(UserModel *)userInfo
 {
     MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
+    menuVC.userInfo = userInfo;
     menuVC.title = @"个人中心";
     [self.navigationController pushViewController:menuVC animated:YES];
 }

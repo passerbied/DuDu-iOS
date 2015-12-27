@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *mobile;
 @property (nonatomic, assign) NSNumber *user_id;
+@property (nonatomic, assign) NSString *avator;
 
 @end
