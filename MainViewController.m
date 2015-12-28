@@ -29,6 +29,9 @@
     NSMutableArray *_annotations;
     BOOL _isFirstAppear;
     UIButton *_locationBtn;
+    OrderModel *_orderInfo;
+    AMapGeoPoint *_fromPoint;
+    AMapGeoPoint *_toPoint;
 
 }
 
@@ -206,6 +209,21 @@
     }
 }
 
+- (void)setOrderInfo
+{
+    _orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] integerValue]];
+    _orderInfo.start_lat = STR_F(_fromPoint.latitude);
+    _orderInfo.start_lng = STR_F(_fromPoint.longitude);
+    _orderInfo.start_loc_str = _bottomToolBar.fromAddressLabel.text;
+    _orderInfo.dest_lat = STR_F(_toPoint.latitude);
+    _orderInfo.dest_lng = STR_F(_toPoint.longitude);
+    _orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
+    _orderInfo.car_style = STR_I(_current_type);
+    _orderInfo.startTimeStr = @"出发时间戳"; //TODO:
+    _orderInfo.startTimeType = @"立即还是预约"; //TODO:
+    
+}
+
 - (void)didSubmited
 {
     CouponModel *coupon = [[CouponModel alloc] init];
@@ -288,6 +306,7 @@ updatingLocation:(BOOL)updatingLocation
     {
         //取出当前位置的坐标
         NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
+        _fromPoint = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
         //构造AMapReGeocodeSearchRequest对象
         AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
         regeo.location = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
@@ -300,6 +319,7 @@ updatingLocation:(BOOL)updatingLocation
 //实现逆地理编码的回调函数
 - (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
 {
+    _toPoint = [AMapGeoPoint locationWithLatitude:request.location.latitude longitude:request.location.longitude];
     if(response.regeocode != nil)
     {
         //通过AMapReGeocodeSearchResponse对象处理搜索结果
@@ -316,6 +336,7 @@ updatingLocation:(BOOL)updatingLocation
         _bottomToolBar.fromAddressLabel.text = fromTip.name;
         MAPointAnnotation *fromAnnotation = [[MAPointAnnotation alloc] init];
         fromAnnotation.coordinate =  CLLocationCoordinate2DMake(fromTip.location.latitude, fromTip.location.longitude);
+        _fromPoint = [AMapGeoPoint locationWithLatitude:fromTip.location.latitude longitude:fromTip.location.longitude];
         fromAnnotation.title = fromTip.name;
         
         [_annotations removeAllObjects];
@@ -327,6 +348,7 @@ updatingLocation:(BOOL)updatingLocation
         [self updateAnnotations:_annotations];
     }
     if (toTip){
+        _toPoint = [AMapGeoPoint locationWithLatitude:toTip.location.latitude longitude:toTip.location.longitude];
         _bottomToolBar.toAddressLabel.text = toTip.name;
         _bottomToolBar.toAddressLabel.textColor = COLORRGB(0x63666b);
         [_bottomToolBar showChargeView:YES];

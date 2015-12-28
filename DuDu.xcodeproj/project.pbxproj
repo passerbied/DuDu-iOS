@@ -87,6 +87,7 @@
 		4867CE2E1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE2C1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png */; };
 		4867CE331C285533003B1744 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE321C285533003B1744 /* UserModel.m */; };
 		4867CE381C29492E003B1744 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE371C29492E003B1744 /* BaseViewController.m */; };
+		4867CE411C317EC9003B1744 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE401C317EC9003B1744 /* OrderModel.m */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -256,6 +257,8 @@
 		4867CE321C285533003B1744 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		4867CE361C29492E003B1744 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		4867CE371C29492E003B1744 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		4867CE3F1C317EC9003B1744 /* OrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderModel.h; sourceTree = "<group>"; };
+		4867CE401C317EC9003B1744 /* OrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderModel.m; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -691,6 +694,15 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
+		4867CE3E1C317E9B003B1744 /* OrderInfo */ = {
+			isa = PBXGroup;
+			children = (
+				4867CE3F1C317EC9003B1744 /* OrderModel.h */,
+				4867CE401C317EC9003B1744 /* OrderModel.m */,
+			);
+			name = OrderInfo;
+			sourceTree = "<group>";
+		};
 		486F52431BEDFE680043874E /* UIView+Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -917,6 +929,7 @@
 		48EAD5EB1BE7B6F500AFF1D4 /* Featrues */ = {
 			isa = PBXGroup;
 			children = (
+				4867CE3E1C317E9B003B1744 /* OrderInfo */,
 				4867CE301C285509003B1744 /* UserInfo */,
 				4803E5C61C19CF8A000395AA /* 登录注册页 */,
 				480E50451BFB4CA8006D545A /* 菜单页 */,
@@ -1197,6 +1210,7 @@
 				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,
 				32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */,
 				4867CE381C29492E003B1744 /* BaseViewController.m in Sources */,
+				4867CE411C317EC9003B1744 /* OrderModel.m in Sources */,
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
 				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
 				32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */,

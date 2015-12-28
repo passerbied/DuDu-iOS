@@ -14,6 +14,7 @@
 #import "MenuTableViewController.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
+#import "OrderModel.h"
 
 @interface MainViewController : BaseViewController <TopToolBarDelegate, BottomToolBarDelegate,TimePickerDelegate, MAMapViewDelegate, AMapSearchDelegate, AddressPickerViewControllerDelegate,LoginVCDelegate>
 
