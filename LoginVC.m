@@ -213,12 +213,6 @@
 - (void)sendVerCodeForPhoneNumber:(NSString *)phone_number
 {
     [[DuDuAPIClient sharedClient] GET:LOGIN_SEND_VER_CODE(phone_number) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        
-        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        [UICKeyChainStore setString:[Utils emptyIfNull:dic[@"token"]]
-                             forKey:KEY_STORE_ACCESS_TOKEN
-                            service:KEY_STORE_SERVICE];
-        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];
 }
@@ -226,11 +220,15 @@
 - (void)loginWithPhone:(NSString *)phone verCode:(NSString *)verCode
 {
     [[DuDuAPIClient sharedClient] GET:LOGIN_NEW_LOGIN(phone,verCode) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-                                  
+        
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
         _userInfo = [MTLJSONAdapter modelOfClass:[UserModel class]
                               fromJSONDictionary:dic[@"user"]
                                            error:nil];
+        
+        [UICKeyChainStore setString:[Utils emptyIfNull:_userInfo.token]
+                             forKey:KEY_STORE_ACCESS_TOKEN
+                            service:KEY_STORE_SERVICE];
         
         [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
                      alias:[_userInfo.user_id description]
