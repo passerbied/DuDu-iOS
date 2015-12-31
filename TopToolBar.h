@@ -14,7 +14,9 @@
 
 @property (nonatomic, strong) id <TopToolBarDelegate> delegate;
 
-- (id)initWithFrame:(CGRect)frame carNames:(NSArray *)names;
+- (id)initWithFrame:(CGRect)frame carStyles:(NSArray *)styles;
+
+- (void)updateCarStylesWith:(NSArray *)styles;
 
 @end
 

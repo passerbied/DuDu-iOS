@@ -18,7 +18,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [MAMapServices sharedServices].apiKey = MAP_KEY;
@@ -52,18 +51,33 @@
 
 - (void)setUpViewController
 {
-    MainViewController *mainVC = [[MainViewController alloc] init];
-    
     UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
     logo.image = IMG(@"icon_huge");
-    [mainVC.navigationItem setTitleView:logo];
-    [mainVC.navigationController.view.layer setCornerRadius:10.0f];
+    [[MainViewController sharedMainViewController].navigationItem setTitleView:logo];
+    [[MainViewController sharedMainViewController].navigationController.view.layer setCornerRadius:10.0f];
     
-    ZBCNavVC *mainNavCtl = [[ZBCNavVC alloc] initWithRootViewController:mainVC];
+    ZBCNavVC *mainNavCtl = [[ZBCNavVC alloc] initWithRootViewController:[MainViewController sharedMainViewController]];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = mainNavCtl;
     [self.window makeKeyAndVisible];
+}
+
+- (void)checkVersionAndGetCarStyles
+{
+    [[DuDuAPIClient sharedClient] GET:CHECK_VERSION parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSArray *carStyles = [DuDuAPIClient parseJSONFrom:responseObject][@"car_style"];
+        
+        NSArray *carStyleModels = [MTLJSONAdapter modelsOfClass:[CarModel class]
+                                      fromJSONArray:carStyles
+                                              error:nil];
+        [MainViewController sharedMainViewController].carStyles = carStyleModels;
+        [[MainViewController sharedMainViewController].topToolBar updateCarStylesWith:carStyleModels];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 //推送内容处理
@@ -121,7 +135,7 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self checkVersionAndGetCarStyles];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

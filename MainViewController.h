@@ -18,8 +18,11 @@
 
 @interface MainViewController : BaseViewController <TopToolBarDelegate, BottomToolBarDelegate,TimePickerDelegate, MAMapViewDelegate, AMapSearchDelegate, AddressPickerViewControllerDelegate,LoginVCDelegate>
 
++ (instancetype)sharedMainViewController;
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
+@property (nonatomic, strong) TopToolBar *topToolBar;
+@property (nonatomic, strong) NSArray *carStyles;
 
 @end

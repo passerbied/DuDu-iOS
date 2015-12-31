@@ -26,4 +26,5 @@
     #import "UserModel.h"
     #import "LoginVC.h"
     #import "BaseViewController.h"
+    #import "CarModel.h"
 #endif

@@ -20,9 +20,8 @@
 
 @implementation MainViewController
 {
-    TopToolBar *_TopToolBar;
     BottomToolBar *_bottomToolBar;
-    int _current_type; //存储当前用车类型
+    int _current_car_style_id;
     TimePicker *_timePicker;
     UIActivityIndicatorView *_activityView;
     AMapReGeocode *_currentReGeocode;
@@ -32,7 +31,18 @@
     OrderModel *_orderInfo;
     AMapGeoPoint *_fromPoint;
     AMapGeoPoint *_toPoint;
+    CarModel    *_car1;
+    CarModel    *_car2;
+}
 
++ (instancetype)sharedMainViewController
+{
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedMainViewController = nil;
+    dispatch_once(&pred, ^{
+        _sharedMainViewController = [[self alloc] init];
+    });
+    return _sharedMainViewController;
 }
 
 - (id)init
@@ -61,9 +71,9 @@
     
     self.mapView.userTrackingMode = MAUserTrackingModeNone;
     
-    _TopToolBar = [[TopToolBar alloc] initWithFrame:ccr(0, NAV_BAR_HEIGHT_IOS7, SCREEN_WIDTH, 50) carNames:@[@"不限",@"普通车",@"豪华车"]]; //TODO:可能为接口返回数据
-    _TopToolBar.delegate = self;
-    [self.view addSubview:_TopToolBar];
+    self.topToolBar = [[TopToolBar alloc] initWithFrame:ccr(0, NAV_BAR_HEIGHT_IOS7, SCREEN_WIDTH, 50) carStyles:self.carStyles];
+    self.topToolBar.delegate = self;
+    [self.view addSubview:self.topToolBar];
     
     _bottomToolBar = [[BottomToolBar alloc] initWithFrame:ccr(PADDING,
                                                               SCREEN_HEIGHT-bottomToolBar_Height-PADDING,
@@ -80,7 +90,7 @@
         self.mapView.showsUserLocation = YES;
         [self.mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
     }];
-    _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(_TopToolBar.frame)+PADDING, 30, 30);
+    _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     _locationBtn.layer.masksToBounds = YES;
     _locationBtn.layer.borderWidth = 2;
     _locationBtn.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -185,7 +195,8 @@
 
 - (void)topToolBar:(TopToolBar *)topToolBar didCarButonTapped:(int)index
 {
-    _current_type = index;
+    CarModel *carStyle = self.carStyles[index];
+    _current_car_style_id = carStyle.car_style_id;
 }
 
 #pragma mark - BottomToolBarDelegate
@@ -218,7 +229,7 @@
     _orderInfo.dest_lat = STR_F(_toPoint.latitude);
     _orderInfo.dest_lng = STR_F(_toPoint.longitude);
     _orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
-    _orderInfo.car_style = STR_I(_current_type);
+    _orderInfo.car_style = STR_I(_current_car_style_id);
     _orderInfo.startTimeStr = @"出发时间戳"; //TODO:
     _orderInfo.startTimeType = @"立即还是预约"; //TODO:
     

@@ -88,6 +88,7 @@
 		4867CE331C285533003B1744 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE321C285533003B1744 /* UserModel.m */; };
 		4867CE381C29492E003B1744 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE371C29492E003B1744 /* BaseViewController.m */; };
 		4867CE411C317EC9003B1744 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE401C317EC9003B1744 /* OrderModel.m */; };
+		4867CE451C34D9C5003B1744 /* CarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE441C34D9C5003B1744 /* CarModel.m */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -259,6 +260,8 @@
 		4867CE371C29492E003B1744 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		4867CE3F1C317EC9003B1744 /* OrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderModel.h; sourceTree = "<group>"; };
 		4867CE401C317EC9003B1744 /* OrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderModel.m; sourceTree = "<group>"; };
+		4867CE431C34D9C5003B1744 /* CarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarModel.h; sourceTree = "<group>"; };
+		4867CE441C34D9C5003B1744 /* CarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarModel.m; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -703,6 +706,15 @@
 			name = OrderInfo;
 			sourceTree = "<group>";
 		};
+		4867CE461C34D9D0003B1744 /* CarInfo */ = {
+			isa = PBXGroup;
+			children = (
+				4867CE431C34D9C5003B1744 /* CarModel.h */,
+				4867CE441C34D9C5003B1744 /* CarModel.m */,
+			);
+			name = CarInfo;
+			sourceTree = "<group>";
+		};
 		486F52431BEDFE680043874E /* UIView+Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -929,6 +941,7 @@
 		48EAD5EB1BE7B6F500AFF1D4 /* Featrues */ = {
 			isa = PBXGroup;
 			children = (
+				4867CE461C34D9D0003B1744 /* CarInfo */,
 				4867CE3E1C317E9B003B1744 /* OrderInfo */,
 				4867CE301C285509003B1744 /* UserInfo */,
 				4803E5C61C19CF8A000395AA /* 登录注册页 */,
@@ -1222,6 +1235,7 @@
 				486F52611BEE07F40043874E /* UIAlertView+KAddition.m in Sources */,
 				480E50531BFB5DF6006D545A /* MenuCell.m in Sources */,
 				48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */,
+				4867CE451C34D9C5003B1744 /* CarModel.m in Sources */,
 				32F03A2D1C0FF0C400A2C4BD /* TicketVC.m in Sources */,
 				486F52D51BFB28AD0043874E /* MMDrawerVisualState.m in Sources */,
 				486F52781BEE08140043874E /* NSObject+Additions.m in Sources */,
