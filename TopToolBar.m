@@ -31,7 +31,7 @@
                                                    for (UIButton *button in self.subviews) {
                                                        [button setTitleColor:COLORRGB(0x63666b) forState:UIControlStateNormal];
                                                    }
-                                                   [btn setTitleColor:COLORRGB(0x000000) forState:UIControlStateNormal];
+                                                   [btn setTitleColor:COLORRGB(0xff8830) forState:UIControlStateNormal];
                                                    if ([self.delegate respondsToSelector:@selector(topToolBar:didCarButonTapped:)]) {
                                                        [self.delegate topToolBar:self didCarButonTapped:i];
                                                    }
@@ -41,7 +41,7 @@
             btn.frame = ccr(i*width, 0, width, self.height);
             [self addSubview:btn];
             if (i == 0) {
-                [btn setTitleColor:COLORRGB(0x000000) forState:UIControlStateNormal];
+                [btn setTitleColor:COLORRGB(0xff8830) forState:UIControlStateNormal];
             }
         }
     }
@@ -66,7 +66,7 @@
                                                for (UIButton *button in self.subviews) {
                                                    [button setTitleColor:COLORRGB(0x63666b) forState:UIControlStateNormal];
                                                }
-                                               [btn setTitleColor:COLORRGB(0x000000) forState:UIControlStateNormal];
+                                               [btn setTitleColor:COLORRGB(0xff8830) forState:UIControlStateNormal];
                                                if ([self.delegate respondsToSelector:@selector(topToolBar:didCarButonTapped:)]) {
                                                    [self.delegate topToolBar:self didCarButonTapped:i];
                                                }
@@ -76,7 +76,7 @@
         btn.frame = ccr(i*width, 0, width, self.height);
         [self addSubview:btn];
         if (i == 0) {
-            [btn setTitleColor:COLORRGB(0x000000) forState:UIControlStateNormal];
+            [btn setTitleColor:COLORRGB(0xff8830) forState:UIControlStateNormal];
         }
     }
 }
