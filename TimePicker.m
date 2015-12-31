@@ -49,8 +49,8 @@
                                          titleColor:[UIColor blackColor]
                                          onTapBlock:^(UIButton *btn){
             self.pickedTime = [self getTime];
-            if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectTime:)]) {
-                [self.delegate timePickerView:self didSelectTime:self.pickedTime];
+            if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectTime:isRightNow:)]) {
+                [self.delegate timePickerView:self didSelectTime:self.pickedTime isRightNow:_isNow];
             }
         }];
         okBtn.showsTouchWhenHighlighted = YES;

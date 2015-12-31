@@ -209,7 +209,7 @@
                           range:NSMakeRange(1, money.length)];
     self.budgetLabel.attributedText = budgetString;
     
-    self.couponLabel.text = coupon.title;
+    self.couponLabel.text = coupon.coupon_title;
 }
 
 - (void)showChargeView:(BOOL)show

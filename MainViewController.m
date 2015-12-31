@@ -28,11 +28,9 @@
     NSMutableArray *_annotations;
     BOOL _isFirstAppear;
     UIButton *_locationBtn;
-    OrderModel *_orderInfo;
     AMapGeoPoint *_fromPoint;
     AMapGeoPoint *_toPoint;
-    CarModel    *_car1;
-    CarModel    *_car2;
+    BOOL _isRightNow;
 }
 
 + (instancetype)sharedMainViewController
@@ -119,6 +117,9 @@
     [self.mapView removeOverlays:self.mapView.overlays];
 }
 
+/***
+ 开始定位当前位置
+ */
 - (void)startLocation
 {
     self.mapView.showsUserLocation = YES;
@@ -220,37 +221,55 @@
     }
 }
 
-- (void)setOrderInfo
+/***
+ 获取订单信息
+ */
+- (OrderModel *)getOrderInfo
 {
-    _orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] integerValue]];
-    _orderInfo.start_lat = STR_F(_fromPoint.latitude);
-    _orderInfo.start_lng = STR_F(_fromPoint.longitude);
-    _orderInfo.start_loc_str = _bottomToolBar.fromAddressLabel.text;
-    _orderInfo.dest_lat = STR_F(_toPoint.latitude);
-    _orderInfo.dest_lng = STR_F(_toPoint.longitude);
-    _orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
-    _orderInfo.car_style = STR_I(_current_car_style_id);
-    _orderInfo.startTimeStr = @"出发时间戳"; //TODO:
-    _orderInfo.startTimeType = @"立即还是预约"; //TODO:
-    
+    OrderModel *orderInfo = [[OrderModel alloc] init];
+    orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] integerValue]];
+    orderInfo.start_lat = STR_F(_fromPoint.latitude);
+    orderInfo.start_lng = STR_F(_fromPoint.longitude);
+    orderInfo.start_loc_str = _bottomToolBar.fromAddressLabel.text;
+    orderInfo.dest_lat = STR_F(_toPoint.latitude);
+    orderInfo.dest_lng = STR_F(_toPoint.longitude);
+    orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
+    orderInfo.car_style = STR_I(_current_car_style_id);
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval now = [date timeIntervalSince1970]*1;
+    orderInfo.startTimeStr = [NSString stringWithFormat:@"%f",now];
+    orderInfo.startTimeType = STR_D(_isRightNow);
+    return orderInfo;
 }
 
-- (void)didSubmited
+/***
+ 获取优惠信息
+*/
+- (void)getCouponInfo
 {
     CouponModel *coupon = [[CouponModel alloc] init];
-    coupon.title = @"新用户优惠9折优惠";
-    coupon.max_money = @"20";
-    coupon.isUsed = 0;
+    coupon.coupon_title = @"新用户优惠9折优惠";
+    coupon.coupon_max_monny = @"20";
+    coupon.coupon_isUsed = 0;
     [_bottomToolBar updateCharge:@"20" coupon:coupon];
+}
+
+/***
+ 发送打车订单
+ */
+- (void)didSubmited
+{
     OrderVC *orderVC =[[OrderVC alloc] init];
+    orderVC.orderInfo = [self getOrderInfo];
     orderVC.title = @"正在为你预约顺风车";
     [self.navigationController pushViewController:orderVC animated:YES];
 }
 
 #pragma mark - TimePickerDelegate
 
-- (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp
+- (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp isRightNow:(BOOL)isRightNow
 {
+    _isRightNow = isRightNow;
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeStamp];
     _bottomToolBar.startTimeLabel.text = [date displayWithFormat:@"d号H点mm分"];
     [self showTimePicker:NO];

@@ -38,6 +38,6 @@
 //
 //- (void)timePickerView:(TimePicker *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component;
 
-- (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp;
+- (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp isRightNow:(BOOL) isRightNow;
 
 @end

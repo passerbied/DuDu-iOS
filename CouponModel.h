@@ -8,15 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CouponModel : NSObject
+@interface CouponModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *discount;
-@property (nonatomic, assign) NSInteger exp_day;
-@property (nonatomic, strong) NSString *user_start_time;
-@property (nonatomic, strong) NSString *user_end_time;
-@property (nonatomic, strong) NSString *max_money;
-@property (nonatomic, assign) BOOL isShare;
-@property (nonatomic, assign) BOOL isUsed;
+@property (nonatomic, strong) NSNumber *userRef_id;
+@property (nonatomic, strong) NSNumber *coupon_id;
+@property (nonatomic, strong) NSNumber *user_id;
+@property (nonatomic, strong) NSString *coupon_get_datetime;
+@property (nonatomic, strong) NSString *coupon_discount;
+@property (nonatomic, strong) NSString *coupon_title;
+@property (nonatomic, strong) NSNumber *coupon_exp_day;
+@property (nonatomic, strong) NSString *coupon_user_start_time;
+@property (nonatomic, strong) NSString *coupon_user_end_time;
+@property (nonatomic, strong) NSString *coupon_max_monny;
+@property (nonatomic, assign) BOOL     coupon_isUsed;
+@property (nonatomic, assign) BOOL     coupon_isShare;
 
 @end

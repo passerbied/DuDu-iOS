@@ -664,8 +664,6 @@
 		4847D3B01C148D89004634F5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4847D3AD1C148D82004634F5 /* CouponModel.h */,
-				4847D3AE1C148D82004634F5 /* CouponModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -713,6 +711,15 @@
 				4867CE441C34D9C5003B1744 /* CarModel.m */,
 			);
 			name = CarInfo;
+			sourceTree = "<group>";
+		};
+		4867CE471C3535E6003B1744 /* CouponModel */ = {
+			isa = PBXGroup;
+			children = (
+				4847D3AD1C148D82004634F5 /* CouponModel.h */,
+				4847D3AE1C148D82004634F5 /* CouponModel.m */,
+			);
+			name = CouponModel;
 			sourceTree = "<group>";
 		};
 		486F52431BEDFE680043874E /* UIView+Utils */ = {
@@ -941,6 +948,7 @@
 		48EAD5EB1BE7B6F500AFF1D4 /* Featrues */ = {
 			isa = PBXGroup;
 			children = (
+				4867CE471C3535E6003B1744 /* CouponModel */,
 				4867CE461C34D9D0003B1744 /* CarInfo */,
 				4867CE3E1C317E9B003B1744 /* OrderInfo */,
 				4867CE301C285509003B1744 /* UserInfo */,
