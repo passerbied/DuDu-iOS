@@ -43,6 +43,14 @@
     
     // Required
     [APService setupWithOption:launchOptions];
+    
+    //TODO: test user
+    [UICKeyChainStore setString:@"vwrfnzgzofhzjps1k3v5aur2o"
+                         forKey:KEY_STORE_ACCESS_TOKEN
+                        service:KEY_STORE_SERVICE];
+    [UICKeyChainStore setString:@"40"
+                         forKey:KEY_STORE_USERID
+                        service:KEY_STORE_SERVICE];
 
     return YES;
 }
@@ -67,9 +75,10 @@
         
         NSArray *carStyles = [DuDuAPIClient parseJSONFrom:responseObject][@"car_style"];
         CarStore *carStore = [[CarStore alloc] init];
-        carStore.cars = [MTLJSONAdapter modelsOfClass:[CarModel class]
+        NSArray *cars = [MTLJSONAdapter modelsOfClass:[CarModel class]
                                         fromJSONArray:carStyles
                                                 error:nil];
+        carStore.cars = [cars mutableCopy];
 //        NSArray *carStyleModels = [MTLJSONAdapter modelsOfClass:[CarModel class]
 //                                      fromJSONArray:carStyles
 //                                              error:nil];

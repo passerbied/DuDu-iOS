@@ -10,8 +10,8 @@
 
 @interface OrderStore : NSObject
 
-@property (nonatomic, strong) NSArray *history;
-@property (nonatomic, strong) NSDictionary *ing;
+@property (nonatomic, strong) NSMutableArray *history;
+@property (nonatomic, strong) NSMutableArray *ing;
 
 + (instancetype)sharedOrderStore;
 

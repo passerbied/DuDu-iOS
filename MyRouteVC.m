@@ -15,10 +15,44 @@
 @end
 
 @implementation MyRouteVC
+{
+    OrderStore *_orderStore;
+}
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    [self initData];
     [self createTableView];
+    [self fetchData];
+}
+
+- (void)initData
+{
+    _orderStore = [[OrderStore alloc] init];
+}
+
+- (void)fetchData
+{
+    [[DuDuAPIClient sharedClient] GET:USER_ORDER_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject][@"info"];
+        NSArray *ingArr = dic[@"ing"];
+        NSArray *historyArr = dic[@"history"];
+        NSArray *ing = [MTLJSONAdapter modelsOfClass:[OrderModel class]
+                                                  fromJSONArray:ingArr
+                                                          error:nil];
+        NSArray *history = [MTLJSONAdapter modelsOfClass:[OrderModel class]
+                                           fromJSONArray:historyArr
+                                                   error:nil];
+        [OrderStore sharedOrderStore].ing = [ing mutableCopy];
+        [OrderStore sharedOrderStore].history = [history mutableCopy];
+
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)createTableView
@@ -36,7 +70,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    NSLog(@"%d",[OrderStore sharedOrderStore].history.count);
+    return [OrderStore sharedOrderStore].history.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -64,11 +99,13 @@
 
 - (void)configureCell:(RouteCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    cell.routeTime = @"11月22日 08:40";
-    cell.routeType = @"顺风车·乘客";
-    cell.routeStatus = @"待评价";
-    cell.startSite = @"朝阳区立水桥明天第一城蓝黛时空汇KTV";
-    cell.endSite = @"朝阳区红军营南路傲城融富中心B座";
+    OrderModel *order = [OrderStore sharedOrderStore].history[indexPath.row];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[order.startTimeStr floatValue]];
+    cell.routeTime = [date displayWithFormat:@"m月d日 H:mm"];
+//    cell.routeType = [order.car_style stringValue];
+//    cell.routeStatus = @"待评价";
+    cell.startSite = order.star_loc_str;
+    cell.endSite = order.dest_loc_str;
 }
 
 #pragma mark - tableView delegate

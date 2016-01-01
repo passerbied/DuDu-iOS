@@ -247,31 +247,27 @@
     [[DuDuAPIClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        CarStore *carStore = [[CarStore alloc] init];
-        OrderModel *orderInfo;
-        if ([dic[@"err"] intValue] == 11) {
-            orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                  fromJSONDictionary:dic[@"have"]
-                                               error:nil];
-        } else if([dic[@"err"] intValue] == 5){
-            [ZBCToast showMessage:@"优惠券不可用"];
-            return;
-        } else if([dic[@"err"] intValue] == 12 ||
-                  [dic[@"err"] intValue] == 17 ||
-                  [dic[@"err"] intValue] == 0){
-            orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                  fromJSONDictionary:dic[@"info"]
-                                               error:nil];
+        
+        if([dic[@"err"] intValue] == 11 ||
+           [dic[@"err"] intValue] == 12 ||
+           [dic[@"err"] intValue] == 17 ||
+           [dic[@"err"] intValue] == 0){
+            
+            OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                              fromJSONDictionary:dic[@"info"]
+                                                           error:nil];
+            CarStore *carStore = [[CarStore alloc] init];
             carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
                                       fromJSONDictionary:dic[@"car_style"]
                                                    error:nil];
-        } else {
-        }
-        
-        [OrderVC sharedOrderVC].orderInfo = orderInfo;
-        [OrderVC sharedOrderVC].result = [dic[@"err"] intValue];
-        [OrderVC sharedOrderVC].carStore = carStore;
-        [self.navigationController pushViewController:[OrderVC sharedOrderVC] animated:YES];
+            [OrderVC sharedOrderVC].orderInfo = orderInfo;
+            [OrderVC sharedOrderVC].result = [dic[@"err"] intValue];
+            [OrderVC sharedOrderVC].carStore = carStore;
+            [self.navigationController pushViewController:[OrderVC sharedOrderVC] animated:YES];
+        } else if([dic[@"err"] intValue] == 5) {
+            [ZBCToast showMessage:@"优惠券不可用"];
+            return;
+        } else {}
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 

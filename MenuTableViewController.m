@@ -67,7 +67,7 @@
                                              _avator.height/2)
                                    color:COLORRGB(0x000000)
                                     font:HSFONT(15)
-                                    text:self.userInfo.name];
+                                    text:self.userInfo.mobile?@"已绑定手机":@"未绑定手机"];
     [headerView addSubview:_nameLabel];
     
     _phoneLabel = [UILabel labelWithFrame:ccr(_nameLabel.x,
@@ -79,9 +79,9 @@
                                      text:self.userInfo.mobile];
     [headerView addSubview:_phoneLabel];
     
-    UIImageView *arrow = [[UIImageView alloc] initWithFrame:ccr(SCREEN_WIDTH-20-20, (headerView.height - 30)/2, 30, 30)];
-    arrow.image = IMG(@"arrow_right");
-    [headerView addSubview:arrow];
+//    UIImageView *arrow = [[UIImageView alloc] initWithFrame:ccr(SCREEN_WIDTH-20-20, (headerView.height - 30)/2, 30, 30)];
+//    arrow.image = IMG(@"arrow_right");
+//    [headerView addSubview:arrow];
     
     UIImageView *line = [[UIImageView alloc] initWithFrame:ccr(15, CGRectGetMaxY(headerView.frame)-0.7, SCREEN_WIDTH-15, 0.7)];
     line.backgroundColor = COLORRGB(0xd7d7d7);
@@ -98,7 +98,7 @@
                               fromJSONDictionary:dic[@"user"]
                                            error:nil];
         [_avator setImageWithURL:URL(self.userInfo.avator) placeholderImage:IMG(@"account")];
-        _nameLabel.text = self.userInfo.name;
+        _nameLabel.text = self.userInfo.mobile?@"已绑定手机":@"未绑定手机";
         _phoneLabel.text = self.userInfo.mobile;
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

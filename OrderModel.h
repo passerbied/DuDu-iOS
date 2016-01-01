@@ -12,11 +12,11 @@
 
 @property (nonatomic, strong) NSNumber *user_id;
 
-@property (nonatomic, strong) NSString *start_lat;
-@property (nonatomic, strong) NSString *start_lng;
+@property (nonatomic, strong) NSNumber *start_lat;
+@property (nonatomic, strong) NSNumber *start_lng;
 @property (nonatomic, strong) NSString *star_loc_str;
-@property (nonatomic, strong) NSString *dest_lat;
-@property (nonatomic, strong) NSString *dest_lng;
+@property (nonatomic, strong) NSNumber *dest_lat;
+@property (nonatomic, strong) NSNumber *dest_lng;
 @property (nonatomic, strong) NSString *dest_loc_str;
 @property (nonatomic, strong) NSNumber *car_style;
 @property (nonatomic, strong) NSNumber *startTimeType;

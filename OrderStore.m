@@ -22,7 +22,12 @@
 
 - (id)init
 {
-    return [super init];
+    self = [super init];
+    if (self) {
+        _history = [NSMutableArray array];
+        _ing = [NSMutableArray array];
+    }
+    return self;
 }
 
 @end

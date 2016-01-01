@@ -20,7 +20,8 @@
         _sharedClient = [[self alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
         _sharedClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         //对成功请求返回的err>0的情况，封装到failure分支下处理。
-        _sharedClient.responseSerializer = [DuDuJSONResponseSerializer serializer];
+        _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
+        _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         [_sharedClient.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         _sharedClient.requestSerializer = [AFHTTPRequestSerializer serializer];
     });
@@ -113,10 +114,11 @@
                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
-    [ZBCProgressHUD showHUDAddedTo:KEY_WINDOW animated:YES];
+//    [ZBCProgressHUD showHUDAddedTo:KEY_WINDOW animated:YES];
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:[Utils urlWithToken:URLString] relativeToURL:self.baseURL] absoluteString] parameters:parameters error:nil];
     
     __block NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+        [ZBCProgressHUD hideHUDForWindow:KEY_WINDOW animated:NO];
         if (error) {
             if (failure) {
                 [self showErrorMessage:error];
@@ -124,7 +126,6 @@
             }
         } else {
             if (success) {
-                [ZBCProgressHUD hideHUDForWindow:KEY_WINDOW animated:NO];
                 success(task, responseObject);
             }
         }
