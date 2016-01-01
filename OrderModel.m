@@ -16,7 +16,7 @@
              @"user_id"         : @"user_id",
              @"start_lat"       : @"start_lat",
              @"start_lng"       : @"start_lng",
-             @"start_loc_str"   : @"star_loc_str",
+             @"star_loc_str"    : @"star_loc_str",
              @"dest_lat"        : @"dest_lat",
              @"dest_lng"        : @"dest_lng",
              @"dest_loc_str"    : @"dest_loc_str",
@@ -34,10 +34,10 @@
              @"order_allTime"        : @"order_allTime",
              @"order_status"         : @"order_status",
              @"driver_status"        : @"driver_status",
-             @"order_time"           : @"order_time",
              @"order_payStatus"      : @"order_payStatus",
              @"isbook"               : @"isbook",
              @"coupon_title"         : @"coupon_title",
+             @"relevance_id"         :@"relevance_id",
              };
 }
 

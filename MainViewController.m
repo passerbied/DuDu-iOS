@@ -10,6 +10,7 @@
 #import "CouponModel.h"
 #import "OrderVC.h"
 #import "LoginVC.h"
+#import "CouponStore.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -20,17 +21,18 @@
 
 @implementation MainViewController
 {
-    BottomToolBar *_bottomToolBar;
-    int _current_car_style_id;
-    TimePicker *_timePicker;
+    BottomToolBar   *_bottomToolBar;
+    TimePicker      *_timePicker;
     UIActivityIndicatorView *_activityView;
-    AMapReGeocode *_currentReGeocode;
-    NSMutableArray *_annotations;
-    BOOL _isFirstAppear;
-    UIButton *_locationBtn;
-    AMapGeoPoint *_fromPoint;
-    AMapGeoPoint *_toPoint;
-    BOOL _isRightNow;
+    MenuTableViewController *_menuVC;
+    
+    AMapReGeocode   *_currentReGeocode;
+    NSMutableArray  *_annotations;
+    UIButton        *_locationBtn;
+    AMapGeoPoint    *_fromPoint;
+    AMapGeoPoint    *_toPoint;
+    BOOL            _isFirstAppear;
+    BOOL            _isRightNow;
 }
 
 + (instancetype)sharedMainViewController
@@ -48,6 +50,8 @@
     self = [super init];
     if (self) {
         _annotations = [NSMutableArray array];
+        _menuVC = [[MenuTableViewController alloc] init];
+        _menuVC.title = @"个人中心";
     }
     return self;
 }
@@ -117,21 +121,12 @@
     [self.mapView removeOverlays:self.mapView.overlays];
 }
 
-/***
- 开始定位当前位置
- */
+#pragma mark - 开始定位当前位置
 - (void)startLocation
 {
     self.mapView.showsUserLocation = YES;
     [self.mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
     [self.mapView setZoomLevel:16.1 animated:YES];
-}
-
-#pragma mark - AMapSearchDelegate
-
-- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error
-{
-    NSLog(@"%s: searchRequest = %@, errInfo= %@", __func__, [request class], error);
 }
 
 -(void)setupLeftMenuButton
@@ -141,9 +136,7 @@
                                            onTapBlock:^(UIButton *btn) {
                                                
                                                if ([self checkHaveLogin]) {
-                                                   MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
-                                                   menuVC.title = @"个人中心";
-                                                   [self.navigationController pushViewController:menuVC animated:YES];
+                                                   [self.navigationController pushViewController:_menuVC animated:YES];
                                                } else {
                                                    LoginVC *loginVC = [[LoginVC alloc] init];
                                                    loginVC.delegate = self;
@@ -196,8 +189,7 @@
 
 - (void)topToolBar:(TopToolBar *)topToolBar didCarButonTapped:(int)index
 {
-    CarModel *carStyle = self.carStyles[index];
-    _current_car_style_id = carStyle.car_style_id;
+    _current_car_style = self.carStyles[index];
 }
 
 #pragma mark - BottomToolBarDelegate
@@ -221,20 +213,19 @@
     }
 }
 
-/***
- 获取订单信息
- */
-- (OrderModel *)getOrderInfo
+#pragma mark - 获取订单信息
+
+- (OrderModel *)orderInfo
 {
     OrderModel *orderInfo = [[OrderModel alloc] init];
-    orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] integerValue]];
+    orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] intValue]];
     orderInfo.start_lat = STR_F(_fromPoint.latitude);
     orderInfo.start_lng = STR_F(_fromPoint.longitude);
-    orderInfo.start_loc_str = _bottomToolBar.fromAddressLabel.text;
+    orderInfo.star_loc_str = _bottomToolBar.fromAddressLabel.text;
     orderInfo.dest_lat = STR_F(_toPoint.latitude);
     orderInfo.dest_lng = STR_F(_toPoint.longitude);
     orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
-    orderInfo.car_style = STR_I(_current_car_style_id);
+    orderInfo.car_style = _current_car_style.car_style_id;
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
     NSTimeInterval now = [date timeIntervalSince1970]*1;
     orderInfo.startTimeStr = [NSString stringWithFormat:@"%f",now];
@@ -242,27 +233,123 @@
     return orderInfo;
 }
 
-/***
- 获取优惠信息
-*/
-- (void)getCouponInfo
-{
-    CouponModel *coupon = [[CouponModel alloc] init];
-    coupon.coupon_title = @"新用户优惠9折优惠";
-    coupon.coupon_max_monny = @"20";
-    coupon.coupon_isUsed = 0;
-    [_bottomToolBar updateCharge:@"20" coupon:coupon];
-}
+#pragma mark - 发送订单
 
-/***
- 发送打车订单
- */
-- (void)didSubmited
+- (void)sentOrder:(OrderModel *)orderInfo
 {
+    //TODO:数据没有映射到model中
+    OrderModel *order = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                  fromJSONDictionary:[DuDuAPIClient parseJSONFrom:[Utils testDicFrom:@"orderInfo"][@"info"]]
+                                               error:nil];
+    
     OrderVC *orderVC =[[OrderVC alloc] init];
-    orderVC.orderInfo = [self getOrderInfo];
+    orderVC.orderInfo = order;
     orderVC.title = @"正在为你预约顺风车";
     [self.navigationController pushViewController:orderVC animated:YES];
+}
+
+/*
+- (void)sentOrder:(OrderModel *)orderInfo
+{
+    NSString *url = ADD_ORDER(orderInfo.start_lat,
+                              orderInfo.start_lng,
+                              orderInfo.start_loc_str,
+                              orderInfo.dest_lat,
+                              orderInfo.dest_lng,
+                              orderInfo.dest_loc_str,
+                              orderInfo.car_style,
+                              orderInfo.startTimeType,
+                              orderInfo.startTimeStr);
+    
+    [[DuDuAPIClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                           fromJSONDictionary:dic
+                                                        error:nil];
+        
+        OrderVC *orderVC =[[OrderVC alloc] init];
+        orderVC.orderInfo = orderInfo;
+        orderVC.title = @"正在为你预约顺风车";
+        [self.navigationController pushViewController:orderVC animated:YES];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+ */
+
+#pragma mark - 获取优惠信息
+
+//TODO:remove test
+- (void)getCouponInfo
+{
+    NSArray *arr = [DuDuAPIClient parseJSONFrom:[Utils testDicFrom:@"couponInfo"]][@"info"];
+    CouponStore *coupons = [[CouponStore alloc] init];
+    coupons.info = [MTLJSONAdapter modelsOfClass:[CouponModel class]
+                                   fromJSONArray:arr
+                                           error:nil];
+    [MenuTableViewController sharedMenuTableViewController].coupons = coupons;
+    
+    CouponModel *coupon = coupons.info.count?coupons.info[0]:nil;
+    [self guessChargeWithCoupon:coupon];
+}
+
+/*
+- (void)getCouponInfo
+{
+    [[DuDuAPIClient sharedClient] GET:USER_COUPON_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        CouponStore *coupons = [MTLJSONAdapter modelOfClass:[CouponStore class]
+                                         fromJSONDictionary:dic
+                                                      error:nil];
+        [MenuTableViewController sharedMenuTableViewController].coupons = coupons;
+        
+        CouponModel *coupon = coupons.info.count?coupons.info[0]:nil;
+        [self guessChargeWithCoupon:coupon];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        _bottomToolBar.budgetLabel.text = @"无法估算费用";
+        _bottomToolBar.couponLabel.text = @"暂无优惠";
+    }];
+}
+*/
+
+#pragma mark - 估算费用
+- (void)guessChargeWithCoupon:(CouponModel *)coupon
+{
+    //TODO:估算逻辑
+    //1.根据地图的驾驶路线得到，路程长度
+    //2.根据车辆类型的每公里价格，和超出多少公里后每公里价格计算出里程价格
+    //3.根据地图的驾驶路线，得到路线中有多少路段。假的每个路段等时1分钟，计算等时费
+    //4.预估价格=里程费 + 起步价 + 等时费 - 优惠
+    
+    if (coupon) {
+        [_bottomToolBar updateCharge:@"20" coupon:coupon];
+    } else {
+        _bottomToolBar.couponLabel.text = @"暂无优惠";
+    }
+}
+
+#pragma mark - 发送打车订单
+- (void)didSubmited
+{
+    OrderModel *orderInfo = [[OrderModel alloc] init];
+    orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] intValue]];
+    orderInfo.start_lat = STR_F(_fromPoint.latitude);
+    orderInfo.start_lng = STR_F(_fromPoint.longitude);
+    orderInfo.star_loc_str = _bottomToolBar.fromAddressLabel.text;
+    orderInfo.dest_lat = STR_F(_toPoint.latitude);
+    orderInfo.dest_lng = STR_F(_toPoint.longitude);
+    orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
+    orderInfo.car_style = _current_car_style.car_style_id;
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval now = [date timeIntervalSince1970]*1;
+    orderInfo.startTimeStr = [NSString stringWithFormat:@"%f",now];
+    orderInfo.startTimeType = STR_D(_isRightNow);
+    
+    [self sentOrder:orderInfo];
 }
 
 #pragma mark - TimePickerDelegate
@@ -279,6 +366,51 @@
 {
     [self showTimePicker:NO];
 }
+
+#pragma mark - AddressPickerViewControllerDelegate
+
+- (void)addressPicker:(AddressPickerViewController *)pickerVC fromAddress:(AMapTip *)fromTip toAddress:(AMapTip *)toTip
+{
+    if (fromTip) {
+        _bottomToolBar.fromAddressLabel.text = fromTip.name;
+        MAPointAnnotation *fromAnnotation = [[MAPointAnnotation alloc] init];
+        fromAnnotation.coordinate =  CLLocationCoordinate2DMake(fromTip.location.latitude, fromTip.location.longitude);
+        _fromPoint = [AMapGeoPoint locationWithLatitude:fromTip.location.latitude longitude:fromTip.location.longitude];
+        fromAnnotation.title = fromTip.name;
+        
+        [_annotations removeAllObjects];
+        [_annotations addObject:fromAnnotation];
+       
+        [self clearMapView];
+        
+        [self.mapView addAnnotation:fromAnnotation];
+        [self updateAnnotations:_annotations];
+    }
+    if (toTip){
+        _toPoint = [AMapGeoPoint locationWithLatitude:toTip.location.latitude longitude:toTip.location.longitude];
+        _bottomToolBar.toAddressLabel.text = toTip.name;
+        _bottomToolBar.toAddressLabel.textColor = COLORRGB(0x63666b);
+        [_bottomToolBar showChargeView:YES];
+        [self getCouponInfo];
+    }
+}
+
+- (void)updateAnnotations:(NSMutableArray *)Annotations
+{
+    [self.mapView showAnnotations:_annotations
+                      edgePadding:UIEdgeInsetsMake(0, 0, 0, 0)
+                         animated:YES];
+}
+
+
+#pragma mark - LoginVCDelegate
+- (void)loginSucceed:(UserModel *)userInfo
+{
+    [MenuTableViewController sharedMenuTableViewController].userInfo = userInfo;
+    [self.navigationController pushViewController:[MenuTableViewController sharedMenuTableViewController] animated:YES];
+}
+
+#pragma mark - -------------地图相关代码-------------
 
 #pragma mark - MAMapViewDelegate
 
@@ -340,7 +472,7 @@ updatingLocation:(BOOL)updatingLocation
         //构造AMapReGeocodeSearchRequest对象
         AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
         regeo.location = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
-        regeo.radius = 1000;
+        regeo.radius = 50;
         regeo.requireExtension = YES;
         [self.search AMapReGoecodeSearch:regeo];
     }
@@ -358,48 +490,11 @@ updatingLocation:(BOOL)updatingLocation
     }
 }
 
-#pragma mark - AddressPickerViewControllerDelegate
+#pragma mark - AMapSearchDelegate
 
-- (void)addressPicker:(AddressPickerViewController *)pickerVC fromAddress:(AMapTip *)fromTip toAddress:(AMapTip *)toTip
+- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error
 {
-    if (fromTip) {
-        _bottomToolBar.fromAddressLabel.text = fromTip.name;
-        MAPointAnnotation *fromAnnotation = [[MAPointAnnotation alloc] init];
-        fromAnnotation.coordinate =  CLLocationCoordinate2DMake(fromTip.location.latitude, fromTip.location.longitude);
-        _fromPoint = [AMapGeoPoint locationWithLatitude:fromTip.location.latitude longitude:fromTip.location.longitude];
-        fromAnnotation.title = fromTip.name;
-        
-        [_annotations removeAllObjects];
-        [_annotations addObject:fromAnnotation];
-       
-        [self clearMapView];
-        
-        [self.mapView addAnnotation:fromAnnotation];
-        [self updateAnnotations:_annotations];
-    }
-    if (toTip){
-        _toPoint = [AMapGeoPoint locationWithLatitude:toTip.location.latitude longitude:toTip.location.longitude];
-        _bottomToolBar.toAddressLabel.text = toTip.name;
-        _bottomToolBar.toAddressLabel.textColor = COLORRGB(0x63666b);
-        [_bottomToolBar showChargeView:YES];
-    }
-}
-
-- (void)updateAnnotations:(NSMutableArray *)Annotations
-{
-    [self.mapView showAnnotations:_annotations
-                      edgePadding:UIEdgeInsetsMake(0, 0, 0, 0)
-                         animated:YES];
-}
-
-
-#pragma mark - LoginVCDelegate
-- (void)loginSucceed:(UserModel *)userInfo
-{
-    MenuTableViewController *menuVC = [[MenuTableViewController alloc] init];
-    menuVC.userInfo = userInfo;
-    menuVC.title = @"个人中心";
-    [self.navigationController pushViewController:menuVC animated:YES];
+    NSLog(@"%s: searchRequest = %@, errInfo= %@", __func__, [request class], error);
 }
 
 @end

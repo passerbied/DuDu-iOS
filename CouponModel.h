@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSString *coupon_user_start_time;
 @property (nonatomic, strong) NSString *coupon_user_end_time;
 @property (nonatomic, strong) NSString *coupon_max_monny;
-@property (nonatomic, assign) BOOL     coupon_isUsed;
-@property (nonatomic, assign) BOOL     coupon_isShare;
+@property (nonatomic, strong) NSNumber *coupon_isUsed;
+@property (nonatomic, strong) NSNumber *coupon_isShare;
 
 @end

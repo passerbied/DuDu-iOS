@@ -52,10 +52,10 @@
 #define FLUSH_ORDER_STATUS(order_id)    [NSString stringWithFormat:@"/order/flush-order-status?order_id=%ld",order_id]
 
 //取消当前订单	(参数：user_id,token,order_id)
-#define CANCEL_ORDER(order_id)          [NSString stringWithFormat:@"/order/cancel-order?order_id=%d",order_id]
+#define CANCEL_ORDER(order_id)          [NSString stringWithFormat:@"/order/cancel-order?order_id=%@",order_id]
 
 //用户下单(参数：lat lng是坐标, car_style是车型Id，startTimeType(0,现在乘车， 1预约) , startTimeStr预约的时间搓（无论是现在还是预约都要传，服务器要用）,est_distance预计里程（可选）)
-#define ADD_ORDER(start_lat, start_lng, starLocStr, dest_lat, dest_lng, dest_loc_str, car_style, startTimeType, startTimeStr, est_distance)  [NSString stringWithFormat:@"/order/add-order?start_lat=%f&start_lng=%f&starLocStr=%@&dest_lat=%f&dest_lng=%f&dest_loc_str=%@&car_style=%d&startTimeType=%d&startTimeStr=%d&est_distance=%f",order_id]
+#define ADD_ORDER(start_lat, start_lng, starLocStr, dest_lat, dest_lng, dest_loc_str, car_style, startTimeType, startTimeStr)  [NSString stringWithFormat:@"/order/add-order?start_lat=%@&start_lng=%@&starLocStr=%@&dest_lat=%@&dest_lng=%@&dest_loc_str=%@&car_style=%@&startTimeType=%@&startTimeStr=%@",start_lat, start_lng, starLocStr, dest_lat, dest_lng, dest_loc_str, car_style, startTimeType, startTimeStr]
 
 //检查更新（返回车型列表）
 #define CHECK_VERSION                    @"/exam/check-version"

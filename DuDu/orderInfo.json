@@ -1,0 +1,20 @@
+{ "err":"0",
+    "info":
+    { "user_id":31,
+        "start_lat":"39.95152",
+        "start_lng":"116.28771",
+        "star_loc_str":"\u8fdc\u5927\u56ed(\u516d\u533a)",
+        "dest_lat":"39.8853",
+        "dest_lng":"116.3982",
+        "dest_loc_str":"\u5317\u4eac\u5929\u6865\u827a\u672f\u5927\u53a6",
+        "car_style":2,
+        "startTimeType":0,
+        "startTimeStr":"1451314408",
+        "coupon_id":0,
+        "order_time":"2015-12-28 22:53:33",
+        "order_id":56
+    },
+    "order_id":56,
+    "order_info":"\u7b49\u5f85\u53f8\u673a\u63a5\u5355",
+    "car_style":"01"
+}

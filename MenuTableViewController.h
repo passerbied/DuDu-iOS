@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CouponStore.h"
 
 @interface MenuTableViewController : UITableViewController
 
-@property (nonatomic, strong) UserModel *userInfo;
++ (instancetype)sharedMenuTableViewController;
 
+@property (nonatomic, strong) UserModel *userInfo;
+@property (nonatomic, strong) CouponStore *coupons;
 @end

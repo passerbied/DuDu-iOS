@@ -70,7 +70,7 @@ alpha:a]
 /* string format helper */
 #define STR_STR(str)     [NSString stringWithFormat:@"%@",str]
 #define STR_D(double)     [NSString stringWithFormat:@"%d",double]
-#define STR_F(float)     [NSString stringWithFormat:@"%.1f",float]
+#define STR_F(float)     [NSString stringWithFormat:@"%f",float]
 #define STR_I(int)     [NSString stringWithFormat:@"%d",int]
 
 #define kDateFormat  @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z"

@@ -24,5 +24,6 @@
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 @property (nonatomic, strong) TopToolBar *topToolBar;
 @property (nonatomic, strong) NSArray *carStyles;
+@property (nonatomic, strong) CarModel *current_car_style;
 
 @end

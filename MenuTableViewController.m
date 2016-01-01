@@ -26,6 +26,21 @@
     UILabel *_phoneLabel;
 }
 
++ (instancetype)sharedMenuTableViewController
+{
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedMenuTableViewController = nil;
+    dispatch_once(&pred, ^{
+        _sharedMenuTableViewController = [[self alloc] init];
+    });
+    return _sharedMenuTableViewController;
+}
+
+- (id)init
+{
+    return [super init];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

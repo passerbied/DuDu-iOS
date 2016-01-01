@@ -208,7 +208,6 @@
     [budgetString addAttributes:@{NSFontAttributeName:HSFONT(22)}
                           range:NSMakeRange(1, money.length)];
     self.budgetLabel.attributedText = budgetString;
-    
     self.couponLabel.text = coupon.coupon_title;
 }
 

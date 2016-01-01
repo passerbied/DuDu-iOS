@@ -24,9 +24,7 @@
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
-    
     [self setUpViewController];
-    
     /*
     [[DuDuAPIClient sharedClient] GET:LOGIN_REGEDIT(18698600911) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@",[DuDuAPIClient parseJSONFrom:responseObject]);
@@ -72,8 +70,11 @@
         NSArray *carStyleModels = [MTLJSONAdapter modelsOfClass:[CarModel class]
                                       fromJSONArray:carStyles
                                               error:nil];
-        [MainViewController sharedMainViewController].carStyles = carStyleModels;
-        [[MainViewController sharedMainViewController].topToolBar updateCarStylesWith:carStyleModels];
+        if (carStyleModels.count) {
+            [MainViewController sharedMainViewController].carStyles = carStyleModels;
+            [MainViewController sharedMainViewController].current_car_style = carStyleModels[0];
+            [[MainViewController sharedMainViewController].topToolBar updateCarStylesWith:carStyleModels];
+        }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

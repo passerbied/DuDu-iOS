@@ -11,7 +11,7 @@
 @interface CarModel : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic, strong) NSString *car_style_name;
-@property (nonatomic, assign) NSInteger car_style_id;
+@property (nonatomic, strong) NSNumber *car_style_id;
 @property (nonatomic, assign) CGFloat  per_kilometer_money;
 @property (nonatomic, assign) CGFloat  per_max_kilometer;
 @property (nonatomic, assign) CGFloat  per_max_kilometer_money;

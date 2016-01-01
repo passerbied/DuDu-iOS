@@ -89,6 +89,9 @@
 		4867CE381C29492E003B1744 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE371C29492E003B1744 /* BaseViewController.m */; };
 		4867CE411C317EC9003B1744 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE401C317EC9003B1744 /* OrderModel.m */; };
 		4867CE451C34D9C5003B1744 /* CarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE441C34D9C5003B1744 /* CarModel.m */; };
+		4867CE4A1C354B62003B1744 /* CouponStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE491C354B62003B1744 /* CouponStore.m */; };
+		4867CE4E1C35664B003B1744 /* couponInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE4D1C35664B003B1744 /* couponInfo.json */; };
+		4867CE511C357790003B1744 /* orderInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE501C357790003B1744 /* orderInfo.json */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -262,6 +265,10 @@
 		4867CE401C317EC9003B1744 /* OrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderModel.m; sourceTree = "<group>"; };
 		4867CE431C34D9C5003B1744 /* CarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarModel.h; sourceTree = "<group>"; };
 		4867CE441C34D9C5003B1744 /* CarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarModel.m; sourceTree = "<group>"; };
+		4867CE481C354B62003B1744 /* CouponStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponStore.h; sourceTree = "<group>"; };
+		4867CE491C354B62003B1744 /* CouponStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponStore.m; sourceTree = "<group>"; };
+		4867CE4D1C35664B003B1744 /* couponInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = couponInfo.json; sourceTree = "<group>"; };
+		4867CE501C357790003B1744 /* orderInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = orderInfo.json; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -654,18 +661,10 @@
 		482741491BE9FB0000EF6FD8 /* 首页 */ = {
 			isa = PBXGroup;
 			children = (
-				4847D3B01C148D89004634F5 /* Models */,
 				486F527D1BEE091B0043874E /* Controllers */,
 				486F527C1BEE09140043874E /* Views */,
 			);
 			name = "首页";
-			sourceTree = "<group>";
-		};
-		4847D3B01C148D89004634F5 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Models;
 			sourceTree = "<group>";
 		};
 		4867CDBC1C26B0D5003B1744 /* ProgressHUD */ = {
@@ -716,10 +715,21 @@
 		4867CE471C3535E6003B1744 /* CouponModel */ = {
 			isa = PBXGroup;
 			children = (
+				4867CE481C354B62003B1744 /* CouponStore.h */,
+				4867CE491C354B62003B1744 /* CouponStore.m */,
 				4847D3AD1C148D82004634F5 /* CouponModel.h */,
 				4847D3AE1C148D82004634F5 /* CouponModel.m */,
 			);
 			name = CouponModel;
+			sourceTree = "<group>";
+		};
+		4867CE4F1C35664E003B1744 /* TestJson */ = {
+			isa = PBXGroup;
+			children = (
+				4867CE4D1C35664B003B1744 /* couponInfo.json */,
+				4867CE501C357790003B1744 /* orderInfo.json */,
+			);
+			name = TestJson;
 			sourceTree = "<group>";
 		};
 		486F52431BEDFE680043874E /* UIView+Utils */ = {
@@ -807,6 +817,7 @@
 		486F52841BEE22290043874E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				4867CE4F1C35664E003B1744 /* TestJson */,
 				480E50681C02F0BB006D545A /* AMAPImages */,
 				486F52851BEE225E0043874E /* imgs */,
 			);
@@ -1105,6 +1116,7 @@
 				486F52991BEE6E450043874E /* path_mark_start@2x.png in Resources */,
 				480E51E61C02F0BB006D545A /* arrow_right@2x.png in Resources */,
 				480E53411C02F0BC006D545A /* man@2x.png in Resources */,
+				4867CE4E1C35664B003B1744 /* couponInfo.json in Resources */,
 				480E51E11C02F0BB006D545A /* animatedTrain_1.png in Resources */,
 				480E51EA1C02F0BB006D545A /* car@2x.png in Resources */,
 				480E505B1BFB62A6006D545A /* tiny_history@2x.png in Resources */,
@@ -1141,6 +1153,7 @@
 				4867CDB41C22FD56003B1744 /* PushConfig.plist in Resources */,
 				486F52881BEE225E0043874E /* tiny_circle_green@2x.png in Resources */,
 				480E51E21C02F0BB006D545A /* animatedTrain_2.png in Resources */,
+				4867CE511C357790003B1744 /* orderInfo.json in Resources */,
 				4803E5C51C19CCB4000395AA /* Images.xcassets in Resources */,
 				486F52981BEE6E450043874E /* path_mark_end@2x.png in Resources */,
 				480E51DD1C02F0BB006D545A /* animatedCar_1.png in Resources */,
@@ -1274,6 +1287,7 @@
 				32F03A091C0DFCFF00A2C4BD /* MyWalletVC.m in Sources */,
 				486F52651BEE07F40043874E /* UILabel+KAddition.m in Sources */,
 				4867CDBF1C26B0E7003B1744 /* ZBCProgressHUD.m in Sources */,
+				4867CE4A1C354B62003B1744 /* CouponStore.m in Sources */,
 				486F52BD1BF1E1DE0043874E /* YBTextField.m in Sources */,
 				486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */,
 			);

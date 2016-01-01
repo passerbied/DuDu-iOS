@@ -36,6 +36,15 @@
 
 - (void)createSubViews
 {
+    UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [submitButton setTitle:@"取消" forState:UIControlStateNormal];
+    [submitButton setTitleColor:COLORRGB(0x929292) forState:UIControlStateNormal];
+    submitButton.frame = ccr(0, 0, 40, 40);
+    [submitButton addTarget:self action:@selector(cancelOrder) forControlEvents:UIControlEventTouchUpInside];
+    [submitButton setEnabled:NO];
+    [self.navigationItem.rightBarButtonItem setEnabled:NO];
+    [self showRightTitle:YES withButton:submitButton];
+    
     _headerView = [[UIView alloc] initWithFrame:CGRectZero];
     _headerView.backgroundColor = COLORRGB(0xffffff);
     [self.view addSubview:_headerView];
@@ -73,16 +82,16 @@
                           numberOfLines:1];
     [_headerView addSubview:_endLabel];
     
-    _timeBg = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [_headerView addSubview:_timeBg];
+//    _timeBg = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    [_headerView addSubview:_timeBg];
     
-    _numberLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0x000000)
-                                      font:HSFONT(15)
-                                      text:@""
-                                 alignment:NSTextAlignmentCenter
-                             numberOfLines:1];
-    [_timeBg addSubview:_numberLabel];
+//    _numberLabel = [UILabel labelWithFrame:CGRectZero
+//                                     color:COLORRGB(0x000000)
+//                                      font:HSFONT(15)
+//                                      text:@""
+//                                 alignment:NSTextAlignmentCenter
+//                             numberOfLines:1];
+//    [_timeBg addSubview:_numberLabel];
     
     _minuteLabel = [UILabel labelWithFrame:CGRectZero
                                      color:COLORRGB(0xd7d7d7)
@@ -90,7 +99,7 @@
                                       text:@"分钟"
                                  alignment:NSTextAlignmentCenter
                              numberOfLines:1];
-    [_timeBg addSubview:_minuteLabel];
+//    [_timeBg addSubview:_minuteLabel];
     
     _noticeLabel = [UILabel labelWithFrame:CGRectZero
                                      color:[UIColor blueColor]
@@ -106,18 +115,28 @@
     [self calculateFrame];
 }
 
+- (void)cancelOrder
+{
+    [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(self.orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
 - (void)setData
 {
     _timeImage.image = nil;
     _timeImage.backgroundColor = COLORRGB(0xd7d7d7);
-    _timeLabel.text = @"今天 18:50";
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
+    _timeLabel.text = [date displayWithFormat:@"d号H点mm分"];
     _startImage.image = IMG(@"tiny_circle_green");
-    _startLabel.text = @"大连软件园23号楼";
+    _startLabel.text = self.orderInfo.star_loc_str;
     _endImage.image = IMG(@"tiny_circle_red");
-    _endLabel.text = @"北京南站";
-    _timeBg.image = nil;
-    _timeBg.backgroundColor = COLORRGB(0xedad49);
-    _numberLabel.text = @"8";
+    _endLabel.text = self.orderInfo.dest_loc_str;
+//    _timeBg.image = nil;
+//    _timeBg.backgroundColor = COLORRGB(0xedad49);
+//    _numberLabel.text = @"8";
     _noticeLabel.text = @"正在通知海豹,海豹接单后会及时通知您";
 }
 
@@ -152,21 +171,21 @@
                             NAV_BAR_HEIGHT_IOS7,
                             SCREEN_WIDTH,
                             CGRectGetMaxY(_endLabel.frame)+10);
-    CGFloat bgSize = _headerView.height-15*2;
-    _timeBg.frame = ccr(SCREEN_WIDTH-10-bgSize,
-                        15,
-                        bgSize,
-                        bgSize);
-    CGSize numberSize = [self getTextFromLabel:_numberLabel];
-    CGSize minuteSize = [self getTextFromLabel:_minuteLabel];
-    _numberLabel.frame = ccr((bgSize-numberSize.width)/2,
-                             (bgSize-numberSize.height-minuteSize.height-5)/2,
-                             numberSize.width,
-                             numberSize.height);
-    _minuteLabel.frame = ccr((bgSize-minuteSize.width)/2,
-                             CGRectGetMaxY(_numberLabel.frame)+5,
-                             minuteSize.width,
-                             minuteSize.height);
+//    CGFloat bgSize = _headerView.height-15*2;
+//    _timeBg.frame = ccr(SCREEN_WIDTH-10-bgSize,
+//                        15,
+//                        bgSize,
+//                        bgSize);
+//    CGSize numberSize = [self getTextFromLabel:_numberLabel];
+//    CGSize minuteSize = [self getTextFromLabel:_minuteLabel];
+//    _numberLabel.frame = ccr((bgSize-numberSize.width)/2,
+//                             (bgSize-numberSize.height-minuteSize.height-5)/2,
+//                             numberSize.width,
+//                             numberSize.height);
+//    _minuteLabel.frame = ccr((bgSize-minuteSize.width)/2,
+//                             CGRectGetMaxY(_numberLabel.frame)+5,
+//                             minuteSize.width,
+//                             minuteSize.height);
     _bottomLine.frame = ccr(0,
                             CGRectGetMaxY(_headerView.frame)-0.5,
                             SCREEN_WIDTH,

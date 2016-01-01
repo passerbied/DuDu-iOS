@@ -86,8 +86,8 @@
 
 + (BOOL)remoteNotificationEnabled
 {
-    if ([[UIApplication sharedApplication] enabledRemoteNotificationTypes] == 7 ||
-        [[UIApplication sharedApplication] enabledRemoteNotificationTypes] == 15) {
+    if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications] == 7 ||
+        [[UIApplication sharedApplication] isRegisteredForRemoteNotifications] == 15) {
         
         return YES;
     }
