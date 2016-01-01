@@ -113,6 +113,7 @@
                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
+    [ZBCProgressHUD showHUDAddedTo:KEY_WINDOW animated:YES];
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:[Utils urlWithToken:URLString] relativeToURL:self.baseURL] absoluteString] parameters:parameters error:nil];
     
     __block NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {

@@ -96,6 +96,7 @@
 		4867CE591C3643AC003B1744 /* OrderHistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE581C3643AC003B1744 /* OrderHistoryModel.m */; };
 		4867CE5C1C364FA7003B1744 /* OrderStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE5B1C364FA7003B1744 /* OrderStore.m */; };
 		4867CE5E1C369A3C003B1744 /* ordercancel.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE5D1C369A3C003B1744 /* ordercancel.json */; };
+		4867CE611C36A310003B1744 /* CarStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE601C36A310003B1744 /* CarStore.m */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -279,6 +280,8 @@
 		4867CE5A1C364FA7003B1744 /* OrderStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderStore.h; sourceTree = "<group>"; };
 		4867CE5B1C364FA7003B1744 /* OrderStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderStore.m; sourceTree = "<group>"; };
 		4867CE5D1C369A3C003B1744 /* ordercancel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ordercancel.json; sourceTree = "<group>"; };
+		4867CE5F1C36A310003B1744 /* CarStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarStore.h; sourceTree = "<group>"; };
+		4867CE601C36A310003B1744 /* CarStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarStore.m; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -722,6 +725,8 @@
 			children = (
 				4867CE431C34D9C5003B1744 /* CarModel.h */,
 				4867CE441C34D9C5003B1744 /* CarModel.m */,
+				4867CE5F1C36A310003B1744 /* CarStore.h */,
+				4867CE601C36A310003B1744 /* CarStore.m */,
 			);
 			name = CarInfo;
 			sourceTree = "<group>";
@@ -1261,6 +1266,7 @@
 				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
 				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,
 				32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */,
+				4867CE611C36A310003B1744 /* CarStore.m in Sources */,
 				4867CE381C29492E003B1744 /* BaseViewController.m in Sources */,
 				4867CE411C317EC9003B1744 /* OrderModel.m in Sources */,
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,

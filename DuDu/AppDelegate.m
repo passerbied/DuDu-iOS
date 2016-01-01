@@ -66,14 +66,17 @@
     [[DuDuAPIClient sharedClient] GET:CHECK_VERSION parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSArray *carStyles = [DuDuAPIClient parseJSONFrom:responseObject][@"car_style"];
-        
-        NSArray *carStyleModels = [MTLJSONAdapter modelsOfClass:[CarModel class]
-                                      fromJSONArray:carStyles
-                                              error:nil];
-        if (carStyleModels.count) {
-            [MainViewController sharedMainViewController].carStyles = carStyleModels;
-            [MainViewController sharedMainViewController].current_car_style = carStyleModels[0];
-            [[MainViewController sharedMainViewController].topToolBar updateCarStylesWith:carStyleModels];
+        CarStore *carStore = [[CarStore alloc] init];
+        carStore.cars = [MTLJSONAdapter modelsOfClass:[CarModel class]
+                                        fromJSONArray:carStyles
+                                                error:nil];
+//        NSArray *carStyleModels = [MTLJSONAdapter modelsOfClass:[CarModel class]
+//                                      fromJSONArray:carStyles
+//                                              error:nil];
+        if (carStore.cars.count) {
+            [MainViewController sharedMainViewController].carStyles = carStore.cars;
+            [MainViewController sharedMainViewController].current_car_style = carStore.cars[0];
+            [[MainViewController sharedMainViewController].topToolBar updateCarStylesWith:carStore.cars];
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

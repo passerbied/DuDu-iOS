@@ -26,6 +26,7 @@
     TimePicker      *_timePicker;
     UIActivityIndicatorView *_activityView;
     MenuTableViewController *_menuVC;
+    OrderVC                 *_orderVC;
     
     AMapReGeocode   *_currentReGeocode;
     NSMutableArray  *_annotations;
@@ -53,6 +54,9 @@
         _annotations = [NSMutableArray array];
         _menuVC = [[MenuTableViewController alloc] init];
         _menuVC.title = @"个人中心";
+        
+        _orderVC = [[OrderVC alloc] init];
+        _orderVC.title = @"正在为你预约嘟嘟快车";
     }
     return self;
 }
@@ -215,21 +219,19 @@
 }
 
 #pragma mark - 发送订单
-
+/*
 - (void)sentOrder:(OrderModel *)orderInfo
 {
     //TODO:让后台把接口返回同一字段类型统一
     OrderModel *order = [MTLJSONAdapter modelOfClass:[OrderModel class]
                                   fromJSONDictionary:[DuDuAPIClient parseJSONFrom:[Utils testDicFrom:@"orderInfo"][@"info"]]
                                                error:nil];
-    
-    OrderVC *orderVC =[[OrderVC alloc] init];
-    orderVC.orderInfo = order;
-    orderVC.title = @"正在为你预约顺风车";
-    [self.navigationController pushViewController:orderVC animated:YES];
+ 
+    [OrderVC sharedOrderVC].orderInfo = order;
+    [self.navigationController pushViewController:[OrderVC sharedOrderVC] animated:YES];
 }
+*/
 
-/*
 - (void)sentOrder:(OrderModel *)orderInfo
 {
     NSString *url = ADD_ORDER(orderInfo.start_lat,
@@ -245,37 +247,37 @@
     [[DuDuAPIClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        OrderVC *orderVC =[[OrderVC alloc] init];
+        CarStore *carStore = [[CarStore alloc] init];
         OrderModel *orderInfo;
-        if ([dic[@"err"] intValue] == 11) { //有未完成的订单，字段不同
+        if ([dic[@"err"] intValue] == 11) {
             orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
                                   fromJSONDictionary:dic[@"have"]
                                                error:nil];
-            orderVC.orderInfo = orderInfo;
-            orderVC.result = [dic[@"err"] intValue];
-            orderVC.title = @"正在为你预约顺风车";
-            [self.navigationController pushViewController:orderVC animated:YES];
-        } else if([dic[@"err"] intValue] == 5){ //优惠券不可用
+        } else if([dic[@"err"] intValue] == 5){
             [ZBCToast showMessage:@"优惠券不可用"];
-        } else if([dic[@"err"] intValue] == 12){ //没有等待的司机,也没有其他合适的车,选择等待或者取消订单
-            [ZBCToast showMessage:@"当前没有可用车辆，等等再试吧~"];
-        } else if([dic[@"err"] intValue] == 17){ //没有当前的车型 ,但是有其他的车型可选
-            [ZBCToast showMessage:@"当前车型没有空闲车辆 ,换个车型试试吧~"];
-        } else { //正常情况
+            return;
+        } else if([dic[@"err"] intValue] == 12 ||
+                  [dic[@"err"] intValue] == 17 ||
+                  [dic[@"err"] intValue] == 0){
             orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
                                   fromJSONDictionary:dic[@"info"]
                                                error:nil];
-            orderVC.orderInfo = orderInfo;
-            orderVC.result = [dic[@"err"] intValue];
-            orderVC.title = @"正在为你预约顺风车";
-            [self.navigationController pushViewController:orderVC animated:YES];
+            carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
+                                      fromJSONDictionary:dic[@"car_style"]
+                                                   error:nil];
+        } else {
         }
+        
+        [OrderVC sharedOrderVC].orderInfo = orderInfo;
+        [OrderVC sharedOrderVC].result = [dic[@"err"] intValue];
+        [OrderVC sharedOrderVC].carStore = carStore;
+        [self.navigationController pushViewController:[OrderVC sharedOrderVC] animated:YES];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
     }];
 }
-*/
+
 
 #pragma mark - 获取优惠信息
 
@@ -341,11 +343,11 @@
     orderInfo.dest_lat = STR_F(_toPoint.latitude);
     orderInfo.dest_lng = STR_F(_toPoint.longitude);
     orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
-    orderInfo.car_style = _current_car_style.car_style_id?[_current_car_style.car_style_id stringValue]:@"";
+    orderInfo.car_style = _current_car_style.car_style_id;
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
     NSTimeInterval now = [date timeIntervalSince1970]*1;
     orderInfo.startTimeStr = [NSString stringWithFormat:@"%f",now];
-    orderInfo.startTimeType = STR_D(_isRightNow);
+    orderInfo.startTimeType = [NSNumber numberWithInt:_isRightNow];
     
     [self sentOrder:orderInfo];
 }

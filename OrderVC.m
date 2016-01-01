@@ -22,11 +22,27 @@
     UILabel     *_minuteLabel;
     UILabel     *_noticeLabel;
     UIImageView *_bottomLine;
+    UIButton    *_changeCarBtn;
 }
 
 @end
 
 @implementation OrderVC
+
++ (instancetype)sharedOrderVC
+{
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedOrderVC = nil;
+    dispatch_once(&pred, ^{
+        _sharedOrderVC = [[self alloc] init];
+    });
+    return _sharedOrderVC;
+}
+
+- (id)init
+{
+    return [super init];
+}
 
 - (void)viewDidLoad
 {
@@ -85,25 +101,6 @@
                           numberOfLines:1];
     [_headerView addSubview:_endLabel];
     
-//    _timeBg = [[UIImageView alloc] initWithFrame:CGRectZero];
-//    [_headerView addSubview:_timeBg];
-    
-//    _numberLabel = [UILabel labelWithFrame:CGRectZero
-//                                     color:COLORRGB(0x000000)
-//                                      font:HSFONT(15)
-//                                      text:@""
-//                                 alignment:NSTextAlignmentCenter
-//                             numberOfLines:1];
-//    [_timeBg addSubview:_numberLabel];
-    
-    _minuteLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0xd7d7d7)
-                                      font:HSFONT(12)
-                                      text:@"分钟"
-                                 alignment:NSTextAlignmentCenter
-                             numberOfLines:1];
-//    [_timeBg addSubview:_minuteLabel];
-    
     _noticeLabel = [UILabel labelWithFrame:CGRectZero
                                      color:[UIColor blueColor]
                                       font:HSFONT(15)
@@ -115,6 +112,7 @@
     _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
     _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
     [self.view addSubview:_bottomLine];
+    
     [self calculateFrame];
 }
 
@@ -147,10 +145,7 @@
     _startLabel.text = self.orderInfo.star_loc_str;
     _endImage.image = IMG(@"tiny_circle_red");
     _endLabel.text = self.orderInfo.dest_loc_str;
-//    _timeBg.image = nil;
-//    _timeBg.backgroundColor = COLORRGB(0xedad49);
-//    _numberLabel.text = @"8";
-    _noticeLabel.text = @"正在通知海豹,海豹接单后会及时通知您";
+    _noticeLabel.text = self.orderStatusInfo;
 }
 
 - (void)calculateFrame
@@ -184,21 +179,6 @@
                             NAV_BAR_HEIGHT_IOS7,
                             SCREEN_WIDTH,
                             CGRectGetMaxY(_endLabel.frame)+10);
-//    CGFloat bgSize = _headerView.height-15*2;
-//    _timeBg.frame = ccr(SCREEN_WIDTH-10-bgSize,
-//                        15,
-//                        bgSize,
-//                        bgSize);
-//    CGSize numberSize = [self getTextFromLabel:_numberLabel];
-//    CGSize minuteSize = [self getTextFromLabel:_minuteLabel];
-//    _numberLabel.frame = ccr((bgSize-numberSize.width)/2,
-//                             (bgSize-numberSize.height-minuteSize.height-5)/2,
-//                             numberSize.width,
-//                             numberSize.height);
-//    _minuteLabel.frame = ccr((bgSize-minuteSize.width)/2,
-//                             CGRectGetMaxY(_numberLabel.frame)+5,
-//                             minuteSize.width,
-//                             minuteSize.height);
     _bottomLine.frame = ccr(0,
                             CGRectGetMaxY(_headerView.frame)-0.5,
                             SCREEN_WIDTH,
@@ -208,6 +188,42 @@
                              CGRectGetMaxY(_headerView.frame)+30,
                              noticeSize.width,
                              noticeSize.height);
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            [view removeFromSuperview];
+        }
+    }
+    if (self.result == OrderHaveOtherCar) {
+        for (int i=0; i<self.carStore.cars.count; i++) {
+            CarModel *car = self.carStore.cars[i];
+            UIButton *carBtn = [UIButton buttonWithImageName:@"orgbtn"
+                                                 hlImageName:@"orgbtn_pressed"
+                                                       title:car.car_style_name
+                                                  titleColor:COLORRGB(0xffffff)
+                                                        font:HSFONT(15)
+                                                  onTapBlock:^(UIButton *btn) {
+                                                      [self changeOrderToCarStyle:car];
+                                                  }];
+            carBtn.frame = ccr(10, CGRectGetMaxY(_noticeLabel.frame) + 10 + 40*i, SCREEN_WIDTH-20, 40);
+            [self.view addSubview:carBtn];
+        }
+    }
+    
+}
+
+- (void)changeOrderToCarStyle:(CarModel *)car
+{
+    [[DuDuAPIClient sharedClient] GET:
+                    ORDER_CHANGE_ORDER_CAR_STYLE([self.orderInfo.order_id stringValue],
+                                                 [car.car_style_id stringValue])
+                           parameters:nil
+                              success:^(NSURLSessionDataTask *task, id responseObject) {
+                                  [self.carStore.cars removeAllObjects];
+                                  self.resultStatus = OrderChangedCar;
+                                  [self calculateFrame];
+                                  [ZBCToast showMessage:@"修改车型成功，请耐心等候"];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    }];
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label
