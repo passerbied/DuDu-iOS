@@ -11,6 +11,7 @@
 #import "OrderVC.h"
 #import "LoginVC.h"
 #import "CouponStore.h"
+#import "OrderHistoryModel.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -63,7 +64,7 @@
     
     [self setupLeftMenuButton];
     
-    [AMapSearchServices sharedServices].apiKey = MAP_KEY;
+    [AMapSearchServices sharedServices].apiKey = AMAP_KEY;
     self.search = [[AMapSearchAPI alloc] init];
     self.search.delegate = self;
     
@@ -213,26 +214,6 @@
     }
 }
 
-#pragma mark - 获取订单信息
-
-- (OrderModel *)orderInfo
-{
-    OrderModel *orderInfo = [[OrderModel alloc] init];
-    orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] intValue]];
-    orderInfo.start_lat = STR_F(_fromPoint.latitude);
-    orderInfo.start_lng = STR_F(_fromPoint.longitude);
-    orderInfo.star_loc_str = _bottomToolBar.fromAddressLabel.text;
-    orderInfo.dest_lat = STR_F(_toPoint.latitude);
-    orderInfo.dest_lng = STR_F(_toPoint.longitude);
-    orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
-    orderInfo.car_style = _current_car_style.car_style_id;
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
-    NSTimeInterval now = [date timeIntervalSince1970]*1;
-    orderInfo.startTimeStr = [NSString stringWithFormat:@"%f",now];
-    orderInfo.startTimeType = STR_D(_isRightNow);
-    return orderInfo;
-}
-
 #pragma mark - 发送订单
 
 - (void)sentOrder:(OrderModel *)orderInfo
@@ -253,7 +234,7 @@
 {
     NSString *url = ADD_ORDER(orderInfo.start_lat,
                               orderInfo.start_lng,
-                              orderInfo.start_loc_str,
+                              orderInfo.star_loc_str,
                               orderInfo.dest_lat,
                               orderInfo.dest_lng,
                               orderInfo.dest_loc_str,
@@ -264,20 +245,37 @@
     [[DuDuAPIClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                           fromJSONDictionary:dic
-                                                        error:nil];
-        
         OrderVC *orderVC =[[OrderVC alloc] init];
-        orderVC.orderInfo = orderInfo;
-        orderVC.title = @"正在为你预约顺风车";
-        [self.navigationController pushViewController:orderVC animated:YES];
+        OrderModel *orderInfo;
+        if ([dic[@"err"] intValue] == 11) { //有未完成的订单，字段不同
+            orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                  fromJSONDictionary:dic[@"have"]
+                                               error:nil];
+            orderVC.orderInfo = orderInfo;
+            orderVC.result = [dic[@"err"] intValue];
+            orderVC.title = @"正在为你预约顺风车";
+            [self.navigationController pushViewController:orderVC animated:YES];
+        } else if([dic[@"err"] intValue] == 5){ //优惠券不可用
+            [ZBCToast showMessage:@"优惠券不可用"];
+        } else if([dic[@"err"] intValue] == 12){ //没有等待的司机,也没有其他合适的车,选择等待或者取消订单
+            [ZBCToast showMessage:@"当前没有可用车辆，等等再试吧~"];
+        } else if([dic[@"err"] intValue] == 17){ //没有当前的车型 ,但是有其他的车型可选
+            [ZBCToast showMessage:@"当前车型没有空闲车辆 ,换个车型试试吧~"];
+        } else { //正常情况
+            orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                  fromJSONDictionary:dic[@"info"]
+                                               error:nil];
+            orderVC.orderInfo = orderInfo;
+            orderVC.result = [dic[@"err"] intValue];
+            orderVC.title = @"正在为你预约顺风车";
+            [self.navigationController pushViewController:orderVC animated:YES];
+        }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
+
     }];
 }
- */
+*/
 
 #pragma mark - 获取优惠信息
 
@@ -343,7 +341,7 @@
     orderInfo.dest_lat = STR_F(_toPoint.latitude);
     orderInfo.dest_lng = STR_F(_toPoint.longitude);
     orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
-    orderInfo.car_style = _current_car_style.car_style_id;
+    orderInfo.car_style = _current_car_style.car_style_id?[_current_car_style.car_style_id stringValue]:@"";
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
     NSTimeInterval now = [date timeIntervalSince1970]*1;
     orderInfo.startTimeStr = [NSString stringWithFormat:@"%f",now];

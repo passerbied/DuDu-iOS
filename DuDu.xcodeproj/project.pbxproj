@@ -93,6 +93,9 @@
 		4867CE4E1C35664B003B1744 /* couponInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE4D1C35664B003B1744 /* couponInfo.json */; };
 		4867CE511C357790003B1744 /* orderInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE501C357790003B1744 /* orderInfo.json */; };
 		4867CE531C364016003B1744 /* tiny_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE521C364016003B1744 /* tiny_clock@2x.png */; };
+		4867CE591C3643AC003B1744 /* OrderHistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE581C3643AC003B1744 /* OrderHistoryModel.m */; };
+		4867CE5C1C364FA7003B1744 /* OrderStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE5B1C364FA7003B1744 /* OrderStore.m */; };
+		4867CE5E1C369A3C003B1744 /* ordercancel.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE5D1C369A3C003B1744 /* ordercancel.json */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -271,6 +274,11 @@
 		4867CE4D1C35664B003B1744 /* couponInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = couponInfo.json; sourceTree = "<group>"; };
 		4867CE501C357790003B1744 /* orderInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = orderInfo.json; sourceTree = "<group>"; };
 		4867CE521C364016003B1744 /* tiny_clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tiny_clock@2x.png"; sourceTree = "<group>"; };
+		4867CE571C3643AC003B1744 /* OrderHistoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderHistoryModel.h; sourceTree = "<group>"; };
+		4867CE581C3643AC003B1744 /* OrderHistoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderHistoryModel.m; sourceTree = "<group>"; };
+		4867CE5A1C364FA7003B1744 /* OrderStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderStore.h; sourceTree = "<group>"; };
+		4867CE5B1C364FA7003B1744 /* OrderStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderStore.m; sourceTree = "<group>"; };
+		4867CE5D1C369A3C003B1744 /* ordercancel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ordercancel.json; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -701,6 +709,10 @@
 			children = (
 				4867CE3F1C317EC9003B1744 /* OrderModel.h */,
 				4867CE401C317EC9003B1744 /* OrderModel.m */,
+				4867CE571C3643AC003B1744 /* OrderHistoryModel.h */,
+				4867CE581C3643AC003B1744 /* OrderHistoryModel.m */,
+				4867CE5A1C364FA7003B1744 /* OrderStore.h */,
+				4867CE5B1C364FA7003B1744 /* OrderStore.m */,
 			);
 			name = OrderInfo;
 			sourceTree = "<group>";
@@ -730,6 +742,7 @@
 			children = (
 				4867CE4D1C35664B003B1744 /* couponInfo.json */,
 				4867CE501C357790003B1744 /* orderInfo.json */,
+				4867CE5D1C369A3C003B1744 /* ordercancel.json */,
 			);
 			name = TestJson;
 			sourceTree = "<group>";
@@ -1162,6 +1175,7 @@
 				486F52981BEE6E450043874E /* path_mark_end@2x.png in Resources */,
 				480E51DD1C02F0BB006D545A /* animatedCar_1.png in Resources */,
 				480E51E91C02F0BB006D545A /* car.png in Resources */,
+				4867CE5E1C369A3C003B1744 /* ordercancel.json in Resources */,
 				480E51ED1C02F0BB006D545A /* GWF.png in Resources */,
 				480E53441C02F0BC006D545A /* naviBackgroundNormal.png in Resources */,
 				486F52891BEE225E0043874E /* tiny_circle_red@2x.png in Resources */,
@@ -1252,6 +1266,7 @@
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
 				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
 				32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */,
+				4867CE5C1C364FA7003B1744 /* OrderStore.m in Sources */,
 				32F03A131C0E8F6900A2C4BD /* InvoiceVC.m in Sources */,
 				486F52B81BF0E87F0043874E /* YBNavigationContoller.m in Sources */,
 				32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */,
@@ -1259,6 +1274,7 @@
 				486F52D31BFB28AD0043874E /* MMDrawerBarButtonItem.m in Sources */,
 				486F52611BEE07F40043874E /* UIAlertView+KAddition.m in Sources */,
 				480E50531BFB5DF6006D545A /* MenuCell.m in Sources */,
+				4867CE591C3643AC003B1744 /* OrderHistoryModel.m in Sources */,
 				48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */,
 				4867CE451C34D9C5003B1744 /* CarModel.m in Sources */,
 				32F03A2D1C0FF0C400A2C4BD /* TicketVC.m in Sources */,

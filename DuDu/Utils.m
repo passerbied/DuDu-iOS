@@ -29,9 +29,9 @@
 {
     NSString *url;
     if ([href rangeOfString:@"?"].location == NSNotFound) {
-        url = [NSString stringWithFormat:@"%@?token=%@",href,[self emptyIfNull:[UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]]];
+        url = [NSString stringWithFormat:@"%@?token=%@&user_id=%@",href,[self emptyIfNull:[UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]],[self emptyIfNull:[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE]]];
     } else {
-        url = [NSString stringWithFormat:@"%@&token=%@",href,[self emptyIfNull:[UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]]];
+        url = [NSString stringWithFormat:@"%@&token=%@&user_id=%@",href,[self emptyIfNull:[UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]],[self emptyIfNull:[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE]]];
     }
     
     return [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

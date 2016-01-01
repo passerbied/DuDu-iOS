@@ -229,6 +229,9 @@
         [UICKeyChainStore setString:[Utils emptyIfNull:_userInfo.token]
                              forKey:KEY_STORE_ACCESS_TOKEN
                             service:KEY_STORE_SERVICE];
+        [UICKeyChainStore setString:[_userInfo.user_id stringValue]
+                             forKey:KEY_STORE_USERID
+                            service:KEY_STORE_SERVICE];
         
         [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
                      alias:[_userInfo.user_id description]

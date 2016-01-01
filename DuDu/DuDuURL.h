@@ -79,8 +79,12 @@
 #define Weixin_App_Secret               @""
 #define Weixin_RedirectUrl              ADD(BASE_URL,@"auth/weixin/callback")
 
-//MAP_KEY
-#define MAP_KEY @"d42442167ce54d6fe790fdb161bb96f6"
+//高徳MAP_KEY
+#define AMAP_KEY @"d42442167ce54d6fe790fdb161bb96f6"
+
+//腾讯地图KEY
+#define QMAP_KEY @"U5CBZ-HLOW5-JYJI2-QKN2Z-SZJGH-5WBSP"
+
 
 
 

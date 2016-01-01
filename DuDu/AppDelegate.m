@@ -20,7 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [MAMapServices sharedServices].apiKey = MAP_KEY;
+    [MAMapServices sharedServices].apiKey = AMAP_KEY;
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     

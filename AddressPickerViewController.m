@@ -191,7 +191,7 @@
     [self initSearchBar];
     [self initTableView];
     
-    [AMapSearchServices sharedServices].apiKey = MAP_KEY;
+    [AMapSearchServices sharedServices].apiKey = AMAP_KEY;
     self.search = [[AMapSearchAPI alloc] init];
     self.search.delegate = self;
     

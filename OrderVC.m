@@ -28,7 +28,8 @@
 
 @implementation OrderVC
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createSubViews];
@@ -36,14 +37,16 @@
 
 - (void)createSubViews
 {
-    UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [submitButton setTitle:@"取消" forState:UIControlStateNormal];
-    [submitButton setTitleColor:COLORRGB(0x929292) forState:UIControlStateNormal];
-    submitButton.frame = ccr(0, 0, 40, 40);
-    [submitButton addTarget:self action:@selector(cancelOrder) forControlEvents:UIControlEventTouchUpInside];
-    [submitButton setEnabled:NO];
-    [self.navigationItem.rightBarButtonItem setEnabled:NO];
-    [self showRightTitle:YES withButton:submitButton];
+    UIButton *cancelBtn = [UIButton buttonWithImageName:@""
+                                            hlImageName:@""
+                                                  title:@"取消"
+                                             titleColor:COLORRGB(0x000000)
+                                                   font:HSFONT(15)
+                                             onTapBlock:^(UIButton *btn) {
+                                                 [self cancelOrder];
+                                             }];
+    cancelBtn.frame = ccr(0, 0, 40, 40);
+    [self showRightTitle:YES withButton:cancelBtn];
     
     _headerView = [[UIView alloc] initWithFrame:CGRectZero];
     _headerView.backgroundColor = COLORRGB(0xffffff);
@@ -115,12 +118,22 @@
     [self calculateFrame];
 }
 
+//TODO:remove test json
+//
+//- (void)cancelOrder
+//{
+//    NSDictionary *dic = [DuDuAPIClient parseJSONFrom:[Utils testDicFrom:@"ordercancel"]];
+//    [ZBCToast showMessage:dic[@"info"]];
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+//}
+
 - (void)cancelOrder
 {
     [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(self.orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        [ZBCToast showMessage:dic[@"info"]];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -148,7 +161,7 @@
     _timeLabel.frame = ccr(CGRectGetMaxX(_timeImage.frame)+10,
                            _timeImage.origin.y,
                            timeSize.width,
-                           timeSize.height);
+                           20);
     _startImage.frame = ccr(_timeImage.origin.x,
                             CGRectGetMaxY(_timeImage.frame)+10,
                             _timeImage.width,
@@ -157,7 +170,7 @@
     _startLabel.frame = ccr(_timeLabel.origin.x,
                             CGRectGetMaxY(_timeLabel.frame)+10,
                             startSize.width,
-                            startSize.height);
+                            20);
     _endImage.frame = ccr(_startImage.origin.x,
                           CGRectGetMaxY(_startImage.frame)+10,
                           _startImage.width,
@@ -166,7 +179,7 @@
     _endLabel.frame = ccr(_startLabel.origin.x,
                           CGRectGetMaxY(_startLabel.frame)+10,
                           endSize.width,
-                          endSize.height);
+                          20);
     _headerView.frame = ccr(0,
                             NAV_BAR_HEIGHT_IOS7,
                             SCREEN_WIDTH,

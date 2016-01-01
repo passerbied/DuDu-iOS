@@ -9,8 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "OrderModel.h"
 
+typedef NS_ENUM(NSUInteger, OrderResult) {
+    OrderSuccess = 0,
+    OrderCouponCantUse = 5,
+    OrderNotCompleted = 11,
+    OrderNoCarUse = 12,
+    OrderHaveOtherCar = 17
+};
+
 @interface OrderVC : BaseViewController
 
 @property (nonatomic, strong) OrderModel *orderInfo;
+@property (nonatomic, assign) NSInteger resultStatus;
+@property (readwrite, nonatomic, assign) OrderResult result;
 
 @end
