@@ -237,7 +237,7 @@
 
 - (void)sentOrder:(OrderModel *)orderInfo
 {
-    //TODO:数据没有映射到model中
+    //TODO:让后台把接口返回同一字段类型统一
     OrderModel *order = [MTLJSONAdapter modelOfClass:[OrderModel class]
                                   fromJSONDictionary:[DuDuAPIClient parseJSONFrom:[Utils testDicFrom:@"orderInfo"][@"info"]]
                                                error:nil];

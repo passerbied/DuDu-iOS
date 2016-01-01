@@ -92,6 +92,7 @@
 		4867CE4A1C354B62003B1744 /* CouponStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CE491C354B62003B1744 /* CouponStore.m */; };
 		4867CE4E1C35664B003B1744 /* couponInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE4D1C35664B003B1744 /* couponInfo.json */; };
 		4867CE511C357790003B1744 /* orderInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE501C357790003B1744 /* orderInfo.json */; };
+		4867CE531C364016003B1744 /* tiny_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4867CE521C364016003B1744 /* tiny_clock@2x.png */; };
 		486F52421BEDFE650043874E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52411BEDFE650043874E /* UIView+Utils.m */; };
 		486F525C1BEE07F40043874E /* KUIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52461BEE07F40043874E /* KUIActionSheet.m */; };
 		486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52481BEE07F40043874E /* KUIAlertView.m */; };
@@ -269,6 +270,7 @@
 		4867CE491C354B62003B1744 /* CouponStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponStore.m; sourceTree = "<group>"; };
 		4867CE4D1C35664B003B1744 /* couponInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = couponInfo.json; sourceTree = "<group>"; };
 		4867CE501C357790003B1744 /* orderInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = orderInfo.json; sourceTree = "<group>"; };
+		4867CE521C364016003B1744 /* tiny_clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tiny_clock@2x.png"; sourceTree = "<group>"; };
 		486F52401BEDFE650043874E /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
 		486F52411BEDFE650043874E /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		486F52451BEE07F40043874E /* KUIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KUIActionSheet.h; sourceTree = "<group>"; };
@@ -848,6 +850,7 @@
 				486F528B1BEE567E0043874E /* arrow_down@2x.png */,
 				486F528C1BEE567E0043874E /* arrow_up_pressed@2x.png */,
 				486F528D1BEE567E0043874E /* arrow_up@2x.png */,
+				4867CE521C364016003B1744 /* tiny_clock@2x.png */,
 				486F52861BEE225E0043874E /* tiny_circle_green@2x.png */,
 				486F52871BEE225E0043874E /* tiny_circle_red@2x.png */,
 			);
@@ -1114,6 +1117,7 @@
 				480E51E31C02F0BB006D545A /* animatedTrain_3.png in Resources */,
 				480E504A1BFB5196006D545A /* arrow_right@2x.png in Resources */,
 				486F52991BEE6E450043874E /* path_mark_start@2x.png in Resources */,
+				4867CE531C364016003B1744 /* tiny_clock@2x.png in Resources */,
 				480E51E61C02F0BB006D545A /* arrow_right@2x.png in Resources */,
 				480E53411C02F0BC006D545A /* man@2x.png in Resources */,
 				4867CE4E1C35664B003B1744 /* couponInfo.json in Resources */,

@@ -127,7 +127,7 @@
 - (void)setData
 {
     _timeImage.image = nil;
-    _timeImage.backgroundColor = COLORRGB(0xd7d7d7);
+    _timeImage.image = IMG(@"tiny_clock");
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
     _timeLabel.text = [date displayWithFormat:@"d号H点mm分"];
     _startImage.image = IMG(@"tiny_circle_green");
