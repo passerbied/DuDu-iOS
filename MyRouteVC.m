@@ -37,13 +37,11 @@
     [[DuDuAPIClient sharedClient] GET:USER_ORDER_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject][@"info"];
-        NSArray *ingArr = dic[@"ing"];
-        NSArray *historyArr = dic[@"history"];
         NSArray *ing = [MTLJSONAdapter modelsOfClass:[OrderModel class]
-                                                  fromJSONArray:ingArr
+                                                  fromJSONArray:dic[@"ing"]
                                                           error:nil];
         NSArray *history = [MTLJSONAdapter modelsOfClass:[OrderModel class]
-                                           fromJSONArray:historyArr
+                                           fromJSONArray:dic[@"history"]
                                                    error:nil];
         [OrderStore sharedOrderStore].ing = [ing mutableCopy];
         [OrderStore sharedOrderStore].history = [history mutableCopy];
@@ -101,9 +99,18 @@
 {
     OrderModel *order = [OrderStore sharedOrderStore].history[indexPath.row];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[order.startTimeStr floatValue]];
-    cell.routeTime = [date displayWithFormat:@"m月d日 H:mm"];
+    cell.routeTime = [date displayWithFormat:@"yyyy-m-d HH:mm"];
 //    cell.routeType = [order.car_style stringValue];
-//    cell.routeStatus = @"待评价";
+    //4=到达目的地等待付费，5=完成，付费成功。7司机取消
+    if( [order.order_payStatus intValue] == 4) {
+        cell.routeStatus = @"未付费";
+    } else if([order.order_payStatus intValue] == 5){
+        cell.routeStatus = @"已付费";
+    } else if ([order.order_payStatus intValue] == 7) {
+        cell.routeStatus = @"司机取消";
+    } else {
+        cell.routeStatus = @"未知状态";
+    }
     cell.startSite = order.star_loc_str;
     cell.endSite = order.dest_loc_str;
 }

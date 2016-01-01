@@ -95,9 +95,9 @@
     _timeLabel.text = self.routeTime;
     _typeLabel.text = self.routeType;
     _statusLabel.text = self.routeStatus;
-    _arrowImage.image = IMG(@"arrow_right@2x");
-    _startSiteImage.image = IMG(@"path_mark_start");
-    _endSiteImage.image = IMG(@"path_mark_end");
+    _arrowImage.image = IMG(@"arrow_right");
+    _startSiteImage.image = IMG(@"tiny_circle_green");
+    _endSiteImage.image = IMG(@"tiny_circle_red");
     _startSiteLabel.text = self.startSite;
     _endSiteLabel.text = self.endSite;
 }
