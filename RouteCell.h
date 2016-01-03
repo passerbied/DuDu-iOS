@@ -10,11 +10,7 @@
 
 @interface RouteCell : UITableViewCell
 
-@property (nonatomic, copy)NSString *routeTime;
-@property (nonatomic, copy)NSString *routeType;
-@property (nonatomic, copy)NSString *routeStatus;
-@property (nonatomic, copy)NSString *startSite;
-@property (nonatomic, copy)NSString *endSite;
+@property (nonatomic, strong) OrderModel *orderInfo;
 
 - (CGRect)calculateFrame;
 

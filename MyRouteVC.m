@@ -97,22 +97,7 @@
 
 - (void)configureCell:(RouteCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    OrderModel *order = [OrderStore sharedOrderStore].history[indexPath.row];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[order.startTimeStr floatValue]];
-    cell.routeTime = [date displayWithFormat:@"yyyy-m-d HH:mm"];
-//    cell.routeType = [order.car_style stringValue];
-    //4=到达目的地等待付费，5=完成，付费成功。7司机取消
-    if( [order.order_payStatus intValue] == 4) {
-        cell.routeStatus = @"未付费";
-    } else if([order.order_payStatus intValue] == 5){
-        cell.routeStatus = @"已付费";
-    } else if ([order.order_payStatus intValue] == 7) {
-        cell.routeStatus = @"司机取消";
-    } else {
-        cell.routeStatus = @"未知状态";
-    }
-    cell.startSite = order.star_loc_str;
-    cell.endSite = order.dest_loc_str;
+    cell.orderInfo = [OrderStore sharedOrderStore].history[indexPath.row];
 }
 
 #pragma mark - tableView delegate

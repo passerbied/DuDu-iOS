@@ -49,4 +49,73 @@
     return nil;
 }
 
+//order_status:
+//0.等待派单   2.司机前往 3. 开始乘车, 4到达目的地等待付款 ,5 订单完成, 6.乘客取消订单, 7司机取消订单
+- (NSString *)order_status_str
+{
+    switch ([_order_status intValue]) {
+        case 0:
+            return @"等待派单";
+            break;
+        case 2:
+            return @"司机前往";
+            break;
+        case 3:
+            return @"开始乘车";
+            break;
+        case 4:
+            return @"待付款";
+            break;
+        case 5:
+            return @"已付款";
+            break;
+        case 6:
+            return @"乘客取消订单";
+            break;
+        case 7:
+            return @"司机取消订单";
+            break;
+        default:
+            return @"";
+            break;
+    }
+}
+
+//driver_status:
+//4=到达目的地等待付费，5=完成，付费成功。7司机取消
+- (NSString *)driver_status_str
+{
+    switch ([_driver_status intValue]) {
+        case 4:
+            return @"未付款";
+            break;
+        case 5:
+            return @"已付费";
+            break;
+        case 7:
+            return @"司机取消";
+            break;
+        default:
+            return @"";
+            break;
+    }
+}
+
+//order_payStatus:
+//支付区分 0。微信支付。1.现金支付
+- (NSString *)order_payStatus_str
+{
+    switch ([_order_payStatus intValue]) {
+        case 0:
+            return @"微信支付";
+            break;
+        case 1:
+            return @"现金支付";
+            break;
+        default:
+            return @"";
+            break;
+    }
+}
+
 @end

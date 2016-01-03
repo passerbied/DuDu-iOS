@@ -18,6 +18,8 @@
     UILabel     *_startSiteLabel;
     UILabel     *_endSiteLabel;
     UIImageView *_arrowImage;
+    UILabel     *_chargeStatusLabel;
+    UILabel     *_chargeLabel;
     UIImageView *_bottomLine;
 }
 
@@ -57,15 +59,18 @@
     [self.contentView addSubview:_statusLabel];
     
     _arrowImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _arrowImage.image = IMG(@"arrow_right");
     _arrowImage.userInteractionEnabled = YES;
     [self.contentView addSubview:_arrowImage];
     
     _startSiteImage = [[UIImageView alloc] initWithFrame:CGRectZero];
     _startSiteImage.userInteractionEnabled = YES;
+    _startSiteImage.image = IMG(@"tiny_circle_green");
     [self.contentView addSubview:_startSiteImage];
     
     _endSiteImage = [[UIImageView alloc] initWithFrame:CGRectZero];
     _endSiteImage.userInteractionEnabled = YES;
+    _endSiteImage.image = IMG(@"tiny_circle_red");
     [self.contentView addSubview:_endSiteImage];
     
     _startSiteLabel = [UILabel labelWithFrame:CGRectZero
@@ -84,6 +89,23 @@
                               numberOfLines:1];
     [self.contentView addSubview:_endSiteLabel];
     
+    _chargeStatusLabel = [UILabel labelWithFrame:CGRectZero
+                                           color:COLORRGB(0xff8830)
+                                            font:HSFONT(12)
+                                            text:@""
+                                       alignment:NSTextAlignmentLeft
+                                   numberOfLines:1];
+    [self.contentView addSubview:_chargeStatusLabel];
+    
+    _chargeLabel = [UILabel labelWithFrame:CGRectZero
+                                           color:COLORRGB(0xff8830)
+                                            font:HSFONT(12)
+                                            text:@""
+                                       alignment:NSTextAlignmentLeft
+                                   numberOfLines:1];
+    [self.contentView addSubview:_chargeLabel];
+    
+    
     _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
     _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
     _bottomLine.userInteractionEnabled = YES;
@@ -92,14 +114,13 @@
 
 - (void)setData
 {
-    _timeLabel.text = self.routeTime;
-    _typeLabel.text = self.routeType;
-    _statusLabel.text = self.routeStatus;
-    _arrowImage.image = IMG(@"arrow_right");
-    _startSiteImage.image = IMG(@"tiny_circle_green");
-    _endSiteImage.image = IMG(@"tiny_circle_red");
-    _startSiteLabel.text = self.startSite;
-    _endSiteLabel.text = self.endSite;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
+    _timeLabel.text = [date displayWithFormat:@"yyyy-m-d HH:mm"];
+    _statusLabel.text = self.orderInfo.order_status_str;
+    _startSiteLabel.text = self.orderInfo.star_loc_str;
+    _endSiteLabel.text = self.orderInfo.dest_loc_str;
+    _chargeStatusLabel.text = self.orderInfo.order_status_str;
+    _chargeLabel.text = self.orderInfo.order_allMoney;
 }
 
 - (CGRect)calculateFrame
@@ -134,7 +155,7 @@
     _startSiteImage.frame = ccr(_timeLabel.origin.x,
                                 CGRectGetMaxY(_timeLabel.frame)+12,
                                 16,
-                                23.5);
+                                16);
     
     CGSize siteSize = [_startSiteLabel.text sizeWithAttributes:@{NSFontAttributeName:_startSiteLabel.font}];
     _startSiteLabel.frame = ccr(CGRectGetMaxX(_startSiteImage.frame)+10,

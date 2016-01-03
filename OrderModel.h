@@ -34,9 +34,12 @@
 @property (nonatomic, strong) NSString *order_allMoney;
 @property (nonatomic, strong) NSString *order_allTime;
 @property (nonatomic, strong) NSNumber *order_status;
+@property (nonatomic, strong) NSString *order_status_str;
 @property (nonatomic, strong) NSNumber *order_payStatus;
+@property (nonatomic, strong) NSString *order_payStatus_str;
 
 @property (nonatomic, strong) NSNumber *driver_status;
+@property (nonatomic, strong) NSString *driver_status_str;
 @property (nonatomic, strong) NSNumber *isbook;
 @property (nonatomic, strong) NSNumber *relevance_id;
 
