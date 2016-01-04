@@ -104,7 +104,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-    detailVC.title = @"行程详情";
+    detailVC.title = @"订单详情";
+    detailVC.orderInfo = [OrderStore sharedOrderStore].history[indexPath.row];
     [self.navigationController pushViewController:detailVC animated:YES];
 }
  

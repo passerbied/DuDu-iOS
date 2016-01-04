@@ -18,4 +18,6 @@
 @property (nonatomic, assign) CGFloat  wait_time_money;
 @property (nonatomic, assign) CGFloat  start_money;
 
+- (id)initWithCarStyle:(NSNumber *)car_style_id;
+
 @end

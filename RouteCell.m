@@ -51,7 +51,7 @@
     [self.contentView addSubview:_typeLabel];
     
     _statusLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0xdedede)
+                                     color:COLORRGB(0xff8830)
                                       font:HSFONT(12)
                                       text:@""
                                  alignment:NSTextAlignmentRight
@@ -89,21 +89,21 @@
                               numberOfLines:1];
     [self.contentView addSubview:_endSiteLabel];
     
-    _chargeStatusLabel = [UILabel labelWithFrame:CGRectZero
-                                           color:COLORRGB(0xff8830)
-                                            font:HSFONT(12)
-                                            text:@""
-                                       alignment:NSTextAlignmentLeft
-                                   numberOfLines:1];
-    [self.contentView addSubview:_chargeStatusLabel];
-    
-    _chargeLabel = [UILabel labelWithFrame:CGRectZero
-                                           color:COLORRGB(0xff8830)
-                                            font:HSFONT(12)
-                                            text:@""
-                                       alignment:NSTextAlignmentLeft
-                                   numberOfLines:1];
-    [self.contentView addSubview:_chargeLabel];
+//    _chargeStatusLabel = [UILabel labelWithFrame:CGRectZero
+//                                           color:COLORRGB(0xff8830)
+//                                            font:HSFONT(12)
+//                                            text:@""
+//                                       alignment:NSTextAlignmentLeft
+//                                   numberOfLines:1];
+//    [self.contentView addSubview:_chargeStatusLabel];
+//    
+//    _chargeLabel = [UILabel labelWithFrame:CGRectZero
+//                                           color:COLORRGB(0xff8830)
+//                                            font:HSFONT(12)
+//                                            text:@""
+//                                       alignment:NSTextAlignmentLeft
+//                                   numberOfLines:1];
+//    [self.contentView addSubview:_chargeLabel];
     
     
     _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -119,8 +119,8 @@
     _statusLabel.text = self.orderInfo.order_status_str;
     _startSiteLabel.text = self.orderInfo.star_loc_str;
     _endSiteLabel.text = self.orderInfo.dest_loc_str;
-    _chargeStatusLabel.text = self.orderInfo.order_status_str;
-    _chargeLabel.text = self.orderInfo.order_allMoney;
+//    _chargeStatusLabel.text = self.orderInfo.order_status_str;
+//    _chargeLabel.text = self.orderInfo.order_allMoney;
 }
 
 - (CGRect)calculateFrame

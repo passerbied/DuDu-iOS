@@ -11,17 +11,18 @@
 
 @interface RouteDetailVC ()
 {
-    UIImageView *_avatarImage;
-    UIButton    *_avatarButton;
-    UILabel     *_screenNameLabel;
-    UILabel     *_carNumberLabel;
-    UILabel     *_carTypeLabel;
-    UILabel     *_carColorLabel;
-    UIImageView *_phoneImage;
-    UIButton    *_phoneButton;
+    UIView      *_headerView;
+    UIImageView *_timeImage;
+    UILabel     *_timeLabel;
+    UIImageView *_startImage;
+    UILabel     *_startLabel;
+    UIImageView *_endImage;
+    UILabel     *_endLabel;
+
     UIImageView *_leftLine;
     UILabel     *_successLabel;
     UIImageView *_rightLine;
+    UILabel     *_carStyleLabel;
     UILabel     *_priceLabel;
     UIImageView *_detailImage;
     UIButton    *_detailButton;
@@ -47,66 +48,45 @@
 
 - (void)createSubViews
 {
-    _avatarImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _avatarImage.backgroundColor = COLORRGB(0xcccccc);
-    _avatarImage.userInteractionEnabled = YES;
-    _avatarImage.layer.masksToBounds = YES;
-    [self.view addSubview:_avatarImage];
+    _headerView = [[UIView alloc] initWithFrame:CGRectZero];
+    _headerView.backgroundColor = COLORRGB(0xffffff);
+    [self.view addSubview:_headerView];
     
-    _avatarButton = [UIButton buttonWithImageName:@""
-                                      hlImageName:@""
-                                       onTapBlock:^(UIButton *btn) {
-                                           
-                                       }];
-    _avatarButton.frame = _avatarImage.frame;
-    _avatarButton.layer.masksToBounds = YES;
-    [self.view addSubview:_avatarButton];
+    _timeImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _timeImage.image = IMG(@"tiny_clock");
+    [_headerView addSubview:_timeImage];
     
-    _screenNameLabel = [UILabel labelWithFrame:CGRectZero
-                                         color:COLORRGB(0x000000)
-                                          font:HSFONT(12)
-                                          text:@""
-                                     alignment:NSTextAlignmentLeft
-                                 numberOfLines:1];
-    [self.view addSubview:_screenNameLabel];
+    _timeLabel = [UILabel labelWithFrame:CGRectZero
+                                   color:COLORRGB(0x000000)
+                                    font:HSFONT(12)
+                                    text:@""
+                               alignment:NSTextAlignmentLeft
+                           numberOfLines:1];
+    [_headerView addSubview:_timeLabel];
     
-    _carNumberLabel = [UILabel labelWithFrame:CGRectZero
-                                        color:COLORRGB(0x000000)
-                                         font:HSFONT(12)
-                                         text:@""
-                                    alignment:NSTextAlignmentLeft
-                                numberOfLines:1];
-    [self.view addSubview:_carNumberLabel];
+    _startImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _startImage.image = IMG(@"tiny_circle_green");
+    [_headerView addSubview:_startImage];
     
-    _carTypeLabel = [UILabel labelWithFrame:CGRectZero
-                                      color:COLORRGB(0x000000)
-                                       font:HSFONT(12)
-                                       text:@""
-                                  alignment:NSTextAlignmentLeft
-                              numberOfLines:1];
-    [self.view addSubview:_carTypeLabel];
+    _startLabel = [UILabel labelWithFrame:CGRectZero
+                                    color:COLORRGB(0x000000)
+                                     font:HSFONT(12)
+                                     text:@""
+                                alignment:NSTextAlignmentLeft
+                            numberOfLines:1];
+    [_headerView addSubview:_startLabel];
     
-    _carColorLabel = [UILabel labelWithFrame:CGRectZero
-                                       color:COLORRGB(0x000000)
-                                        font:HSFONT(12)
-                                        text:@""
-                                   alignment:NSTextAlignmentLeft
-                               numberOfLines:1];
-    [self.view addSubview:_carColorLabel];
+    _endImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _endImage.image = IMG(@"tiny_circle_red");
+    [_headerView addSubview:_endImage];
     
-    _phoneImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _phoneImage.userInteractionEnabled = YES;
-    _phoneImage.layer.masksToBounds = YES;
-    [self.view addSubview:_phoneImage];
-    
-    _phoneButton = [UIButton buttonWithImageName:@""
-                                     hlImageName:@""
-                                      onTapBlock:^(UIButton *btn) {
-                                          
-                                      }];
-    _phoneButton.frame = _phoneImage.frame;
-    _phoneButton.layer.masksToBounds = YES;
-    [self.view addSubview:_phoneButton];
+    _endLabel = [UILabel labelWithFrame:CGRectZero
+                                  color:COLORRGB(0x000000)
+                                   font:HSFONT(12)
+                                   text:@""
+                              alignment:NSTextAlignmentLeft
+                          numberOfLines:1];
+    [_headerView addSubview:_endLabel];
     
     _leftLine = [[UIImageView alloc] initWithFrame:CGRectZero];
     _leftLine.backgroundColor = COLORRGB(0xd7d7d7);
@@ -123,6 +103,14 @@
     _rightLine = [[UIImageView alloc] initWithFrame:CGRectZero];
     _rightLine.backgroundColor = COLORRGB(0xd7d7d7);
     [self.view addSubview:_rightLine];
+    
+    _carStyleLabel = [UILabel labelWithFrame:CGRectZero
+                                       color:COLORRGB(0x000000)
+                                        font:HSFONT(12)
+                                        text:@""
+                                   alignment:NSTextAlignmentCenter
+                               numberOfLines:1];
+    [self.view addSubview:_carStyleLabel];
     
     _priceLabel = [UILabel labelWithFrame:CGRectZero
                                     color:COLORRGB(0x000000)
@@ -205,13 +193,14 @@
 
 - (void)setData
 {
-    _avatarImage.image = IMG(@"account");
-    _screenNameLabel.text = @"天空海豹";
-    _carNumberLabel.text = @"辽***26Q";
-    _carTypeLabel.text = @"长城";
-    _carColorLabel.text = @"白色";
-    _phoneImage.image = nil;
-    _phoneImage.backgroundColor = [UIColor redColor];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
+    _timeLabel.text = [date displayWithFormat:@"yyyy-M-d H:mm"];
+    _startLabel.text = self.orderInfo.star_loc_str;
+    _endLabel.text = self.orderInfo.dest_loc_str;
+    
+    CarModel *carInfo = [[CarModel alloc] initWithCarStyle:self.orderInfo.car_style];
+    _carStyleLabel.text = carInfo.car_style_name;
+    
     NSString *price = @"9";
     _priceLabel.text = [NSString stringWithFormat:@"%@元",price];
     NSString *mostComment = @"驾驶平稳";
@@ -226,53 +215,56 @@
 - (void)calculateFrame
 {
     [self setData];
-    _avatarImage.frame = ccr(10, NAV_BAR_HEIGHT_IOS7+10, 50, 50);
-    _avatarImage.layer.cornerRadius = _avatarImage.width/2;
-    _avatarButton.frame = _avatarImage.frame;
-    _avatarButton.layer.cornerRadius = _avatarButton.width/2;
-    CGSize screenSize = [self getTextFromLabel:_screenNameLabel];
-    CGFloat gap = (50-screenSize.height*2)/3;
-    _screenNameLabel.frame = ccr(CGRectGetMaxX(_avatarImage.frame)+10,
-                                 NAV_BAR_HEIGHT_IOS7+10+gap,
-                                 screenSize.width,
-                                 screenSize.height);
-    CGSize numberSize = [self getTextFromLabel:_carNumberLabel];
-    _carNumberLabel.frame = ccr(_screenNameLabel.origin.x,
-                                CGRectGetMaxY(_screenNameLabel.frame)+gap,
-                                numberSize.width,
-                                numberSize.height);
-    CGSize typeSize = [self getTextFromLabel:_carTypeLabel];
-    _carTypeLabel.frame = ccr(CGRectGetMaxX(_carNumberLabel.frame)+5,
-                              _carNumberLabel.origin.y,
-                              typeSize.width,
-                              typeSize.height);
-    CGSize colorSize = [self getTextFromLabel:_carColorLabel];
-    _carColorLabel.frame = ccr(CGRectGetMaxX(_carTypeLabel.frame)+5,
-                               _carTypeLabel.origin.y,
-                               colorSize.width,
-                               colorSize.height);
-    _phoneImage.frame = ccr(SCREEN_WIDTH-40-30,
-                            NAV_BAR_HEIGHT_IOS7+15,
-                            40,
-                            40);
-    _phoneImage.layer.cornerRadius = _phoneImage.width/2;
-    _phoneButton.frame = _phoneButton.frame;
-    _phoneButton.layer.cornerRadius = _phoneButton.width/2;
+    _timeImage.frame = ccr(10, 10, 16, 16);
+    CGSize timeSize = [self getTextFromLabel:_timeLabel];
+    _timeLabel.frame = ccr(CGRectGetMaxX(_timeImage.frame)+10,
+                           _timeImage.origin.y-(_timeImage.height-_timeLabel.height)/2,
+                           timeSize.width,
+                           20);
+    _startImage.frame = ccr(_timeImage.origin.x,
+                            CGRectGetMaxY(_timeImage.frame)+10,
+                            _timeImage.width,
+                            _timeImage.height);
+    CGSize startSize = [self getTextFromLabel:_startLabel];
+    _startLabel.frame = ccr(_timeLabel.origin.x,
+                            _startImage.origin.y-(_startImage.height-_startLabel.height)/2,
+                            startSize.width,
+                            20);
+    _endImage.frame = ccr(_startImage.origin.x,
+                          CGRectGetMaxY(_startImage.frame)+10,
+                          _startImage.width,
+                          _startImage.height);
+    CGSize endSize = [self getTextFromLabel:_endLabel];
+    _endLabel.frame = ccr(_startLabel.origin.x,
+                          _endImage.origin.y-(_endImage.height-_endLabel.height)/2,
+                          endSize.width,
+                          20);
+    _headerView.frame = ccr(0,
+                            NAV_BAR_HEIGHT_IOS7,
+                            SCREEN_WIDTH,
+                            CGRectGetMaxY(_endLabel.frame)+10);
+
     CGSize successSize = [self getTextFromLabel:_successLabel];
     CGFloat lineLength = (SCREEN_WIDTH-successSize.width-5*2)/4;
     _leftLine.frame = ccr(lineLength,
-                          CGRectGetMaxY(_avatarImage.frame)+10+(successSize
+                          CGRectGetMaxY(_headerView.frame)+10+(successSize
                           .height-0.5)/2,
                           lineLength,
                           0.5);
     _successLabel.frame = ccr(CGRectGetMaxX(_leftLine.frame)+5,
-                              CGRectGetMaxY(_avatarImage.frame)+10,
+                              CGRectGetMaxY(_headerView.frame)+10,
                               successSize.width,
                               successSize.height);
     _rightLine.frame = ccr(CGRectGetMaxX(_successLabel.frame)+5,
                            _leftLine.origin.y,
                            _leftLine.width,
                            _leftLine.height);
+    
+    _carStyleLabel.frame = ccr((SCREEN_WIDTH-[self getTextFromLabel:_carStyleLabel].width)/2,
+                               CGRectGetMaxY(_successLabel.frame)+25,
+                               [self getTextFromLabel:_carStyleLabel].width,
+                               [self getTextFromLabel:_carStyleLabel].height);
+    
     NSString *price = _priceLabel.text;
     NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:price];
     NSUInteger priceLength = price.length-1;
@@ -281,7 +273,7 @@
     _priceLabel.attributedText = priceString;
     CGSize priceSize = [self getTextFromLabel:_priceLabel];
     _priceLabel.frame = ccr((SCREEN_WIDTH-priceSize.width)/2,
-                            CGRectGetMaxY(_successLabel.frame)+30,
+                            CGRectGetMaxY(_carStyleLabel.frame)+10,
                             priceSize.width,
                             priceSize.height);
     CGSize detailSize = [self getTextFromLabel:_detailButton.titleLabel];

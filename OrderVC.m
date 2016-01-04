@@ -17,7 +17,6 @@
     UILabel     *_startLabel;
     UIImageView *_endImage;
     UILabel     *_endLabel;
-    UIImageView *_timeBg;
     UILabel     *_numberLabel;
     UILabel     *_minuteLabel;
     UILabel     *_noticeLabel;
@@ -41,7 +40,11 @@
 
 - (id)init
 {
-    return [super init];
+    self = [super init];
+    if (self) {
+//        [self createSubViews];
+    }
+    return self;
 }
 
 - (void)viewDidLoad
@@ -49,6 +52,12 @@
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createSubViews];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+     [self calculateFrame];
 }
 
 - (void)createSubViews
@@ -69,6 +78,7 @@
     [self.view addSubview:_headerView];
     
     _timeImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _timeImage.image = IMG(@"tiny_clock");
     [_headerView addSubview:_timeImage];
     
     _timeLabel = [UILabel labelWithFrame:CGRectZero
@@ -80,6 +90,7 @@
     [_headerView addSubview:_timeLabel];
     
     _startImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _startImage.image = IMG(@"tiny_circle_green");
     [_headerView addSubview:_startImage];
     
     _startLabel = [UILabel labelWithFrame:CGRectZero
@@ -91,6 +102,7 @@
     [_headerView addSubview:_startLabel];
     
     _endImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _endImage.image = IMG(@"tiny_circle_red");
     [_headerView addSubview:_endImage];
     
     _endLabel = [UILabel labelWithFrame:CGRectZero
@@ -102,9 +114,9 @@
     [_headerView addSubview:_endLabel];
     
     _noticeLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:[UIColor blueColor]
+                                     color:COLORRGB(0x63666b)
                                       font:HSFONT(15)
-                                      text:@""
+                                      text:@"欢迎使用嘟嘟快车"
                                  alignment:NSTextAlignmentCenter
                              numberOfLines:0];
     [self.view addSubview:_noticeLabel];
@@ -112,8 +124,6 @@
     _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
     _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
     [self.view addSubview:_bottomLine];
-    
-    [self calculateFrame];
 }
 
 //TODO:remove test json
@@ -137,15 +147,12 @@
 
 - (void)setData
 {
-    _timeImage.image = nil;
-    _timeImage.image = IMG(@"tiny_clock");
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
     _timeLabel.text = [date displayWithFormat:@"d号H点mm分"];
-    _startImage.image = IMG(@"tiny_circle_green");
     _startLabel.text = self.orderInfo.star_loc_str;
-    _endImage.image = IMG(@"tiny_circle_red");
     _endLabel.text = self.orderInfo.dest_loc_str;
-    _noticeLabel.text = self.orderStatusInfo;
+//    _noticeLabel.text = self.orderStatusInfo;
+    [ZBCToast showMessage:self.orderStatusInfo];
 }
 
 - (void)calculateFrame

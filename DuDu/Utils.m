@@ -112,4 +112,23 @@
     return arr;
 }
 
++ (CGRect)getLabelRect:(UILabel *)label
+{
+    NSMutableAttributedString * contentStr = [[NSMutableAttributedString alloc]initWithString:label.text];
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:5];
+    
+    [contentStr addAttribute:NSParagraphStyleAttributeName
+                       value:paragraphStyle
+                       range:NSMakeRange(0, label.text.length)];
+    
+    label.attributedText = contentStr;
+    
+    CGRect rect = [label.text boundingRectWithSize:label.size
+                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                  attributes:@{NSFontAttributeName:label.font}
+                                     context:nil];
+    return rect;
+}
+
 @end

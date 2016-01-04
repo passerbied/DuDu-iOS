@@ -42,4 +42,6 @@
  */
 + (NSMutableArray *)testArrayFrom:(NSString *)jsonName;
 
++ (CGRect)getLabelRect:(UILabel *)label;
+
 @end

@@ -12,4 +12,6 @@
 @interface RouteDetailVC : UIViewController
 <CommentVCDelegate>
 
+@property (nonatomic, strong) OrderModel *orderInfo;
+
 @end

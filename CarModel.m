@@ -10,6 +10,25 @@
 
 @implementation CarModel
 
+- (id)initWithCarStyle:(NSNumber *)car_style_id
+{
+    self = [super init];
+    if (self) {
+        switch ([car_style_id intValue]) {
+            case 1:
+                self.car_style_name = @"启辰";
+                break;
+            case 2:
+                self.car_style_name = @"小Q";
+                break;
+            default:
+                self.car_style_name = @"未知车型";
+                break;
+        }
+    }
+    return self;
+}
+
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
     return @{

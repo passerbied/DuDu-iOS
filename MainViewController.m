@@ -248,26 +248,36 @@
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
         
-        if([dic[@"err"] intValue] == 11 ||
-           [dic[@"err"] intValue] == 12 ||
+        if(dic[@"err"] &&
+           ([dic[@"err"] intValue] == 11 ||
            [dic[@"err"] intValue] == 17 ||
-           [dic[@"err"] intValue] == 0){
+           [dic[@"err"] intValue] == 0)) {
             
             OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
                                               fromJSONDictionary:dic[@"info"]
                                                            error:nil];
-            CarStore *carStore = [[CarStore alloc] init];
-            carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
-                                      fromJSONDictionary:dic[@"car_style"]
-                                                   error:nil];
+            if ([dic[@"err"] intValue] == 17 || [dic[@"err"] intValue] == 0) {
+                CarStore *carStore = [[CarStore alloc] init];
+                carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
+                                          fromJSONDictionary:dic[@"car_style"]
+                                                       error:nil];
+                [OrderVC sharedOrderVC].carStore = carStore;
+            }
+            
             [OrderVC sharedOrderVC].orderInfo = orderInfo;
             [OrderVC sharedOrderVC].result = [dic[@"err"] intValue];
-            [OrderVC sharedOrderVC].carStore = carStore;
+            [OrderVC sharedOrderVC].title = @"订单信息";
+            [OrderVC sharedOrderVC].orderStatusInfo = dic[@"order_info"];
             [self.navigationController pushViewController:[OrderVC sharedOrderVC] animated:YES];
         } else if([dic[@"err"] intValue] == 5) {
             [ZBCToast showMessage:@"优惠券不可用"];
             return;
-        } else {}
+        } else if([dic[@"err"] intValue] == 12){
+            [ZBCToast showMessage:dic[@"order_info"]];
+            return;
+        } else {
+            
+        }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
 
@@ -333,11 +343,11 @@
 {
     OrderModel *orderInfo = [[OrderModel alloc] init];
     orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] intValue]];
-    orderInfo.start_lat = STR_F(_fromPoint.latitude);
-    orderInfo.start_lng = STR_F(_fromPoint.longitude);
+    orderInfo.start_lat = [NSNumber numberWithFloat:_fromPoint.latitude];
+    orderInfo.start_lng = [NSNumber numberWithFloat:_fromPoint.longitude];
     orderInfo.star_loc_str = _bottomToolBar.fromAddressLabel.text;
-    orderInfo.dest_lat = STR_F(_toPoint.latitude);
-    orderInfo.dest_lng = STR_F(_toPoint.longitude);
+    orderInfo.dest_lat = [NSNumber numberWithFloat:_toPoint.latitude];
+    orderInfo.dest_lng = [NSNumber numberWithFloat:_toPoint.longitude];
     orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
     orderInfo.car_style = _current_car_style.car_style_id;
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
