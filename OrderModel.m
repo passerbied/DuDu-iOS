@@ -23,7 +23,7 @@
              @"car_style"       : @"car_style",
              @"startTimeType"   : @"startTimeType",
              @"startTimeStr"    : @"startTimeStr",
-//             @"coupon_id"       : @"coupon_id",
+             @"coupon_id"       : @"coupon_id",
              @"order_time"      : @"order_time",
              @"order_id"        : @"order_id",
              @"order_initiate_rate"  : @"order_initiate_rate",
@@ -36,8 +36,9 @@
              @"driver_status"        : @"driver_status",
              @"order_payStatus"      : @"order_payStatus",
              @"isbook"               : @"isbook",
-//             @"coupon_title"         : @"coupon_title",
+             @"coupon_title"         : @"coupon_title",
              @"relevance_id"         :@"relevance_id",
+             @"evaluate_level"       :@"evaluate_level"
              };
 }
 

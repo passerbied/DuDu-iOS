@@ -29,7 +29,7 @@
         (*error) = newError;
     } else if (dic && ([dic[@"err"] integerValue] > 0 && [dic[@"err"] integerValue] != 5 && [dic[@"err"] integerValue] != 11 && [dic[@"err"] integerValue] != 12 && [dic[@"err"] integerValue] != 17)) {
         [userInfo setValue:dic forKey:JSONResponseSerializerWithDataKey];
-        [userInfo setValue:[response valueForKey:JSONResponseSerializerWithBodyKey] forKey:dic[@"err"]];
+        [userInfo setValue:[response valueForKey:JSONResponseSerializerWithBodyKey] forKey:JSONResponseSerializerWithBodyKey];
         NSError *newError = [NSError errorWithDomain:(*error).domain code:(*error).code userInfo:userInfo];
         (*error) = newError;
     }

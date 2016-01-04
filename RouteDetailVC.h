@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "CommentVC.h"
+#import "ZBCStarRating.h"
 
 @interface RouteDetailVC : UIViewController
-<CommentVCDelegate>
+<CommentVCDelegate,
+EDStarRatingProtocol>
 
 @property (nonatomic, strong) OrderModel *orderInfo;
+@property (nonatomic, strong) ZBCStarRating *starRating;
+@property (nonatomic, assign) BOOL isHistory;
+@property (nonatomic, assign) NSInteger modelIndex;
 
 @end

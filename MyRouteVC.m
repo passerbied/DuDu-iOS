@@ -106,6 +106,8 @@
     RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
     detailVC.title = @"订单详情";
     detailVC.orderInfo = [OrderStore sharedOrderStore].history[indexPath.row];
+    detailVC.isHistory = YES;
+    detailVC.modelIndex = indexPath.row;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
  

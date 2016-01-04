@@ -42,5 +42,6 @@
 @property (nonatomic, strong) NSString *driver_status_str;
 @property (nonatomic, strong) NSNumber *isbook;
 @property (nonatomic, strong) NSNumber *relevance_id;
+@property (nonatomic, strong) NSNumber *evaluate_level;
 
 @end

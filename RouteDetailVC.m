@@ -29,11 +29,13 @@
     UIImageView *_leftLine2;
     UILabel     *_impressLabel;
     UIImageView *_rightLine2;
+    
     UIImageView *_commentImage;
     UIButton    *_commentButton;
     UILabel     *_estimateLabel;
     UIImageView *_shareImage;
     UIButton    *_shareButton;
+    BOOL        _isRatingChanged;
 }
 
 @end
@@ -151,28 +153,32 @@
     _rightLine2.backgroundColor = COLORRGB(0xd7d7d7);
     [self.view addSubview:_rightLine2];
     
-    _commentImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _commentImage.image = IMG(@"tiny_history");
-    _commentImage.userInteractionEnabled = YES;
-    [self.view addSubview:_commentImage];
+    self.starRating = [[ZBCStarRating alloc] initWithFrame:CGRectZero];
+    self.starRating.delegate = self;
+    [self.view addSubview:self.starRating];
     
-    _commentButton = [UIButton buttonWithImageName:@""
-                                       hlImageName:@""
-                                             title:@"添加印象"
-                                        titleColor:COLORRGB(0x000000)
-                                              font:HSFONT(12)
-                                        onTapBlock:^(UIButton *btn) {
-                                            [self didClickCommentButtonAction];
-                                        }];
-    [self.view addSubview:_commentButton];
-    
-    _estimateLabel = [UILabel labelWithFrame:CGRectZero
-                                       color:COLORRGB(0x000000)
-                                        font:HSFONT(12)
-                                        text:@""
-                                   alignment:NSTextAlignmentCenter
-                               numberOfLines:1];
-    [self.view addSubview:_estimateLabel];
+//    _commentImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    _commentImage.image = IMG(@"tiny_history");
+//    _commentImage.userInteractionEnabled = YES;
+//    [self.view addSubview:_commentImage];
+//    
+//    _commentButton = [UIButton buttonWithImageName:@""
+//                                       hlImageName:@""
+//                                             title:@"添加印象"
+//                                        titleColor:COLORRGB(0x000000)
+//                                              font:HSFONT(12)
+//                                        onTapBlock:^(UIButton *btn) {
+//                                            [self didClickCommentButtonAction];
+//                                        }];
+//    [self.view addSubview:_commentButton];
+//    
+//    _estimateLabel = [UILabel labelWithFrame:CGRectZero
+//                                       color:COLORRGB(0x000000)
+//                                        font:HSFONT(12)
+//                                        text:@""
+//                                   alignment:NSTextAlignmentCenter
+//                               numberOfLines:1];
+//    [self.view addSubview:_estimateLabel];
     
     _shareImage = [[UIImageView alloc] initWithFrame:CGRectZero];
     _shareImage.userInteractionEnabled = YES;
@@ -201,15 +207,18 @@
     CarModel *carInfo = [[CarModel alloc] initWithCarStyle:self.orderInfo.car_style];
     _carStyleLabel.text = carInfo.car_style_name;
     
-    NSString *price = @"9";
-    _priceLabel.text = [NSString stringWithFormat:@"%@元",price];
-    NSString *mostComment = @"驾驶平稳";
-    NSString *personalComment = @"";
-    if ([personalComment isEqualToString:@""]) {
-        _estimateLabel.text = [NSString stringWithFormat:@"大多数人对他(她)的印象是:%@",mostComment];
-    } else {
-        _estimateLabel.text = personalComment;
-    }
+    _priceLabel.text = [NSString stringWithFormat:@"%@元",self.orderInfo.order_allMoney];
+    
+    self.starRating.editable = [self.orderInfo.order_status intValue] == 5; //只有已付款才可以评星
+    self.starRating.rating = [self.orderInfo.evaluate_level floatValue];
+    
+//    NSString *mostComment = @"驾驶平稳";
+//    NSString *personalComment = @"";
+//    if ([personalComment isEqualToString:@""]) {
+//        _estimateLabel.text = [NSString stringWithFormat:@"大多数人对他(她)的印象是:%@",mostComment];
+//    } else {
+//        _estimateLabel.text = personalComment;
+//    }
 }
 
 - (void)calculateFrame
@@ -299,20 +308,26 @@
                             _leftLine2.origin.y,
                             _leftLine2.width,
                             _leftLine2.height);
-    CGSize commentSize = [self getTextFromLabel:_commentButton.titleLabel];
-    _commentImage.frame = ccr(_detailImage.origin.x,
-                              CGRectGetMaxY(_impressLabel.frame)+20,
-                              16,
-                              16);
-    _commentButton.frame = ccr(CGRectGetMaxX(_commentImage.frame),
-                               _commentImage.origin.y+1,
-                               commentSize.width,
-                               commentSize.height);
-    CGSize estimateSize = [self getTextFromLabel:_estimateLabel];
-    _estimateLabel.frame = ccr((SCREEN_WIDTH-estimateSize.width)/2,
-                               CGRectGetMaxY(_commentButton.frame)+10,
-                               estimateSize.width,
-                               estimateSize.height);
+    
+    self.starRating.frame = ccr((SCREEN_WIDTH-200)/2,
+                                CGRectGetMaxY(_impressLabel.frame)+20,
+                                200,
+                                40);
+    
+//    CGSize commentSize = [self getTextFromLabel:_commentButton.titleLabel];
+//    _commentImage.frame = ccr(_detailImage.origin.x,
+//                              CGRectGetMaxY(_impressLabel.frame)+20,
+//                              16,
+//                              16);
+//    _commentButton.frame = ccr(CGRectGetMaxX(_commentImage.frame),
+//                               _commentImage.origin.y+1,
+//                               commentSize.width,
+//                               commentSize.height);
+//    CGSize estimateSize = [self getTextFromLabel:_estimateLabel];
+//    _estimateLabel.frame = ccr((SCREEN_WIDTH-estimateSize.width)/2,
+//                               CGRectGetMaxY(_commentButton.frame)+10,
+//                               estimateSize.width,
+//                               estimateSize.height);
     _shareImage.frame = ccr((SCREEN_WIDTH-50)/2,
                             SCREEN_HEIGHT-50-10,
                             50,
@@ -339,6 +354,18 @@
     [self.navigationController pushViewController:commentVC animated:YES];
 }
 
+- (void)sentRating:(float)rating
+{
+    [[DuDuAPIClient sharedClient] GET:ORDER_EVALUATE((int)rating, self.orderInfo.order_id)
+                           parameters:nil
+                              success:^(NSURLSessionDataTask *task, id responseObject) {
+                                  self.orderInfo.evaluate_level = [NSNumber numberWithInt:(int)rating];
+                                    [[OrderStore sharedOrderStore] updateHistoryModel:self.orderInfo at:self.modelIndex];
+                                
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    }];
+}
+
 - (CGSize)getTextFromLabel:(UILabel *)label
 {
     CGSize textSize = [label.text sizeWithAttributes:@{NSFontAttributeName:label.font}];
@@ -351,6 +378,12 @@
 - (void)didClickSubmitButtonWithComment:(NSString *)comment
 {
     _estimateLabel.text = comment;
+}
+
+#pragma mark - StarRating delegate
+- (void)starsSelectionChanged:(EDStarRating *)control rating:(float)rating
+{
+    [self sentRating:rating];
 }
 
 - (void)didReceiveMemoryWarning {

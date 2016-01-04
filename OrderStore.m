@@ -30,4 +30,14 @@
     return self;
 }
 
+- (void)updateHistoryModel:(OrderModel *)model at:(NSInteger)index
+{
+    [_history setObject:model atIndexedSubscript:index];
+}
+
+- (void)updateIngModel:(OrderModel *)model at:(NSInteger)index
+{
+    [_ing setObject:model atIndexedSubscript:index];
+}
+
 @end

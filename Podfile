@@ -15,4 +15,5 @@ pod 'HTAutocompleteTextField'       # https://github.com/hoteltonight/HTAutocomp
 pod 'AMap2DMap'
 pod 'AMapSearch'
 pod 'Mantle','~> 2.0.2'
+pod 'EDStarRating'
 

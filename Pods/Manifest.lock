@@ -24,6 +24,7 @@ PODS:
   - AMapSearch (3.0.1)
   - CRToast (0.0.9)
   - DCAnimationKit (0.0.6)
+  - EDStarRating (1.1)
   - HTAutocompleteTextField (1.3.2)
   - JPush (1.8.8)
   - Mantle (2.0.6):
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - AMapSearch
   - CRToast
   - DCAnimationKit
+  - EDStarRating
   - HTAutocompleteTextField
   - JPush
   - Mantle (~> 2.0.2)
@@ -56,6 +58,7 @@ SPEC CHECKSUMS:
   AMapSearch: 431b082417bd3da0c2fe594c4822b664607891e9
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DCAnimationKit: 7133bef877ce1aa113dcfeea1380ca67f91f7608
+  EDStarRating: a41a6440a945020745d0e9ff8ada7d1afa952114
   HTAutocompleteTextField: ce809f04875e843e20f214ab973bb496ba7a93b1
   JPush: d1a4a90294389d2c6bd2ca987df8140dd4ffcbd2
   Mantle: 299966b00759634931699f69cb6a30b9239b944d

@@ -134,6 +134,10 @@
 		486F52D41BFB28AD0043874E /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52CE1BFB28AD0043874E /* MMDrawerController.m */; };
 		486F52D51BFB28AD0043874E /* MMDrawerVisualState.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52D01BFB28AD0043874E /* MMDrawerVisualState.m */; };
 		486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52D21BFB28AD0043874E /* UIViewController+MMDrawerController.m */; };
+		487956CE1C3A9F2300193530 /* ZBCStarRating.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956CB1C3A9F2300193530 /* ZBCStarRating.m */; };
+		487956CF1C3A9F2300193530 /* ZBCStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956CD1C3A9F2300193530 /* ZBCStarRatingView.m */; };
+		487956D21C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956D01C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png */; };
+		487956D31C3AA24700193530 /* gn_icon_scoreinput@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956D11C3AA24700193530 /* gn_icon_scoreinput@2x.png */; };
 		48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D01BE7A65500AFF1D4 /* main.m */; };
 		48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D31BE7A65500AFF1D4 /* AppDelegate.m */; };
 		48EAD6361BE7B7C400AFF1D4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EAD6351BE7B7C400AFF1D4 /* AudioToolbox.framework */; };
@@ -349,6 +353,12 @@
 		486F52D01BFB28AD0043874E /* MMDrawerVisualState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerVisualState.m; sourceTree = "<group>"; };
 		486F52D11BFB28AD0043874E /* UIViewController+MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MMDrawerController.h"; sourceTree = "<group>"; };
 		486F52D21BFB28AD0043874E /* UIViewController+MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MMDrawerController.m"; sourceTree = "<group>"; };
+		487956CA1C3A9F2300193530 /* ZBCStarRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCStarRating.h; sourceTree = "<group>"; };
+		487956CB1C3A9F2300193530 /* ZBCStarRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCStarRating.m; sourceTree = "<group>"; };
+		487956CC1C3A9F2300193530 /* ZBCStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCStarRatingView.h; sourceTree = "<group>"; };
+		487956CD1C3A9F2300193530 /* ZBCStarRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCStarRatingView.m; sourceTree = "<group>"; };
+		487956D01C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gn_icon_scoreinput_sl@2x.png"; sourceTree = "<group>"; };
+		487956D11C3AA24700193530 /* gn_icon_scoreinput@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gn_icon_scoreinput@2x.png"; sourceTree = "<group>"; };
 		48EAD5CC1BE7A65500AFF1D4 /* DuDu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuDu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48EAD5D01BE7A65500AFF1D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		48EAD5D21BE7A65500AFF1D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -835,6 +845,8 @@
 		486F52851BEE225E0043874E /* imgs */ = {
 			isa = PBXGroup;
 			children = (
+				487956D01C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png */,
+				487956D11C3AA24700193530 /* gn_icon_scoreinput@2x.png */,
 				4867CE2B1C284821003B1744 /* nav_btn_back_88_88@2x.png */,
 				4867CE2C1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png */,
 				4867CE281C271387003B1744 /* find_keep_icon_fail@2x.png */,
@@ -910,6 +922,17 @@
 				486F52D21BFB28AD0043874E /* UIViewController+MMDrawerController.m */,
 			);
 			path = MMDrawerController;
+			sourceTree = "<group>";
+		};
+		487956C91C3A9F0E00193530 /* StarRatingView */ = {
+			isa = PBXGroup;
+			children = (
+				487956CA1C3A9F2300193530 /* ZBCStarRating.h */,
+				487956CB1C3A9F2300193530 /* ZBCStarRating.m */,
+				487956CC1C3A9F2300193530 /* ZBCStarRatingView.h */,
+				487956CD1C3A9F2300193530 /* ZBCStarRatingView.m */,
+			);
+			name = StarRatingView;
 			sourceTree = "<group>";
 		};
 		48EAD5C31BE7A65500AFF1D4 = {
@@ -1015,6 +1038,7 @@
 		48EAD5EF1BE7B77C00AFF1D4 /* Extends */ = {
 			isa = PBXGroup;
 			children = (
+				487956C91C3A9F0E00193530 /* StarRatingView */,
 				4867CDBC1C26B0D5003B1744 /* ProgressHUD */,
 				486F52C91BFB28AD0043874E /* MMDrawerController */,
 				486F52B01BF0E7BA0043874E /* ZBCNavVC */,
@@ -1156,6 +1180,7 @@
 				480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */,
 				486F527A1BEE08140043874E /* README.txt in Resources */,
 				480E53491C02F0BC006D545A /* userPosition@2x.png in Resources */,
+				487956D31C3AA24700193530 /* gn_icon_scoreinput@2x.png in Resources */,
 				480E505D1BFB62A6006D545A /* tiny_unbind@2x.png in Resources */,
 				4867CDB41C22FD56003B1744 /* PushConfig.plist in Resources */,
 				486F52881BEE225E0043874E /* tiny_circle_green@2x.png in Resources */,
@@ -1165,6 +1190,7 @@
 				486F52981BEE6E450043874E /* path_mark_end@2x.png in Resources */,
 				480E51DD1C02F0BB006D545A /* animatedCar_1.png in Resources */,
 				480E51E91C02F0BB006D545A /* car.png in Resources */,
+				487956D21C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png in Resources */,
 				4867CE5E1C369A3C003B1744 /* ordercancel.json in Resources */,
 				480E53441C02F0BC006D545A /* naviBackgroundNormal.png in Resources */,
 				486F52891BEE225E0043874E /* tiny_circle_red@2x.png in Resources */,
@@ -1272,6 +1298,7 @@
 				486F52781BEE08140043874E /* NSObject+Additions.m in Sources */,
 				486F527B1BEE08140043874E /* Swizzle.c in Sources */,
 				482741481BE9FAFA00EF6FD8 /* MainViewController.m in Sources */,
+				487956CF1C3A9F2300193530 /* ZBCStarRatingView.m in Sources */,
 				4867CDBB1C26AF0F003B1744 /* DuDuAPIClient.m in Sources */,
 				32F039F61C0C9A9C00A2C4BD /* RouteCell.m in Sources */,
 				486F52421BEDFE650043874E /* UIView+Utils.m in Sources */,
@@ -1287,6 +1314,7 @@
 				48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */,
 				486F52791BEE08140043874E /* NSString+Additions.m in Sources */,
 				32F03A391C15821800A2C4BD /* CommentVC.m in Sources */,
+				487956CE1C3A9F2300193530 /* ZBCStarRating.m in Sources */,
 				486F52B91BF0E87F0043874E /* YBNavSearchBar.m in Sources */,
 				486F52751BEE08140043874E /* NSArray+Additions.m in Sources */,
 				32F03A0F1C0E0EFF00A2C4BD /* WalletCell.m in Sources */,

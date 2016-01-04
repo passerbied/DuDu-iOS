@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OrderModel.h"
 
 @interface OrderStore : NSObject
 
@@ -14,5 +15,9 @@
 @property (nonatomic, strong) NSMutableArray *ing;
 
 + (instancetype)sharedOrderStore;
+
+- (void)updateHistoryModel:(OrderModel *)model at:(NSInteger)index;
+
+- (void)updateIngModel:(OrderModel *)model at:(NSInteger)index;
 
 @end

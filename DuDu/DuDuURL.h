@@ -60,8 +60,12 @@
 //修改订单（参数：car_style_id, order_id）
 #define ORDER_CHANGE_ORDER_CAR_STYLE(order_id,car_style_id) [NSString stringWithFormat:@"/order/change-order-car-style?order_id=%@&car_style_id=%@",order_id,car_style_id]
 
+//评星
+#define ORDER_EVALUATE(evaluate_level, order_id)        [NSString stringWithFormat:@"/order/evaluate?evaluate_level=%d&order_id=%@",evaluate_level, order_id]
+
+
 //检查更新（返回车型列表）
-#define CHECK_VERSION                    @"/exam/check-version"
+#define CHECK_VERSION                   @"/exam/check-version"
 
 //Umeng
 #define UM_APP_KEY                      @""
