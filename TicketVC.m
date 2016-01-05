@@ -89,7 +89,7 @@
 {
     CouponModel *coupon = self.coupons[indexPath.row];
     cell.type = coupon.coupon_type;
-    NSString *date = coupon.coupon_exp_at;
+    NSString *date = coupon.coupon_exp_at; //TODO:等后台加入改字段，目前为空
     cell.date = [NSString stringWithFormat:@"有效期至%@",date];
     if (coupon.coupon_discount<0) {
         cell.detail = [NSString stringWithFormat:@"%.2f折",[coupon.coupon_discount floatValue]];

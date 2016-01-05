@@ -139,6 +139,8 @@
 		487956D21C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956D01C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png */; };
 		487956D31C3AA24700193530 /* gn_icon_scoreinput@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956D11C3AA24700193530 /* gn_icon_scoreinput@2x.png */; };
 		487956D51C3BBB0600193530 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 487956D41C3BBB0600193530 /* libWeChatSDK.a */; };
+		487956DB1C3C24CA00193530 /* BookModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956DA1C3C24CA00193530 /* BookModel.m */; };
+		487956DF1C3C291100193530 /* ZBCLodingFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956DE1C3C291100193530 /* ZBCLodingFooter.m */; };
 		48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D01BE7A65500AFF1D4 /* main.m */; };
 		48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D31BE7A65500AFF1D4 /* AppDelegate.m */; };
 		48EAD6361BE7B7C400AFF1D4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EAD6351BE7B7C400AFF1D4 /* AudioToolbox.framework */; };
@@ -363,6 +365,10 @@
 		487956D41C3BBB0600193530 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		487956D61C3BBB1200193530 /* WXApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		487956D71C3BBB1200193530 /* WXApiObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		487956D91C3C24CA00193530 /* BookModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookModel.h; sourceTree = "<group>"; };
+		487956DA1C3C24CA00193530 /* BookModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookModel.m; sourceTree = "<group>"; };
+		487956DD1C3C291100193530 /* ZBCLodingFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCLodingFooter.h; sourceTree = "<group>"; };
+		487956DE1C3C291100193530 /* ZBCLodingFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCLodingFooter.m; sourceTree = "<group>"; };
 		48EAD5CC1BE7A65500AFF1D4 /* DuDu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuDu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48EAD5D01BE7A65500AFF1D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		48EAD5D21BE7A65500AFF1D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -940,6 +946,24 @@
 			name = StarRatingView;
 			sourceTree = "<group>";
 		};
+		487956D81C3C24A300193530 /* BookModel */ = {
+			isa = PBXGroup;
+			children = (
+				487956D91C3C24CA00193530 /* BookModel.h */,
+				487956DA1C3C24CA00193530 /* BookModel.m */,
+			);
+			name = BookModel;
+			sourceTree = "<group>";
+		};
+		487956DC1C3C28FE00193530 /* LoadingFooter */ = {
+			isa = PBXGroup;
+			children = (
+				487956DD1C3C291100193530 /* ZBCLodingFooter.h */,
+				487956DE1C3C291100193530 /* ZBCLodingFooter.m */,
+			);
+			name = LoadingFooter;
+			sourceTree = "<group>";
+		};
 		48EAD5C31BE7A65500AFF1D4 = {
 			isa = PBXGroup;
 			children = (
@@ -999,6 +1023,7 @@
 		48EAD5EB1BE7B6F500AFF1D4 /* Featrues */ = {
 			isa = PBXGroup;
 			children = (
+				487956D81C3C24A300193530 /* BookModel */,
 				4867CE471C3535E6003B1744 /* CouponModel */,
 				4867CE461C34D9D0003B1744 /* CarInfo */,
 				4867CE3E1C317E9B003B1744 /* OrderInfo */,
@@ -1046,6 +1071,7 @@
 		48EAD5EF1BE7B77C00AFF1D4 /* Extends */ = {
 			isa = PBXGroup;
 			children = (
+				487956DC1C3C28FE00193530 /* LoadingFooter */,
 				487956C91C3A9F0E00193530 /* StarRatingView */,
 				4867CDBC1C26B0D5003B1744 /* ProgressHUD */,
 				486F52C91BFB28AD0043874E /* MMDrawerController */,
@@ -1267,6 +1293,7 @@
 			files = (
 				480E50671C02252D006D545A /* HistoryTableViewController.m in Sources */,
 				486F52C31BF889EB0043874E /* TimePicker.m in Sources */,
+				487956DB1C3C24CA00193530 /* BookModel.m in Sources */,
 				486F52601BEE07F40043874E /* UIActionSheetItem.m in Sources */,
 				32F03A171C0E92C000A2C4BD /* InvoiceCell.m in Sources */,
 				486F52B31BF0E7D00043874E /* ZBCNavVC.m in Sources */,
@@ -1302,6 +1329,7 @@
 				48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */,
 				4867CE451C34D9C5003B1744 /* CarModel.m in Sources */,
 				32F03A2D1C0FF0C400A2C4BD /* TicketVC.m in Sources */,
+				487956DF1C3C291100193530 /* ZBCLodingFooter.m in Sources */,
 				486F52D51BFB28AD0043874E /* MMDrawerVisualState.m in Sources */,
 				486F52781BEE08140043874E /* NSObject+Additions.m in Sources */,
 				486F527B1BEE08140043874E /* Swizzle.c in Sources */,

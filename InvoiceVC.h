@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZBCLodingFooter.h"
+#import "BookModel.h"
 
 @interface InvoiceVC : UIViewController
 <UITableViewDataSource,
-UITableViewDelegate>
+UITableViewDelegate,
+ZBCLodingFooterDelegate>
+
+
 
 @end

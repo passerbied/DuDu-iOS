@@ -12,6 +12,7 @@
 
 @interface InvoiceVC ()
 {
+    ZBCLodingFooter *_loadingFooter;
     UITableView     *_tableView;
     BOOL            _isSelected;
     NSMutableArray  *_selects;
@@ -20,20 +21,75 @@
     UILabel         *_totalLabel;
     float           _totalPrice;
     int             _totalRoute;
+    NSMutableArray  *_bookList;
+    BOOL            _loadingMore;
+    BOOL            _isAll;
+    int             _currentPage;
 }
 
 @end
 
 @implementation InvoiceVC
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xffffff);
+    _loadingFooter =
+    [[ZBCLodingFooter alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, 50)];
+    _loadingFooter.delegate = self;
     [self createTableView];
-//    [self.view addSubview:[self loadFooterView]];
     _selects = [NSMutableArray array];
     _images = [NSMutableArray array];
     _prices = [NSMutableArray array];
+    [self getBooksForPage:0 isMore:NO];
+}
+
+- (void)getBooksForPage:(int)page isMore:(BOOL)isMore
+{
+    _loadingMore = isMore;
+    [_loadingFooter loading];
+    _loadingFooter.isLoadMore = isMore;
+    [[DuDuAPIClient sharedClient] GET:BOOK_ORDER_LIST(page) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        [self fetchDataSuccess:responseObject
+                    isLoadMore:isMore];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
+- (void)fetchDataSuccess:(id)responseObject isLoadMore:(BOOL)isMore
+{
+    NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+    NSArray *bookArr = dic[@"info"];
+    if (!isMore) {
+        
+        _bookList = [[MTLJSONAdapter modelsOfClass:[BookModel class]
+                                     fromJSONArray:bookArr
+                                             error:nil] mutableCopy];
+        _isAll = _bookList.count == 0;
+        [_tableView reloadData];
+    } else {
+        NSArray *booklistTemp = [MTLJSONAdapter modelsOfClass:[BookModel class]
+                                           fromJSONArray:bookArr
+                                                   error:nil];
+        _isAll = booklistTemp.count == 0;
+        if (_bookList.count > 0) {
+            [_tableView beginUpdates];
+            NSMutableArray *indexs = [NSMutableArray array];
+            [_bookList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [indexs addObject:[NSIndexPath indexPathForRow:_bookList.count + idx
+                                                     inSection:0]];
+            }];
+            [_tableView insertRowsAtIndexPaths:indexs
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
+            [_bookList addObjectsFromArray:booklistTemp];
+            [_tableView endUpdates];
+        }
+    }
+    
 }
 
 - (void)createTableView
@@ -48,6 +104,7 @@
     _tableView.backgroundColor = COLORRGB(0xffffff);
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.tableHeaderView = [self loadHeaderView];
+    _tableView.tableFooterView = _loadingFooter;
     [self.view addSubview:_tableView];
     [self.view addSubview:[self loadFooterView]];
 }
@@ -179,7 +236,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return _bookList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -214,6 +271,7 @@
 
 - (void)configureCell:(InvoiceCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
+    BookModel *book = _bookList[indexPath.row];
     cell.date = @"10月27日";
     cell.startTime = @"11:03";
     cell.endTime = @"11:26";
@@ -249,6 +307,16 @@
             _totalLabel.text = [NSString stringWithFormat:@"合计:%.2f元 共%d个行程",_totalPrice,_totalRoute];
 //        }
 //    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_bookList.count - indexPath.row < 2 && !_loadingMore) {
+        if(!_isAll)
+        {
+            [self getBooksForPage:_currentPage+1 isMore:YES];
+        }
+    }
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label
