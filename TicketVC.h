@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CouponStore.h"
+#import "CouponModel.h"
 
 @interface TicketVC : UIViewController
 <UITableViewDataSource,
 UITableViewDelegate>
+
+@property (nonatomic, strong) NSArray *coupons;
 
 @end

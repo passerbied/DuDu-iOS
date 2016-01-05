@@ -25,6 +25,7 @@
              @"coupon_user_end_time"   : @"coupon_user_end_time",
              @"coupon_max_monny"       : @"coupon_max_monny",
              @"coupon_isShare"         : @"coupon_isShare",
+             @"coupon_exp_at"          : @"coupon_exp_at",
              };
 }
 
@@ -34,6 +35,15 @@
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
     return nil;
+}
+
+- (NSString *)coupon_type
+{
+    if ([_coupon_discount floatValue] < 1) {
+        return @"折扣";
+    } else {
+        return @"满减";
+    }
 }
 
 @end

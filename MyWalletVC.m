@@ -20,7 +20,8 @@
 
 @implementation MyWalletVC
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createTableView];
@@ -71,11 +72,9 @@
     } else if (indexPath.row == 1) {
         walletCell.iconImage.image = IMG(@"tiny_coupon");
         walletCell.title = @"打车券";
-        [walletCell addSubview:[self numberLabel]];
     } else {
         walletCell.iconImage.image = IMG(@"tiny_shared");
         walletCell.title = @"余额";
-        [walletCell addSubview:[self priceLabel]];
     }
     return walletCell;
 }
@@ -96,55 +95,4 @@
         
     }
 }
-
-- (UILabel *)numberLabel
-{
-    NSString *number = @"5张";
-    UILabel *numberLabel = [UILabel labelWithFrame:CGRectZero
-                                             color:COLORRGB(0xd7d7d7)
-                                              font:HSFONT(12)
-                                              text:number
-                                         alignment:NSTextAlignmentRight
-                                     numberOfLines:1];
-    NSMutableAttributedString *numberString = [[NSMutableAttributedString alloc] initWithString:number];
-    NSUInteger numberLength = number.length-1;
-    [numberString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
-                          range:NSMakeRange(0, numberLength)];
-    numberLabel.attributedText = numberString;
-    CGSize numberSize = [numberLabel.text sizeWithAttributes:@{NSFontAttributeName:numberLabel.font}];
-    [numberLabel sizeToFit];
-    numberLabel.frame = ccr(SCREEN_WIDTH-5-30-5-numberSize.width,
-                            (60-numberSize.height)/2,
-                            numberSize.width,
-                            numberSize.height);
-    return numberLabel;
-}
-
-- (UILabel *)priceLabel
-{
-    NSString *price = @"0.00元";
-    UILabel *priceLabel = [UILabel labelWithFrame:CGRectZero
-                                            color:COLORRGB(0xd7d7d7)
-                                             font:HSFONT(12)
-                                             text:price
-                                        alignment:NSTextAlignmentRight
-                                    numberOfLines:1];
-    NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:price];
-    NSUInteger priceLength = price.length-1;
-    [priceString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
-                         range:NSMakeRange(0, priceLength)];
-    priceLabel.attributedText = priceString;
-    CGSize priceSize = [priceLabel.text sizeWithAttributes:@{NSFontAttributeName:priceLabel.font}];
-    [priceLabel sizeToFit];
-    priceLabel.frame = ccr(SCREEN_WIDTH-5-30-5-priceSize.width,
-                           (60-priceSize.height)/2,
-                           priceSize.width,
-                           priceSize.height);
-    return priceLabel;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 @end

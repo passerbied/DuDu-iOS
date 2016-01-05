@@ -37,8 +37,9 @@
              @"order_payStatus"      : @"order_payStatus",
              @"isbook"               : @"isbook",
              @"coupon_title"         : @"coupon_title",
+             @"coupon_discount"      : @"coupon_discount",
              @"relevance_id"         :@"relevance_id",
-             @"evaluate_level"       :@"evaluate_level"
+             @"evaluate_level"       :@"evaluate_level",
              };
 }
 

@@ -187,8 +187,14 @@
     _timeLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",time];
     float timePrice = [self.orderInfo.order_duration_money floatValue];
     _timePrice.text = [NSString stringWithFormat:@"%.2f元",timePrice];
-    _couponLabel.text = @"第一次分享设置的券";//self.orderInfo.coupon_title;
-    _couponPrice.text = [NSString stringWithFormat:@"%.2f元",5.5];
+    float couponPrice = 0;//[self.orderInfo.coupon_discount floatValue];
+    if (couponPrice<1) {
+        _couponLabel.text = @"打折优惠";
+        _couponPrice.text = [NSString stringWithFormat:@"%.2f折",couponPrice];
+    } else {
+        _couponLabel.text = @"满减优惠";
+        _couponPrice.text = [NSString stringWithFormat:@"%.2f元",couponPrice];
+    }
     _payTypeLabel.text = self.orderInfo.order_payStatus_str;
     float payPrice = -price;
     _payPrice.text = [NSString stringWithFormat:@"%.2f元",payPrice];

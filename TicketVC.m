@@ -18,10 +18,12 @@
 
 @implementation TicketVC
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createTableView];
+    [self getCoupons];
 }
 
 - (void)createTableView
@@ -38,6 +40,22 @@
     [self.view addSubview:_tableView];
 }
 
+- (void)getCoupons
+{
+    [[DuDuAPIClient sharedClient] GET:USER_COUPON_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        NSArray *couponArr = dic[@"info"];
+        
+        self.coupons = [MTLJSONAdapter modelsOfClass:[CouponModel class]
+                                       fromJSONArray:couponArr
+                                               error:nil];
+        [_tableView reloadData];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
 #pragma mark - tableView dataSource 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -47,7 +65,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.coupons.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -69,11 +87,16 @@
 
 - (void)configureCell:(TicketCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    cell.type = @"快车券";
-    NSString *date = @"2015-12-10";
+    CouponModel *coupon = self.coupons[indexPath.row];
+    cell.type = coupon.coupon_type;
+    NSString *date = coupon.coupon_exp_at;
     cell.date = [NSString stringWithFormat:@"有效期至%@",date];
-    cell.detail = @"9.0折";
-    cell.condition = @"最高抵扣5元";
+    if (coupon.coupon_discount<0) {
+        cell.detail = [NSString stringWithFormat:@"%.2f折",[coupon.coupon_discount floatValue]];
+    } else {
+        cell.detail = [NSString stringWithFormat:@"%.2f元",[coupon.coupon_discount floatValue]];
+    }
+    cell.condition = [NSString stringWithFormat:@"限消费满%.2f元，且在%@~%@时段使用",[coupon.coupon_max_monny floatValue],coupon.coupon_user_start_time,coupon.coupon_user_end_time];
     cell.bgImage.backgroundColor = COLORRGB(0xffffff);
 }
 

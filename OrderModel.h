@@ -10,38 +10,39 @@
 
 @interface OrderModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, strong) NSNumber *user_id;
+@property (nonatomic, copy) NSNumber *user_id;
 
-@property (nonatomic, strong) NSNumber *start_lat;
-@property (nonatomic, strong) NSNumber *start_lng;
-@property (nonatomic, strong) NSString *star_loc_str;
-@property (nonatomic, strong) NSNumber *dest_lat;
-@property (nonatomic, strong) NSNumber *dest_lng;
-@property (nonatomic, strong) NSString *dest_loc_str;
-@property (nonatomic, strong) NSNumber *car_style;
-@property (nonatomic, strong) NSNumber *startTimeType;
-@property (nonatomic, strong) NSString *startTimeStr;
+@property (nonatomic, copy) NSNumber *start_lat;
+@property (nonatomic, copy) NSNumber *start_lng;
+@property (nonatomic, copy) NSString *star_loc_str;
+@property (nonatomic, copy) NSNumber *dest_lat;
+@property (nonatomic, copy) NSNumber *dest_lng;
+@property (nonatomic, copy) NSString *dest_loc_str;
+@property (nonatomic, copy) NSNumber *car_style;
+@property (nonatomic, copy) NSNumber *startTimeType;
+@property (nonatomic, copy) NSString *startTimeStr;
 
-@property (nonatomic, strong) NSNumber *coupon_id;
-@property (nonatomic, strong) NSString *coupon_title;
+@property (nonatomic, copy) NSNumber *coupon_id;
+@property (nonatomic, copy) NSNumber *coupon_discount;
+@property (nonatomic, copy) NSString *coupon_title;
 
-@property (nonatomic, strong) NSString *order_time;
-@property (nonatomic, strong) NSNumber *order_id;
-@property (nonatomic, strong) NSString *order_initiate_rate;
-@property (nonatomic, strong) NSString *order_mileage;
-@property (nonatomic, strong) NSString *order_mileage_money;
-@property (nonatomic, strong) NSString *order_duration_money;
-@property (nonatomic, strong) NSString *order_allMoney;
-@property (nonatomic, strong) NSString *order_allTime;
-@property (nonatomic, strong) NSNumber *order_status;
-@property (nonatomic, strong) NSString *order_status_str;
-@property (nonatomic, strong) NSNumber *order_payStatus;
-@property (nonatomic, strong) NSString *order_payStatus_str;
+@property (nonatomic, copy) NSString *order_time;
+@property (nonatomic, copy) NSNumber *order_id;
+@property (nonatomic, copy) NSString *order_initiate_rate;
+@property (nonatomic, copy) NSString *order_mileage;
+@property (nonatomic, copy) NSString *order_mileage_money;
+@property (nonatomic, copy) NSString *order_duration_money;
+@property (nonatomic, copy) NSString *order_allMoney;
+@property (nonatomic, copy) NSString *order_allTime;
+@property (nonatomic, copy) NSNumber *order_status;
+@property (nonatomic, copy) NSString *order_status_str;
+@property (nonatomic, copy) NSNumber *order_payStatus;
+@property (nonatomic, copy) NSString *order_payStatus_str;
 
-@property (nonatomic, strong) NSNumber *driver_status;
-@property (nonatomic, strong) NSString *driver_status_str;
-@property (nonatomic, strong) NSNumber *isbook;
-@property (nonatomic, strong) NSNumber *relevance_id;
-@property (nonatomic, strong) NSNumber *evaluate_level;
+@property (nonatomic, copy) NSNumber *driver_status;
+@property (nonatomic, copy) NSString *driver_status_str;
+@property (nonatomic, copy) NSNumber *isbook;
+@property (nonatomic, copy) NSNumber *relevance_id;
+@property (nonatomic, copy) NSNumber *evaluate_level;
 
 @end

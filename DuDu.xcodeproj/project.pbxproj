@@ -552,13 +552,13 @@
 			name = "常用地址Controller";
 			sourceTree = "<group>";
 		};
-		32F03A361C15805B00A2C4BD /* 添加印象Controller */ = {
+		32F03A361C15805B00A2C4BD /* 添加印象Controller(废除) */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A371C15821300A2C4BD /* CommentVC.h */,
 				32F03A381C15821300A2C4BD /* CommentVC.m */,
 			);
-			name = "添加印象Controller";
+			name = "添加印象Controller(废除)";
 			sourceTree = "<group>";
 		};
 		32F03A3A1C168F2800A2C4BD /* 预约车Controller */ = {
@@ -609,7 +609,7 @@
 				32F039F71C0CA8DA00A2C4BD /* 我的行程Controller */,
 				32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */,
 				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller */,
-				32F03A361C15805B00A2C4BD /* 添加印象Controller */,
+				32F03A361C15805B00A2C4BD /* 添加印象Controller(废除) */,
 				32F03A031C0DA18400A2C4BD /* 我的钱包Controller */,
 				32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */,
 				32F03A221C0EE45D00A2C4BD /* 设置Controller */,
