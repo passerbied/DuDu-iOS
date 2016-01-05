@@ -138,6 +138,7 @@
 		487956CF1C3A9F2300193530 /* ZBCStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956CD1C3A9F2300193530 /* ZBCStarRatingView.m */; };
 		487956D21C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956D01C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png */; };
 		487956D31C3AA24700193530 /* gn_icon_scoreinput@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956D11C3AA24700193530 /* gn_icon_scoreinput@2x.png */; };
+		487956D51C3BBB0600193530 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 487956D41C3BBB0600193530 /* libWeChatSDK.a */; };
 		48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D01BE7A65500AFF1D4 /* main.m */; };
 		48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D31BE7A65500AFF1D4 /* AppDelegate.m */; };
 		48EAD6361BE7B7C400AFF1D4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EAD6351BE7B7C400AFF1D4 /* AudioToolbox.framework */; };
@@ -359,6 +360,9 @@
 		487956CD1C3A9F2300193530 /* ZBCStarRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCStarRatingView.m; sourceTree = "<group>"; };
 		487956D01C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gn_icon_scoreinput_sl@2x.png"; sourceTree = "<group>"; };
 		487956D11C3AA24700193530 /* gn_icon_scoreinput@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gn_icon_scoreinput@2x.png"; sourceTree = "<group>"; };
+		487956D41C3BBB0600193530 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		487956D61C3BBB1200193530 /* WXApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		487956D71C3BBB1200193530 /* WXApiObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		48EAD5CC1BE7A65500AFF1D4 /* DuDu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuDu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48EAD5D01BE7A65500AFF1D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		48EAD5D21BE7A65500AFF1D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -384,6 +388,7 @@
 			files = (
 				48EAD6461BE7B7FC00AFF1D4 /* libstdc++.6.0.9.tbd in Frameworks */,
 				48EAD63E1BE7B7E000AFF1D4 /* CoreTelephony.framework in Frameworks */,
+				487956D51C3BBB0600193530 /* libWeChatSDK.a in Frameworks */,
 				482741411BE8EA0C00EF6FD8 /* libsqlite3.0.tbd in Frameworks */,
 				4827413F1BE8E9F300EF6FD8 /* Security.framework in Frameworks */,
 				4827413D1BE8E9E700EF6FD8 /* CoreGraphics.framework in Frameworks */,
@@ -984,6 +989,9 @@
 		48EAD5EA1BE7B6EB00AFF1D4 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				487956D41C3BBB0600193530 /* libWeChatSDK.a */,
+				487956D61C3BBB1200193530 /* WXApi.h */,
+				487956D71C3BBB1200193530 /* WXApiObject.h */,
 			);
 			name = Libs;
 			sourceTree = "<group>";
@@ -1434,7 +1442,10 @@
 				INFOPLIST_FILE = DuDu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DuDu",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kupo.DuDu;
@@ -1461,7 +1472,10 @@
 				INFOPLIST_FILE = DuDu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DuDu",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

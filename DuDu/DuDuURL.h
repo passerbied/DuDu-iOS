@@ -82,8 +82,8 @@
 #define RATE_URL                        @""
 
 //微信
-#define Weixin_App_ID                   @""
-#define Weixin_App_Secret               @""
+#define Weixin_App_ID                   @"wx3141b44ce382fb8c"
+#define Weixin_App_Secret               @"3a3570fca9d350e015b304fc19e4a5e2"
 #define Weixin_RedirectUrl              ADD(BASE_URL,@"auth/weixin/callback")
 
 //高徳MAP_KEY

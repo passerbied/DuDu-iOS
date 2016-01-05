@@ -30,11 +30,11 @@
     UILabel     *_impressLabel;
     UIImageView *_rightLine2;
     
-    UIImageView *_commentImage;
-    UIButton    *_commentButton;
-    UILabel     *_estimateLabel;
-    UIImageView *_shareImage;
-    UIButton    *_shareButton;
+//    UIImageView *_commentImage;
+//    UIButton    *_commentButton;
+//    UILabel     *_estimateLabel;
+//    UIImageView *_shareImage;
+//    UIButton    *_shareButton;
     BOOL        _isRatingChanged;
 }
 
@@ -180,20 +180,20 @@
 //                               numberOfLines:1];
 //    [self.view addSubview:_estimateLabel];
     
-    _shareImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _shareImage.userInteractionEnabled = YES;
-    _shareImage.layer.masksToBounds = YES;
-    [self.view addSubview:_shareImage];
-    
-    _shareButton = [UIButton buttonWithImageName:@""
-                                     hlImageName:@""
-                                           title:@"代金券"
-                                      titleColor:COLORRGB(0x000000)
-                                            font:HSFONT(12)
-                                      onTapBlock:^(UIButton *btn) {
-                                          
-                                      }];
-    [self.view addSubview:_shareButton];
+//    _shareImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    _shareImage.userInteractionEnabled = YES;
+//    _shareImage.layer.masksToBounds = YES;
+//    [self.view addSubview:_shareImage];
+//    
+//    _shareButton = [UIButton buttonWithImageName:@""
+//                                     hlImageName:@""
+//                                           title:@"代金券"
+//                                      titleColor:COLORRGB(0x000000)
+//                                            font:HSFONT(12)
+//                                      onTapBlock:^(UIButton *btn) {
+//                                          
+//                                      }];
+//    [self.view addSubview:_shareButton];
     [self calculateFrame];
 }
 
@@ -328,13 +328,13 @@
 //                               CGRectGetMaxY(_commentButton.frame)+10,
 //                               estimateSize.width,
 //                               estimateSize.height);
-    _shareImage.frame = ccr((SCREEN_WIDTH-50)/2,
-                            SCREEN_HEIGHT-50-10,
-                            50,
-                            50);
-    _shareImage.layer.cornerRadius = _shareImage.width/2;
-    _shareButton.frame = _shareImage.frame;
-    _shareButton.layer.cornerRadius = _shareButton.width/2;
+//    _shareImage.frame = ccr((SCREEN_WIDTH-50)/2,
+//                            SCREEN_HEIGHT-50-10,
+//                            50,
+//                            50);
+//    _shareImage.layer.cornerRadius = _shareImage.width/2;
+//    _shareButton.frame = _shareImage.frame;
+//    _shareButton.layer.cornerRadius = _shareButton.width/2;
 }
 
 #pragma mark - click event
@@ -363,6 +363,7 @@
                                     [[OrderStore sharedOrderStore] updateHistoryModel:self.orderInfo at:self.modelIndex];
                                 
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        self.starRating.rating = [self.orderInfo.evaluate_level floatValue];
     }];
 }
 
@@ -377,7 +378,6 @@
 
 - (void)didClickSubmitButtonWithComment:(NSString *)comment
 {
-    _estimateLabel.text = comment;
 }
 
 #pragma mark - StarRating delegate
