@@ -42,19 +42,17 @@
     _couponlabel.layer.borderWidth = 1.0f;
     [couponView addSubview:_couponlabel];
     
-//    if ([WXApi isWXAppInstalled]) {
-        UIButton *shareButton = [UIButton buttonWithImageName:@""
-                                                  hlImageName:@""
-                                                        title:@"分享至微信朋友圈"
-                                                   titleColor:COLORRGB(0xff8830)
-                                                         font:HSFONT(15)
-                                                   onTapBlock:^(UIButton *btn) {
-                                                       [self shareCoupon];
-                                                   }];
-        shareButton.frame = ccr((SCREEN_WIDTH-150)/2, SCREEN_HEIGHT-100-50, 150, 50);
-        shareButton.backgroundColor = COLORRGB(0xf0f0f0);
-        [self.view addSubview:shareButton];
-//    }
+    UIButton *shareButton = [UIButton buttonWithImageName:@""
+                                              hlImageName:@""
+                                                    title:@"分享至微信朋友圈"
+                                               titleColor:COLORRGB(0xff8830)
+                                                     font:HSFONT(15)
+                                               onTapBlock:^(UIButton *btn) {
+                                                   [self shareCoupon];
+                                               }];
+    shareButton.frame = ccr((SCREEN_WIDTH-150)/2, SCREEN_HEIGHT-100-50, 150, 50);
+    shareButton.backgroundColor = COLORRGB(0xf0f0f0);
+    [self.view addSubview:shareButton];
     
     [self setData];
 }
@@ -62,7 +60,7 @@
 - (void)setData
 {
     self.share_coupon = @"专车券:￥30";
-    self.share_title = @"嘟嘟出行";
+    self.share_title = @"嘟嘟首单免费啦";
     self.share_desc = @"嘟嘟首单免费啦";
     self.share_link = @"http://dudu.com";
     self.share_thumb = @"icon_huge";

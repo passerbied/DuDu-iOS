@@ -10,4 +10,6 @@
 
 @interface CheckDetailVC : UIViewController
 
+@property (nonatomic, strong) OrderModel *orderInfo;
+
 @end

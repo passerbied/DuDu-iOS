@@ -18,12 +18,15 @@
     UILabel     *_startLabel;
     UILabel     *_mileageLabel;
     UILabel     *_timeLabel;
+    UILabel     *_couponLabel;
     UILabel     *_startPrice;
     UILabel     *_mileagePrice;
     UILabel     *_timePrice;
+    UILabel     *_couponPrice;
     UIImageView *_startLine;
     UIImageView *_mileageLine;
     UIImageView *_timeLine;
+    UIImageView *_couponLine;
     
     UILabel     *_payTypeLabel;
     UILabel     *_payPrice;
@@ -126,6 +129,28 @@
                            numberOfLines:1];
     [self.view addSubview:_timePrice];
     
+    
+    _couponLabel = [UILabel labelWithFrame:CGRectZero
+                                   color:COLORRGB(0x000000)
+                                    font:HSFONT(13)
+                                    text:@"优惠"
+                               alignment:NSTextAlignmentLeft
+                           numberOfLines:1];
+    [self.view addSubview:_couponLabel];
+    
+    _couponLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _couponLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [self.view addSubview:_couponLine];
+    
+    _couponPrice = [UILabel labelWithFrame:CGRectZero
+                                   color:COLORRGB(0x000000)
+                                    font:HSFONT(13)
+                                    text:@""
+                               alignment:NSTextAlignmentRight
+                           numberOfLines:1];
+    [self.view addSubview:_couponPrice];
+    
+    
     _payTypeLabel = [UILabel labelWithFrame:CGRectZero
                                       color:COLORRGB(0xedad49)
                                        font:HSFONT(13)
@@ -150,21 +175,23 @@
 
 - (void)setData
 {
-    float price = 20.9;
-    _priceLabel.text = [NSString stringWithFormat:@"%.1f元",price];
-    float startPrice = 0;
-    _startPrice.text = [NSString stringWithFormat:@"%.1f元",startPrice];
-    float mileage = 8.3;
-    _mileageLabel.text = [NSString stringWithFormat:@"里程(%.1f公里)",mileage];
-    float mileagePrice = 9.9;
-    _mileagePrice.text = [NSString stringWithFormat:@"%.1f元",mileagePrice];
-    int time = 22;
+    float price = [self.orderInfo.order_allMoney floatValue];
+    _priceLabel.text = [NSString stringWithFormat:@"%.2f元",price];
+    float startPrice = [self.orderInfo.order_initiate_rate floatValue];
+    _startPrice.text = [NSString stringWithFormat:@"%.2f元",startPrice];
+    float mileage = [self.orderInfo.order_mileage floatValue];
+    _mileageLabel.text = [NSString stringWithFormat:@"里程(%.2f公里)",mileage];
+    float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
+    _mileagePrice.text = [NSString stringWithFormat:@"%.2f元",mileagePrice];
+    int time = [self.orderInfo.order_allTime intValue];
     _timeLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",time];
-    float timePrice = 11;
-    _timePrice.text = [NSString stringWithFormat:@"%.1f元",timePrice];
-    _payTypeLabel.text = @"微信支付";
-    float payPrice = -20.9;
-    _payPrice.text = [NSString stringWithFormat:@"%.1f元",payPrice];
+    float timePrice = [self.orderInfo.order_duration_money floatValue];
+    _timePrice.text = [NSString stringWithFormat:@"%.2f元",timePrice];
+    _couponLabel.text = @"第一次分享设置的券";//self.orderInfo.coupon_title;
+    _couponPrice.text = [NSString stringWithFormat:@"%.2f元",5.5];
+    _payTypeLabel.text = self.orderInfo.order_payStatus_str;
+    float payPrice = -price;
+    _payPrice.text = [NSString stringWithFormat:@"%.2f元",payPrice];
 }
 
 - (void)calculateFrame
@@ -237,14 +264,31 @@
                           _timePrice.origin.x-5*2-CGRectGetMaxX(_timeLabel.
                                                                 frame),
                           _mileageLine.height);
+    
+    CGSize couponSize = [self getTextFromLabel:_couponLabel];
+    _couponLabel.frame = ccr(_timeLabel.origin.x,
+                             CGRectGetMaxY(_timeLabel.frame)+5,
+                             couponSize.width,
+                             couponSize.height);
+    CGSize couponTitleSize = [self getTextFromLabel:_couponPrice];
+    _couponPrice.frame = ccr(SCREEN_WIDTH-50-couponTitleSize.width,
+                             CGRectGetMaxY(_timePrice.frame)+5,
+                             couponTitleSize.width,
+                             couponTitleSize.height);
+    _couponLine.frame = ccr(CGRectGetMaxX(_couponLabel.frame)+5,
+                            CGRectGetMaxY(_couponLabel.frame)-couponTitleSize.height/2,
+                            _couponPrice.origin.x-5*2-CGRectGetMaxX(_couponLabel.
+                                                                frame),
+                            _timeLine.height);
+    
     CGSize payTypeSize = [self getTextFromLabel:_payTypeLabel];
-    _payTypeLabel.frame = ccr(_timeLabel.origin.x,
-                              CGRectGetMaxY(_timeLabel.frame)+10,
+    _payTypeLabel.frame = ccr(_couponLabel.origin.x,
+                              CGRectGetMaxY(_couponLabel.frame)+10,
                               payTypeSize.width,
                               payTypeSize.height);
     CGSize payPriceSize = [self getTextFromLabel:_payPrice];
     _payPrice.frame = ccr(SCREEN_WIDTH-50-payPriceSize.width,
-                          CGRectGetMaxY(_timePrice.frame)+10,
+                          CGRectGetMaxY(_couponPrice.frame)+10,
                           payPriceSize.width,
                           payPriceSize.height);
     _payLine.frame = ccr(CGRectGetMaxX(_payTypeLabel.frame)+5,
@@ -252,7 +296,7 @@
                          height/2,
                          _payPrice.origin.x-5*2-CGRectGetMaxX(_payTypeLabel
                                                               .frame),
-                         _timeLine.height);
+                         _couponLine.height);
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label

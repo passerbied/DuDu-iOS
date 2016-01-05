@@ -343,6 +343,7 @@
 {
     CheckDetailVC *checkDetailVC = [[CheckDetailVC alloc] init];
     checkDetailVC.title = @"查看明细";
+    checkDetailVC.orderInfo = self.orderInfo;
     [self.navigationController pushViewController:checkDetailVC animated:YES];
 }
 
