@@ -11,6 +11,8 @@
 #import "MainViewController.h"
 #import "APService.h"
 #import "ZBCProgressHUD.h"
+#import <QMapKit/QMapKit.h>
+#import <QMapSearchKit/QMapSearchKit.h>
 
 @interface AppDelegate ()
 
@@ -21,6 +23,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [MAMapServices sharedServices].apiKey = AMAP_KEY;
+    [QMapServices sharedServices].apiKey = QMAP_KEY;
+    [QMSSearchServices sharedServices].apiKey = QMAP_KEY;
+
     [WXApi registerApp:Weixin_App_ID];
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];

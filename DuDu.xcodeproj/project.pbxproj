@@ -141,6 +141,11 @@
 		487956D51C3BBB0600193530 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 487956D41C3BBB0600193530 /* libWeChatSDK.a */; };
 		487956DB1C3C24CA00193530 /* BookModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956DA1C3C24CA00193530 /* BookModel.m */; };
 		487956DF1C3C291100193530 /* ZBCLodingFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956DE1C3C291100193530 /* ZBCLodingFooter.m */; };
+		487956E21C3D467300193530 /* QMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487956E11C3D467300193530 /* QMapKit.framework */; };
+		487956E41C3D468B00193530 /* QMapKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 487956E31C3D468B00193530 /* QMapKit.bundle */; };
+		487956E61C3D48B400193530 /* QMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487956E51C3D48B400193530 /* QMapKit.framework */; };
+		487956E81C3D4E1F00193530 /* QMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487956E71C3D4E1F00193530 /* QMapSearchKit.framework */; };
+		487956EE1C3D517A00193530 /* GeoAndSuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956ED1C3D517A00193530 /* GeoAndSuggestionViewController.m */; };
 		48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D01BE7A65500AFF1D4 /* main.m */; };
 		48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D31BE7A65500AFF1D4 /* AppDelegate.m */; };
 		48EAD6361BE7B7C400AFF1D4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EAD6351BE7B7C400AFF1D4 /* AudioToolbox.framework */; };
@@ -369,6 +374,12 @@
 		487956DA1C3C24CA00193530 /* BookModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookModel.m; sourceTree = "<group>"; };
 		487956DD1C3C291100193530 /* ZBCLodingFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCLodingFooter.h; sourceTree = "<group>"; };
 		487956DE1C3C291100193530 /* ZBCLodingFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCLodingFooter.m; sourceTree = "<group>"; };
+		487956E11C3D467300193530 /* QMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMapKit.framework; path = ../../Downloads/iOS_2D_Map_v1_1_1_16319/SDK/QMapKit.framework; sourceTree = "<group>"; };
+		487956E31C3D468B00193530 /* QMapKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = QMapKit.bundle; path = ../../../Downloads/iOS_2D_Map_v1_1_1_16319/Demos/QMapKitSample/QMapKitSample/Resources/QMapKit.bundle; sourceTree = "<group>"; };
+		487956E51C3D48B400193530 /* QMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QMapKit.framework; sourceTree = "<group>"; };
+		487956E71C3D4E1F00193530 /* QMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QMapSearchKit.framework; sourceTree = "<group>"; };
+		487956EC1C3D517A00193530 /* GeoAndSuggestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoAndSuggestionViewController.h; sourceTree = "<group>"; };
+		487956ED1C3D517A00193530 /* GeoAndSuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoAndSuggestionViewController.m; sourceTree = "<group>"; };
 		48EAD5CC1BE7A65500AFF1D4 /* DuDu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuDu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48EAD5D01BE7A65500AFF1D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		48EAD5D21BE7A65500AFF1D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -392,11 +403,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				487956E81C3D4E1F00193530 /* QMapSearchKit.framework in Frameworks */,
+				487956E21C3D467300193530 /* QMapKit.framework in Frameworks */,
 				48EAD6461BE7B7FC00AFF1D4 /* libstdc++.6.0.9.tbd in Frameworks */,
 				48EAD63E1BE7B7E000AFF1D4 /* CoreTelephony.framework in Frameworks */,
 				487956D51C3BBB0600193530 /* libWeChatSDK.a in Frameworks */,
 				482741411BE8EA0C00EF6FD8 /* libsqlite3.0.tbd in Frameworks */,
 				4827413F1BE8E9F300EF6FD8 /* Security.framework in Frameworks */,
+				487956E61C3D48B400193530 /* QMapKit.framework in Frameworks */,
 				4827413D1BE8E9E700EF6FD8 /* CoreGraphics.framework in Frameworks */,
 				4827413B1BE8E9D300EF6FD8 /* OpenGLES.framework in Frameworks */,
 				482741391BE8E9C200EF6FD8 /* QuartzCore.framework in Frameworks */,
@@ -846,6 +860,7 @@
 		486F52841BEE22290043874E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				487956E31C3D468B00193530 /* QMapKit.bundle */,
 				4867CE4F1C35664E003B1744 /* TestJson */,
 				480E50681C02F0BB006D545A /* AMAPImages */,
 				486F52851BEE225E0043874E /* imgs */,
@@ -898,6 +913,8 @@
 		486F52AC1BF0AB0B0043874E /* 地点选择页 */ = {
 			isa = PBXGroup;
 			children = (
+				487956EC1C3D517A00193530 /* GeoAndSuggestionViewController.h */,
+				487956ED1C3D517A00193530 /* GeoAndSuggestionViewController.m */,
 				486F52AD1BF0ABD90043874E /* AddressPickerViewController.h */,
 				486F52AE1BF0ABD90043874E /* AddressPickerViewController.m */,
 			);
@@ -1025,6 +1042,8 @@
 		48EAD5EA1BE7B6EB00AFF1D4 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				487956E71C3D4E1F00193530 /* QMapSearchKit.framework */,
+				487956E51C3D48B400193530 /* QMapKit.framework */,
 				487956D41C3BBB0600193530 /* libWeChatSDK.a */,
 				487956D61C3BBB1200193530 /* WXApi.h */,
 				487956D71C3BBB1200193530 /* WXApiObject.h */,
@@ -1095,6 +1114,7 @@
 		B9A60DF0667155F4D73D0652 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				487956E11C3D467300193530 /* QMapKit.framework */,
 				482741401BE8EA0C00EF6FD8 /* libsqlite3.0.tbd */,
 				4827413E1BE8E9F300EF6FD8 /* Security.framework */,
 				4827413C1BE8E9E700EF6FD8 /* CoreGraphics.framework */,
@@ -1203,6 +1223,7 @@
 				480E51EC1C02F0BB006D545A /* endPoint@2x.png in Resources */,
 				480E51E41C02F0BB006D545A /* animatedTrain_4.png in Resources */,
 				480E53421C02F0BC006D545A /* navi@2x.png in Resources */,
+				487956E41C3D468B00193530 /* QMapKit.bundle in Resources */,
 				480E505A1BFB62A6006D545A /* tiny_coupon@2x.png in Resources */,
 				480E51E71C02F0BB006D545A /* bus.png in Resources */,
 				486F52911BEE567E0043874E /* arrow_up@2x.png in Resources */,
@@ -1321,6 +1342,7 @@
 				32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */,
 				4867CE611C36A310003B1744 /* CarStore.m in Sources */,
 				4867CE381C29492E003B1744 /* BaseViewController.m in Sources */,
+				487956EE1C3D517A00193530 /* GeoAndSuggestionViewController.m in Sources */,
 				4867CE411C317EC9003B1744 /* OrderModel.m in Sources */,
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
 				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
@@ -1483,7 +1505,10 @@
 					"$(PROJECT_DIR)/DuDu",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kupo.DuDu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
