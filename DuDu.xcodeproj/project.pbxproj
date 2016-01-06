@@ -964,6 +964,18 @@
 			name = LoadingFooter;
 			sourceTree = "<group>";
 		};
+		487956E01C3D44AD00193530 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				487956D81C3C24A300193530 /* BookModel */,
+				4867CE471C3535E6003B1744 /* CouponModel */,
+				4867CE461C34D9D0003B1744 /* CarInfo */,
+				4867CE3E1C317E9B003B1744 /* OrderInfo */,
+				4867CE301C285509003B1744 /* UserInfo */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		48EAD5C31BE7A65500AFF1D4 = {
 			isa = PBXGroup;
 			children = (
@@ -1023,11 +1035,7 @@
 		48EAD5EB1BE7B6F500AFF1D4 /* Featrues */ = {
 			isa = PBXGroup;
 			children = (
-				487956D81C3C24A300193530 /* BookModel */,
-				4867CE471C3535E6003B1744 /* CouponModel */,
-				4867CE461C34D9D0003B1744 /* CarInfo */,
-				4867CE3E1C317E9B003B1744 /* OrderInfo */,
-				4867CE301C285509003B1744 /* UserInfo */,
+				487956E01C3D44AD00193530 /* Models */,
 				4803E5C61C19CF8A000395AA /* 登录注册页 */,
 				480E50451BFB4CA8006D545A /* 菜单页 */,
 				486F52AC1BF0AB0B0043874E /* 地点选择页 */,
