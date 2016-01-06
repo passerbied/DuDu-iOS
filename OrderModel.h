@@ -22,7 +22,7 @@
 @property (nonatomic, copy) NSNumber *startTimeType;
 @property (nonatomic, copy) NSString *startTimeStr;
 
-@property (nonatomic, copy) NSString *coupon_id;
+@property (nonatomic, copy) NSNumber *coupon_id;
 @property (nonatomic, copy) NSString *coupon_discount;
 @property (nonatomic, copy) NSString *coupon_title;
 
