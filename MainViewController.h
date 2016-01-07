@@ -12,18 +12,38 @@
 #import "AddressPickerViewController.h"
 #import "TimePicker.h"
 #import "MenuTableViewController.h"
-#import <MAMapKit/MAMapKit.h>
-#import <AMapSearchKit/AMapSearchKit.h>
+//#import <MAMapKit/MAMapKit.h>
+//#import <AMapSearchKit/AMapSearchKit.h>
 #import "OrderModel.h"
+#import "GeoAndSuggestionViewController.h"
+#import <QMapKit/QMapKit.h>
+#import <QMapSearchKit/QMapSearchKit.h>
 
-@interface MainViewController : BaseViewController <TopToolBarDelegate, BottomToolBarDelegate,TimePickerDelegate, MAMapViewDelegate, AMapSearchDelegate, AddressPickerViewControllerDelegate,LoginVCDelegate>
+@interface MainViewController : BaseViewController
+<TopToolBarDelegate,
+BottomToolBarDelegate,
+TimePickerDelegate,
+QMapViewDelegate,
+QMSSearchDelegate,
+GeoAndSuggestionViewControllerDelegate,
+LoginVCDelegate>
 
 + (instancetype)sharedMainViewController;
-@property (nonatomic, strong) MAMapView *mapView;
-@property (nonatomic, strong) AMapSearchAPI *search;
-@property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
+//@property (nonatomic, strong) MAMapView *mapView;
+@property (nonatomic, strong) QMapView *mapView;
+@property (nonatomic, strong) QMSSearcher *search;
+@property (nonatomic, strong) QUserLocation *fromLocation;
+@property (nonatomic, strong) QUserLocation *toLocation;
 @property (nonatomic, strong) TopToolBar *topToolBar;
 @property (nonatomic, strong) NSArray *carStyles;
-@property (nonatomic, strong) CarModel *current_car_style;
+@property (nonatomic, strong) CarModel *currentCar;
+
+@end
+
+@interface QPolyline(RouteExtention)
+
+- (void)setDash:(BOOL)dash;
+
+- (BOOL)dash;
 
 @end

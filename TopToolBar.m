@@ -37,7 +37,7 @@
                                                    }
                                                }];
             float width = SCREEN_WIDTH/styles.count;
-            btn.tag = carModel.car_style_id;
+            btn.tag = [carModel.car_style_id intValue];
             btn.frame = ccr(i*width, 0, width, self.height);
             [self addSubview:btn];
             if (i == 0) {
@@ -72,7 +72,7 @@
                                                }
                                            }];
         float width = SCREEN_WIDTH/styles.count;
-        btn.tag = carModel.car_style_id;
+        btn.tag = [carModel.car_style_id intValue];
         btn.frame = ccr(i*width, 0, width, self.height);
         [self addSubview:btn];
         if (i == 0) {

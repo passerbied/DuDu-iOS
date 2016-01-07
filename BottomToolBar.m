@@ -160,7 +160,7 @@
         self.budgetLabel = [UILabel labelWithFrame:ccr(0, 3, _budgetView.width, 22)
                                              color:COLORRGB(0x63666b)
                                               font:HSFONT(12)
-                                              text:@"计算中..."
+                                              text:@"预估中..."
                                          alignment:NSTextAlignmentCenter
                                      numberOfLines:1];
 //        NSString *budget = @"0";
@@ -177,14 +177,14 @@
         self.couponLabel = [UILabel labelWithFrame:ccr(0, CGRectGetMaxY(self.budgetLabel.frame), _budgetView.width, 20) color:COLORRGB(0xff8830) font:HSFONT(12) text:@"暂无优惠" alignment:NSTextAlignmentCenter numberOfLines:1];
         [_budgetView addSubview:self.couponLabel];
         
-        UIButton *coupenBtn = [UIButton buttonWithImageName:@"" hlImageName:@"" onTapBlock:^(UIButton *btn) {
+        UIButton *couponBtn = [UIButton buttonWithImageName:@"" hlImageName:@"" onTapBlock:^(UIButton *btn) {
             if ([self.delegate respondsToSelector:@selector(bottomToolBar:didTapped:)]) {
                 [self.delegate bottomToolBar:self didTapped:self.couponLabel];
             }
         }];
         self.couponLabel.userInteractionEnabled = YES;
-        coupenBtn.frame = ccr(self.couponLabel.x,self.couponLabel.y,self.couponLabel.width,self.couponLabel.height);
-        [_budgetView addSubview:coupenBtn];
+        couponBtn.frame = ccr(self.couponLabel.x,self.couponLabel.y,self.couponLabel.width,self.couponLabel.height);
+        [_budgetView addSubview:couponBtn];
         
         [self addSubview:_budgetView];
         
@@ -208,7 +208,16 @@
     [budgetString addAttributes:@{NSFontAttributeName:HSFONT(22)}
                           range:NSMakeRange(1, money.length)];
     self.budgetLabel.attributedText = budgetString;
-    self.couponLabel.text = coupon.coupon_title;
+    
+    if (coupon) {
+        if ([coupon.coupon_discount floatValue] < 1) {
+            self.couponLabel.text = [NSString stringWithFormat:@"已折扣 %.1f折",[coupon.coupon_discount floatValue]*10];
+        } else {
+            self.couponLabel.text = [NSString stringWithFormat:@"已优惠 %.1f元",[coupon.coupon_discount floatValue]];
+        }
+    } else {
+        self.couponLabel.text = @"暂无优惠";
+    }
 }
 
 - (void)showChargeView:(BOOL)show

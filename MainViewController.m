@@ -12,6 +12,7 @@
 #import "LoginVC.h"
 #import "CouponStore.h"
 #import "OrderHistoryModel.h"
+#import <objc/runtime.h>
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -28,13 +29,17 @@
     MenuTableViewController *_menuVC;
     OrderVC                 *_orderVC;
     
-    AMapReGeocode   *_currentReGeocode;
+    NSString        *_currentCity;
     NSMutableArray  *_annotations;
     UIButton        *_locationBtn;
-    AMapGeoPoint    *_fromPoint;
-    AMapGeoPoint    *_toPoint;
+    QPointAnnotation   *_fromPointAnnotation;
+    QPointAnnotation   *_toPointAnnotation;
     BOOL            _isFirstAppear;
     BOOL            _isRightNow;
+    NSTimeInterval  _startTimeStr;
+    BOOL            _isUpdated;
+    QMSRoutePlan    *_currentRoutPlan;
+    CouponModel     *_currentCoupon;
 }
 
 + (instancetype)sharedMainViewController
@@ -57,6 +62,10 @@
         
         _orderVC = [[OrderVC alloc] init];
         _orderVC.title = @"正在为你预约嘟嘟快车";
+        _fromLocation = [[QUserLocation alloc] init];
+        _toLocation = [[QUserLocation alloc] init];
+//        _fromPointAnnotation = [[QPointAnnotation alloc] init];
+//        _toPointAnnotation = [[QPointAnnotation alloc] init];
     }
     return self;
 }
@@ -68,17 +77,23 @@
     
     [self setupLeftMenuButton];
     
-    [AMapSearchServices sharedServices].apiKey = AMAP_KEY;
-    self.search = [[AMapSearchAPI alloc] init];
-    self.search.delegate = self;
+    [QMapServices sharedServices].apiKey = QMAP_KEY;
+    [QMSSearchServices sharedServices].apiKey = QMAP_KEY;
     
-    self.mapView = [[MAMapView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.search = [[QMSSearcher alloc] initWithDelegate:self];
+    
+    self.mapView = [[QMapView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
+    NSLog(@"%f",self.mapView.maxZoomLevel);
     
-    self.mapView.userTrackingMode = MAUserTrackingModeNone;
+    self.mapView.userTrackingMode = QUserTrackingModeNone;
     
-    self.topToolBar = [[TopToolBar alloc] initWithFrame:ccr(0, NAV_BAR_HEIGHT_IOS7, SCREEN_WIDTH, 50) carStyles:self.carStyles];
+    self.topToolBar = [[TopToolBar alloc] initWithFrame:ccr(0,
+                                                            NAV_BAR_HEIGHT_IOS7,
+                                                            SCREEN_WIDTH,
+                                                            50)
+                                              carStyles:self.carStyles];
     self.topToolBar.delegate = self;
     [self.view addSubview:self.topToolBar];
     
@@ -93,10 +108,11 @@
     _timePicker.delegate = self;
     [self.view addSubview:_timePicker];
     
-    _locationBtn = [UIButton buttonWithImageName:@"userPosition" hlImageName:@"userPosition" onTapBlock:^(UIButton *btn) {
-        self.mapView.showsUserLocation = YES;
-        [self.mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
-    }];
+    _locationBtn = [UIButton buttonWithImageName:@"userPosition"
+                                     hlImageName:@"userPosition"
+                                      onTapBlock:^(UIButton *btn) {
+                                          [self startLocation];
+                                      }];
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     _locationBtn.layer.masksToBounds = YES;
     _locationBtn.layer.borderWidth = 2;
@@ -130,27 +146,22 @@
 - (void)startLocation
 {
     self.mapView.showsUserLocation = YES;
-    [self.mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
+    [self.mapView setUserTrackingMode:QUserTrackingModeFollow animated:YES];
     [self.mapView setZoomLevel:16.1 animated:YES];
 }
 
 -(void)setupLeftMenuButton
 {
-    UIButton *leftBtn = [UIButton buttonWithImageName:@"account"
-                                          hlImageName:@"account_pressed"
-                                           onTapBlock:^(UIButton *btn) {
-                                               
-                                               if ([self checkHaveLogin]) {
-                                                   [self.navigationController pushViewController:_menuVC animated:YES];
-                                               } else {
-                                                   LoginVC *loginVC = [[LoginVC alloc] init];
-                                                   loginVC.delegate = self;
-                                                   loginVC.title = @"验证手机";
-                                                   ZBCNavVC *navVC = [[ZBCNavVC alloc] initWithRootViewController:loginVC];
-                                                   [self presentViewController:navVC animated:YES completion:nil];
-                                               }
-                                               
-                                               
+    UIButton *leftBtn = [UIButton buttonWithImageName:@"account" hlImageName:@"account_pressed"onTapBlock:^(UIButton *btn) {
+        if ([self checkHaveLogin]) {
+            [self.navigationController pushViewController:_menuVC animated:YES];
+        } else {
+            LoginVC *loginVC = [[LoginVC alloc] init];
+            loginVC.delegate = self;
+            loginVC.title = @"验证手机";
+            ZBCNavVC *navVC = [[ZBCNavVC alloc] initWithRootViewController:loginVC];
+            [self presentViewController:navVC animated:YES completion:nil];
+        }
     }];
     leftBtn.frame = ccr(0, 0, 30, 30);
     UIBarButtonItem *BarItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
@@ -172,50 +183,22 @@
 
 - (void)showFromAddressPicker
 {
-    AddressPickerViewController *addressPickerVC = [[AddressPickerViewController alloc] init];
-    addressPickerVC.title = @"出发地";
-    addressPickerVC.isFrom = YES;
-    addressPickerVC.delegate = self;
-    addressPickerVC.location = _currentReGeocode.formattedAddress;
-    [self.navigationController pushViewController:addressPickerVC animated:YES];
+    GeoAndSuggestionViewController *searchVC = [[GeoAndSuggestionViewController alloc] init];
+    searchVC.delegate = self;
+    searchVC.title = @"出发地";
+    searchVC.isFrom = YES;
+    searchVC.currentCity = _currentCity;
+    [self.navigationController pushViewController:searchVC animated:YES];
 }
 
 - (void)showToAddressPicker
 {
-    AddressPickerViewController *addressPickerVC = [[AddressPickerViewController alloc] init];
-    addressPickerVC.title = @"目的地";
-    addressPickerVC.isFrom = NO;
-    addressPickerVC.location = _currentReGeocode.formattedAddress;
-    addressPickerVC.delegate = self;
-    [self.navigationController pushViewController:addressPickerVC animated:YES];
-}
-
-#pragma mark - TopToolBarDelegate
-
-- (void)topToolBar:(TopToolBar *)topToolBar didCarButonTapped:(int)index
-{
-    _current_car_style = self.carStyles[index];
-}
-
-#pragma mark - BottomToolBarDelegate
-
-- (void)bottomToolBar:(BottomToolBar *)toolBar didTapped:(UILabel *)label
-{
-    if (label == toolBar.startTimeLabel) {
-        [self showTimePicker:YES];
-        
-    } else if (label == toolBar.fromAddressLabel) {
-        self.mapView.showsUserLocation = NO;
-        [self showFromAddressPicker];
-        
-    } else if (label == toolBar.toAddressLabel) {
-        [self showToAddressPicker];
-        
-    } else if (label == toolBar.couponLabel){
-        
-    } else {
-        
-    }
+    GeoAndSuggestionViewController *searchVC = [[GeoAndSuggestionViewController alloc] init];
+    searchVC.delegate = self;
+    searchVC.title = @"目的地";
+    searchVC.isFrom = NO;
+    searchVC.currentCity = _currentCity;
+    [self.navigationController pushViewController:searchVC animated:YES];
 }
 
 #pragma mark - 发送订单
@@ -288,6 +271,7 @@
 #pragma mark - 获取优惠信息
 
 //TODO:remove test
+/*
 - (void)getCouponInfo
 {
     NSArray *arr = [DuDuAPIClient parseJSONFrom:[Utils testDicFrom:@"couponInfo"]][@"info"];
@@ -298,44 +282,73 @@
     [MenuTableViewController sharedMenuTableViewController].coupons = coupons;
     
     CouponModel *coupon = coupons.info.count?coupons.info[0]:nil;
-    [self guessChargeWithCoupon:coupon];
+    [self guessChargeWithCoupon:coupon routPlan:_currentRoutPlan carStyle:_currentCar];
 }
+*/
 
-/*
+
 - (void)getCouponInfo
 {
     [[DuDuAPIClient sharedClient] GET:USER_COUPON_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        CouponStore *coupons = [MTLJSONAdapter modelOfClass:[CouponStore class]
-                                         fromJSONDictionary:dic
-                                                      error:nil];
-        [MenuTableViewController sharedMenuTableViewController].coupons = coupons;
+        NSArray *arr = [MTLJSONAdapter modelsOfClass:[CouponModel class]
+                                       fromJSONArray:dic[@"info"]
+                                               error:nil];
+        [CouponStore sharedCouponStore].info = arr;
+                                
+        [MenuTableViewController sharedMenuTableViewController].coupons = [CouponStore sharedCouponStore];
         
-        CouponModel *coupon = coupons.info.count?coupons.info[0]:nil;
-        [self guessChargeWithCoupon:coupon];
+        _currentCoupon = [CouponStore sharedCouponStore].info.count?[CouponStore sharedCouponStore].info[0]:nil;
+        [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        _bottomToolBar.budgetLabel.text = @"无法估算费用";
         _bottomToolBar.couponLabel.text = @"暂无优惠";
     }];
 }
-*/
+
 
 #pragma mark - 估算费用
-- (void)guessChargeWithCoupon:(CouponModel *)coupon
+- (void)guessChargeWithCoupon:(CouponModel *)coupon routPlan:(QMSRoutePlan *)plan carStyle:(CarModel *)car
 {
-    //TODO:估算逻辑
-    //1.根据地图的驾驶路线得到，路程长度
-    //2.根据车辆类型的每公里价格，和超出多少公里后每公里价格计算出里程价格
-    //3.根据地图的驾驶路线，得到路线中有多少路段。假的每个路段等时1分钟，计算等时费
-    //4.预估价格=里程费 + 起步价 + 等时费 - 优惠
+    float distance = plan.distance/1000; //距离
+    float duration = plan.duration; //时长
+    float per_kilometer_money = car.per_kilometer_money; //起步里程每公里价格
+    float per_max_kilometer = car.per_max_kilometer; //起步公里数
+    float per_max_kilometer_money = car.per_max_kilometer_money; //超长每公里价格
+    float wait_time_money = car.wait_time_money; //等时费
+    float start_money = car.start_money; //起步价
     
-    if (coupon) {
-        [_bottomToolBar updateCharge:@"20" coupon:coupon];
+    float charge = 0;
+    
+    //实际价格计算
+    if (distance <= per_max_kilometer) {
+        charge = distance*per_kilometer_money
+        + duration*wait_time_money;
     } else {
-        _bottomToolBar.couponLabel.text = @"暂无优惠";
+        charge = per_max_kilometer*per_kilometer_money
+        + (distance - per_max_kilometer)*per_max_kilometer_money
+        + duration*wait_time_money;
     }
+    
+    //保证费用不少于起步价
+    if (charge < start_money) {
+        charge = start_money;
+    }
+    
+    //根据不同优惠类型计算折扣价
+    if (coupon && [coupon.coupon_discount floatValue] < 1) {
+        charge = charge * [coupon.coupon_discount floatValue];
+    } else {
+        charge = charge - [coupon.coupon_discount floatValue];
+    }
+    
+    //保证费用为非负数
+    if (charge < 0) {
+        charge = 0;
+    }
+    
+    [_bottomToolBar updateCharge:[NSString stringWithFormat:@"%.1f",charge] coupon:coupon];
 }
 
 #pragma mark - 发送打车订单
@@ -343,13 +356,13 @@
 {
     OrderModel *orderInfo = [[OrderModel alloc] init];
     orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] intValue]];
-    orderInfo.start_lat = [NSNumber numberWithFloat:_fromPoint.latitude];
-    orderInfo.start_lng = [NSNumber numberWithFloat:_fromPoint.longitude];
+    orderInfo.start_lat = [NSNumber numberWithFloat:_fromLocation.location.coordinate.latitude];
+    orderInfo.start_lng = [NSNumber numberWithFloat:_fromLocation.location.coordinate.longitude];
     orderInfo.star_loc_str = _bottomToolBar.fromAddressLabel.text;
-    orderInfo.dest_lat = [NSNumber numberWithFloat:_toPoint.latitude];
-    orderInfo.dest_lng = [NSNumber numberWithFloat:_toPoint.longitude];
+    orderInfo.dest_lat = [NSNumber numberWithFloat:_toLocation.location.coordinate.latitude];
+    orderInfo.dest_lng = [NSNumber numberWithFloat:_toLocation.location.coordinate.longitude];
     orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
-    orderInfo.car_style = _current_car_style.car_style_id;
+    orderInfo.car_style = _currentCar.car_style_id;
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
     NSTimeInterval now = [date timeIntervalSince1970]*1;
     orderInfo.startTimeStr = [NSString stringWithFormat:@"%f",now];
@@ -358,54 +371,30 @@
     [self sentOrder:orderInfo];
 }
 
-#pragma mark - TimePickerDelegate
+#pragma mark - GeoAndSuggestionViewControllerDelegate
 
-- (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp isRightNow:(BOOL)isRightNow
+- (void)addressPicker:(GeoAndSuggestionViewController *)vc fromAddress:(QMSSuggestionPoiData *)fromLoc toAddress:(QMSSuggestionPoiData *)toLoc
 {
-    _isRightNow = isRightNow;
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeStamp];
-    _bottomToolBar.startTimeLabel.text = [date displayWithFormat:@"d号H点mm分"];
-    [self showTimePicker:NO];
-}
-
-- (void)timePickerViewDidCancel
-{
-    [self showTimePicker:NO];
-}
-
-#pragma mark - AddressPickerViewControllerDelegate
-
-- (void)addressPicker:(AddressPickerViewController *)pickerVC fromAddress:(AMapTip *)fromTip toAddress:(AMapTip *)toTip
-{
-    if (fromTip) {
-        _bottomToolBar.fromAddressLabel.text = fromTip.name;
-        MAPointAnnotation *fromAnnotation = [[MAPointAnnotation alloc] init];
-        fromAnnotation.coordinate =  CLLocationCoordinate2DMake(fromTip.location.latitude, fromTip.location.longitude);
-        _fromPoint = [AMapGeoPoint locationWithLatitude:fromTip.location.latitude longitude:fromTip.location.longitude];
-        fromAnnotation.title = fromTip.name;
+    if (fromLoc) {
+        NSLog(@"toLoc:%f,%f",fromLoc.location.latitude,fromLoc.location.longitude);
+        [_fromLocation setCoordinate:fromLoc.location];
+        [_fromLocation setTitle:fromLoc.title];
         
-        [_annotations removeAllObjects];
-        [_annotations addObject:fromAnnotation];
-       
-        [self clearMapView];
-        
-        [self.mapView addAnnotation:fromAnnotation];
-        [self updateAnnotations:_annotations];
+        _bottomToolBar.fromAddressLabel.text = fromLoc.title;
+        [self setupAnnotation:YES];
     }
-    if (toTip){
-        _toPoint = [AMapGeoPoint locationWithLatitude:toTip.location.latitude longitude:toTip.location.longitude];
-        _bottomToolBar.toAddressLabel.text = toTip.name;
+    if (toLoc){
+        NSLog(@"toLoc:%f,%f",toLoc.location.latitude,toLoc.location.longitude);
+        [_toLocation setCoordinate:toLoc.location];
+        [_toLocation setTitle:toLoc.title];
+        
+        _bottomToolBar.toAddressLabel.text = toLoc.title;
         _bottomToolBar.toAddressLabel.textColor = COLORRGB(0x63666b);
         [_bottomToolBar showChargeView:YES];
+        
+        [self setupAnnotation:NO];
         [self getCouponInfo];
     }
-}
-
-- (void)updateAnnotations:(NSMutableArray *)Annotations
-{
-    [self.mapView showAnnotations:_annotations
-                      edgePadding:UIEdgeInsetsMake(0, 0, 0, 0)
-                         animated:YES];
 }
 
 
@@ -416,91 +405,314 @@
     [self.navigationController pushViewController:[MenuTableViewController sharedMenuTableViewController] animated:YES];
 }
 
-#pragma mark - -------------地图相关代码-------------
+#pragma mark - TopToolBarDelegate
 
-#pragma mark - MAMapViewDelegate
-
-- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation
+- (void)topToolBar:(TopToolBar *)topToolBar didCarButonTapped:(int)index
 {
-    /* 自定义userLocation对应的annotationView. */
-    if ([annotation isKindOfClass:[MAUserLocation class]])
-    {
-        static NSString *userLocationStyleReuseIndetifier = @"userLocationStyleReuseIndetifier";
-        MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:userLocationStyleReuseIndetifier];
-        if (annotationView == nil)
-        {
-            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
-                                                          reuseIdentifier:userLocationStyleReuseIndetifier];
-        }
-        annotationView.image = [UIImage imageNamed:@"path_mark_start"];
-        
-        return annotationView;
-    }
-    return nil;
+    _currentCar = self.carStyles[index];
+    [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
 }
 
-- (void)mapView:(MAMapView *)mapView didAddAnnotationViews:(NSArray *)views
+#pragma mark - BottomToolBarDelegate
+
+- (void)bottomToolBar:(BottomToolBar *)toolBar didTapped:(UILabel *)label
 {
-    for (MAAnnotationView *view in views) {
-        // 放到该方法中用以保证userlocation的annotationView已经添加到地图上了。
-        if ([view.annotation isKindOfClass:[MAUserLocation class]])
-        {
-            view.image = [UIImage imageNamed:@"path_mark_start"];
-            self.userLocationAnnotationView = view;
-        }
+    if (label == toolBar.startTimeLabel) {
+        [self showTimePicker:YES];
+    } else if (label == toolBar.fromAddressLabel) {
+        self.mapView.showsUserLocation = NO;
+        [self showFromAddressPicker];
+    } else if (label == toolBar.toAddressLabel) {
+        [self showToAddressPicker];
+    } else if (label == toolBar.couponLabel){
+        [self getCouponInfo];
+    } else {
+        //do nothing
     }
 }
 
-- (void)mapView:(MAMapView *)mapView annotationView:(MAAnnotationView *)view didChangeDragState:(MAAnnotationViewDragState)newState fromOldState:(MAAnnotationViewDragState)oldState
+#pragma mark - TimePickerDelegate
+
+- (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp isRightNow:(BOOL)isRightNow
 {
-    NSLog(@"old :%ld - new :%ld", (long)oldState, (long)newState);
+    _isRightNow = isRightNow;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeStamp];
+    _bottomToolBar.startTimeLabel.text = [date displayWithFormat:@"d号H点mm分"];
+    _startTimeStr = timeStamp;
+    [self showTimePicker:NO];
+}
+
+- (void)timePickerViewDidCancel
+{
+    [self showTimePicker:NO];
+}
+
+
+#pragma mark - ------------- MapView 相关代码 -------------
+
+#pragma mark - 地图打点完成 delegate
+
+- (void)mapView:(QMapView *)mapView didAddAnnotationViews:(NSArray *)views
+{
+    QAnnotationView *view = views[0];
+    [self.mapView selectAnnotation:view.annotation animated:YES];
+}
+
+#pragma mark - 自定义打头阵样式
+
+- (QAnnotationView *)mapView:(QMapView *)mapView viewForAnnotation:(id<QAnnotation>)annotation
+{
+    static NSString *reuseId = @"REUSE_ID";
+    QPinAnnotationView *annotationView = (QPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseId];
     
+    if (nil == annotationView) {
+        annotationView = [[QPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseId];
+    }
+    
+    annotationView.canShowCallout   = YES;
+    UILabel *title = [[UILabel alloc] initWithFrame:ccr(0,0,50, 20)];
+    title.font = HSFONT(15);
+    title.textColor = COLORRGB(0x63666b);
+    title.textAlignment = NSTextAlignmentCenter;
+    
+    annotationView.rightCalloutAccessoryView = title;
+
+    if (annotation == _fromPointAnnotation) {
+        annotationView.pinColor = QPinAnnotationColorGreen;
+        title.text = @"起点";
+    } else if (annotation == _toPointAnnotation) {
+        annotationView.pinColor = QPinAnnotationColorRed;
+        title.text = @"终点";
+    } else {
+        return nil;
+    }
+    
+    return annotationView;
 }
 
-- (void)mapViewWillStartLocatingUser:(MAMapView *)mapView
+#pragma mark - 地图开始定位 delegate
+
+- (void)mapViewWillStartLocatingUser:(QMapView *)mapView
 {
-    NSLog(@"Location start");
+    NSLog(@"开始定位");
+    _bottomToolBar.fromAddressLabel.text = @"定位中...";
 }
 
-- (void)mapViewDidStopLocatingUser:(MAMapView *)mapView
+#pragma mark - 地图停止定位 delegate
+
+- (void)mapViewDidStopLocatingUser:(QMapView *)mapView
 {
-    NSLog(@"Location stop");
+    NSLog(@"停止定位");
 }
 
-- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
-updatingLocation:(BOOL)updatingLocation
+#pragma mark - 地图更新定位 delegate
+
+- (void)mapView:(QMapView *)mapView didUpdateUserLocation:(QUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
-    if(updatingLocation)
-    {
-        //取出当前位置的坐标
-        NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
-        _fromPoint = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
-        //构造AMapReGeocodeSearchRequest对象
-        AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
-        regeo.location = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
-        regeo.radius = 50;
-        regeo.requireExtension = YES;
-        [self.search AMapReGoecodeSearch:regeo];
+    if (updatingLocation && !_isUpdated) {
+        _fromLocation = userLocation;
+        QMSReverseGeoCodeSearchOption *regeocoder = [[QMSReverseGeoCodeSearchOption alloc] init];
+        [regeocoder setLocation:[NSString stringWithFormat:@"%f,%f",userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude]];
+//        [regeocoder setLocationWithCenterCoordinate:userLocation.location.coordinate];
+        
+        //返回坐标点附近poi列表
+        [regeocoder setGet_poi:NO];
+        //设置坐标所属坐标系，以返回正确地址，默认为腾讯所用坐标系
+        [regeocoder setCoord_type:QMSReverseGeoCodeCoordinateTencentGoogleGaodeType];
+        [self.search searchWithReverseGeoCodeSearchOption:regeocoder];
     }
 }
 
-//实现逆地理编码的回调函数
-- (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
+#pragma mark - ------------- MapView Search 相关代码 -------------
+
+#pragma mark - 根据定位解析出位置信息
+
+- (void)searchWithReverseGeoCodeSearchOption:(QMSReverseGeoCodeSearchOption *)reverseGeoCodeSearchOption didReceiveResult:(QMSReverseGeoCodeSearchResult *)reverseGeoCodeSearchResult
 {
-    _toPoint = [AMapGeoPoint locationWithLatitude:request.location.latitude longitude:request.location.longitude];
-    if(response.regeocode != nil)
-    {
-        //通过AMapReGeocodeSearchResponse对象处理搜索结果
-        _bottomToolBar.fromAddressLabel.text = response.regeocode.formattedAddress;
-        _currentReGeocode = response.regeocode;
+    _bottomToolBar.fromAddressLabel.text = reverseGeoCodeSearchResult.formatted_addresses.recommend;
+    _currentCity = reverseGeoCodeSearchResult.ad_info.province;
+    [self setupAnnotation:YES];
+    _isUpdated = YES;
+}
+
+#pragma mark -  地图打点
+- (void)setupAnnotation:(BOOL)isFrom
+{
+    if (isFrom) {
+        for (QPointAnnotation *point in self.mapView.annotations) {
+            if (_fromPointAnnotation == point) {
+                [self.mapView removeAnnotation:_fromPointAnnotation];
+            }
+        }
+        if (!_fromPointAnnotation) {
+            _fromPointAnnotation = [[QPointAnnotation alloc] init];
+        }
+        [self.mapView setCenterCoordinate:_fromLocation.coordinate];
+        [_fromPointAnnotation setCoordinate:_fromLocation.coordinate];
+        [self.mapView setZoomLevel:16.1 animated:YES];
+        [self.mapView addAnnotation:_fromPointAnnotation];
+    } else {
+        for (QPointAnnotation *point in self.mapView.annotations) {
+            if (_toPointAnnotation == point) {
+                [self.mapView removeAnnotation:_toPointAnnotation];
+            }
+        }
+        if (!_toPointAnnotation) {
+            _toPointAnnotation = [[QPointAnnotation alloc] init];
+        }
+        [_toPointAnnotation setCoordinate:_toLocation.coordinate];
+        [self.mapView setCenterCoordinate:_toLocation.coordinate zoomLevel:16.1 animated:YES];
+        [self.mapView addAnnotation:_toPointAnnotation];
+    }
+    if (_fromPointAnnotation && _toPointAnnotation) {
+        QMSDrivingRouteSearchOption *driving = [[QMSDrivingRouteSearchOption alloc] init];
+        [driving setFromCoordinate:_fromPointAnnotation.coordinate];
+        [driving setToCoordinate:_toPointAnnotation.coordinate];
+        //驾车路线规划支持多种规划策略（设置成综合最优策略）
+        [driving setPolicyWithType:QMSDrivingRoutePolicyTypeRealTraffic];
+        [self.search searchWithDrivingRouteSearchOption:driving];
     }
 }
 
-#pragma mark - AMapSearchDelegate
-
-- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error
+- (void)searchWithDrivingRouteSearchOption:(QMSDrivingRouteSearchOption *)drivingRouteSearchOption didRecevieResult:(QMSDrivingRouteSearchResult *)drivingRouteSearchResult
 {
-    NSLog(@"%s: searchRequest = %@, errInfo= %@", __func__, [request class], error);
+    _currentRoutPlan = [[drivingRouteSearchResult routes] firstObject];
+    NSLog(@"距离：%@ | 时间：%@ | 路段数%ld", [self humanReadableForDistance:_currentRoutPlan.distance], [self humanReadableForTimeDuration:_currentRoutPlan.duration],_currentRoutPlan.steps.count);
+    
+    [self.mapView removeOverlays:self.mapView.overlays];
+    NSUInteger count = _currentRoutPlan.polyline.count;
+    CLLocationCoordinate2D coordinateArray[count];
+    for (int i = 0; i < count; ++i)
+    {
+        [[_currentRoutPlan.polyline objectAtIndex:i] getValue:&coordinateArray[i]];
+    }
+    
+    QPolyline *walkPolyline = [QPolyline polylineWithCoordinates:coordinateArray count:count];
+    [self.mapView addOverlay:walkPolyline];
+    [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
+}
+
+#pragma mark - 地图描绘路线
+
+- (QOverlayView *)mapView:(QMapView *)mapView viewForOverlay:(id<QOverlay>)overlay
+{
+    QPolyline *polyline = (QPolyline *)overlay;
+    QPolylineView *polylineView = [[QPolylineView alloc] initWithPolyline:overlay];
+    
+    polylineView.lineWidth = 5;
+    
+    if (polyline.dash)
+    {
+        polylineView.lineDashPattern = @[@3, @9];
+        polylineView.strokeColor = [UIColor colorWithRed:0x55/255.f green:0x79/255.f blue:0xff/255.f alpha:1];
+    }
+    else
+    {
+        polylineView.lineDashPattern = nil;
+        polylineView.strokeColor = [UIColor colorWithRed:0x00/255.f green:0x79/255.f blue:0xff/255.f alpha:1];
+    }
+    
+    return polylineView;
+}
+
+#pragma mark - Utils
+
+/*!
+ *  @brief  格式化距离
+ *
+ *  @param distance 距离,单位是米
+ *  @return 格式化字符串
+ *  @detial
+ *  (1) 567  ---> 567米
+ *  (2) 1567 ---> 1.5公里
+ *  (3) 2000 ---> 2公里
+ */
+- (NSString*) humanReadableForDistance:(double)distance
+{
+    NSString *humanReadable = nil;
+    
+    NSInteger theLength = (NSInteger)distance;
+    
+    // 米.
+    if (theLength < 1000)
+    {
+        humanReadable = [NSString stringWithFormat:@"%ld米", (long)theLength];
+    }
+    // 公里.
+    else
+    {
+#define WCLUtilityZeroEnd @".0"
+        
+        humanReadable = [NSString stringWithFormat:@"%.1f", theLength / 1000.0];
+        
+        BOOL zeroEnd = [humanReadable hasSuffix:WCLUtilityZeroEnd];
+        
+        // .0结尾, 去掉尾数.
+        if (zeroEnd)
+        {
+            humanReadable = [humanReadable substringWithRange:NSMakeRange(0, humanReadable.length - WCLUtilityZeroEnd.length)];
+        }
+        
+        humanReadable = [humanReadable stringByAppendingString:@"公里"];
+    }
+    
+    return humanReadable;
+}
+
+/*!
+ *  @brief  格式化时间
+ *
+ *  @param timeDuration 时间,单位是分钟
+ *  @return 格式化字符串
+ *  @detial
+ *  (1) 10  ---> 10分钟
+ *  (2) 120 ---> 2小时
+ *  (3) 124 ---> 2小时4分钟
+ */
+- (NSString *)humanReadableForTimeDuration:(double) timeDuration
+{
+    NSString *humanReadable = nil;
+    
+    NSInteger theDuration = (NSInteger)timeDuration;
+    
+    // 分.
+    if (theDuration < 60)
+    {
+        humanReadable = [NSString stringWithFormat:@"%ld分钟", (long)theDuration];
+    }
+    // 小时.
+    else
+    {
+        humanReadable = [NSString stringWithFormat:@"%ld小时", (long)theDuration / 60];
+        
+        double remainder = fmod(theDuration, 60.0);
+        
+        if (remainder != 0)
+        {
+            NSString *remainderHumanReadable = [self humanReadableForTimeDuration:remainder];
+            
+            humanReadable = [humanReadable stringByAppendingString:remainderHumanReadable];
+        }
+    }
+    
+    return humanReadable;
+}
+
+@end
+
+static char *QMSPolylineDashKey = "kQMSPolylineDashKey";
+
+@implementation QPolyline (RouteExtention)
+
+- (void)setDash:(BOOL)dash
+{
+    objc_setAssociatedObject(self, QMSPolylineDashKey, [NSNumber numberWithBool:dash], OBJC_ASSOCIATION_RETAIN);
+}
+
+- (BOOL)dash
+{
+    NSNumber *dashNum = objc_getAssociatedObject(self, QMSPolylineDashKey);
+    return [dashNum boolValue];
 }
 
 @end

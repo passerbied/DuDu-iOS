@@ -11,8 +11,8 @@
 #import "MainViewController.h"
 #import "APService.h"
 #import "ZBCProgressHUD.h"
-#import <QMapKit/QMapKit.h>
-#import <QMapSearchKit/QMapSearchKit.h>
+//#import <QMapKit/QMapKit.h>
+//#import <QMapSearchKit/QMapSearchKit.h>
 
 @interface AppDelegate ()
 
@@ -22,9 +22,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [MAMapServices sharedServices].apiKey = AMAP_KEY;
-    [QMapServices sharedServices].apiKey = QMAP_KEY;
-    [QMSSearchServices sharedServices].apiKey = QMAP_KEY;
+//    [MAMapServices sharedServices].apiKey = AMAP_KEY;
+//    [QMapServices sharedServices].apiKey = QMAP_KEY;
+//    [QMSSearchServices sharedServices].apiKey = QMAP_KEY;
 
     [WXApi registerApp:Weixin_App_ID];
     
@@ -51,6 +51,7 @@
     [APService setupWithOption:launchOptions];
     
     //TODO: test user
+    [UICKeyChainStore removeAllItems];
     [UICKeyChainStore setString:@"vwrfnzgzofhzjps1k3v5aur2o"
                          forKey:KEY_STORE_ACCESS_TOKEN
                         service:KEY_STORE_SERVICE];
@@ -90,7 +91,7 @@
 //                                              error:nil];
         if (carStore.cars.count) {
             [MainViewController sharedMainViewController].carStyles = carStore.cars;
-            [MainViewController sharedMainViewController].current_car_style = carStore.cars[0];
+            [MainViewController sharedMainViewController].currentCar = carStore.cars[0];
             [[MainViewController sharedMainViewController].topToolBar updateCarStylesWith:carStore.cars];
         }
         

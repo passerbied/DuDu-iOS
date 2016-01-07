@@ -22,7 +22,7 @@
 
 @protocol TimePickerDelegate <NSObject>
 
-- (void)timePickerView:(TimePicker *)pickerView didSelectButton:(UIButton *)btn;
+//- (void)timePickerView:(TimePicker *)pickerView didSelectButton:(UIButton *)btn;
 
 - (void)timePickerViewDidCancel;
 
