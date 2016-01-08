@@ -45,4 +45,13 @@
 @property (nonatomic, copy) NSNumber *relevance_id;
 @property (nonatomic, copy) NSNumber *evaluate_level;
 
+@property (nonatomic, copy) NSNumber *car_position_id;
+@property (nonatomic, copy) NSString *car_color;
+@property (nonatomic, copy) NSString *car_plate_number;
+@property (nonatomic, copy) NSString *driver_nickname;
+@property (nonatomic, copy) NSNumber *driver_telephone;
+@property (nonatomic, copy) NSString *driver_photo;
+@property (nonatomic, copy) NSString *car_brand;
+@property (nonatomic, copy) NSArray  *location;
+
 @end

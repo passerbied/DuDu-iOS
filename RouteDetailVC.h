@@ -17,6 +17,7 @@ EDStarRatingProtocol>
 @property (nonatomic, strong) OrderModel *orderInfo;
 @property (nonatomic, strong) ZBCStarRating *starRating;
 @property (nonatomic, assign) BOOL isHistory;
+@property (nonatomic, assign) BOOL isForCharge;
 @property (nonatomic, assign) NSInteger modelIndex;
 
 @end

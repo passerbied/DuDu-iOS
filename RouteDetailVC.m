@@ -11,30 +11,37 @@
 
 @interface RouteDetailVC ()
 {
-    UIView      *_headerView;
-    UIImageView *_timeImage;
+    UIView      *_routeView;
     UILabel     *_timeLabel;
-    UIImageView *_startImage;
     UILabel     *_startLabel;
-    UIImageView *_endImage;
     UILabel     *_endLabel;
-
-    UIImageView *_leftLine;
-    UILabel     *_successLabel;
-    UIImageView *_rightLine;
-    UILabel     *_carStyleLabel;
-    UILabel     *_priceLabel;
-    UIImageView *_detailImage;
-    UIButton    *_detailButton;
-    UIImageView *_leftLine2;
-    UILabel     *_impressLabel;
-    UIImageView *_rightLine2;
     
-//    UIImageView *_commentImage;
-//    UIButton    *_commentButton;
-//    UILabel     *_estimateLabel;
-//    UIImageView *_shareImage;
-//    UIButton    *_shareButton;
+    UIView      *_driverView;
+    UIImageView *_avator;
+    UILabel     *_driverNameLabel;
+    UILabel     *_carNumLabel;
+    UILabel     *_carStyleLabel;
+    UILabel     *_carColorLabel;
+    
+    UIView      *_chargeView;
+    UILabel     *_priceLabel;
+    UILabel     *_mileageLabel;
+    UILabel     *_duringLabel;
+    UILabel     *_couponLabel;
+    UILabel     *_mileagePrice;
+    UILabel     *_duringPrice;
+    UILabel     *_couponPrice;
+    UIImageView *_mileageLine;
+    UIImageView *_duringLine;
+    UIImageView *_couponLine;
+    UILabel     *_payTypeLabel;
+    UILabel     *_payPrice;
+    UIImageView *_payLine;
+    
+    UIView      *_ratingView;
+    
+    UIButton    *_payBtn;
+    
     BOOL        _isRatingChanged;
 }
 
@@ -46,155 +53,151 @@
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xffffff);
     [self createSubViews];
+    [self flushOrderStatus];
 }
 
 - (void)createSubViews
 {
-    _headerView = [[UIView alloc] initWithFrame:CGRectZero];
-    _headerView.backgroundColor = COLORRGB(0xffffff);
-    [self.view addSubview:_headerView];
+    [self.view addSubview:[self routeView]];
+    [self.view addSubview:[self driverView]];
+    [self.view addSubview:[self chargeView]];
+    [self.view addSubview:[self ratingView]];
+    [self.view addSubview:[self payBtn]];
     
-    _timeImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _timeImage.image = IMG(@"tiny_clock");
-    [_headerView addSubview:_timeImage];
+    _driverView.alpha = 0;
+    _payBtn.alpha = 0;
+    _ratingView.alpha = 0;
     
-    _timeLabel = [UILabel labelWithFrame:CGRectZero
-                                   color:COLORRGB(0x000000)
-                                    font:HSFONT(12)
-                                    text:@""
-                               alignment:NSTextAlignmentLeft
-                           numberOfLines:1];
-    [_headerView addSubview:_timeLabel];
+//    [self calculateFrame];
+}
+
+- (void)calculateFrame
+{
+    [self setData];
     
-    _startImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _startImage.image = IMG(@"tiny_circle_green");
-    [_headerView addSubview:_startImage];
+    CGSize carStyleSize = [self getTextFromLabel:_carStyleLabel];
+    _carStyleLabel.frame = ccr(SCREEN_WIDTH-20-carStyleSize.width-6, _carStyleLabel.y, carStyleSize.width+6, _carStyleLabel.height+4);
     
-    _startLabel = [UILabel labelWithFrame:CGRectZero
-                                    color:COLORRGB(0x000000)
-                                     font:HSFONT(12)
-                                     text:@""
-                                alignment:NSTextAlignmentLeft
-                            numberOfLines:1];
-    [_headerView addSubview:_startLabel];
+    CGSize mileageSize = [self getTextFromLabel:_mileageLabel];
+    _mileageLabel.frame = ccr(20,
+                              CGRectGetMaxY(_priceLabel.frame)+15,
+                              mileageSize.width,
+                              mileageSize.height);
+    CGSize mileagePriceSize = [self getTextFromLabel:_mileagePrice];
+    _mileagePrice.frame = ccr(SCREEN_WIDTH-20-mileagePriceSize.width,
+                              _mileageLabel.y,
+                              mileagePriceSize.width,
+                              mileagePriceSize.height);
+    _mileageLine.frame = ccr(CGRectGetMaxX(_mileageLabel.frame)+5,
+                             CGRectGetMaxY(_mileageLabel.frame)-mileageSize.height/2,
+                             _mileagePrice.origin.x-5*2-CGRectGetMaxX
+                             (_mileageLabel.frame),
+                             0.5);
     
-    _endImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _endImage.image = IMG(@"tiny_circle_red");
-    [_headerView addSubview:_endImage];
+    CGSize duringSize = [self getTextFromLabel:_duringLabel];
+    _duringLabel.frame = ccr(_mileageLabel.origin.x,
+                           CGRectGetMaxY(_mileageLabel.frame)+5,
+                           duringSize.width,
+                           duringSize.height);
     
-    _endLabel = [UILabel labelWithFrame:CGRectZero
-                                  color:COLORRGB(0x000000)
-                                   font:HSFONT(12)
-                                   text:@""
-                              alignment:NSTextAlignmentLeft
-                          numberOfLines:1];
-    [_headerView addSubview:_endLabel];
+    CGSize duringPriceSize = [self getTextFromLabel:_duringPrice];
+    _duringPrice.frame = ccr(SCREEN_WIDTH-20-duringPriceSize.width,
+                           CGRectGetMaxY(_mileagePrice.frame)+5,
+                           duringPriceSize.width,
+                           duringPriceSize.height);
     
-    _leftLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _leftLine.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.view addSubview:_leftLine];
+    _duringLine.frame = ccr(CGRectGetMaxX(_duringLabel.frame)+5,
+                          CGRectGetMaxY(_duringLabel.frame)-duringSize.height/2,
+                          _duringPrice.origin.x-5*2-CGRectGetMaxX(_duringLabel.frame),
+                          _mileageLine.height);
     
-    _successLabel = [UILabel labelWithFrame:CGRectZero
-                                      color:COLORRGB(0xd7d7d7)
-                                       font:HSFONT(12)
-                                       text:@"成功支付"
-                                  alignment:NSTextAlignmentCenter
-                              numberOfLines:1];
-    [self.view addSubview:_successLabel];
+    CGSize couponSize = [self getTextFromLabel:_couponLabel];
+    _couponLabel.frame = ccr(_duringLabel.origin.x,
+                             CGRectGetMaxY(_duringLabel.frame)+5,
+                             couponSize.width,
+                             couponSize.height);
+    CGSize couponTitleSize = [self getTextFromLabel:_couponPrice];
+    _couponPrice.frame = ccr(SCREEN_WIDTH-20-couponTitleSize.width,
+                             CGRectGetMaxY(_duringPrice.frame)+5,
+                             couponTitleSize.width,
+                             couponTitleSize.height);
+    _couponLine.frame = ccr(CGRectGetMaxX(_couponLabel.frame)+5,
+                            CGRectGetMaxY(_couponLabel.frame)-couponTitleSize.height/2,
+                            _couponPrice.origin.x-5*2-CGRectGetMaxX(_couponLabel.
+                                                                    frame),
+                            _duringLine.height);
     
-    _rightLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _rightLine.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.view addSubview:_rightLine];
+    CGSize payTypeSize = [self getTextFromLabel:_payTypeLabel];
+    _payTypeLabel.frame = ccr(_couponLabel.origin.x,
+                              CGRectGetMaxY(_couponLabel.frame)+10,
+                              payTypeSize.width,
+                              payTypeSize.height);
+    CGSize payPriceSize = [self getTextFromLabel:_payPrice];
+    _payPrice.frame = ccr(SCREEN_WIDTH-20-payPriceSize.width,
+                          CGRectGetMaxY(_couponPrice.frame)+10,
+                          payPriceSize.width,
+                          payPriceSize.height);
+    _payLine.frame = ccr(CGRectGetMaxX(_payTypeLabel.frame)+5,
+                         CGRectGetMaxY(_payTypeLabel.frame)-payTypeSize.
+                         height/2,
+                         _payPrice.origin.x-5*2-CGRectGetMaxX(_payTypeLabel
+                                                              .frame),
+                         _couponLine.height);
+    _chargeView.height = CGRectGetMaxY(_payLine.frame);
     
-    _carStyleLabel = [UILabel labelWithFrame:CGRectZero
-                                       color:COLORRGB(0x000000)
-                                        font:HSFONT(12)
-                                        text:@""
-                                   alignment:NSTextAlignmentCenter
-                               numberOfLines:1];
-    [self.view addSubview:_carStyleLabel];
+    _driverView.alpha = 1;
+    _chargeView.y = CGRectGetMaxY(_driverView.frame)+10;
+    _ratingView.y = CGRectGetMaxY(_chargeView.frame)+30;
     
-    _priceLabel = [UILabel labelWithFrame:CGRectZero
-                                    color:COLORRGB(0x000000)
-                                     font:HSFONT(12)
-                                     text:@""
-                                alignment:NSTextAlignmentCenter
-                            numberOfLines:1];
-    [self.view addSubview:_priceLabel];
+    if(self.isForCharge) {
+        _payBtn.alpha = 1;
+    } else {
+        _ratingView.alpha = 1;
+    }
     
-    _detailImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _detailImage.image = IMG(@"tiny_history");
-    _detailImage.userInteractionEnabled = YES;
-    [self.view addSubview:_detailImage];
-    
-    _detailButton = [UIButton buttonWithImageName:@""
-                                      hlImageName:@""
-                                            title:@"查看明细"
-                                       titleColor:COLORRGB(0x000000)
-                                             font:HSFONT(12)
-                                       onTapBlock:^(UIButton *btn) {
-                                           [self didClickDetailButtonAction];
-                                       }];
-    [self.view addSubview:_detailButton];
-    
-    _leftLine2 = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _leftLine2.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.view addSubview:_leftLine2];
-    
-    _impressLabel = [UILabel labelWithFrame:CGRectZero
-                                      color:COLORRGB(0xd7d7d7)
-                                       font:HSFONT(12)
-                                       text:@"描述我对他(她)的印象"
-                                  alignment:NSTextAlignmentCenter
-                              numberOfLines:1];
-    [self.view addSubview:_impressLabel];
-    
-    _rightLine2 = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _rightLine2.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.view addSubview:_rightLine2];
-    
-    self.starRating = [[ZBCStarRating alloc] initWithFrame:CGRectZero];
-    self.starRating.delegate = self;
-    [self.view addSubview:self.starRating];
-    
-//    _commentImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-//    _commentImage.image = IMG(@"tiny_history");
-//    _commentImage.userInteractionEnabled = YES;
-//    [self.view addSubview:_commentImage];
-//    
-//    _commentButton = [UIButton buttonWithImageName:@""
-//                                       hlImageName:@""
-//                                             title:@"添加印象"
-//                                        titleColor:COLORRGB(0x000000)
-//                                              font:HSFONT(12)
-//                                        onTapBlock:^(UIButton *btn) {
-//                                            [self didClickCommentButtonAction];
-//                                        }];
-//    [self.view addSubview:_commentButton];
-//    
-//    _estimateLabel = [UILabel labelWithFrame:CGRectZero
-//                                       color:COLORRGB(0x000000)
-//                                        font:HSFONT(12)
-//                                        text:@""
-//                                   alignment:NSTextAlignmentCenter
-//                               numberOfLines:1];
-//    [self.view addSubview:_estimateLabel];
-    
-//    _shareImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-//    _shareImage.userInteractionEnabled = YES;
-//    _shareImage.layer.masksToBounds = YES;
-//    [self.view addSubview:_shareImage];
-//    
-//    _shareButton = [UIButton buttonWithImageName:@""
-//                                     hlImageName:@""
-//                                           title:@"代金券"
-//                                      titleColor:COLORRGB(0x000000)
-//                                            font:HSFONT(12)
-//                                      onTapBlock:^(UIButton *btn) {
-//                                          
-//                                      }];
-//    [self.view addSubview:_shareButton];
-    [self calculateFrame];
+}
+
+- (void)flushOrderStatus
+{
+    [[DuDuAPIClient sharedClient] GET:FLUSH_ORDER_STATUS([self.orderInfo.order_id intValue]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        OrderModel *flushedInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                       fromJSONDictionary:dic[@"info"]
+                                                    error:nil];
+        if (flushedInfo) {
+            self.orderInfo.car_position_id = flushedInfo.car_position_id;
+            self.orderInfo.car_color = flushedInfo.car_color;
+            self.orderInfo.car_plate_number = flushedInfo.car_plate_number;
+            self.orderInfo.driver_nickname = flushedInfo.driver_nickname;
+            self.orderInfo.driver_telephone = flushedInfo.driver_telephone;
+            self.orderInfo.driver_photo = flushedInfo.driver_photo;
+            self.orderInfo.order_status = flushedInfo.order_status;
+            self.orderInfo.car_brand = flushedInfo.car_brand;
+            self.orderInfo.order_initiate_rate = flushedInfo.order_initiate_rate;
+            self.orderInfo.order_mileage = flushedInfo.order_mileage;
+            self.orderInfo.order_mileage_money = flushedInfo.order_mileage_money;
+            self.orderInfo.order_duration_money = flushedInfo.order_duration_money;
+            self.orderInfo.order_allTime = flushedInfo.order_allTime;
+            self.orderInfo.order_allMoney = flushedInfo.order_allMoney;
+            self.orderInfo.location = flushedInfo.location;
+        } else {
+            self.orderInfo.car_color = @"";
+            self.orderInfo.car_brand = @"未知车型";
+            self.orderInfo.car_plate_number = @"未知车牌号";
+            self.orderInfo.driver_nickname = @"未知司机";
+            self.orderInfo.driver_telephone = [NSNumber numberWithInt:0];
+        }
+        
+        [self calculateFrame];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        self.orderInfo.car_color = @"";
+        self.orderInfo.car_brand = @"未知车型";
+        self.orderInfo.car_plate_number = @"未知车牌号";
+        self.orderInfo.driver_nickname = @"未知司机";
+        self.orderInfo.driver_telephone = [NSNumber numberWithInt:0];
+        [self calculateFrame];
+    }];
 }
 
 - (void)setData
@@ -203,138 +206,383 @@
     _timeLabel.text = [date displayWithFormat:@"yyyy-M-d H:mm"];
     _startLabel.text = self.orderInfo.star_loc_str;
     _endLabel.text = self.orderInfo.dest_loc_str;
+    _carStyleLabel.text = [NSString stringWithFormat:@"%@ %@",self.orderInfo.car_color, self.orderInfo.car_brand];
+    _carColorLabel.text = self.orderInfo.car_color;
     
-    CarModel *carInfo = [[CarModel alloc] initWithCarStyle:self.orderInfo.car_style];
-    _carStyleLabel.text = carInfo.car_style_name;
+    _driverNameLabel.text = [NSString stringWithFormat:@"%@(%@)",self.orderInfo.driver_nickname,self.orderInfo.driver_telephone];
+    _carNumLabel.text = self.orderInfo.car_plate_number;
     
     _priceLabel.text = [NSString stringWithFormat:@"%@元",self.orderInfo.order_allMoney];
+    
+    NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:_priceLabel.text];
+    NSUInteger priceLength = _priceLabel.text.length-1;
+    [priceString addAttributes:@{NSFontAttributeName:HSFONT(20)}
+                         range:NSMakeRange(0, priceLength)];
+    _priceLabel.attributedText = priceString;
+    
+    float mileage = [self.orderInfo.order_mileage floatValue];
+    _mileageLabel.text = [NSString stringWithFormat:@"里程(%.2f公里)",mileage];
+    float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
+    _mileagePrice.text = [NSString stringWithFormat:@"%.2f元",mileagePrice];
+    int during = [self.orderInfo.order_allTime intValue];
+    _duringLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",during];
+    float duringPrice = [self.orderInfo.order_duration_money floatValue];
+    _duringPrice.text = [NSString stringWithFormat:@"%.2f元",duringPrice];
+    float couponPrice = [self.orderInfo.coupon_discount floatValue];
+    if (couponPrice<1) {
+        _couponLabel.text = @"打折优惠";
+        _couponPrice.text = [NSString stringWithFormat:@"%.2f折",couponPrice];
+    } else {
+        _couponLabel.text = @"满减优惠";
+        _couponPrice.text = [NSString stringWithFormat:@"%.2f元",couponPrice];
+    }
+    _payTypeLabel.text = self.orderInfo.order_payStatus_str;
+    _payPrice.text = [NSString stringWithFormat:@"%.2f元",-[self.orderInfo.order_allMoney floatValue]];
     
     self.starRating.editable = [self.orderInfo.order_status intValue] == 5; //只有已付款才可以评星
     self.starRating.rating = [self.orderInfo.evaluate_level floatValue];
     
-//    NSString *mostComment = @"驾驶平稳";
-//    NSString *personalComment = @"";
-//    if ([personalComment isEqualToString:@""]) {
-//        _estimateLabel.text = [NSString stringWithFormat:@"大多数人对他(她)的印象是:%@",mostComment];
-//    } else {
-//        _estimateLabel.text = personalComment;
-//    }
 }
 
-- (void)calculateFrame
+- (UIView *)routeView
 {
-    [self setData];
-    _timeImage.frame = ccr(10, 10, 16, 16);
-    CGSize timeSize = [self getTextFromLabel:_timeLabel];
-    _timeLabel.frame = ccr(CGRectGetMaxX(_timeImage.frame)+10,
-                           _timeImage.origin.y-(_timeImage.height-_timeLabel.height)/2,
-                           timeSize.width,
-                           20);
-    _startImage.frame = ccr(_timeImage.origin.x,
-                            CGRectGetMaxY(_timeImage.frame)+10,
-                            _timeImage.width,
-                            _timeImage.height);
-    CGSize startSize = [self getTextFromLabel:_startLabel];
-    _startLabel.frame = ccr(_timeLabel.origin.x,
-                            _startImage.origin.y-(_startImage.height-_startLabel.height)/2,
-                            startSize.width,
-                            20);
-    _endImage.frame = ccr(_startImage.origin.x,
-                          CGRectGetMaxY(_startImage.frame)+10,
-                          _startImage.width,
-                          _startImage.height);
-    CGSize endSize = [self getTextFromLabel:_endLabel];
-    _endLabel.frame = ccr(_startLabel.origin.x,
-                          _endImage.origin.y-(_endImage.height-_endLabel.height)/2,
-                          endSize.width,
-                          20);
-    _headerView.frame = ccr(0,
-                            NAV_BAR_HEIGHT_IOS7,
-                            SCREEN_WIDTH,
-                            CGRectGetMaxY(_endLabel.frame)+10);
+    if (!_routeView) {
+        _routeView = [[UIView alloc] init];
+    }
+    
+    UIImageView *timeImage = [[UIImageView alloc] initWithFrame:ccr(10, 10, 16, 16)];
+    timeImage.image = IMG(@"tiny_clock");
+    [_routeView addSubview:timeImage];
+    
+    _timeLabel = [UILabel labelWithFrame:ccr(36,
+                                             10,
+                                             SCREEN_WIDTH-36,
+                                             16)
+                                   color:COLORRGB(0x000000)
+                                    font:HSFONT(12)
+                                    text:@""
+                               alignment:NSTextAlignmentLeft
+                           numberOfLines:1];
+    [_routeView addSubview:_timeLabel];
+    
+    UIImageView *startImage = [[UIImageView alloc] initWithFrame:ccr(timeImage.origin.x,
+                                                                     CGRectGetMaxY(timeImage.frame)+10,
+                                                                     timeImage.width,
+                                                                     timeImage.height)];
+    startImage.image = IMG(@"tiny_circle_green");
+    [_routeView addSubview:startImage];
+    
+    _startLabel = [UILabel labelWithFrame:ccr(_timeLabel.x,
+                                              CGRectGetMaxY(_timeLabel.frame)+10,
+                                              _timeLabel.width,
+                                              16)
+                                    color:COLORRGB(0x000000)
+                                     font:HSFONT(12)
+                                     text:@""
+                                alignment:NSTextAlignmentLeft
+                            numberOfLines:1];
+    [_routeView addSubview:_startLabel];
+    
+    UIImageView *endImage = [[UIImageView alloc] initWithFrame:ccr(startImage.origin.x,
+                                                                   CGRectGetMaxY(startImage.frame)+10,
+                                                                   startImage.width,
+                                                                   startImage.height)];
+    endImage.image = IMG(@"tiny_circle_red");
+    [_routeView addSubview:endImage];
+    
+    _endLabel = [UILabel labelWithFrame:ccr(_startLabel.x,
+                                            CGRectGetMaxY(_startLabel.frame)+10,
+                                            _startLabel.width,
+                                            16)
+                                  color:COLORRGB(0x000000)
+                                   font:HSFONT(12)
+                                   text:@""
+                              alignment:NSTextAlignmentLeft
+                          numberOfLines:1];
+    [_routeView addSubview:_endLabel];
+    
+    _routeView.frame = ccr(0,
+                           NAV_BAR_HEIGHT_IOS7,
+                           SCREEN_WIDTH,
+                           CGRectGetMaxY(_endLabel.frame)+10);
+    
+    return _routeView;
+}
 
-    CGSize successSize = [self getTextFromLabel:_successLabel];
-    CGFloat lineLength = (SCREEN_WIDTH-successSize.width-5*2)/4;
-    _leftLine.frame = ccr(lineLength,
-                          CGRectGetMaxY(_headerView.frame)+10+(successSize
-                          .height-0.5)/2,
-                          lineLength,
-                          0.5);
-    _successLabel.frame = ccr(CGRectGetMaxX(_leftLine.frame)+5,
-                              CGRectGetMaxY(_headerView.frame)+10,
-                              successSize.width,
-                              successSize.height);
-    _rightLine.frame = ccr(CGRectGetMaxX(_successLabel.frame)+5,
-                           _leftLine.origin.y,
-                           _leftLine.width,
-                           _leftLine.height);
+- (UIView *)driverView
+{
+    if (!_driverView) {
+        _driverView = [[UIView alloc] initWithFrame:ccr(0, CGRectGetMaxY(_routeView.frame)+40, SCREEN_WIDTH, 90)];
+    }
     
-    _carStyleLabel.frame = ccr((SCREEN_WIDTH-[self getTextFromLabel:_carStyleLabel].width)/2,
-                               CGRectGetMaxY(_successLabel.frame)+25,
-                               [self getTextFromLabel:_carStyleLabel].width,
-                               [self getTextFromLabel:_carStyleLabel].height);
+    UILabel *driverTitleLabel = [UILabel labelWithFrame:ccr((SCREEN_WIDTH-70)/2, 0, 70, 20)
+                                                  color:COLORRGB(0xd7d7d7)
+                                                   font:HSFONT(12)
+                                                   text:@"车辆信息"
+                                              alignment:NSTextAlignmentCenter
+                                          numberOfLines:1];
+    [_driverView addSubview:driverTitleLabel];
     
-    NSString *price = _priceLabel.text;
-    NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:price];
-    NSUInteger priceLength = price.length-1;
-    [priceString addAttributes:@{NSFontAttributeName:HSFONT(20)}
-                         range:NSMakeRange(0, priceLength)];
-    _priceLabel.attributedText = priceString;
-    CGSize priceSize = [self getTextFromLabel:_priceLabel];
-    _priceLabel.frame = ccr((SCREEN_WIDTH-priceSize.width)/2,
-                            CGRectGetMaxY(_carStyleLabel.frame)+10,
-                            priceSize.width,
-                            priceSize.height);
-    CGSize detailSize = [self getTextFromLabel:_detailButton.titleLabel];
-    _detailImage.frame = ccr((SCREEN_WIDTH-detailSize.width-16)/2,
-                             CGRectGetMaxY(_priceLabel.frame)+10,
-                             16,
-                             16);
-    _detailButton.frame = ccr(CGRectGetMaxX(_detailImage.frame),
-                              _detailImage.origin.y+1,
-                              detailSize.width,
-                              detailSize.height);
-    CGSize impressSize = [self getTextFromLabel:_impressLabel];
-    CGFloat lineLength2 = (SCREEN_WIDTH-impressSize.width-5*2)/4;
-    _leftLine2.frame = ccr(lineLength2,
-                           CGRectGetMaxY(_detailButton.frame)+50+
-                           (impressSize.height-0.5)/2,
-                           lineLength2, 0.5);
-    _impressLabel.frame = ccr(CGRectGetMaxX(_leftLine2.frame)+5,
-                              CGRectGetMaxY(_detailButton.frame)+50,
-                              impressSize.width,
-                              impressSize.height);
-    _rightLine2.frame = ccr(CGRectGetMaxX(_impressLabel.frame)+5,
-                            _leftLine2.origin.y,
-                            _leftLine2.width,
-                            _leftLine2.height);
+    UIImageView *leftLine = [[UIImageView alloc] initWithFrame:ccr(driverTitleLabel.x-5-50, 10, 50, 0.5)];
+    leftLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_driverView addSubview:leftLine];
     
-    self.starRating.frame = ccr((SCREEN_WIDTH-200)/2,
-                                CGRectGetMaxY(_impressLabel.frame)+20,
-                                200,
-                                40);
+    UIImageView *rightLine = [[UIImageView alloc] initWithFrame:ccr(CGRectGetMaxX(driverTitleLabel.frame)+5, leftLine.y, leftLine.width, leftLine.height)];
+    rightLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_driverView addSubview:rightLine];
     
-//    CGSize commentSize = [self getTextFromLabel:_commentButton.titleLabel];
-//    _commentImage.frame = ccr(_detailImage.origin.x,
-//                              CGRectGetMaxY(_impressLabel.frame)+20,
-//                              16,
-//                              16);
-//    _commentButton.frame = ccr(CGRectGetMaxX(_commentImage.frame),
-//                               _commentImage.origin.y+1,
-//                               commentSize.width,
-//                               commentSize.height);
-//    CGSize estimateSize = [self getTextFromLabel:_estimateLabel];
-//    _estimateLabel.frame = ccr((SCREEN_WIDTH-estimateSize.width)/2,
-//                               CGRectGetMaxY(_commentButton.frame)+10,
-//                               estimateSize.width,
-//                               estimateSize.height);
-//    _shareImage.frame = ccr((SCREEN_WIDTH-50)/2,
-//                            SCREEN_HEIGHT-50-10,
-//                            50,
-//                            50);
-//    _shareImage.layer.cornerRadius = _shareImage.width/2;
-//    _shareButton.frame = _shareImage.frame;
-//    _shareButton.layer.cornerRadius = _shareButton.width/2;
+    _avator = [[UIImageView alloc] initWithFrame:ccr(10,
+                                                     CGRectGetMaxY(driverTitleLabel.frame)+10,
+                                                     50,
+                                                     50)];
+    [_avator setImageWithURL:URL([Utils emptyIfNull:self.orderInfo.driver_photo])
+            placeholderImage:IMG(@"account")];
+    _avator.layer.cornerRadius = _avator.width/2;
+    _avator.layer.masksToBounds = YES;
+    
+    [_driverView addSubview:_avator];
+
+    
+    NSString *driver_acount = [NSString stringWithFormat:@"%@(%@)",self.orderInfo.driver_nickname,self.orderInfo.driver_telephone];
+    _driverNameLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(_avator.frame)+10,
+                                             _avator.y,
+                                             SCREEN_WIDTH-CGRectGetMaxX(_avator.frame)-20-20,
+                                             _avator.height/2)
+                                   color:COLORRGB(0x000000)
+                                    font:HSFONT(12)
+                                    text:driver_acount];
+    [_driverView addSubview:_driverNameLabel];
+    
+    _carNumLabel = [UILabel labelWithFrame:ccr(_driverNameLabel.x,
+                                              CGRectGetMaxY(_driverNameLabel.frame),
+                                              _driverNameLabel.width,
+                                              _avator.height/2)
+                                    color:COLORRGB(0x000000)
+                                     font:HSFONT(12)
+                                     text:self.orderInfo.car_plate_number];
+    [_driverView addSubview:_carNumLabel];
+    
+//    _carColorLabel = [UILabel labelWithFrame:ccr(SCREEN_WIDTH-70,
+//                                                 _carNumLabel.y,
+//                                                 30,
+//                                                 15)
+//                                       color:COLORRGB(0x000000)
+//                                        font:HSFONT(15)
+//                                        text:@""
+//                                   alignment:NSTextAlignmentCenter
+//                               numberOfLines:1];
+//    _carColorLabel.layer.borderColor = COLORRGB(0xd7d7d7).CGColor;
+//    _carColorLabel.layer.borderWidth = 0.5f;
+//    _carColorLabel.layer.cornerRadius = 5.0f;
+//    [_driverView addSubview:_carColorLabel];
+    
+    _carStyleLabel = [UILabel labelWithFrame:ccr(SCREEN_WIDTH-80,
+                                                 _carNumLabel.y,
+                                                 70,
+                                                 15)
+                                       color:COLORRGB(0x63666b)
+                                        font:HSFONT(12)
+                                        text:@"未知车型"
+                                   alignment:NSTextAlignmentCenter
+                               numberOfLines:1];
+    _carStyleLabel.layer.borderColor = COLORRGB(0xff8830).CGColor;
+    _carStyleLabel.layer.borderWidth = 1;
+    _carStyleLabel.layer.cornerRadius = 5.0f;
+    [_driverView addSubview:_carStyleLabel];
+    
+    _driverView.frame = ccr(0,
+                            CGRectGetMaxY(_routeView.frame),
+                            SCREEN_WIDTH,
+                            CGRectGetMaxY(_avator.frame));
+    return _driverView;
+}
+
+- (UIView *)chargeView
+{
+    if (!_chargeView) {
+        _chargeView = [[UIView alloc] initWithFrame:CGRectZero];
+    }
+    
+    UILabel *changeTitleLabel = [UILabel labelWithFrame:ccr((SCREEN_WIDTH-70)/2, 0, 70, 20)
+                                          color:COLORRGB(0xd7d7d7)
+                                           font:HSFONT(12)
+                                           text:@"费用详情"
+                                      alignment:NSTextAlignmentCenter
+                                  numberOfLines:1];
+    [_chargeView addSubview:changeTitleLabel];
+    
+    UIImageView *leftLine = [[UIImageView alloc] initWithFrame:ccr(changeTitleLabel.x-5-50, 10, 50, 0.5)];
+    leftLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_chargeView addSubview:leftLine];
+    
+    UIImageView *rightLine = [[UIImageView alloc] initWithFrame:ccr(CGRectGetMaxX(changeTitleLabel.frame)+5, leftLine.y, leftLine.width, leftLine.height)];
+    rightLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_chargeView addSubview:rightLine];
+    
+    _priceLabel = [UILabel labelWithFrame:ccr(0,
+                                              CGRectGetMaxY(changeTitleLabel.frame)+10,
+                                              SCREEN_WIDTH,
+                                              20)
+                                    color:COLORRGB(0x000000)
+                                     font:HSFONT(20)
+                                     text:@""
+                                alignment:NSTextAlignmentCenter
+                            numberOfLines:1];
+    [_chargeView addSubview:_priceLabel];
+    
+    //    _startLabel = [UILabel labelWithFrame:CGRectZero
+    //                                    color:COLORRGB(0x000000)
+    //                                     font:HSFONT(13)
+    //                                     text:@"起步价"
+    //                                alignment:NSTextAlignmentLeft
+    //                            numberOfLines:1];
+    //    [chargeView addSubview:_startLabel];
+    //
+    //    _startLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+    //    _startLine.backgroundColor = COLORRGB(0xd7d7d7);
+    //    [chargeView addSubview:_startLine];
+    //
+    //    _startPrice = [UILabel labelWithFrame:CGRectZero
+    //                                    color:COLORRGB(0x000000)
+    //                                     font:HSFONT(13)
+    //                                     text:@""
+    //                                alignment:NSTextAlignmentRight
+    //                            numberOfLines:1];
+    //    [chargeView addSubview:_startPrice];
+    
+    _mileageLabel = [UILabel labelWithFrame:CGRectZero
+                                      color:COLORRGB(0x000000)
+                                       font:HSFONT(13)
+                                       text:@""
+                                  alignment:NSTextAlignmentLeft
+                              numberOfLines:1];
+    [_chargeView addSubview:_mileageLabel];
+    
+    _mileageLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _mileageLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_chargeView addSubview:_mileageLine];
+    
+    _mileagePrice = [UILabel labelWithFrame:CGRectZero
+                                      color:COLORRGB(0x000000)
+                                       font:HSFONT(13)
+                                       text:@""
+                                  alignment:NSTextAlignmentRight
+                              numberOfLines:1];
+    [_chargeView addSubview:_mileagePrice];
+    
+    _duringLabel = [UILabel labelWithFrame:CGRectZero
+                                     color:COLORRGB(0x000000)
+                                      font:HSFONT(13)
+                                      text:@""
+                                 alignment:NSTextAlignmentLeft
+                             numberOfLines:1];
+    [_chargeView addSubview:_duringLabel];
+    
+    _duringLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _duringLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_chargeView addSubview:_duringLine];
+    
+    _duringPrice = [UILabel labelWithFrame:CGRectZero
+                                   color:COLORRGB(0x000000)
+                                    font:HSFONT(13)
+                                    text:@""
+                               alignment:NSTextAlignmentRight
+                           numberOfLines:1];
+    [_chargeView addSubview:_duringPrice];
+    
+    
+    _couponLabel = [UILabel labelWithFrame:CGRectZero
+                                     color:COLORRGB(0x000000)
+                                      font:HSFONT(13)
+                                      text:@"优惠"
+                                 alignment:NSTextAlignmentLeft
+                             numberOfLines:1];
+    [_chargeView addSubview:_couponLabel];
+    
+    _couponLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _couponLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_chargeView addSubview:_couponLine];
+    
+    _couponPrice = [UILabel labelWithFrame:CGRectZero
+                                     color:COLORRGB(0x000000)
+                                      font:HSFONT(13)
+                                      text:@""
+                                 alignment:NSTextAlignmentRight
+                             numberOfLines:1];
+    [_chargeView addSubview:_couponPrice];
+    
+    
+    _payTypeLabel = [UILabel labelWithFrame:CGRectZero
+                                      color:COLORRGB(0xff8830)
+                                       font:HSFONT(13)
+                                       text:@""
+                                  alignment:NSTextAlignmentLeft
+                              numberOfLines:1];
+    [_chargeView addSubview:_payTypeLabel];
+    
+    _payLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _payLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_chargeView addSubview:_payLine];
+    
+    _payPrice = [UILabel labelWithFrame:CGRectZero
+                                  color:COLORRGB(0xff8830)
+                                   font:HSFONT(13)
+                                   text:@""
+                              alignment:NSTextAlignmentRight
+                          numberOfLines:1];
+    [_chargeView addSubview:_payPrice];
+    
+    _chargeView.frame = ccr(0, CGRectGetMaxY(_routeView.frame)+10, SCREEN_WIDTH, 200);
+    return _chargeView;
+}
+
+- (UIView *)ratingView
+{
+    if (!_ratingView) {
+        _ratingView = [[UIView alloc] initWithFrame:CGRectZero];
+    }
+    
+    UILabel *ratingTitleLabel = [UILabel labelWithFrame:ccr((SCREEN_WIDTH-70)/2, 0, 70, 20)
+                                                  color:COLORRGB(0xd7d7d7)
+                                                   font:HSFONT(12)
+                                                   text:@"对司机评星"
+                                              alignment:NSTextAlignmentCenter
+                                          numberOfLines:1];
+    [_ratingView addSubview:ratingTitleLabel];
+    
+    UIImageView *leftLine = [[UIImageView alloc] initWithFrame:ccr(ratingTitleLabel.x-5-50, 10, 50, 0.5)];
+    leftLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_ratingView addSubview:leftLine];
+    
+    UIImageView *rightLine = [[UIImageView alloc] initWithFrame:ccr(CGRectGetMaxX(ratingTitleLabel.frame)+5, leftLine.y, leftLine.width, leftLine.height)];
+    rightLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_ratingView addSubview:rightLine];
+    
+    self.starRating = [[ZBCStarRating alloc] initWithFrame:ccr((SCREEN_WIDTH-200)/2,
+                                                               CGRectGetMaxY(ratingTitleLabel.frame)+20,
+                                                               200,
+                                                               40)];
+    self.starRating.delegate = self;
+    [_ratingView addSubview:self.starRating];
+    _ratingView.frame = ccr(0, SCREEN_HEIGHT-150, SCREEN_WIDTH, CGRectGetMaxY(self.starRating.frame));
+    
+    return _ratingView;
+}
+
+- (UIButton *)payBtn
+{
+    if (!_payBtn) {
+        _payBtn = [UIButton buttonWithImageName:@"orgbtn"
+                                    hlImageName:@"orgbtn_pressed"
+                                          title:@"发送订单"
+                                     titleColor:COLORRGB(0xffffff)
+                                           font:HSFONT(15)
+                                     onTapBlock:^(UIButton *btn) {
+                                         
+                                     }];
+        _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    }
+    return _payBtn;
 }
 
 #pragma mark - click event
@@ -345,14 +593,6 @@
     checkDetailVC.title = @"查看明细";
     checkDetailVC.orderInfo = self.orderInfo;
     [self.navigationController pushViewController:checkDetailVC animated:YES];
-}
-
-- (void)didClickCommentButtonAction
-{
-    CommentVC *commentVC = [[CommentVC alloc] init];
-    commentVC.title = @"添加印象";
-    commentVC.delegate = self;
-    [self.navigationController pushViewController:commentVC animated:YES];
 }
 
 - (void)sentRating:(float)rating

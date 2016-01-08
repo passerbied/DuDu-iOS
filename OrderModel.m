@@ -38,8 +38,17 @@
              @"isbook"               : @"isbook",
              @"coupon_title"         : @"coupon_title",
              @"coupon_discount"      : @"coupon_discount",
-             @"relevance_id"         :@"relevance_id",
-             @"evaluate_level"       :@"evaluate_level",
+             @"relevance_id"         : @"relevance_id",
+             @"evaluate_level"       : @"evaluate_level",
+             
+             @"car_position_id"      : @"car_position_id",
+             @"car_color"            : @"car_color",
+             @"car_plate_number"     : @"car_plate_number",
+             @"driver_nickname"      : @"driver_nickname",
+             @"driver_telephone"     : @"driver_telephone",
+             @"driver_photo"         : @"driver_photo",
+             @"car_brand"            : @"car_brand",
+             @"location"             : @"location",
              };
 }
 

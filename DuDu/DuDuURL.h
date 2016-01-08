@@ -45,11 +45,11 @@
 //检索用户所有的优惠券(参数：user_id,token)
 #define USER_COUPON_INFO                @"/user/user-coupon-info"
 
-//检索所有的历史订单(参数：causer_id,token)
+//检索所有的历史订单(参数：user_id,token)
 #define USER_ORDER_INFO                 @"/user/user-order-info"
 
 //查询当前订单详情(参数：user_id,token,order_id)
-#define FLUSH_ORDER_STATUS(order_id)    [NSString stringWithFormat:@"/order/flush-order-status?order_id=%ld",order_id]
+#define FLUSH_ORDER_STATUS(order_id)    [NSString stringWithFormat:@"/order/flush-order-status?order_id=%d",order_id]
 
 //取消当前订单	(参数：user_id,token,order_id)
 #define CANCEL_ORDER(order_id)          [NSString stringWithFormat:@"/order/cancel-order?order_id=%@",order_id]

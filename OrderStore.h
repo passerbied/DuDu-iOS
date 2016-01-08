@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OrderModel.h"
 
 @interface OrderStore : NSObject
 

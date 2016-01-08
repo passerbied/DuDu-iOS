@@ -116,7 +116,7 @@
     _noticeLabel = [UILabel labelWithFrame:CGRectZero
                                      color:COLORRGB(0x63666b)
                                       font:HSFONT(15)
-                                      text:@"欢迎使用嘟嘟快车"
+                                      text:@"欢迎使用嘟嘟出行"
                                  alignment:NSTextAlignmentCenter
                              numberOfLines:0];
     [self.view addSubview:_noticeLabel];

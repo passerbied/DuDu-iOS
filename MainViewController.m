@@ -61,7 +61,7 @@
         _menuVC.title = @"个人中心";
         
         _orderVC = [[OrderVC alloc] init];
-        _orderVC.title = @"正在为你预约嘟嘟快车";
+        _orderVC.title = @"正在为你预约车辆";
         _fromLocation = [[QUserLocation alloc] init];
         _toLocation = [[QUserLocation alloc] init];
 //        _fromPointAnnotation = [[QPointAnnotation alloc] init];

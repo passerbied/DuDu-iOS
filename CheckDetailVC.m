@@ -15,15 +15,15 @@
     UIImageView *_rightLine;
     UILabel     *_priceLabel;
     
-    UILabel     *_startLabel;
+//    UILabel     *_startLabel;
     UILabel     *_mileageLabel;
     UILabel     *_timeLabel;
     UILabel     *_couponLabel;
-    UILabel     *_startPrice;
+//    UILabel     *_startPrice;
     UILabel     *_mileagePrice;
     UILabel     *_timePrice;
     UILabel     *_couponPrice;
-    UIImageView *_startLine;
+//    UIImageView *_startLine;
     UIImageView *_mileageLine;
     UIImageView *_timeLine;
     UIImageView *_couponLine;
@@ -69,25 +69,25 @@
                             numberOfLines:1];
     [self.view addSubview:_priceLabel];
     
-    _startLabel = [UILabel labelWithFrame:CGRectZero
-                                    color:COLORRGB(0x000000)
-                                     font:HSFONT(13)
-                                     text:@"起步价"
-                                alignment:NSTextAlignmentLeft
-                            numberOfLines:1];
-    [self.view addSubview:_startLabel];
-    
-    _startLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _startLine.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.view addSubview:_startLine];
-    
-    _startPrice = [UILabel labelWithFrame:CGRectZero
-                                    color:COLORRGB(0x000000)
-                                     font:HSFONT(13)
-                                     text:@""
-                                alignment:NSTextAlignmentRight
-                            numberOfLines:1];
-    [self.view addSubview:_startPrice];
+//    _startLabel = [UILabel labelWithFrame:CGRectZero
+//                                    color:COLORRGB(0x000000)
+//                                     font:HSFONT(13)
+//                                     text:@"起步价"
+//                                alignment:NSTextAlignmentLeft
+//                            numberOfLines:1];
+//    [self.view addSubview:_startLabel];
+//    
+//    _startLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    _startLine.backgroundColor = COLORRGB(0xd7d7d7);
+//    [self.view addSubview:_startLine];
+//    
+//    _startPrice = [UILabel labelWithFrame:CGRectZero
+//                                    color:COLORRGB(0x000000)
+//                                     font:HSFONT(13)
+//                                     text:@""
+//                                alignment:NSTextAlignmentRight
+//                            numberOfLines:1];
+//    [self.view addSubview:_startPrice];
     
     _mileageLabel = [UILabel labelWithFrame:CGRectZero
                                       color:COLORRGB(0x000000)
@@ -177,8 +177,8 @@
 {
     float price = [self.orderInfo.order_allMoney floatValue];
     _priceLabel.text = [NSString stringWithFormat:@"%.2f元",price];
-    float startPrice = [self.orderInfo.order_initiate_rate floatValue];
-    _startPrice.text = [NSString stringWithFormat:@"%.2f元",startPrice];
+//    float startPrice = [self.orderInfo.order_initiate_rate floatValue];
+//    _startPrice.text = [NSString stringWithFormat:@"%.2f元",startPrice];
     float mileage = [self.orderInfo.order_mileage floatValue];
     _mileageLabel.text = [NSString stringWithFormat:@"里程(%.2f公里)",mileage];
     float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
@@ -222,30 +222,30 @@
                             CGRectGetMaxY(_detailLabel.frame)+50,
                             priceSize.width,
                             priceSize.height);
-    CGSize startSize = [self getTextFromLabel:_startLabel];
-    _startLabel.frame = ccr(50,
-                            CGRectGetMaxY(_priceLabel.frame)+20,
-                            startSize.width,
-                            startSize.height);
-    CGSize startPriceSize = [self getTextFromLabel:_startPrice];
-    _startPrice.frame = ccr(SCREEN_WIDTH-50-startPriceSize.width,
-                            _startLabel.origin.y,
-                            startPriceSize.width,
-                            startPriceSize.height);
-    _startLine.frame = ccr(CGRectGetMaxX(_startLabel.frame)+5,
-                           CGRectGetMaxY(_startLabel.frame)-startSize.
-                           height/2,
-                           _startPrice.origin.x-5*2-CGRectGetMaxX
-                           (_startLabel.frame),
-                           0.5);
+//    CGSize startSize = [self getTextFromLabel:_startLabel];
+//    _startLabel.frame = ccr(50,
+//                            CGRectGetMaxY(_priceLabel.frame)+20,
+//                            startSize.width,
+//                            startSize.height);
+//    CGSize startPriceSize = [self getTextFromLabel:_startPrice];
+//    _startPrice.frame = ccr(SCREEN_WIDTH-50-startPriceSize.width,
+//                            _startLabel.origin.y,
+//                            startPriceSize.width,
+//                            startPriceSize.height);
+//    _startLine.frame = ccr(CGRectGetMaxX(_startLabel.frame)+5,
+//                           CGRectGetMaxY(_startLabel.frame)-startSize.
+//                           height/2,
+//                           _startPrice.origin.x-5*2-CGRectGetMaxX
+//                           (_startLabel.frame),
+//                           0.5);
     CGSize mileageSize = [self getTextFromLabel:_mileageLabel];
-    _mileageLabel.frame = ccr(_startLabel.origin.x,
-                              CGRectGetMaxY(_startLabel.frame)+5,
+    _mileageLabel.frame = ccr(50,
+                              CGRectGetMaxY(_priceLabel.frame)+15,
                               mileageSize.width,
                               mileageSize.height);
     CGSize mileagePriceSize = [self getTextFromLabel:_mileagePrice];
     _mileagePrice.frame = ccr(SCREEN_WIDTH-50-mileagePriceSize.width,
-                              CGRectGetMaxY(_startPrice.frame)+5,
+                              _mileageLabel.y,
                               mileagePriceSize.width,
                               mileagePriceSize.height);
     _mileageLine.frame = ccr(CGRectGetMaxX(_mileageLabel.frame)+5,
@@ -253,7 +253,7 @@
                              .height/2,
                              _mileagePrice.origin.x-5*2-CGRectGetMaxX
                              (_mileageLabel.frame),
-                             _startLine.height);
+                             0.5);
     CGSize timeSize = [self getTextFromLabel:_timeLabel];
     _timeLabel.frame = ccr(_mileageLabel.origin.x,
                            CGRectGetMaxY(_mileageLabel.frame)+5,

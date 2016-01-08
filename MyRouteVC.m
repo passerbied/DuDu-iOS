@@ -37,6 +37,7 @@
     [[DuDuAPIClient sharedClient] GET:USER_ORDER_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject][@"info"];
+//        NSDictionary *dic = [Utils testDicFrom:@"couponInfo"];
         NSArray *ing = [MTLJSONAdapter modelsOfClass:[OrderModel class]
                                                   fromJSONArray:dic[@"ing"]
                                                           error:nil];
