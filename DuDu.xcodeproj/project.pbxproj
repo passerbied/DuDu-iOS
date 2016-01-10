@@ -446,13 +446,13 @@
 			name = "行程详情Controller";
 			sourceTree = "<group>";
 		};
-		32F039FF1C0CDEC900A2C4BD /* 查看明细Controller */ = {
+		32F039FF1C0CDEC900A2C4BD /* 查看明细Controller(废弃) */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A001C0CDF1300A2C4BD /* CheckDetailVC.h */,
 				32F03A011C0CDF1300A2C4BD /* CheckDetailVC.m */,
 			);
-			name = "查看明细Controller";
+			name = "查看明细Controller(废弃)";
 			sourceTree = "<group>";
 		};
 		32F03A031C0DA18400A2C4BD /* 我的钱包Controller */ = {
@@ -628,7 +628,7 @@
 				480E50661C02252D006D545A /* HistoryTableViewController.m */,
 				32F039F71C0CA8DA00A2C4BD /* 我的行程Controller */,
 				32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */,
-				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller */,
+				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller(废弃) */,
 				32F03A361C15805B00A2C4BD /* 添加印象Controller(废除) */,
 				32F03A031C0DA18400A2C4BD /* 我的钱包Controller */,
 				32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */,

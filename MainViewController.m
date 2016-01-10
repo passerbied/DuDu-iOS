@@ -13,6 +13,7 @@
 #import "CouponStore.h"
 #import "OrderHistoryModel.h"
 #import <objc/runtime.h>
+#import "RouteDetailVC.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -241,25 +242,33 @@
         
         if(dic[@"err"] &&
            ([dic[@"err"] intValue] == 11 ||
-           [dic[@"err"] intValue] == 17 ||
-           [dic[@"err"] intValue] == 0)) {
+            [dic[@"err"] intValue] == 17 ||
+            [dic[@"err"] intValue] == 0)) {
             
-            OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                              fromJSONDictionary:dic[@"info"]
-                                                           error:nil];
-            if ([dic[@"err"] intValue] == 17 || [dic[@"err"] intValue] == 0) {
-                CarStore *carStore = [[CarStore alloc] init];
-                carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
-                                          fromJSONDictionary:dic[@"car_style"]
-                                                       error:nil];
-                [OrderVC sharedOrderVC].carStore = carStore;
-            }
-            
-            [OrderVC sharedOrderVC].orderInfo = orderInfo;
-            [OrderVC sharedOrderVC].result = [dic[@"err"] intValue];
-            [OrderVC sharedOrderVC].title = @"订单信息";
-            [OrderVC sharedOrderVC].orderStatusInfo = dic[@"order_info"];
-            [self.navigationController pushViewController:[OrderVC sharedOrderVC] animated:YES];
+               OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                                 fromJSONDictionary:dic[@"info"]
+                                                              error:nil];
+               if ([dic[@"err"] intValue] == 17 || [dic[@"err"] intValue] == 0) {
+                   CarStore *carStore = [[CarStore alloc] init];
+                   carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
+                                             fromJSONDictionary:dic[@"car_style"]
+                                                          error:nil];
+                   [OrderVC sharedOrderVC].carStore = carStore;
+                   [OrderVC sharedOrderVC].orderInfo = orderInfo;
+                   [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
+                   [OrderVC sharedOrderVC].title = @"订单信息";
+                   [OrderVC sharedOrderVC].orderStatusInfo = dic[@"order_info"];
+                   [self.navigationController pushViewController:[OrderVC sharedOrderVC] animated:YES];
+               }
+               
+               if([dic[@"err"] intValue] == 11){
+                   RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                   detailVC.title = @"订单详情";
+                   detailVC.orderInfo = orderInfo;
+                   detailVC.isHistory = NO;
+                   detailVC.isForCharge = YES;
+                   [self.navigationController pushViewController:detailVC animated:YES];
+               }
         } else if([dic[@"err"] intValue] == 5) {
             [ZBCToast showMessage:@"优惠券不可用"];
             return;

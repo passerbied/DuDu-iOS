@@ -574,7 +574,7 @@
     if (!_payBtn) {
         _payBtn = [UIButton buttonWithImageName:@"orgbtn"
                                     hlImageName:@"orgbtn_pressed"
-                                          title:@"发送订单"
+                                          title:@"微信支付"
                                      titleColor:COLORRGB(0xffffff)
                                            font:HSFONT(15)
                                      onTapBlock:^(UIButton *btn) {

@@ -200,7 +200,7 @@
             [view removeFromSuperview];
         }
     }
-    if (self.result == OrderHaveOtherCar) {
+    if (self.resultStatus == OrderResultHaveOtherCar) {
         for (int i=0; i<self.carStore.cars.count; i++) {
             CarModel *car = self.carStore.cars[i];
             UIButton *carBtn = [UIButton buttonWithImageName:@"orgbtn"
@@ -226,7 +226,7 @@
                            parameters:nil
                               success:^(NSURLSessionDataTask *task, id responseObject) {
                                   [self.carStore.cars removeAllObjects];
-                                  self.resultStatus = OrderChangedCar;
+                                  self.resultStatus = OrderResultChangedCar;
                                   [self calculateFrame];
                                   [ZBCToast showMessage:@"修改车型成功，请耐心等候"];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
