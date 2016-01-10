@@ -18,6 +18,7 @@
 #import "GeoAndSuggestionViewController.h"
 #import <QMapKit/QMapKit.h>
 #import <QMapSearchKit/QMapSearchKit.h>
+#import "CouponVC.h"
 
 @interface MainViewController : BaseViewController
 <TopToolBarDelegate,
@@ -26,7 +27,9 @@ TimePickerDelegate,
 QMapViewDelegate,
 QMSSearchDelegate,
 GeoAndSuggestionViewControllerDelegate,
-LoginVCDelegate>
+LoginVCDelegate,
+CouponVCDelegate
+>
 
 + (instancetype)sharedMainViewController;
 //@property (nonatomic, strong) MAMapView *mapView;

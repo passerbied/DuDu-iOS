@@ -1,5 +1,5 @@
 //
-//  TicketCell.h
+//  CouponCell.h
 //  DuDu
 //
 //  Created by 教路浩 on 15/12/3.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TicketCell : UITableViewCell
+@interface CouponCell : UITableViewCell
 
 @property (nonatomic, copy)NSString *type;
 @property (nonatomic, copy)NSString *date;

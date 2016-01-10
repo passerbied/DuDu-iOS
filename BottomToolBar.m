@@ -39,9 +39,9 @@
         UILabel *time_title = [UILabel labelWithFrame:ccr(0, PADDING, self.width, 12)
                                                 color:COLORRGB(0xdddddd)
                                                  font:HSFONT(12)
-                                                 text:@"出发时间"
+                                                 text:@"选择出行时间"
                                             alignment:NSTextAlignmentCenter
-                                        numberOfLines:1];
+                                        numberOfLines:2];
         [_timeView addSubview:time_title];
         
         
@@ -51,7 +51,7 @@
                                                           30)
                                                 color:COLORRGB(0x63666b)
                                                  font:HSFONT(15)
-                                                 text:@"现在"
+                                                 text:@"提前预约，出行方便"
                                             alignment:NSTextAlignmentCenter
                                         numberOfLines:1];
         [_timeView addSubview:self.startTimeLabel];
@@ -188,7 +188,7 @@
         
         [self addSubview:_budgetView];
         
-        _submitBtn = [UIButton buttonWithImageName:@"orgbtn" hlImageName:@"orgbtn_pressed" title:@"发送订单" titleColor:COLORRGB(0xffffff) font:HSFONT(15) onTapBlock:^(UIButton *btn) {
+        _submitBtn = [UIButton buttonWithImageName:@"orgbtn" hlImageName:@"orgbtn_pressed" title:@"呼叫嘟嘟快车" titleColor:COLORRGB(0xffffff) font:HSFONT(15) onTapBlock:^(UIButton *btn) {
             if ([self.delegate respondsToSelector:@selector(didSubmited)]) {
                 [self.delegate didSubmited];
             }

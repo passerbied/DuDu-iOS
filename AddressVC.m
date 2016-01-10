@@ -11,7 +11,6 @@
 @interface AddressVC ()
 {
     UITableView *_tableView;
-    AMapReGeocode *_currentReGeocode;
     UILabel     *_homeLabel;
     UILabel     *_companyLabel;
 }
@@ -78,10 +77,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AddressPickerViewController *addressPickerVC = [[AddressPickerViewController alloc] init];
+    GeoAndSuggestionViewController *addressPickerVC = [[GeoAndSuggestionViewController alloc] init];
     addressPickerVC.delegate = self;
-    addressPickerVC.location = _currentReGeocode.formattedAddress;
-    addressPickerVC.isFromAddressVC = YES;
     [self.navigationController pushViewController:addressPickerVC animated:YES];
     if (indexPath.row==0) {
         addressPickerVC.title = @"家地址";
@@ -125,12 +122,12 @@
 
 #pragma mark - AddressPickerViewControllerDelegate
 
-- (void)addressPicker:(AddressPickerViewController *)pickerVC forFromAddress:(BOOL)isFrom pickedTip:(AMapTip *)tip
+- (void)addressPicker:(GeoAndSuggestionViewController *)pickerVC fromAddress:(QMSSuggestionPoiData *)fromPoi toAddress:(QMSSuggestionPoiData *)toPoi
 {
-    if (isFrom) {
-        _homeLabel.text = tip.name;
+    if (fromPoi) {
+        _homeLabel.text = fromPoi.title;
     } else {
-        _companyLabel.text = tip.name;
+        _companyLabel.text = toPoi.title;
     }
 }
 

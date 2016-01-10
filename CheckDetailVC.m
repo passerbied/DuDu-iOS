@@ -176,28 +176,28 @@
 - (void)setData
 {
     float price = [self.orderInfo.order_allMoney floatValue];
-    _priceLabel.text = [NSString stringWithFormat:@"%.2f元",price];
+    _priceLabel.text = [NSString stringWithFormat:@"%.1f元",price];
 //    float startPrice = [self.orderInfo.order_initiate_rate floatValue];
-//    _startPrice.text = [NSString stringWithFormat:@"%.2f元",startPrice];
+//    _startPrice.text = [NSString stringWithFormat:@"%.1f元",startPrice];
     float mileage = [self.orderInfo.order_mileage floatValue];
     _mileageLabel.text = [NSString stringWithFormat:@"里程(%.2f公里)",mileage];
     float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
-    _mileagePrice.text = [NSString stringWithFormat:@"%.2f元",mileagePrice];
+    _mileagePrice.text = [NSString stringWithFormat:@"%.1f元",mileagePrice];
     int time = [self.orderInfo.order_allTime intValue];
     _timeLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",time];
     float timePrice = [self.orderInfo.order_duration_money floatValue];
-    _timePrice.text = [NSString stringWithFormat:@"%.2f元",timePrice];
+    _timePrice.text = [NSString stringWithFormat:@"%.1f元",timePrice];
     float couponPrice = 0;//[self.orderInfo.coupon_discount floatValue];
     if (couponPrice<1) {
         _couponLabel.text = @"打折优惠";
         _couponPrice.text = [NSString stringWithFormat:@"%.2f折",couponPrice];
     } else {
         _couponLabel.text = @"满减优惠";
-        _couponPrice.text = [NSString stringWithFormat:@"%.2f元",couponPrice];
+        _couponPrice.text = [NSString stringWithFormat:@"%.1f元",couponPrice];
     }
     _payTypeLabel.text = self.orderInfo.order_payStatus_str;
     float payPrice = -price;
-    _payPrice.text = [NSString stringWithFormat:@"%.2f元",payPrice];
+    _payPrice.text = [NSString stringWithFormat:@"%.1f元",payPrice];
 }
 
 - (void)calculateFrame

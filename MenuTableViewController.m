@@ -12,6 +12,7 @@
 #import "MyWalletVC.h"
 #import "RecommendVC.h"
 #import "SettingsVC.h"
+#import "CouponVC.h"
 
 #define PADDING 10
 
@@ -140,7 +141,7 @@
         cell.title = @"我的行程";
     } else if (indexPath.row == 1) {
         cell.iconImage.image = IMG(@"tiny_coupon");
-        cell.title = @"我的钱包";
+        cell.title = @"优惠券";
         [cell addSubview:[self walletLabel]];
     } else if (indexPath.row == 2) {
         cell.iconImage.image = IMG(@"tiny_shared");
@@ -164,9 +165,12 @@
         myRouteVC.title = @"我的行程";
         [self.navigationController pushViewController:myRouteVC animated:YES];
     } else if (indexPath.row == 1) {
-        MyWalletVC *myWalletVC = [[MyWalletVC alloc] init];
-        myWalletVC.title = @"我的钱包";
-        [self.navigationController pushViewController:myWalletVC animated:YES];
+//        MyWalletVC *myWalletVC = [[MyWalletVC alloc] init];
+//        myWalletVC.title = @"优惠券";
+//        [self.navigationController pushViewController:myWalletVC animated:YES];
+        CouponVC *couponVC = [[CouponVC alloc] init];
+        couponVC.title = @"我的优惠券";
+        [self.navigationController pushViewController:couponVC animated:YES];
     } else if (indexPath.row == 2) {
         RecommendVC *recommendVC = [[RecommendVC alloc] init];
         recommendVC.title = @"推荐有奖";
@@ -185,7 +189,7 @@
     UILabel *walletLabel = [UILabel labelWithFrame:CGRectZero
                                              color:COLORRGB(0xd7d7d7)
                                               font:HSFONT(12)
-                                              text:@"券、发票、余额"
+                                              text:@""//@"券、发票、余额"
                                          alignment:NSTextAlignmentRight
                                      numberOfLines:1];
     CGSize walletSize = [walletLabel.text sizeWithAttributes:@{NSFontAttributeName:walletLabel.font}];

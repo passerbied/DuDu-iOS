@@ -23,5 +23,6 @@
 @protocol GeoAndSuggestionViewControllerDelegate <NSObject>
 
 - (void)addressPicker:(GeoAndSuggestionViewController *)vc fromAddress:(QMSSuggestionPoiData *)fromPoi toAddress:(QMSSuggestionPoiData *)toPoi;
+- (void)addressPicker:(GeoAndSuggestionViewController *)vc didSelectedAddress:(QMSSuggestionPoiData *)poi;
 
 @end

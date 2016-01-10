@@ -73,7 +73,7 @@
 
 - (void)setData
 {
-    _routeInforLabel.text = [NSString stringWithFormat:@"%@ %@-%@ 车费%.2f元",self.date,self.startTime,self.endTime,self.price];
+    _routeInforLabel.text = [NSString stringWithFormat:@"%@ %@-%@ 车费%.1f元",self.date,self.startTime,self.endTime,self.price];
     _startSiteImage.image = IMG(@"tiny_circle_green");
     _endSiteImage.image = IMG(@"tiny_circle_red");
     _startSiteLabel.text = self.startSite;
@@ -83,7 +83,7 @@
 - (CGRect)calculateFrame
 {
     [self setData];
-    NSString *price = [NSString stringWithFormat:@"%.2f",self.price];
+    NSString *price = [NSString stringWithFormat:@"%.1f",self.price];
     NSString *infor = _routeInforLabel.text;
     NSMutableAttributedString *inforString = [[NSMutableAttributedString alloc] initWithString:infor];
     NSUInteger priceLength = price.length;

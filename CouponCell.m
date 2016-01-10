@@ -1,14 +1,14 @@
 //
-//  TicketCell.m
+//  CouponCell.m
 //  DuDu
 //
 //  Created by 教路浩 on 15/12/3.
 //  Copyright © 2015年 i-chou. All rights reserved.
 //
 
-#import "TicketCell.h"
+#import "CouponCell.h"
 
-@implementation TicketCell
+@implementation CouponCell
 {
     UILabel *_typeLabel;
     UILabel *_dateLabel;
@@ -32,7 +32,7 @@
     [self.contentView addSubview:self.bgImage];
     
     _typeLabel = [UILabel labelWithFrame:CGRectZero
-                                   color:COLORRGB(0xedad49)
+                                   color:COLORRGB(0xff8830)
                                     font:HSFONT(15)
                                     text:@""
                                alignment:NSTextAlignmentLeft
@@ -40,7 +40,7 @@
     [self.bgImage addSubview:_typeLabel];
     
     _dateLabel = [UILabel labelWithFrame:CGRectZero
-                                   color:COLORRGB(0xedad49)
+                                   color:COLORRGB(0xff8830)
                                     font:HSFONT(12)
                                     text:@""
                                alignment:NSTextAlignmentLeft
@@ -48,7 +48,7 @@
     [self.bgImage addSubview:_dateLabel];
     
     _detailLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0xedad49)
+                                     color:COLORRGB(0xff8830)
                                       font:HSFONT(20)
                                       text:@""
                                  alignment:NSTextAlignmentRight

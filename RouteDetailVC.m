@@ -223,21 +223,21 @@
     float mileage = [self.orderInfo.order_mileage floatValue];
     _mileageLabel.text = [NSString stringWithFormat:@"里程(%.2f公里)",mileage];
     float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
-    _mileagePrice.text = [NSString stringWithFormat:@"%.2f元",mileagePrice];
+    _mileagePrice.text = [NSString stringWithFormat:@"%.1f元",mileagePrice];
     int during = [self.orderInfo.order_allTime intValue];
     _duringLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",during];
     float duringPrice = [self.orderInfo.order_duration_money floatValue];
-    _duringPrice.text = [NSString stringWithFormat:@"%.2f元",duringPrice];
+    _duringPrice.text = [NSString stringWithFormat:@"%.1f元",duringPrice];
     float couponPrice = [self.orderInfo.coupon_discount floatValue];
     if (couponPrice<1) {
         _couponLabel.text = @"打折优惠";
         _couponPrice.text = [NSString stringWithFormat:@"%.2f折",couponPrice];
     } else {
         _couponLabel.text = @"满减优惠";
-        _couponPrice.text = [NSString stringWithFormat:@"%.2f元",couponPrice];
+        _couponPrice.text = [NSString stringWithFormat:@"%.1f元",couponPrice];
     }
     _payTypeLabel.text = self.orderInfo.order_payStatus_str;
-    _payPrice.text = [NSString stringWithFormat:@"%.2f元",-[self.orderInfo.order_allMoney floatValue]];
+    _payPrice.text = [NSString stringWithFormat:@"%.1f元",-[self.orderInfo.order_allMoney floatValue]];
     
     self.starRating.editable = [self.orderInfo.order_status intValue] == 5; //只有已付款才可以评星
     self.starRating.rating = [self.orderInfo.evaluate_level floatValue];

@@ -9,7 +9,7 @@
 #import "MyWalletVC.h"
 #import "WalletCell.h"
 #import "InvoiceVC.h"
-#import "TicketVC.h"
+#import "CouponVC.h"
 
 @interface MyWalletVC ()
 {
@@ -51,7 +51,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,8 +71,9 @@
         walletCell.title = @"发票";
     } else if (indexPath.row == 1) {
         walletCell.iconImage.image = IMG(@"tiny_coupon");
-        walletCell.title = @"打车券";
-    } else {
+        walletCell.title = @"优惠券";
+    }
+    else {
         walletCell.iconImage.image = IMG(@"tiny_shared");
         walletCell.title = @"余额";
     }
@@ -88,9 +89,9 @@
         invoiceVC.title = @"按行程开票";
         [self.navigationController pushViewController:invoiceVC animated:YES];
     } else if (indexPath.row==1) {
-        TicketVC *ticketVC = [[TicketVC alloc] init];
-        ticketVC.title = @"我的打车券";
-        [self.navigationController pushViewController:ticketVC animated:YES];
+        CouponVC *couponVC = [[CouponVC alloc] init];
+        couponVC.title = @"我的优惠券";
+        [self.navigationController pushViewController:couponVC animated:YES];
     } else {
         
     }

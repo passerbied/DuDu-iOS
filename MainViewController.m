@@ -61,7 +61,7 @@
         _menuVC.title = @"个人中心";
         
         _orderVC = [[OrderVC alloc] init];
-        _orderVC.title = @"正在为你预约车辆";
+        _orderVC.title = @"正在为你预约嘟嘟快车";
         _fromLocation = [[QUserLocation alloc] init];
         _toLocation = [[QUserLocation alloc] init];
 //        _fromPointAnnotation = [[QPointAnnotation alloc] init];
@@ -85,7 +85,7 @@
     self.mapView = [[QMapView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
-    NSLog(@"%f",self.mapView.maxZoomLevel);
+//    NSLog(@"%f",self.mapView.maxZoomLevel);
     
     self.mapView.userTrackingMode = QUserTrackingModeNone;
     
@@ -201,6 +201,14 @@
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 
+- (void)showCouponPicker
+{
+    CouponVC *couponVC =[[CouponVC alloc] init];
+    couponVC.title = @"选择优惠券";
+    couponVC.delegate = self;
+    [self.navigationController pushViewController:couponVC animated:YES];
+}
+
 #pragma mark - 发送订单
 /*
 - (void)sentOrder:(OrderModel *)orderInfo
@@ -286,7 +294,6 @@
 }
 */
 
-
 - (void)getCouponInfo
 {
     [[DuDuAPIClient sharedClient] GET:USER_COUPON_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -356,11 +363,12 @@
 {
     OrderModel *orderInfo = [[OrderModel alloc] init];
     orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] intValue]];
-    orderInfo.start_lat = [NSNumber numberWithFloat:_fromLocation.location.coordinate.latitude];
-    orderInfo.start_lng = [NSNumber numberWithFloat:_fromLocation.location.coordinate.longitude];
+    
+    orderInfo.start_lat = [NSString stringWithFormat:@"%.6f",_fromPointAnnotation.coordinate.latitude];
+    orderInfo.start_lng = [NSString stringWithFormat:@"%.6f",_fromPointAnnotation.coordinate.longitude];
+    orderInfo.dest_lat = [NSString stringWithFormat:@"%.6f",_toPointAnnotation.coordinate.latitude];
+    orderInfo.dest_lng = [NSString stringWithFormat:@"%.6f",_toPointAnnotation.coordinate.longitude];
     orderInfo.star_loc_str = _bottomToolBar.fromAddressLabel.text;
-    orderInfo.dest_lat = [NSNumber numberWithFloat:_toLocation.location.coordinate.latitude];
-    orderInfo.dest_lng = [NSNumber numberWithFloat:_toLocation.location.coordinate.longitude];
     orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
     orderInfo.car_style = _currentCar.car_style_id;
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
@@ -376,7 +384,7 @@
 - (void)addressPicker:(GeoAndSuggestionViewController *)vc fromAddress:(QMSSuggestionPoiData *)fromLoc toAddress:(QMSSuggestionPoiData *)toLoc
 {
     if (fromLoc) {
-        NSLog(@"toLoc:%f,%f",fromLoc.location.latitude,fromLoc.location.longitude);
+        NSLog(@"fromLoc:%f,%f",fromLoc.location.latitude,fromLoc.location.longitude);
         [_fromLocation setCoordinate:fromLoc.location];
         [_fromLocation setTitle:fromLoc.title];
         
@@ -384,9 +392,9 @@
         [self setupAnnotation:YES];
     }
     if (toLoc){
-        NSLog(@"toLoc:%f,%f",toLoc.location.latitude,toLoc.location.longitude);
         [_toLocation setCoordinate:toLoc.location];
         [_toLocation setTitle:toLoc.title];
+        NSLog(@"toLoc:%f,%f,",toLoc.location.latitude,toLoc.location.longitude);
         
         _bottomToolBar.toAddressLabel.text = toLoc.title;
         _bottomToolBar.toAddressLabel.textColor = COLORRGB(0x63666b);
@@ -425,7 +433,7 @@
     } else if (label == toolBar.toAddressLabel) {
         [self showToAddressPicker];
     } else if (label == toolBar.couponLabel){
-        [self getCouponInfo];
+        [self showCouponPicker];
     } else {
         //do nothing
     }
@@ -445,6 +453,14 @@
 - (void)timePickerViewDidCancel
 {
     [self showTimePicker:NO];
+}
+
+#pragma mark - CouponVCDelegate
+
+- (void)couponVC:(CouponVC *)vc didSelectCouponIndex:(int)index
+{
+    _currentCoupon = [CouponStore sharedCouponStore].info.count?[CouponStore sharedCouponStore].info[index]:nil;
+    [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
 }
 
 
@@ -577,7 +593,7 @@
 - (void)searchWithDrivingRouteSearchOption:(QMSDrivingRouteSearchOption *)drivingRouteSearchOption didRecevieResult:(QMSDrivingRouteSearchResult *)drivingRouteSearchResult
 {
     _currentRoutPlan = [[drivingRouteSearchResult routes] firstObject];
-    NSLog(@"距离：%@ | 时间：%@ | 路段数%ld", [self humanReadableForDistance:_currentRoutPlan.distance], [self humanReadableForTimeDuration:_currentRoutPlan.duration],_currentRoutPlan.steps.count);
+    NSLog(@"距离：%@ | 时间：%@ | 路段数%d", [self humanReadableForDistance:_currentRoutPlan.distance], [self humanReadableForTimeDuration:_currentRoutPlan.duration],_currentRoutPlan.steps.count);
     
     [self.mapView removeOverlays:self.mapView.overlays];
     NSUInteger count = _currentRoutPlan.polyline.count;

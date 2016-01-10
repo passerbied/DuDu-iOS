@@ -1,5 +1,5 @@
 //
-//  TicketVC.h
+//  CouponVC.h
 //  DuDu
 //
 //  Created by 教路浩 on 15/12/3.
@@ -10,10 +10,19 @@
 #import "CouponStore.h"
 #import "CouponModel.h"
 
-@interface TicketVC : UIViewController
+@protocol CouponVCDelegate;
+
+@interface CouponVC : UIViewController
 <UITableViewDataSource,
 UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *coupons;
+@property (nonatomic, strong) id<CouponVCDelegate> delegate;
+
+@end
+
+@protocol CouponVCDelegate <NSObject>
+
+- (void)couponVC:(CouponVC *)vc didSelectCouponIndex:(int)index;
 
 @end

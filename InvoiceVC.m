@@ -199,11 +199,11 @@
     _totalLabel = [UILabel labelWithFrame:CGRectZero
                                     color:COLORRGB(0x000000)
                                      font:HSFONT(12)
-                                     text:[NSString stringWithFormat:@"合计:%.2f元 共%d个行程",_totalPrice,_totalRoute]
+                                     text:[NSString stringWithFormat:@"合计:%.1f元 共%d个行程",_totalPrice,_totalRoute]
                                 alignment:NSTextAlignmentLeft
                             numberOfLines:1];
     NSMutableAttributedString *totalString = [[NSMutableAttributedString alloc] initWithString:_totalLabel.text];
-    NSString *priceText = [NSString stringWithFormat:@"%.2f",_totalPrice];
+    NSString *priceText = [NSString stringWithFormat:@"%.1f",_totalPrice];
     NSUInteger priceLength = priceText.length;
     NSString *numberText = [NSString stringWithFormat:@"%d",_totalRoute];
     NSUInteger numberLength = numberText.length;
@@ -304,7 +304,7 @@
             if (_totalPrice==-0) {
                 _totalPrice = 0;
             }
-            _totalLabel.text = [NSString stringWithFormat:@"合计:%.2f元 共%d个行程",_totalPrice,_totalRoute];
+            _totalLabel.text = [NSString stringWithFormat:@"合计:%.1f元 共%d个行程",_totalPrice,_totalRoute];
 //        }
 //    }
 }

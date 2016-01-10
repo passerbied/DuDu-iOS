@@ -1,22 +1,22 @@
 //
-//  TicketVC.m
+//  CouponVC.m
 //  DuDu
 //
 //  Created by 教路浩 on 15/12/3.
 //  Copyright © 2015年 i-chou. All rights reserved.
 //
 
-#import "TicketVC.h"
-#import "TicketCell.h"
+#import "CouponVC.h"
+#import "CouponCell.h"
 
-@interface TicketVC ()
+@interface CouponVC ()
 {
     UITableView *_tableView;
 }
 
 @end
 
-@implementation TicketVC
+@implementation CouponVC
 
 - (void)viewDidLoad
 {
@@ -45,11 +45,12 @@
     [[DuDuAPIClient sharedClient] GET:USER_COUPON_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        NSArray *couponArr = dic[@"info"];
-        
-        self.coupons = [MTLJSONAdapter modelsOfClass:[CouponModel class]
-                                       fromJSONArray:couponArr
+        NSArray *arr = [MTLJSONAdapter modelsOfClass:[CouponModel class]
+                                       fromJSONArray:dic[@"info"]
                                                error:nil];
+        [CouponStore sharedCouponStore].info = arr;
+        self.coupons = [CouponStore sharedCouponStore].info = arr;
+
         [_tableView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -76,27 +77,27 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"ticketCell";
-    TicketCell *ticketCell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!ticketCell) {
-        ticketCell = [[TicketCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        ticketCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    CouponCell *couponCell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!couponCell) {
+        couponCell = [[CouponCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        couponCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    [self configureCell:ticketCell atIndexPath:indexPath];
-    return ticketCell;
+    [self configureCell:couponCell atIndexPath:indexPath];
+    return couponCell;
 }
 
-- (void)configureCell:(TicketCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(CouponCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     CouponModel *coupon = self.coupons[indexPath.row];
     cell.type = coupon.coupon_type;
-    NSString *date = coupon.coupon_exp_at; //TODO:等后台加入改字段，目前为空
+    NSString *date = coupon.coupon_exp_at;
     cell.date = [NSString stringWithFormat:@"有效期至%@",date];
-    if (coupon.coupon_discount<0) {
+    if ([coupon.coupon_discount floatValue] < 1) {
         cell.detail = [NSString stringWithFormat:@"%.2f折",[coupon.coupon_discount floatValue]];
     } else {
-        cell.detail = [NSString stringWithFormat:@"%.2f元",[coupon.coupon_discount floatValue]];
+        cell.detail = [NSString stringWithFormat:@"%.1f元",[coupon.coupon_discount floatValue]];
     }
-    cell.condition = [NSString stringWithFormat:@"限消费满%.2f元，且在%@~%@时段使用",[coupon.coupon_max_monny floatValue],coupon.coupon_user_start_time,coupon.coupon_user_end_time];
+    cell.condition = [NSString stringWithFormat:@"限消费满%.1f元，且在%@~%@时段使用",[coupon.coupon_max_monny floatValue],coupon.coupon_user_start_time,coupon.coupon_user_end_time];
     cell.bgImage.backgroundColor = COLORRGB(0xffffff);
 }
 
@@ -104,7 +105,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if ([self.delegate respondsToSelector:@selector(couponVC:didSelectCouponIndex:)]) {
+        [self.delegate couponVC:self didSelectCouponIndex:indexPath.row];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

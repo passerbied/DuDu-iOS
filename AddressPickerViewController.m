@@ -18,6 +18,10 @@
 
 @implementation AddressPickerViewController
 
+- (id)initWithLocation:(NSString *)location
+{
+    return [super init];
+}
 /* 输入提示 搜索.*/
 - (void)searchTipsWithKey:(NSString *)key
 {

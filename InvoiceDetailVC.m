@@ -163,7 +163,7 @@
 - (UILabel *)priceLabel
 {
     float number = 50.50;
-    NSString *price = [NSString stringWithFormat:@"%.2f元",number];
+    NSString *price = [NSString stringWithFormat:@"%.1f元",number];
     UILabel *priceLabel = [UILabel labelWithFrame:CGRectZero
                                             color:COLORRGB(0x000000)
                                              font:HSFONT(12)

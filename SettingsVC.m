@@ -59,17 +59,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==0) {
-        static NSString *identifier = @"cell";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        }
-        [cell addSubview:[self addressLabel]];
-        [cell addSubview:[self arrowImage]];
-        [cell addSubview:[self bottomLine]];
-        return cell;
-    } else {
+//    if (indexPath.row==0) {
+//        static NSString *identifier = @"cell";
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+//        if (!cell) {
+//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+//        }
+//        [cell addSubview:[self addressLabel]];
+//        [cell addSubview:[self arrowImage]];
+//        [cell addSubview:[self bottomLine]];
+//        return cell;
+//    } else {
         static NSString *identifier = @"conditionCell";
         SettingCell *settingCell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!settingCell) {
@@ -77,14 +77,17 @@
             settingCell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         switch (indexPath.row) {
-            case 1:
+            case 0:
                 settingCell.condition = @"帮助与反馈";
                 break;
-            case 2:
+            case 1:
                 settingCell.condition = @"法律条款";
                 break;
-            case 3:
+            case 2:
                 settingCell.condition = @"关于海豹";
+                break;
+            case 3:
+                settingCell.condition = @"计价规则";
                 break;
             case 4:
                 settingCell.condition = @"退出登录";
@@ -93,7 +96,7 @@
                 break;
         }
         return settingCell;
-    }
+//    }
 }
 
 #pragma mark - tableView delegate
@@ -101,9 +104,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0) {
-        AddressVC *addressVC = [[AddressVC alloc] init];
-        addressVC.title = @"常用地址";
-        [self.navigationController pushViewController:addressVC animated:YES];
+        
     } else if (indexPath.row==1) {
         
     } else if (indexPath.row==2) {

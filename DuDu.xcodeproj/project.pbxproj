@@ -20,8 +20,8 @@
 		32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A201C0ED6E700A2C4BD /* RecommendVC.m */; };
 		32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */; };
 		32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A281C0EE84300A2C4BD /* SettingCell.m */; };
-		32F03A2D1C0FF0C400A2C4BD /* TicketVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A2C1C0FF0C400A2C4BD /* TicketVC.m */; };
-		32F03A311C0FF49A00A2C4BD /* TicketCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A301C0FF49A00A2C4BD /* TicketCell.m */; };
+		32F03A2D1C0FF0C400A2C4BD /* CouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A2C1C0FF0C400A2C4BD /* CouponVC.m */; };
+		32F03A311C0FF49A00A2C4BD /* CouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A301C0FF49A00A2C4BD /* CouponCell.m */; };
 		32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A341C102BE700A2C4BD /* AddressVC.m */; };
 		32F03A391C15821800A2C4BD /* CommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A381C15821300A2C4BD /* CommentVC.m */; };
 		32F03A3D1C16B3D600A2C4BD /* OrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F03A3C1C16B3D600A2C4BD /* OrderVC.m */; };
@@ -188,10 +188,10 @@
 		32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
 		32F03A271C0EE84300A2C4BD /* SettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCell.h; sourceTree = "<group>"; };
 		32F03A281C0EE84300A2C4BD /* SettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingCell.m; sourceTree = "<group>"; };
-		32F03A2B1C0FF0C400A2C4BD /* TicketVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketVC.h; sourceTree = "<group>"; };
-		32F03A2C1C0FF0C400A2C4BD /* TicketVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketVC.m; sourceTree = "<group>"; };
-		32F03A2F1C0FF49A00A2C4BD /* TicketCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketCell.h; sourceTree = "<group>"; };
-		32F03A301C0FF49A00A2C4BD /* TicketCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketCell.m; sourceTree = "<group>"; };
+		32F03A2B1C0FF0C400A2C4BD /* CouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponVC.h; sourceTree = "<group>"; };
+		32F03A2C1C0FF0C400A2C4BD /* CouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponVC.m; sourceTree = "<group>"; };
+		32F03A2F1C0FF49A00A2C4BD /* CouponCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponCell.h; sourceTree = "<group>"; };
+		32F03A301C0FF49A00A2C4BD /* CouponCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponCell.m; sourceTree = "<group>"; };
 		32F03A331C102BE700A2C4BD /* AddressVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressVC.h; sourceTree = "<group>"; };
 		32F03A341C102BE700A2C4BD /* AddressVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressVC.m; sourceTree = "<group>"; };
 		32F03A371C15821300A2C4BD /* CommentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentVC.h; sourceTree = "<group>"; };
@@ -548,8 +548,8 @@
 		32F03A2A1C0FF07100A2C4BD /* 打车券Controller */ = {
 			isa = PBXGroup;
 			children = (
-				32F03A2B1C0FF0C400A2C4BD /* TicketVC.h */,
-				32F03A2C1C0FF0C400A2C4BD /* TicketVC.m */,
+				32F03A2B1C0FF0C400A2C4BD /* CouponVC.h */,
+				32F03A2C1C0FF0C400A2C4BD /* CouponVC.m */,
 			);
 			name = "打车券Controller";
 			sourceTree = "<group>";
@@ -557,8 +557,8 @@
 		32F03A2E1C0FF47200A2C4BD /* 打车券Cell */ = {
 			isa = PBXGroup;
 			children = (
-				32F03A2F1C0FF49A00A2C4BD /* TicketCell.h */,
-				32F03A301C0FF49A00A2C4BD /* TicketCell.m */,
+				32F03A2F1C0FF49A00A2C4BD /* CouponCell.h */,
+				32F03A301C0FF49A00A2C4BD /* CouponCell.m */,
 			);
 			name = "打车券Cell";
 			sourceTree = "<group>";
@@ -1358,7 +1358,7 @@
 				4867CE591C3643AC003B1744 /* OrderHistoryModel.m in Sources */,
 				48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */,
 				4867CE451C34D9C5003B1744 /* CarModel.m in Sources */,
-				32F03A2D1C0FF0C400A2C4BD /* TicketVC.m in Sources */,
+				32F03A2D1C0FF0C400A2C4BD /* CouponVC.m in Sources */,
 				487956DF1C3C291100193530 /* ZBCLodingFooter.m in Sources */,
 				486F52D51BFB28AD0043874E /* MMDrawerVisualState.m in Sources */,
 				486F52781BEE08140043874E /* NSObject+Additions.m in Sources */,
@@ -1375,7 +1375,7 @@
 				32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */,
 				486F52621BEE07F40043874E /* UIButton+KAddition.m in Sources */,
 				486F52D41BFB28AD0043874E /* MMDrawerController.m in Sources */,
-				32F03A311C0FF49A00A2C4BD /* TicketCell.m in Sources */,
+				32F03A311C0FF49A00A2C4BD /* CouponCell.m in Sources */,
 				486F52761BEE08140043874E /* NSData+Additions.m in Sources */,
 				48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */,
 				486F52791BEE08140043874E /* NSString+Additions.m in Sources */,

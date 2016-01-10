@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AddressPickerViewController.h"
+#import "GeoAndSuggestionViewController.h"
 
 @interface AddressVC : UIViewController
 <UITableViewDataSource,
 UITableViewDelegate,
-AddressPickerViewControllerDelegate>
+GeoAndSuggestionViewControllerDelegate>
 
 @end

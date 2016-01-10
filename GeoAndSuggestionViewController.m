@@ -64,7 +64,7 @@
 
 - (void)searchWithSuggestionSearchOption:(QMSSuggestionSearchOption *)suggestionSearchOption didReceiveResult:(QMSSuggestionResult *)suggestionSearchResult
 {
-    NSLog(@"suggest result:%@", suggestionSearchResult);
+//    NSLog(@"suggest result:%@", suggestionSearchResult);
     self.suggestionResut = suggestionSearchResult;
     [self.tableView reloadData];
 }
@@ -75,6 +75,7 @@
 {
     [self.searchBar endEditing:YES];
     self.searchBar.placeholder = searchBar.text;
+    
 }
 
 #pragma mark - UISearchBarDelegate
@@ -100,6 +101,9 @@
         } else {
             [self.delegate addressPicker:self fromAddress:nil toAddress:poi];
         }
+    }
+    if ([self.delegate respondsToSelector:@selector(addressPicker:didSelectedAddress:)]) {
+        [self.delegate addressPicker:self didSelectedAddress:poi];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
