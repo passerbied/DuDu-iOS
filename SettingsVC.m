@@ -112,11 +112,22 @@
     } else if (indexPath.row==3) {
         
     } else {
-        [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
-        [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
-                     alias:@"-1"
-          callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                    object:self];
+        [[UIActionSheet
+          actionSheetWithTitle:@"是否退出登录"
+          cancelTitle:@"取消"
+          otherItems:[UIActionSheetItem
+                      itemWithTitle:@"确定"
+                      block:^(void) {
+                          [self.navigationController popToRootViewControllerAnimated:YES];
+                          [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
+                          [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                                       alias:@"-1"
+                            callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                                      object:self];
+                          [ZBCToast showMessage:@"退出登录成功"];
+                          
+                      }],
+          nil] showInView:self.navigationController.view];
     }
 }
 

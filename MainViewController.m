@@ -125,7 +125,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self startLocation];
+    if (_isFirstAppear) {
+        [self startLocation];
+        _isFirstAppear = NO;
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -238,6 +241,10 @@
                               orderInfo.startTimeType,
                               orderInfo.startTimeStr);
     
+    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        [ZBCToast showMessage:@"请先登录"];
+        return;
+    }
     [[DuDuAPIClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
@@ -322,9 +329,6 @@
                 [ZBCToast showMessage:@"优惠券不可用"];
                 return;
             } else if([dic[@"err"] intValue] == OrderResultNoCarUse){ //没有可用车辆
-                OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                                  fromJSONDictionary:dic[@"info"]
-                                                               error:nil];
                 [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
                     [ZBCToast showMessage:@"当前无可用车辆，已为您取消订单"];
                 } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -360,6 +364,10 @@
 
 - (void)getCouponInfo
 {
+    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        [ZBCToast showMessage:@"请先登录"];
+        return;
+    }
     [[DuDuAPIClient sharedClient] GET:USER_COUPON_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
@@ -657,7 +665,7 @@
 - (void)searchWithDrivingRouteSearchOption:(QMSDrivingRouteSearchOption *)drivingRouteSearchOption didRecevieResult:(QMSDrivingRouteSearchResult *)drivingRouteSearchResult
 {
     _currentRoutPlan = [[drivingRouteSearchResult routes] firstObject];
-    NSLog(@"距离：%@ | 时间：%@ | 路段数%d", [self humanReadableForDistance:_currentRoutPlan.distance], [self humanReadableForTimeDuration:_currentRoutPlan.duration],_currentRoutPlan.steps.count);
+    NSLog(@"距离：%@ | 时间：%@ | 路段数%ld", [self humanReadableForDistance:_currentRoutPlan.distance], [self humanReadableForTimeDuration:_currentRoutPlan.duration],_currentRoutPlan.steps.count);
     
     [self.mapView removeOverlays:self.mapView.overlays];
     NSUInteger count = _currentRoutPlan.polyline.count;

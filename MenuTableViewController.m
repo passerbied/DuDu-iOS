@@ -93,6 +93,11 @@
 
 - (void)getUserInfo
 {
+    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        [ZBCToast showMessage:@"请先登录"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     [[DuDuAPIClient sharedClient] GET:TOKEN_LOGIN parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
         self.userInfo = [MTLJSONAdapter modelOfClass:[UserModel class]
@@ -115,7 +120,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 4;
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -147,10 +152,12 @@
     } else if (indexPath.row == 2) {
         cell.iconImage.image = IMG(@"tiny_shared");
         cell.title = @"推荐有奖";
-    } else if (indexPath.row == 3) {
-        cell.iconImage.image = IMG(@"tiny_unbind");
-        cell.title = @"解除手机绑定";
-    } else {
+    }
+//    else if (indexPath.row == 3) {
+//        cell.iconImage.image = IMG(@"tiny_unbind");
+//        cell.title = @"解除手机绑定";
+//    }
+    else {
         cell.iconImage.image = IMG(@"tiny_bill");
         cell.title = @"设置";
     }
@@ -176,9 +183,11 @@
         RecommendVC *recommendVC = [[RecommendVC alloc] init];
         recommendVC.title = @"推荐有奖";
         [self.navigationController pushViewController:recommendVC animated:YES];
-    } else if (indexPath.row == 3) {
-        
-    } else {
+    }
+//    else if (indexPath.row == 3) {
+//        
+//    }
+    else {
         SettingsVC *settingsVC = [[SettingsVC alloc] init];
         settingsVC.title = @"设置";
         [self.navigationController pushViewController:settingsVC animated:YES];

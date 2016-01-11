@@ -51,13 +51,13 @@
     [APService setupWithOption:launchOptions];
     
     //TODO: test user
-    [UICKeyChainStore removeAllItems];
-    [UICKeyChainStore setString:@"vwrfnzgzofhzjps1k3v5aur2o"
-                         forKey:KEY_STORE_ACCESS_TOKEN
-                        service:KEY_STORE_SERVICE];
-    [UICKeyChainStore setString:@"40"
-                         forKey:KEY_STORE_USERID
-                        service:KEY_STORE_SERVICE];
+//    [UICKeyChainStore removeAllItems];
+//    [UICKeyChainStore setString:@"vwrfnzgzofhzjps1k3v5aur2o"
+//                         forKey:KEY_STORE_ACCESS_TOKEN
+//                        service:KEY_STORE_SERVICE];
+//    [UICKeyChainStore setString:@"40"
+//                         forKey:KEY_STORE_USERID
+//                        service:KEY_STORE_SERVICE];
 
     return YES;
 }

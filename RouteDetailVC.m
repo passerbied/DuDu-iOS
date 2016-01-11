@@ -159,6 +159,11 @@
 
 - (void)flushOrderStatus
 {
+    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        [ZBCToast showMessage:@"请先登录"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     [[DuDuAPIClient sharedClient] GET:FLUSH_ORDER_STATUS([self.orderInfo.order_id intValue]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
         OrderModel *flushedInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]

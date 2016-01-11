@@ -66,7 +66,7 @@
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:[Utils urlWithToken:URLString] relativeToURL:self.baseURL] absoluteString] parameters:parameters error:nil];
     
     __block NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
-         [ZBCProgressHUD hideHUDForWindow:KEY_WINDOW animated:NO];
+        [ZBCProgressHUD hideHUDForWindow:KEY_WINDOW animated:NO];
         if (error) {
             if (failure) {
                 [self showErrorMessage:error.localizedDescription];
@@ -77,13 +77,13 @@
             if (success) {
                 NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
                 if (dic && [dic[@"err"] integerValue] > 0 && [dic[@"err"] integerValue] != 5 && [dic[@"err"] integerValue] != 11 && [dic[@"err"] integerValue] != 12 && [dic[@"err"] integerValue] != 17) { //err > 0 -> 返回操作错误信息, 5->优惠券不可用,11->有未完成的订单, 12->司机也没有其他合适的车辆, 17->没有当前的车型,但是有其他的车型可选
-//                    if ([dic[@"err"] integerValue] == 2) { // err == 2 -> 认证失败，清token，解除JPUSH绑定
-//                        [UICKeyChainStore removeAllItems];
-//                        [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
-//                                     alias:@"-1"
-//                          callbackSelector:nil
-//                                    object:self];
-//                    }
+                    //                    if ([dic[@"err"] integerValue] == 2) { // err == 2 -> 认证失败，清token，解除JPUSH绑定
+                    //                        [UICKeyChainStore removeAllItems];
+                    //                        [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                    //                                     alias:@"-1"
+                    //                          callbackSelector:nil
+                    //                                    object:self];
+                    //                    }
                     if (dic[@"order_info"]) {
                         [self showErrorMessage:dic[@"order_info"]];
                     } else {

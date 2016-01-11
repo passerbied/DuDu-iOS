@@ -137,6 +137,11 @@
 
 - (void)cancelOrder
 {
+    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        [ZBCToast showMessage:@"请先登录"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(self.orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
         [ZBCToast showMessage:dic[@"info"]];
@@ -220,6 +225,11 @@
 
 - (void)changeOrderToCarStyle:(CarModel *)car
 {
+    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        [ZBCToast showMessage:@"请先登录"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     [[DuDuAPIClient sharedClient] GET:
                     ORDER_CHANGE_ORDER_CAR_STYLE([self.orderInfo.order_id stringValue],
                                                  [car.car_style_id stringValue])

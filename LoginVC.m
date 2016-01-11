@@ -161,11 +161,11 @@
     _phoneTextField.frame = ccr(20,
                                 CGRectGetMaxY(_introLabel.frame)+10,
                                 verifyBtnWidth*4,
-                                30);
+                                40);
     _verifyButton.frame = ccr(CGRectGetMaxX(_phoneTextField.frame)+5,
                               _phoneTextField.origin.y,
                               verifyBtnWidth,
-                              30);
+                              40);
     _verifyTextField.frame = ccr(_phoneTextField.origin.x,
                                  CGRectGetMaxY(_phoneTextField.frame)+5,
                                  SCREEN_WIDTH-20*2,
@@ -173,7 +173,7 @@
     _startButton.frame = ccr(_verifyTextField.origin.x,
                              CGRectGetMaxY(_verifyTextField.frame)+5,
                              _verifyTextField.width,
-                             30);
+                             40);
     CGSize agreeSize = [self getTextFromLabel:_agreeLabel];
     _agreeLabel.frame = ccr(_startButton.origin.x,
                             CGRectGetMaxY(_startButton.frame)+10,
@@ -200,7 +200,7 @@
 {
     _isCountingDown = YES;
     [_timer setFireDate:[NSDate distantPast]];
-    _timerCount = 59;
+    _timerCount = 89;
     _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                               target:self
                                             selector:@selector(timerFireMethod:)
@@ -255,7 +255,7 @@
 - (void)timerFireMethod:(NSTimer*)theTimer
 {
     if (_timerCount>0) {
-        [_verifyButton setTitle:STR_D(_timerCount--) forState:UIControlStateNormal];
+        [_verifyButton setTitle:STR_I(_timerCount--) forState:UIControlStateNormal];
         _verifyButton.enabled = NO;
     } else {
         [_verifyButton setTitle:@"验证" forState:UIControlStateNormal];
