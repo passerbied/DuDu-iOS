@@ -17,7 +17,6 @@
     UIImageView *_endSiteImage;
     UILabel     *_startSiteLabel;
     UILabel     *_endSiteLabel;
-    UIImageView *_arrowImage;
     UILabel     *_chargeStatusLabel;
     UILabel     *_chargeLabel;
     UIImageView *_bottomLine;
@@ -57,11 +56,6 @@
                                  alignment:NSTextAlignmentRight
                              numberOfLines:1];
     [self.contentView addSubview:_statusLabel];
-    
-    _arrowImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _arrowImage.image = IMG(@"arrow_right");
-    _arrowImage.userInteractionEnabled = YES;
-    [self.contentView addSubview:_arrowImage];
     
     _startSiteImage = [[UIImageView alloc] initWithFrame:CGRectZero];
     _startSiteImage.userInteractionEnabled = YES;
@@ -146,11 +140,6 @@
                              _typeLabel.origin.y,
                              statusSize.width,
                              statusSize.height);
-    
-    _arrowImage.frame = ccr(SCREEN_WIDTH-10-30,
-                            CGRectGetMaxY(_statusLabel.frame)+10,
-                            30,
-                            30);
     
     _startSiteImage.frame = ccr(_timeLabel.origin.x,
                                 CGRectGetMaxY(_timeLabel.frame)+12,

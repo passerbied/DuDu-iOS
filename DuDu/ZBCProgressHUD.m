@@ -89,6 +89,18 @@
     return [self sharedZBCProgressHUD];
 }
 
++ (id)showHUDAddedTo:(UIView *)view animated:(BOOL)animated
+{
+    [self hideHUDForWindow:KEY_WINDOW animated:NO];
+    [KEY_WINDOW addSubview:[self sharedZBCProgressHUD]];
+    [[self sharedZBCProgressHUD] show:animated];
+    [self sharedZBCProgressHUD].mode = MBProgressHUDAnimationFade;
+    [self sharedZBCProgressHUD].dimBackground = NO;
+    [self sharedZBCProgressHUD].opacity = 0.5;
+    
+    return [self sharedZBCProgressHUD];
+}
+
 + (BOOL)hideHUDForWindow:(UIWindow *)window animated:(BOOL)animated {
     
     [self sharedZBCProgressHUD].removeFromSuperViewOnHide = YES;

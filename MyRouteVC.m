@@ -90,6 +90,7 @@
     RouteCell *routeCell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!routeCell) {
         routeCell = [[RouteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        routeCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     [self configureCell:routeCell atIndexPath:indexPath];
     return routeCell;

@@ -18,6 +18,8 @@
 
 + (void)setDescription:(NSString *)text;
 
++ (id)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
+
 + (instancetype)showNotificationHUDWithlabelText:(NSString *)labelText detailsLabelText:(NSString *)detailsLabelText animated:(BOOL)animated desView:(UIView *)view;
 
 + (instancetype)showCompleteHUD:(BOOL)isSuccessed labelText:(NSString *)labelText detailsLabelText:(NSString *)detailsLabelText animated:(BOOL)animated desView:(UIView *)view;

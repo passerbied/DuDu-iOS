@@ -134,6 +134,7 @@
     
     if (!cell) {
         cell = [[MenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuseIdentifier"];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     if (indexPath.row == 0) {

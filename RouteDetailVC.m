@@ -239,7 +239,7 @@
     _payTypeLabel.text = self.orderInfo.order_payStatus_str;
     _payPrice.text = [NSString stringWithFormat:@"%.1f元",-[self.orderInfo.order_allMoney floatValue]];
     
-    self.starRating.editable = [self.orderInfo.order_status intValue] == 5; //只有已付款才可以评星
+    self.starRating.editable = ([self.orderInfo.order_status intValue] == 5 && [self.orderInfo.evaluate_level floatValue]==0); //只有已付款并且没评过星的才可以评星
     self.starRating.rating = [self.orderInfo.evaluate_level floatValue];
     
 }
@@ -624,7 +624,9 @@
 #pragma mark - StarRating delegate
 - (void)starsSelectionChanged:(EDStarRating *)control rating:(float)rating
 {
-    [self sentRating:rating];
+    if (self.starRating.rating == 0) {
+        [self sentRating:rating];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
