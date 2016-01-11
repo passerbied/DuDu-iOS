@@ -109,10 +109,10 @@
     _timePicker.delegate = self;
     [self.view addSubview:_timePicker];
     
-    _locationBtn = [UIButton buttonWithImageName:@"userPosition"
-                                     hlImageName:@"userPosition"
+    _locationBtn = [UIButton buttonWithImageName:@"icon_my_location_48px"
+                                     hlImageName:@"icon_my_location_48px"
                                       onTapBlock:^(UIButton *btn) {
-                                          [self startLocation];
+                                          [self locateMapView];
                                       }];
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     _locationBtn.layer.masksToBounds = YES;
@@ -125,10 +125,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (_isFirstAppear) {
-        _isFirstAppear = NO;
-        [self startLocation];
-    }
+    [self startLocation];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -147,8 +144,13 @@
 - (void)startLocation
 {
     self.mapView.showsUserLocation = YES;
-    [self.mapView setUserTrackingMode:QUserTrackingModeFollow animated:YES];
+//    [self.mapView setUserTrackingMode:QUserTrackingModeFollow animated:YES];
     [self.mapView setZoomLevel:16.1 animated:YES];
+}
+
+- (void)locateMapView
+{
+    [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
 }
 
 -(void)setupLeftMenuButton
@@ -239,44 +241,97 @@
     [[DuDuAPIClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        
-        if(dic[@"err"] &&
-           ([dic[@"err"] intValue] == 11 ||
-            [dic[@"err"] intValue] == 17 ||
-            [dic[@"err"] intValue] == 0)) {
+        if (dic) {
             
-               OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                                 fromJSONDictionary:dic[@"info"]
-                                                              error:nil];
-               if ([dic[@"err"] intValue] == 17 || [dic[@"err"] intValue] == 0) {
-                   CarStore *carStore = [[CarStore alloc] init];
-                   carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
-                                             fromJSONDictionary:dic[@"car_style"]
-                                                          error:nil];
-                   [OrderVC sharedOrderVC].carStore = carStore;
-                   [OrderVC sharedOrderVC].orderInfo = orderInfo;
-                   [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
-                   [OrderVC sharedOrderVC].title = @"订单信息";
-                   [OrderVC sharedOrderVC].orderStatusInfo = dic[@"order_info"];
-                   [self.navigationController pushViewController:[OrderVC sharedOrderVC] animated:YES];
-               }
-               
-               if([dic[@"err"] intValue] == 11){
-                   RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                   detailVC.title = @"订单详情";
-                   detailVC.orderInfo = orderInfo;
-                   detailVC.isHistory = NO;
-                   detailVC.isForCharge = YES;
-                   [self.navigationController pushViewController:detailVC animated:YES];
-               }
-        } else if([dic[@"err"] intValue] == 5) {
-            [ZBCToast showMessage:@"优惠券不可用"];
-            return;
-        } else if([dic[@"err"] intValue] == 12){
-            [ZBCToast showMessage:dic[@"order_info"]];
-            return;
-        } else {
-            
+            if ([dic[@"err"] intValue] == OrderResultSuccess ||
+                [dic[@"err"] intValue] == OrderResultHaveOtherCar) { //正常情况，等待司机接单 || 有其他车辆推荐
+                OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                                  fromJSONDictionary:dic[@"info"]
+                                                               error:nil];
+                CarStore *carStore = [[CarStore alloc] init];
+                carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
+                                          fromJSONDictionary:dic[@"car_style"]
+                                                       error:nil];
+                [OrderVC sharedOrderVC].carStore = carStore;
+                [OrderVC sharedOrderVC].orderInfo = orderInfo;
+                [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
+                [OrderVC sharedOrderVC].title = @"订单信息";
+                [OrderVC sharedOrderVC].orderStatusInfo = dic[@"order_info"];
+                [self.navigationController pushViewController:[OrderVC sharedOrderVC]
+                                                     animated:YES];
+                
+            } else if([dic[@"err"] intValue] == OrderResultNotCompleted){ //订单未完成
+                
+                OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                                  fromJSONDictionary:dic[@"info"]
+                                                               error:nil];
+                
+                if ([orderInfo.order_status intValue] == OrderStatusWatingForDriver) { //等待派单
+                    
+                    [OrderVC sharedOrderVC].orderInfo = orderInfo;
+                    [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
+                    [OrderVC sharedOrderVC].title = @"订单信息";
+                    [OrderVC sharedOrderVC].orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                    [self.navigationController pushViewController:[OrderVC sharedOrderVC]
+                                                         animated:YES];
+                } else if ([orderInfo.order_status intValue] == OrderStatusDriverCancel) { //司机取消（理论上不会返回这个状态的订单信息）
+                    [ZBCToast showMessage:@"司机取消订单"];
+                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                    detailVC.title = @"订单详情";
+                    detailVC.orderInfo = orderInfo;
+                    detailVC.isHistory = NO;
+                    detailVC.isForCharge = NO;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                } else if ([orderInfo.order_status intValue] == OrderStatusUserCancel) { //用户取消（理论上不会返回这个状态的订单信息）
+                    [ZBCToast showMessage:@"您已取消该订单"];
+                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                    detailVC.title = @"订单详情";
+                    detailVC.orderInfo = orderInfo;
+                    detailVC.isHistory = NO;
+                    detailVC.isForCharge = NO;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                } else if ([orderInfo.order_status intValue] == OrderStatusTravelStart) { //开始乘车
+                    [ZBCToast showMessage:@"开始乘车"];
+                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                    detailVC.title = @"订单详情";
+                    detailVC.orderInfo = orderInfo;
+                    detailVC.isHistory = NO;
+                    detailVC.isForCharge = NO;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                } else if ([orderInfo.order_status intValue] == OrderStatusWatingForPay) { //等待付款
+                    [ZBCToast showMessage:@"请尽快付款"];
+                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                    detailVC.title = @"订单详情";
+                    detailVC.orderInfo = orderInfo;
+                    detailVC.isHistory = NO;
+                    detailVC.isForCharge = YES;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                } else if ([orderInfo.order_status intValue] == OrderStatusDriverIsComing) { //司机前往
+                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                    detailVC.title = @"订单详情";
+                    detailVC.orderInfo = orderInfo;
+                    detailVC.isHistory = NO;
+                    detailVC.isForCharge = YES;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                } else if ([orderInfo.order_status intValue] == OrderStatusComleted) { //订单完成
+                    //下单接口中不该返回完成状态的订单信息，不做处理
+                    return;
+                }
+                
+            } else if([dic[@"err"] intValue] == OrderResultCouponCantUse) { //优惠券不可用
+                [ZBCToast showMessage:@"优惠券不可用"];
+                return;
+            } else if([dic[@"err"] intValue] == OrderResultNoCarUse){ //没有可用车辆
+                OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
+                                                  fromJSONDictionary:dic[@"info"]
+                                                               error:nil];
+                [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+                    [ZBCToast showMessage:@"当前无可用车辆，已为您取消订单"];
+                } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                }];
+            } else {
+                
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -554,7 +609,7 @@
 
 - (void)searchWithReverseGeoCodeSearchOption:(QMSReverseGeoCodeSearchOption *)reverseGeoCodeSearchOption didReceiveResult:(QMSReverseGeoCodeSearchResult *)reverseGeoCodeSearchResult
 {
-    _bottomToolBar.fromAddressLabel.text = reverseGeoCodeSearchResult.formatted_addresses.recommend;
+    _bottomToolBar.fromAddressLabel.text = reverseGeoCodeSearchResult.formatted_addresses?reverseGeoCodeSearchResult.formatted_addresses.recommend:@"定位失败,请点击选取";
     _currentCity = reverseGeoCodeSearchResult.ad_info.province;
     [self setupAnnotation:YES];
     _isUpdated = YES;

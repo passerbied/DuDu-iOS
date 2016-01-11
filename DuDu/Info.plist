@@ -35,11 +35,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-  <key>NSAppTransportSecurity</key>
-  <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-  </dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>baidumap</string>
@@ -51,7 +46,7 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>只有开启定位功能才能正常使用嘟嘟出行</string>
 	<key>UIBackgroundModes</key>
 	<array>

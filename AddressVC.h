@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GeoAndSuggestionViewController.h"
 
-@interface AddressVC : UIViewController
+@interface AddressVC : BaseViewController
 <UITableViewDataSource,
 UITableViewDelegate,
 GeoAndSuggestionViewControllerDelegate>

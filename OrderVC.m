@@ -151,7 +151,7 @@
     _timeLabel.text = [date displayWithFormat:@"d号H点mm分"];
     _startLabel.text = self.orderInfo.star_loc_str;
     _endLabel.text = self.orderInfo.dest_loc_str;
-//    _noticeLabel.text = self.orderStatusInfo;
+    _noticeLabel.text = self.orderStatusInfo;
     [ZBCToast showMessage:self.orderStatusInfo];
 }
 

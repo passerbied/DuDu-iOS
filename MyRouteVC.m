@@ -69,7 +69,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%d",[OrderStore sharedOrderStore].history.count);
     return [OrderStore sharedOrderStore].history.count;
 }
 

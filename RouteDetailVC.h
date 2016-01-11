@@ -10,7 +10,7 @@
 #import "CommentVC.h"
 #import "ZBCStarRating.h"
 
-@interface RouteDetailVC : UIViewController
+@interface RouteDetailVC : BaseViewController
 <CommentVCDelegate,
 EDStarRatingProtocol>
 
@@ -19,5 +19,7 @@ EDStarRatingProtocol>
 @property (nonatomic, assign) BOOL isHistory;
 @property (nonatomic, assign) BOOL isForCharge;
 @property (nonatomic, assign) NSInteger modelIndex;
+@property (readwrite, nonatomic, assign) OrderResult resultStatus; //下订单返回的错误类别
+@property (readwrite, nonatomic, assign) OrderStatus orderStatus; //订单状态类别
 
 @end

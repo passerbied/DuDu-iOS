@@ -12,7 +12,7 @@
 
 @protocol CouponVCDelegate;
 
-@interface CouponVC : UIViewController
+@interface CouponVC : BaseViewController
 <UITableViewDataSource,
 UITableViewDelegate>
 

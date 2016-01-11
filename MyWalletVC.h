@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyWalletVC : UIViewController
+@interface MyWalletVC : BaseViewController
 <UITableViewDataSource,
 UITableViewDelegate>
 

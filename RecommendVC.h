@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WXApi.h"
 
-@interface RecommendVC : UIViewController<WXApiDelegate>
+@interface RecommendVC : BaseViewController<WXApiDelegate>
 
 @property (nonatomic, copy) NSString *share_coupon;
 @property (nonatomic, copy) NSString *share_title;
