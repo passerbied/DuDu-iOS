@@ -69,7 +69,7 @@
         [ZBCProgressHUD hideHUDForWindow:KEY_WINDOW animated:NO];
         if (error) {
             if (failure) {
-                [self showErrorMessage:error.localizedDescription];
+//                [self showErrorMessage:error.localizedDescription];
                 NSLog(@"%@",error.localizedDescription);
                 failure(task, error);
             }

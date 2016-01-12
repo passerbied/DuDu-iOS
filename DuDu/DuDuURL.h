@@ -69,6 +69,9 @@
 //检查更新（返回车型列表）
 #define CHECK_VERSION                   @"/exam/check-version"
 
+//分享成功接口
+#define SHARE                           @""
+
 //Umeng
 #define UM_APP_KEY                      @""
 

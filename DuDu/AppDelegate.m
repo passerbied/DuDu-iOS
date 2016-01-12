@@ -82,13 +82,17 @@
         
         NSArray *carStyles = [DuDuAPIClient parseJSONFrom:responseObject][@"car_style"];
         CarStore *carStore = [[CarStore alloc] init];
+
+        //获取车型信息
         NSArray *cars = [MTLJSONAdapter modelsOfClass:[CarModel class]
                                         fromJSONArray:carStyles
                                                 error:nil];
+        
+        //获取分享信息
+        [CouponStore sharedCouponStore].shareInfo = [DuDuAPIClient parseJSONFrom:responseObject][@"wx_config"];
+        
         carStore.cars = [cars mutableCopy];
-//        NSArray *carStyleModels = [MTLJSONAdapter modelsOfClass:[CarModel class]
-//                                      fromJSONArray:carStyles
-//                                              error:nil];
+
         if (carStore.cars.count) {
             [MainViewController sharedMainViewController].carStyles = carStore.cars;
             [MainViewController sharedMainViewController].currentCar = carStore.cars[0];

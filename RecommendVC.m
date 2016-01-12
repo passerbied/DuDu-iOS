@@ -7,6 +7,7 @@
 //
 
 #import "RecommendVC.h"
+#import "CouponStore.h"
 
 @interface RecommendVC ()
 
@@ -59,11 +60,11 @@
 
 - (void)setData
 {
-    self.share_coupon = @"专车券:￥30";
-    self.share_title = @"嘟嘟首单免费啦";
-    self.share_desc = @"嘟嘟首单免费啦";
-    self.share_link = @"http://dudu.com";
-    self.share_thumb = @"icon_huge";
+    self.share_coupon = @"优惠券";
+    self.share_title = [CouponStore sharedCouponStore].shareInfo[@"weixin_title"];
+    self.share_desc = [CouponStore sharedCouponStore].shareInfo[@"weixin_title"];
+    self.share_link = [CouponStore sharedCouponStore].shareInfo[@"weixin_link"];
+    self.share_thumb = [CouponStore sharedCouponStore].shareInfo[@"weixin_pic"];
     _couponlabel.text = self.share_coupon;
 }
 
@@ -94,6 +95,18 @@
 - (void)onResp:(BaseResp *)resp
 {
     NSLog(@"onResp========== errCode:%d; err:%@; type:%d",resp.errCode,resp.errStr,resp.type);
+    
+    if (resp.errCode) {
+        [ZBCToast showMessage:resp.errStr];
+    } else {
+        
+        [[DuDuAPIClient sharedClient] GET:SHARE parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            
+        }];
+    }
+    
 }
 
 @end

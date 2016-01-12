@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CouponModel.h"
 
 @interface CouponStore : NSObject
 
 @property (nonatomic, strong) NSArray *info;
+@property (nonatomic, strong) NSDictionary *shareInfo;
 
 + (instancetype)sharedCouponStore;
 
