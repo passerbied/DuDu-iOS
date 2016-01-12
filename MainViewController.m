@@ -249,17 +249,30 @@
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
         if (dic) {
-            
             if ([dic[@"err"] intValue] == OrderResultSuccess ||
                 [dic[@"err"] intValue] == OrderResultHaveOtherCar) { //正常情况，等待司机接单 || 有其他车辆推荐
-                OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                                  fromJSONDictionary:dic[@"info"]
-                                                               error:nil];
-                CarStore *carStore = [[CarStore alloc] init];
-                carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
-                                          fromJSONDictionary:dic[@"car_style"]
-                                                       error:nil];
-                [OrderVC sharedOrderVC].carStore = carStore;
+                OrderModel *orderInfo = [[OrderModel alloc] init];
+                orderInfo.car_style = dic[@"info"][@"car_style"];
+                orderInfo.coupon_id = dic[@"info"][@"coupon_id"];
+                orderInfo.dest_lat = dic[@"info"][@"dest_lat"];
+                orderInfo.dest_lng = dic[@"info"][@"dest_lng"];
+                orderInfo.dest_loc_str = dic[@"info"][@"dest_loc_str"];
+                orderInfo.order_id = dic[@"info"][@"order_id"];
+                orderInfo.order_time = dic[@"info"][@"order_time"];
+                orderInfo.star_loc_str = dic[@"info"][@"star_loc_str"];
+                orderInfo.startTimeStr = dic[@"info"][@"startTimeStr"];
+                orderInfo.startTimeType = dic[@"info"][@"startTimeType"];
+                orderInfo.start_lat = dic[@"info"][@"start_lat"];
+                orderInfo.start_lng = dic[@"info"][@"start_lng"];
+                orderInfo.user_id = dic[@"info"][@"user_id"];
+                
+                if ([dic[@"err"] intValue] == OrderResultHaveOtherCar) {
+                    CarStore *carStore = [[CarStore alloc] init];
+                    carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
+                                              fromJSONDictionary:dic[@"car_style"]
+                                                           error:nil];
+                    [OrderVC sharedOrderVC].carStore = carStore;
+                }
                 [OrderVC sharedOrderVC].orderInfo = orderInfo;
                 [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
                 [OrderVC sharedOrderVC].title = @"订单信息";
