@@ -329,7 +329,7 @@
                 [ZBCToast showMessage:@"优惠券不可用"];
                 return;
             } else if([dic[@"err"] intValue] == OrderResultNoCarUse){ //没有可用车辆
-                [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+                [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(dic[@"info"][@"order_id"]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
                     [ZBCToast showMessage:@"当前无可用车辆，已为您取消订单"];
                 } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 }];
