@@ -168,7 +168,7 @@
     _timeLabel.frame = ccr(CGRectGetMaxX(_timeImage.frame)+10,
                            _timeImage.origin.y,
                            timeSize.width,
-                           20);
+                           16);
     _startImage.frame = ccr(_timeImage.origin.x,
                             CGRectGetMaxY(_timeImage.frame)+10,
                             _timeImage.width,
@@ -177,7 +177,7 @@
     _startLabel.frame = ccr(_timeLabel.origin.x,
                             CGRectGetMaxY(_timeLabel.frame)+10,
                             startSize.width,
-                            20);
+                            16);
     _endImage.frame = ccr(_startImage.origin.x,
                           CGRectGetMaxY(_startImage.frame)+10,
                           _startImage.width,
@@ -186,7 +186,7 @@
     _endLabel.frame = ccr(_startLabel.origin.x,
                           CGRectGetMaxY(_startLabel.frame)+10,
                           endSize.width,
-                          20);
+                          16);
     _headerView.frame = ccr(0,
                             NAV_BAR_HEIGHT_IOS7,
                             SCREEN_WIDTH,
