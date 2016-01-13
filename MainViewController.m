@@ -115,10 +115,6 @@
                                           [self locateMapView];
                                       }];
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
-    _locationBtn.layer.masksToBounds = YES;
-    _locationBtn.layer.borderWidth = 2;
-    _locationBtn.layer.borderColor = [UIColor whiteColor].CGColor;
-    _locationBtn.layer.cornerRadius = _locationBtn.width/2;
     [self.view addSubview:_locationBtn];
 }
 
@@ -662,7 +658,7 @@
             _toPointAnnotation = [[QPointAnnotation alloc] init];
         }
         [_toPointAnnotation setCoordinate:_toLocation.coordinate];
-        [self.mapView setCenterCoordinate:_toLocation.coordinate zoomLevel:16.1 animated:YES];
+//        [self.mapView setCenterCoordinate:_toLocation.coordinate zoomLevel:16.1 animated:YES];
         [self.mapView addAnnotation:_toPointAnnotation];
     }
     if (_fromPointAnnotation && _toPointAnnotation) {
@@ -678,7 +674,7 @@
 - (void)searchWithDrivingRouteSearchOption:(QMSDrivingRouteSearchOption *)drivingRouteSearchOption didRecevieResult:(QMSDrivingRouteSearchResult *)drivingRouteSearchResult
 {
     _currentRoutPlan = [[drivingRouteSearchResult routes] firstObject];
-    NSLog(@"距离：%@ | 时间：%@ | 路段数%ld", [self humanReadableForDistance:_currentRoutPlan.distance], [self humanReadableForTimeDuration:_currentRoutPlan.duration],_currentRoutPlan.steps.count);
+    NSLog(@"距离：%@ | 时间：%@ | 路段数%d", [self humanReadableForDistance:_currentRoutPlan.distance], [self humanReadableForTimeDuration:_currentRoutPlan.duration],(int)_currentRoutPlan.steps.count);
     
     [self.mapView removeOverlays:self.mapView.overlays];
     NSUInteger count = _currentRoutPlan.polyline.count;

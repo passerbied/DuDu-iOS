@@ -175,6 +175,7 @@
         [_budgetView addSubview:self.budgetLabel];
         
         self.couponLabel = [UILabel labelWithFrame:ccr(0, CGRectGetMaxY(self.budgetLabel.frame), _budgetView.width, 20) color:COLORRGB(0xff8830) font:HSFONT(12) text:@"暂无优惠" alignment:NSTextAlignmentCenter numberOfLines:1];
+        self.couponLabel.userInteractionEnabled = YES;
         [_budgetView addSubview:self.couponLabel];
         
         UIButton *couponBtn = [UIButton buttonWithImageName:@"" hlImageName:@"" onTapBlock:^(UIButton *btn) {
@@ -182,9 +183,12 @@
                 [self.delegate bottomToolBar:self didTapped:self.couponLabel];
             }
         }];
-        self.couponLabel.userInteractionEnabled = YES;
-        couponBtn.frame = ccr(self.couponLabel.x,self.couponLabel.y,self.couponLabel.width,self.couponLabel.height);
+        couponBtn.frame = ccr(0,0,_budgetView.width,_budgetView.height);
         [_budgetView addSubview:couponBtn];
+        
+        UIImageView *arrow = [[UIImageView alloc] initWithFrame:ccr(_budgetView.width-30-10, (_budgetView.height-30)/2, 30, 30)];
+        arrow.image = IMG(@"arrow_right");
+        [_budgetView addSubview:arrow];
         
         [self addSubview:_budgetView];
         
