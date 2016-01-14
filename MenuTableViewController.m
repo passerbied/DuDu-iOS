@@ -201,7 +201,7 @@
                                      numberOfLines:1];
     CGSize walletSize = [walletLabel.text sizeWithAttributes:@{NSFontAttributeName:walletLabel.font}];
     [walletLabel sizeToFit];
-    walletLabel.frame = ccr(SCREEN_WIDTH-20-walletSize.width,
+    walletLabel.frame = ccr(SCREEN_WIDTH-30-walletSize.width,
                             (60-walletSize.height)/2,
                             walletSize.width,
                             walletSize.height);
