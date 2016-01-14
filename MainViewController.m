@@ -491,7 +491,9 @@
 - (void)loginSucceed:(UserModel *)userInfo
 {
     [MenuTableViewController sharedMenuTableViewController].userInfo = userInfo;
+    [MenuTableViewController sharedMenuTableViewController].isUserChanged = YES;
     [self.navigationController pushViewController:[MenuTableViewController sharedMenuTableViewController] animated:YES];
+    
 }
 
 #pragma mark - TopToolBarDelegate

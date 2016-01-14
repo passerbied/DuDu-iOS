@@ -50,7 +50,7 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    if (!self.userInfo) {
+    if (!self.userInfo || !self.isUserChanged) {
         [self getUserInfo];
     }
     

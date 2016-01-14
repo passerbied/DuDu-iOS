@@ -115,6 +115,7 @@
             book.isSelected = NO;
         }
     }
+    [_tableView reloadData];
     [self updateFooter];
 }
 
@@ -305,7 +306,7 @@
                                            alignment:NSTextAlignmentRight
                                        numberOfLines:1];
     CGSize introSize = [self getTextFromLabel:introdceLabel];
-    introdceLabel.frame = ccr(SCREEN_WIDTH-20-introSize.width,
+    introdceLabel.frame = ccr(SCREEN_WIDTH-10-introSize.width,
                               selectAllLabel.origin.y,
                               introSize.width,
                               introSize.height);
@@ -321,7 +322,7 @@
                                      onTapBlock:^(UIButton *btn) {
                                          [self didClickNextButtonAction];
                                      }];
-    _nextButton.frame = ccr(SCREEN_WIDTH-20-120,
+    _nextButton.frame = ccr(SCREEN_WIDTH-10-120,
                             CGRectGetMaxY(introdceLabel.frame)+10,
                             120,
                             40);
@@ -379,6 +380,7 @@
     if (!invoiceCell) {
         invoiceCell = [[InvoiceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         invoiceCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        invoiceCell.delegate = self;
     }
     [self configureCell:invoiceCell atIndexPath:indexPath];
     return invoiceCell;
@@ -387,9 +389,9 @@
 - (void)configureCell:(InvoiceCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     BookModel *book = _bookList[indexPath.row];
-    cell.date = book.order_time;
+
     NSDate *start = [NSDate dateWithTimeIntervalSince1970:[book.startTimeStr floatValue]];
-    cell.startTime = [start displayWithFormat:@"d号H点mm分"];
+    cell.startTime = [start displayWithFormat:@"yyyy-MM-dd H:mm"];
     cell.price = book.order_allMoney;
     cell.startSite = book.star_loc_str;
     cell.endSite = book.dest_loc_str;
@@ -402,7 +404,8 @@
 {
     InvoiceCell *invoiceCell = (InvoiceCell *)[tableView cellForRowAtIndexPath:indexPath];
     BookModel *book = _bookList[indexPath.row];
-    book.isSelected = !invoiceCell.isSelected;
+    book.isSelected = !book.isSelected;
+    invoiceCell.isSelected = book.isSelected;
     [_bookList setObject:book atIndexedSubscript:indexPath.row];
     [invoiceCell calculateFrame];
     [self updateFooter];

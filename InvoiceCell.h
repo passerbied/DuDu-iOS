@@ -14,7 +14,6 @@
 
 @property (nonatomic, copy)NSString *date;
 @property (nonatomic, copy)NSString *startTime;
-@property (nonatomic, copy)NSString *endTime;
 @property (nonatomic, copy)NSString *price;
 @property (nonatomic, copy)NSString *startSite;
 @property (nonatomic, copy)NSString *endSite;

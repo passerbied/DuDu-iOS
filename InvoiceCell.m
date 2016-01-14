@@ -16,6 +16,7 @@
     UIImageView *_endSiteImage;
     UILabel     *_startSiteLabel;
     UILabel     *_endSiteLabel;
+    UILabel     *_priceLabel;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -30,19 +31,19 @@
 - (void)createSubViews
 {
     _checkBoxBtn = [UIButton buttonWithImageName:@"checkbox_no"
-                                     hlImageName:@"checkbox_no" onTapBlock:^(UIButton *btn) {
+                                     hlImageName:@"checkbox_no"
+                                      onTapBlock:^(UIButton *btn) {
                                          if ([self.delegate respondsToSelector:@selector(invoiceCell:didChecked:)]) {
                                              self.isSelected = !self.isSelected;
                                              [self.delegate invoiceCell:self
                                                              didChecked:self.isSelected];
                                          }
     }];
-    _checkBoxBtn.frame = ccr(16, (self.height-16)/2, 16, 16);
     [self.contentView addSubview:_checkBoxBtn];
     
-    _routeInforLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(_checkBoxBtn.frame)+16,
+    _routeInforLabel = [UILabel labelWithFrame:ccr(16+16+10,
                                                    10,
-                                                   SCREEN_WIDTH-CGRectGetMaxX(_checkBoxBtn.frame)-10-10,
+                                                   SCREEN_WIDTH-32-10-10,
                                                    20)
                                          color:COLORRGB(0x000000)
                                           font:HSFONT(12)
@@ -61,7 +62,7 @@
     _startSiteLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(_startSiteImage.frame)+5,
                                                   _startSiteImage.origin.y,
                                                   SCREEN_WIDTH-CGRectGetMaxX(_startSiteImage.frame)-5-20,
-                                                  20
+                                                  16
                                                   )
                                         color:COLORRGB(0x000000)
                                          font:HSFONT(12)
@@ -87,6 +88,7 @@
                                        text:@""
                                   alignment:NSTextAlignmentLeft
                               numberOfLines:1];
+    
     [self.contentView addSubview:_endSiteLabel];
     
     CGRect cellFrame = ccr(0,
@@ -94,20 +96,36 @@
                            SCREEN_WIDTH,
                            CGRectGetMaxY(_endSiteLabel.frame)+10
                            );
+    _checkBoxBtn.frame = ccr(16, _startSiteImage.y, 16, 16);
+    
+    _priceLabel = [UILabel labelWithFrame:ccr(
+                                              SCREEN_WIDTH-80-10,
+                                              _startSiteImage.y,
+                                              80,
+                                              16
+                                              )
+                                    color:COLORRGB(0xff8830)
+                                     font:HSFONT(15)
+                                     text:@""
+                                alignment:NSTextAlignmentRight
+                            numberOfLines:1];
+    [self.contentView addSubview:_priceLabel];
+    
     self.frame = cellFrame;
 }
 
 - (void)setData
 {
-    _routeInforLabel.text = [NSString stringWithFormat:@"%@ %@-%@ 车费%@元",self.date,self.startTime,self.endTime,self.price];
+    _routeInforLabel.text = self.startTime;
+    _priceLabel.text = [NSString stringWithFormat:@"¥ %@",self.price];
     
-    NSString *infor = _routeInforLabel.text;
-    NSMutableAttributedString *inforString = [[NSMutableAttributedString alloc] initWithString:infor];
-    NSUInteger priceLength = self.price.length;
-    NSUInteger priceLocation = infor.length-1-priceLength;
-    [inforString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
-                         range:NSMakeRange(priceLocation, priceLength)];
-    _routeInforLabel.attributedText = inforString;
+//    NSString *infor = _routeInforLabel.text;
+//    NSMutableAttributedString *inforString = [[NSMutableAttributedString alloc] initWithString:infor];
+//    NSUInteger priceLength = self.price.length;
+//    NSUInteger priceLocation = infor.length-1-priceLength;
+//    [inforString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
+//                         range:NSMakeRange(priceLocation, priceLength)];
+//    _routeInforLabel.attributedText = inforString;
     
     _startSiteImage.image = IMG(@"tiny_circle_green");
     _endSiteImage.image = IMG(@"tiny_circle_red");
