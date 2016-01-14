@@ -196,7 +196,7 @@
     UILabel *walletLabel = [UILabel labelWithFrame:CGRectZero
                                              color:COLORRGB(0xd7d7d7)
                                               font:HSFONT(12)
-                                              text:@""//@"券、发票、余额"
+                                              text:@"券、发票"
                                          alignment:NSTextAlignmentRight
                                      numberOfLines:1];
     CGSize walletSize = [walletLabel.text sizeWithAttributes:@{NSFontAttributeName:walletLabel.font}];
