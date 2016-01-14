@@ -62,7 +62,8 @@
 - (void)createTableView
 {
     self.tableView.backgroundColor = COLORRGB(0xffffff);
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    [self setExtraCellLineHidden:self.tableView];
 }
 
 #pragma mark - Table view data source
@@ -117,8 +118,11 @@
     [self.navigationController pushViewController:detailVC animated:YES];
 }
  
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)setExtraCellLineHidden: (UITableView *)tableView
+{
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
 }
 
 @end

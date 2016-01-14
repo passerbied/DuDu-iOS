@@ -11,7 +11,7 @@
 @implementation WalletCell
 {
     UILabel     *_titleLabel;
-    UIImageView *_bottomLine;
+//    UIImageView *_bottomLine;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -36,10 +36,10 @@
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     [self.contentView addSubview:_titleLabel];
     
-    _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _bottomLine.userInteractionEnabled = YES;
-    _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.contentView addSubview:_bottomLine];
+//    _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    _bottomLine.userInteractionEnabled = YES;
+//    _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
+//    [self.contentView addSubview:_bottomLine];
 }
 
 - (void)setData
@@ -57,7 +57,7 @@
                             (60-titleSize.height)/2,
                             titleSize.width,
                             titleSize.height);
-    _bottomLine.frame = ccr(0, 60-0.5, SCREEN_WIDTH, 0.5);
+//    _bottomLine.frame = ccr(0, 60-0.5, SCREEN_WIDTH, 0.5);
 }
 
 - (void)layoutSubviews

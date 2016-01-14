@@ -136,6 +136,11 @@
 		48F08EF01C47919400724CEC /* commbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EEE1C47919400724CEC /* commbtn@2x.png */; };
 		48F08EF31C47DB1E00724CEC /* checkbox_no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EF11C47DB1E00724CEC /* checkbox_no@2x.png */; };
 		48F08EF41C47DB1E00724CEC /* checkbox_yes@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EF21C47DB1E00724CEC /* checkbox_yes@2x.png */; };
+		48F08EF71C480C4400724CEC /* WebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08EF61C480C4400724CEC /* WebVC.m */; };
+		48F08EF91C480FAD00724CEC /* agreement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EF81C480FAD00724CEC /* agreement.txt */; };
+		48F08EFB1C48141B00724CEC /* law.txt in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EFA1C48141B00724CEC /* law.txt */; };
+		48F08EFE1C4817B500724CEC /* LawVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08EFD1C4817B500724CEC /* LawVC.m */; };
+		48F08F001C48242900724CEC /* about.txt in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EFF1C48242900724CEC /* about.txt */; };
 		F66BE02E18CD97BAD24F82F5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDC7A333845C15E87E74204 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -351,6 +356,13 @@
 		48F08EEE1C47919400724CEC /* commbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commbtn@2x.png"; sourceTree = "<group>"; };
 		48F08EF11C47DB1E00724CEC /* checkbox_no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_no@2x.png"; sourceTree = "<group>"; };
 		48F08EF21C47DB1E00724CEC /* checkbox_yes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_yes@2x.png"; sourceTree = "<group>"; };
+		48F08EF51C480C4400724CEC /* WebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebVC.h; sourceTree = "<group>"; };
+		48F08EF61C480C4400724CEC /* WebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebVC.m; sourceTree = "<group>"; };
+		48F08EF81C480FAD00724CEC /* agreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = agreement.txt; sourceTree = "<group>"; };
+		48F08EFA1C48141B00724CEC /* law.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = law.txt; sourceTree = "<group>"; };
+		48F08EFC1C4817B500724CEC /* LawVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LawVC.h; sourceTree = "<group>"; };
+		48F08EFD1C4817B500724CEC /* LawVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LawVC.m; sourceTree = "<group>"; };
+		48F08EFF1C48242900724CEC /* about.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = about.txt; sourceTree = "<group>"; };
 		8DDC7A333845C15E87E74204 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D5C95255EB9D93E51C410 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -489,6 +501,10 @@
 				32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */,
 				32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */,
 				32F03A321C102B9C00A2C4BD /* 常用地址Controller */,
+				48F08EF51C480C4400724CEC /* WebVC.h */,
+				48F08EF61C480C4400724CEC /* WebVC.m */,
+				48F08EFC1C4817B500724CEC /* LawVC.h */,
+				48F08EFD1C4817B500724CEC /* LawVC.m */,
 			);
 			name = "设置Controller";
 			sourceTree = "<group>";
@@ -758,6 +774,9 @@
 		486F52841BEE22290043874E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				48F08EFF1C48242900724CEC /* about.txt */,
+				48F08EFA1C48141B00724CEC /* law.txt */,
+				48F08EF81C480FAD00724CEC /* agreement.txt */,
 				487956F21C439F4500193530 /* QMapKit.bundle */,
 				4867CE4F1C35664E003B1744 /* TestJson */,
 				486F52851BEE225E0043874E /* imgs */,
@@ -1119,10 +1138,12 @@
 				480E505A1BFB62A6006D545A /* tiny_coupon@2x.png in Resources */,
 				48F08EF41C47DB1E00724CEC /* checkbox_yes@2x.png in Resources */,
 				486F52911BEE567E0043874E /* arrow_up@2x.png in Resources */,
+				48F08F001C48242900724CEC /* about.txt in Resources */,
 				4867CE2E1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png in Resources */,
 				4847D3AC1C147D8C004634F5 /* orgbtn_pressed@2x.png in Resources */,
 				487956F51C439F8700193530 /* icon_my_location_48px@2x.png in Resources */,
 				4867CE291C271387003B1744 /* find_keep_icon_fail@2x.png in Resources */,
+				48F08EFB1C48141B00724CEC /* law.txt in Resources */,
 				486F528F1BEE567E0043874E /* arrow_down@2x.png in Resources */,
 				4867CE2D1C284821003B1744 /* nav_btn_back_88_88@2x.png in Resources */,
 				4847D3AA1C147D75004634F5 /* orgbtn@2x.png in Resources */,
@@ -1142,6 +1163,7 @@
 				487956D21C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png in Resources */,
 				4867CE5E1C369A3C003B1744 /* ordercancel.json in Resources */,
 				486F52891BEE225E0043874E /* tiny_circle_red@2x.png in Resources */,
+				48F08EF91C480FAD00724CEC /* agreement.txt in Resources */,
 				480E505C1BFB62A6006D545A /* tiny_shared@2x.png in Resources */,
 				4867CE271C271378003B1744 /* find_keep_icon_success@2x.png in Resources */,
 			);
@@ -1208,6 +1230,7 @@
 				486F52601BEE07F40043874E /* UIActionSheetItem.m in Sources */,
 				32F03A171C0E92C000A2C4BD /* InvoiceCell.m in Sources */,
 				486F52B31BF0E7D00043874E /* ZBCNavVC.m in Sources */,
+				48F08EFE1C4817B500724CEC /* LawVC.m in Sources */,
 				32F03A3D1C16B3D600A2C4BD /* OrderVC.m in Sources */,
 				486F52951BEE684A0043874E /* ZBCToast.m in Sources */,
 				4847D3AF1C148D82004634F5 /* CouponModel.m in Sources */,
@@ -1267,6 +1290,7 @@
 				32F03A0F1C0E0EFF00A2C4BD /* WalletCell.m in Sources */,
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
+				48F08EF71C480C4400724CEC /* WebVC.m in Sources */,
 				32F03A6F1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m in Sources */,
 				32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */,
 				32F03A091C0DFCFF00A2C4BD /* MyWalletVC.m in Sources */,
