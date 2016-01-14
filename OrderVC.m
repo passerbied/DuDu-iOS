@@ -68,7 +68,9 @@
                                              titleColor:COLORRGB(0x000000)
                                                    font:HSFONT(15)
                                              onTapBlock:^(UIButton *btn) {
-                                                 [self cancelOrder];
+                                                 [[UIActionSheet actionSheetWithTitle:@"是否取消订单" cancelTitle:@"返回" destructiveTitle:@"取消订单" destructiveBlock:^{
+                                                     [self cancelOrder];
+                                                 } otherItems:nil] showInView:self.navigationController.view];
                                              }];
     cancelBtn.frame = ccr(0, 0, 40, 40);
     [self showRightTitle:YES withButton:cancelBtn];

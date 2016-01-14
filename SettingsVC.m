@@ -108,22 +108,15 @@
         agreementVC.title = @"关于嘟嘟";
         [self.navigationController pushViewController:agreementVC animated:YES];
     } else {
-        [[UIActionSheet
-          actionSheetWithTitle:@"是否退出登录"
-          cancelTitle:@"取消"
-          otherItems:[UIActionSheetItem
-                      itemWithTitle:@"确定"
-                      block:^(void) {
-                          [self.navigationController popToRootViewControllerAnimated:YES];
-                          [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
-                          [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
-                                       alias:@"-1"
-                            callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                                      object:self];
-                          [ZBCToast showMessage:@"退出登录成功"];
-                          
-                      }],
-          nil] showInView:self.navigationController.view];
+        [[UIActionSheet actionSheetWithTitle:@"是否退出登录" cancelTitle:@"取消" destructiveTitle:@"确定" destructiveBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
+            [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                         alias:@"-1"
+              callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                        object:self];
+            [ZBCToast showMessage:@"退出登录成功"];
+        } otherItems:nil] showInView:self.navigationController.view];
     }
 }
 
