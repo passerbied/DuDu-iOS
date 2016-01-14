@@ -8,32 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BookModel : MTLModel<MTLJSONSerializing>
+@interface BookModel : NSObject
 
-@property (nonatomic, copy) NSNumber *order_id;
-@property (nonatomic, copy) NSNumber *user_id;
-@property (nonatomic, copy) NSNumber *relevance_id;
-@property (nonatomic, copy) NSString *start_lat;
-@property (nonatomic, copy) NSString *start_lng;
-@property (nonatomic, copy) NSString *star_loc_str;
-@property (nonatomic, copy) NSString *dest_lat;
-@property (nonatomic, copy) NSString *dest_lng;
-@property (nonatomic, copy) NSString *dest_loc_str;
-@property (nonatomic, copy) NSNumber *car_style;
-@property (nonatomic, copy) NSNumber *startTimeType;
-@property (nonatomic, copy) NSNumber *startTimeStr;
-@property (nonatomic, copy) NSString *order_initiate_rate;
-@property (nonatomic, copy) NSString *order_mileage;
-@property (nonatomic, copy) NSString *order_mileage_money;
-@property (nonatomic, copy) NSString *order_allMoney;
-@property (nonatomic, copy) NSString *order_allTime;
-@property (nonatomic, copy) NSString *order_duration_money;
-@property (nonatomic, copy) NSNumber *order_status;
-@property (nonatomic, copy) NSNumber *driver_status;
-@property (nonatomic, copy) NSNumber *coupon_id;
-@property (nonatomic, copy) NSString *order_time;
-@property (nonatomic, copy) NSNumber *order_payStatus;
-@property (nonatomic, copy) NSNumber *isbook;
-@property (nonatomic, assign) BOOL   isSelected;
+@property (nonatomic, copy) NSString *order_ids;
+@property (nonatomic, copy) NSString *book_price;
+@property (nonatomic, copy) NSString *book_title;
+@property (nonatomic, copy) NSString *book_type;
+@property (nonatomic, copy) NSString *book_receive_people;
+@property (nonatomic, copy) NSString *book_reveive_tel;
+@property (nonatomic, copy) NSString *book_receive_addr;
 
 @end

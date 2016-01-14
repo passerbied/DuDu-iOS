@@ -13,6 +13,12 @@
 {
     UITableView *_tableView;
     CGFloat     _titleWidth;
+    UILabel     *_typeLabel;
+    UILabel     *_priceLabel;
+    UITextField *_titleTextField;
+    UITextField *_addresseeTextField;
+    UITextField *_phoneTextField;
+    UITextField *_areaTextField;
 }
 
 @end
@@ -31,7 +37,7 @@
     _tableView = [[UITableView alloc] initWithFrame:ccr(0,
                                                         NAV_BAR_HEIGHT_IOS7,
                                                         SCREEN_WIDTH,
-                                                        50*8+20*2)];
+                                                        50*6+20*2)];
     _tableView.backgroundColor = COLORRGB(0xffffff);
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
@@ -53,7 +59,7 @@
     if (section==0) {
         return 3;
     } else if (section==1) {
-        return 5;
+        return 3;
     }
     return 0;
 }
@@ -84,7 +90,7 @@
                 break;
             case 1:
                 detailCell.message = @"开票抬头";
-                [detailCell addSubview:[self headTextField]];
+                [detailCell addSubview:[self titleTextField]];
                 break;
             case 2:
                 detailCell.message = @"开票内容";
@@ -104,16 +110,8 @@
                 [detailCell addSubview:[self phoneTextField]];
                 break;
             case 2:
-                detailCell.message = @"所在地区";
+                detailCell.message = @"收件地址";
                 [detailCell addSubview:[self areaTextField]];
-                break;
-            case 3:
-                detailCell.message = @"详细地址";
-                [detailCell addSubview:[self addressTextField]];
-                break;
-            case 4:
-                detailCell.message = @"电子邮件";
-                [detailCell addSubview:[self emailTextField]];
                 break;
             default:
                 break;
@@ -130,15 +128,15 @@
 
 - (void)createSubViews
 {
-    UIButton *submitButton = [UIButton buttonWithImageName:@""
-                                               hlImageName:@""
+    UIButton *submitButton = [UIButton buttonWithImageName:@"orgbtn"
+                                               hlImageName:@"orgbtn_pressed"
                                                      title:@"提交"
                                                 titleColor:COLORRGB(0xffffff)
                                                       font:HSFONT(15)
                                                 onTapBlock:^(UIButton *btn) {
-                                                    
-                                                }];
-    submitButton.backgroundColor = COLORRGB(0xedad49);
+                                                    [self submitBook];
+    }];
+    
     submitButton.frame = ccr(10,
                              CGRectGetMaxY(_tableView.frame)+20,
                              SCREEN_WIDTH-10*2,
@@ -160,131 +158,144 @@
     [self.view addSubview:ruleLabel];
 }
 
+- (void)submitBook
+{
+    self.book.book_title = self.titleTextField.text;
+    self.book.book_type = self.typeLabel.text;
+    self.book.book_receive_people = self.addresseeTextField.text;
+    self.book.book_reveive_tel = self.phoneTextField.text;
+    self.book.book_receive_addr = self.areaTextField.text;
+    
+    [[DuDuAPIClient sharedClient] GET:DEAL_BOOK(self.book.order_ids,
+                                                self.book.book_title,
+                                                self.book.book_receive_people,
+                                                self.book.book_reveive_tel,
+                                                self.book.book_receive_addr)
+                           parameters:nil
+                              success:^(NSURLSessionDataTask *task, id responseObject) {
+                                  [ZBCToast showMessage:@"提交成功"];
+                                  [self.navigationController popViewControllerAnimated:YES];
+                                  if ([self.delegate respondsToSelector:@selector(dealBookSuccess)]) {
+                                      [self.delegate dealBookSuccess];
+                                  }
+                              }
+                              failure:^(NSURLSessionDataTask *task, NSError *error) {
+                              }];
+}
+
 - (UILabel *)priceLabel
 {
-    float number = 50.50;
-    NSString *price = [NSString stringWithFormat:@"%.1f元",number];
-    UILabel *priceLabel = [UILabel labelWithFrame:CGRectZero
-                                            color:COLORRGB(0x000000)
-                                             font:HSFONT(12)
-                                             text:price
-                                        alignment:NSTextAlignmentLeft
-                                    numberOfLines:1];
-    NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:price];
-    NSUInteger priceLength = price.length-1;
-    [priceString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
-                         range:NSMakeRange(0, priceLength)];
-    priceLabel.attributedText = priceString;
-    NSString *title = @"开票金额";
-    CGSize titleSize = [title sizeWithAttributes:@{NSFontAttributeName:priceLabel.font}];
-    _titleWidth = titleSize.width;
-    CGSize priceSize = [priceLabel.text sizeWithAttributes:@{NSFontAttributeName:priceLabel.font}];
-    [priceLabel sizeToFit];
-    priceLabel.frame = ccr(10+titleSize.width+10,
-                           (50-priceSize.height)/2,
-                           priceSize.width,
-                           priceSize.height);
-    return priceLabel;
+    NSString *price = self.book.book_price;
+    if (!_priceLabel) {
+        _priceLabel = [UILabel labelWithFrame:CGRectZero
+                                        color:COLORRGB(0x000000)
+                                         font:HSFONT(12)
+                                         text:price
+                                    alignment:NSTextAlignmentLeft
+                                numberOfLines:1];
+        NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:price];
+        NSUInteger priceLength = price.length-1;
+        [priceString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
+                             range:NSMakeRange(0, priceLength)];
+        _priceLabel.attributedText = priceString;
+        NSString *title = @"开票金额";
+        CGSize titleSize = [title sizeWithAttributes:@{NSFontAttributeName:_priceLabel.font}];
+        _titleWidth = titleSize.width;
+        CGSize priceSize = [_priceLabel.text sizeWithAttributes:@{NSFontAttributeName:_priceLabel.font}];
+        [_priceLabel sizeToFit];
+        _priceLabel.frame = ccr(10+titleSize.width+10,
+                                (50-priceSize.height)/2,
+                                priceSize.width,
+                                priceSize.height);
+    }
+    
+    return _priceLabel;
 }
 
 - (UILabel *)typeLabel
 {
-    UILabel *typeLabel = [UILabel labelWithFrame:CGRectZero
-                                           color:COLORRGB(0x000000)
-                                            font:HSFONT(12)
-                                            text:@"约车服务费"
-                                       alignment:NSTextAlignmentLeft
-                                   numberOfLines:1];
-    CGSize typeSize = [typeLabel.text sizeWithAttributes:@{NSFontAttributeName:typeLabel.font}];
-    [typeLabel sizeToFit];
-    typeLabel.frame = ccr(_titleWidth+10*2,
-                          (50-typeSize.height)/2,
-                          typeSize.width,
-                          typeSize.height);
-    return typeLabel;
+    if (!_typeLabel) {
+        _typeLabel = [UILabel labelWithFrame:CGRectZero
+                                       color:COLORRGB(0x000000)
+                                        font:HSFONT(12)
+                                        text:@"约车服务费"
+                                   alignment:NSTextAlignmentLeft
+                               numberOfLines:1];
+        CGSize typeSize = [_typeLabel.text sizeWithAttributes:@{NSFontAttributeName:_typeLabel.font}];
+        [_typeLabel sizeToFit];
+        _typeLabel.frame = ccr(_titleWidth+10*2,
+                               (50-typeSize.height)/2,
+                               typeSize.width,
+                               typeSize.height);
+    }
+    
+    return _typeLabel;
 }
 
-- (UITextField *)headTextField
+- (UITextField *)titleTextField
 {
-    UITextField *headTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
-                                                                        0,
-                                                                        SCREEN_WIDTH-_titleWidth-10*3,
-                                                                        50)];
-    headTextField.font = HSFONT(12);
-    headTextField.textColor = COLORRGB(0x000000);
-    headTextField.textAlignment = NSTextAlignmentLeft;
-    headTextField.delegate = self;
-    return headTextField;
+    if (!_titleTextField) {
+        _titleTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
+                                                                 0,
+                                                                 SCREEN_WIDTH-_titleWidth-10*3,
+                                                                 50)];
+        _titleTextField.font = HSFONT(12);
+        _titleTextField.textColor = COLORRGB(0x000000);
+        _titleTextField.textAlignment = NSTextAlignmentLeft;
+        _titleTextField.delegate = self;
+    }
+    
+    return _titleTextField;
 }
 
 - (UITextField *)addresseeTextField
 {
-    UITextField *addresseeTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
-                                                                             0,
-                                                                             SCREEN_WIDTH-_titleWidth-10*3,
-                                                                             50)];
-    addresseeTextField.font = HSFONT(12);
-    addresseeTextField.textColor = COLORRGB(0x000000);
-    addresseeTextField.textAlignment = NSTextAlignmentLeft;
-    addresseeTextField.delegate = self;
-    return addresseeTextField;
+    if (!_addresseeTextField) {
+        _addresseeTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
+                                                                     0,
+                                                                     SCREEN_WIDTH-_titleWidth-10*3,
+                                                                     50)];
+        _addresseeTextField.font = HSFONT(12);
+        _addresseeTextField.textColor = COLORRGB(0x000000);
+        _addresseeTextField.textAlignment = NSTextAlignmentLeft;
+        _addresseeTextField.delegate = self;
+    }
+    return _addresseeTextField;
 }
 
 - (UITextField *)phoneTextField
 {
-    UITextField *phoneTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
-                                                                         0,
-                                                                         SCREEN_WIDTH-_titleWidth-10*3,
-                                                                         50)];
-    phoneTextField.font = HSFONT(12);
-    phoneTextField.textColor = COLORRGB(0x000000);
-    phoneTextField.textAlignment = NSTextAlignmentLeft;
-    phoneTextField.delegate = self;
-    return phoneTextField;
+    if (!_phoneTextField) {
+        _phoneTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
+                                                                 0,
+                                                                 SCREEN_WIDTH-_titleWidth-10*3,
+                                                                 50)];
+        _phoneTextField.font = HSFONT(12);
+        _phoneTextField.textColor = COLORRGB(0x000000);
+        _phoneTextField.textAlignment = NSTextAlignmentLeft;
+        _phoneTextField.delegate = self;
+    }
+    
+    return _phoneTextField;
 }
 
 - (UITextField *)areaTextField
 {
-    UITextField *areaTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
-                                                                        0,
-                                                                        SCREEN_WIDTH-_titleWidth-10
-                                                                        *3,
-                                                                        50)];
-    areaTextField.font = HSFONT(12);
-    areaTextField.textColor = COLORRGB(0x000000);
-    areaTextField.textAlignment = NSTextAlignmentLeft;
-    areaTextField.delegate = self;
-    return areaTextField;
+    if (!_areaTextField) {
+        _areaTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
+                                                                0,
+                                                                SCREEN_WIDTH-_titleWidth-10
+                                                                *3,
+                                                                50)];
+        _areaTextField.font = HSFONT(12);
+        _areaTextField.textColor = COLORRGB(0x000000);
+        _areaTextField.textAlignment = NSTextAlignmentLeft;
+        _areaTextField.delegate = self;
+    }
+    
+    return _areaTextField;
 }
 
-- (UITextField *)addressTextField
-{
-    UITextField *addressTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
-                                                                           0,
-                                                                           SCREEN_WIDTH-_titleWidth
-                                                                           -10*3,
-                                                                           50)];
-    addressTextField.font = HSFONT(12);
-    addressTextField.textColor = COLORRGB(0x000000);
-    addressTextField.textAlignment = NSTextAlignmentLeft;
-    addressTextField.placeholder = @"填写详细地址";
-    addressTextField.delegate = self;
-    return addressTextField;
-}
-
-- (UITextField *)emailTextField
-{
-    UITextField *emailTextField = [[UITextField alloc] initWithFrame:ccr(_titleWidth+10*2,
-                                                                         0,
-                                                                         SCREEN_WIDTH-_titleWidth-10*3,
-                                                                         50)];
-    emailTextField.font = HSFONT(12);
-    emailTextField.textColor = COLORRGB(0x000000);
-    emailTextField.textAlignment = NSTextAlignmentLeft;
-    emailTextField.placeholder = @"用于向您发送电子行程单";
-    emailTextField.delegate = self;
-    return emailTextField;
-}
 
 #pragma textField delegate
 

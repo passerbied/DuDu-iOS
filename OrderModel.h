@@ -75,4 +75,6 @@ typedef NS_ENUM(NSUInteger, OrderStatus) {
 @property (nonatomic, copy) NSString *car_brand;
 @property (nonatomic, copy) NSArray  *location;
 
+@property (nonatomic, assign) BOOL isSelected;
+
 @end
