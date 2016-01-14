@@ -11,7 +11,6 @@
 @implementation WalletCell
 {
     UILabel     *_titleLabel;
-    UIImageView *_arrowImage;
     UIImageView *_bottomLine;
 }
 
@@ -37,10 +36,6 @@
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     [self.contentView addSubview:_titleLabel];
     
-    _arrowImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _arrowImage.userInteractionEnabled = YES;
-    [self.contentView addSubview:_arrowImage];
-    
     _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
     _bottomLine.userInteractionEnabled = YES;
     _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
@@ -50,7 +45,6 @@
 - (void)setData
 {
     _titleLabel.text = self.title;
-    _arrowImage.image = IMG(@"arrow_right");
 }
 
 - (void)calculateFrame
@@ -63,7 +57,6 @@
                             (60-titleSize.height)/2,
                             titleSize.width,
                             titleSize.height);
-    _arrowImage.frame = ccr(SCREEN_WIDTH-30-5, (60-30)/2, 30, 30);
     _bottomLine.frame = ccr(0, 60-0.5, SCREEN_WIDTH, 0.5);
 }
 

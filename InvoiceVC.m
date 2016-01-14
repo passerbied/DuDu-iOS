@@ -7,24 +7,24 @@
 //
 
 #import "InvoiceVC.h"
-#import "InvoiceCell.h"
 #import "InvoiceDetailVC.h"
+
+#define SIZE 10
 
 @interface InvoiceVC ()
 {
     ZBCLodingFooter *_loadingFooter;
     UITableView     *_tableView;
-    BOOL            _isSelected;
-    NSMutableArray  *_selects;
-    NSMutableArray  *_images;
-    NSMutableArray  *_prices;
     UILabel         *_totalLabel;
     float           _totalPrice;
     int             _totalRoute;
     NSMutableArray  *_bookList;
+    UIButton        *_selectAllButton;
+    UIButton        *_nextButton;
     BOOL            _loadingMore;
     BOOL            _isAll;
     int             _currentPage;
+    BOOL            _isSelectAll;
 }
 
 @end
@@ -38,15 +38,19 @@
     _loadingFooter =
     [[ZBCLodingFooter alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, 50)];
     _loadingFooter.delegate = self;
+    _bookList = [NSMutableArray array];
     [self createTableView];
-    _selects = [NSMutableArray array];
-    _images = [NSMutableArray array];
-    _prices = [NSMutableArray array];
     [self getBooksForPage:0 isMore:NO];
 }
 
 - (void)getBooksForPage:(int)page isMore:(BOOL)isMore
 {
+    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        [ZBCToast showMessage:@"请先登录"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
     _loadingMore = isMore;
     [_loadingFooter loading];
     _loadingFooter.isLoadMore = isMore;
@@ -60,26 +64,157 @@
     }];
 }
 
+- (void)updateFooter
+{
+    _totalPrice = 0;
+    _totalRoute = 0;
+    for (BookModel *book in _bookList) {
+        if (book.isSelected) {
+            _totalPrice += [book.order_allMoney floatValue];
+            _totalRoute ++;
+        }
+    }
+    if (_totalRoute == _bookList.count) {
+        _isSelectAll = YES;
+        [_selectAllButton setImage:IMG(@"checkbox_yes")
+                          forState:UIControlStateNormal];
+        [_selectAllButton setImage:IMG(@"checkbox_yes")
+                          forState:UIControlStateSelected];
+    } else {
+        _isSelectAll = NO;
+        [_selectAllButton setImage:IMG(@"checkbox_no")
+                          forState:UIControlStateNormal];
+        [_selectAllButton setImage:IMG(@"checkbox_no")
+                          forState:UIControlStateSelected];
+    }
+    
+    _totalLabel.text = [NSString stringWithFormat:@"合计:%.1f元 共%d个行程",_totalPrice,_totalRoute];
+    NSMutableAttributedString *totalString = [[NSMutableAttributedString alloc] initWithString:_totalLabel.text];
+    NSString *priceText = [NSString stringWithFormat:@"%.1f",_totalPrice];
+    NSUInteger priceLength = priceText.length;
+    NSString *numberText = [NSString stringWithFormat:@"%d",_totalRoute];
+    NSUInteger numberLength = numberText.length;
+    NSUInteger numberLocation = _totalLabel.text.length-3-numberLength;
+    [totalString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
+                         range:NSMakeRange(3, priceLength)];
+    [totalString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
+                         range:NSMakeRange(numberLocation, numberLength)];
+    _totalLabel.attributedText = totalString;
+    
+    [_nextButton setEnabled:_totalRoute >= 2];
+}
+
+- (void)selectAllBookDidTaped
+{
+    if (!_isSelectAll) {
+        for (BookModel *book in _bookList) {
+            book.isSelected = YES;
+        }
+    } else {
+        for (BookModel *book in _bookList) {
+            book.isSelected = NO;
+        }
+    }
+    [self updateFooter];
+}
+
 - (void)fetchDataSuccess:(id)responseObject isLoadMore:(BOOL)isMore
 {
     NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-    NSArray *bookArr = dic[@"info"];
+
     if (!isMore) {
         
-        _bookList = [[MTLJSONAdapter modelsOfClass:[BookModel class]
-                                     fromJSONArray:bookArr
-                                             error:nil] mutableCopy];
-        _isAll = _bookList.count == 0;
+        //接口返回数据类型不统一，无法通过MTLJSONAdapter映射到Model，导致这么一大顿体力代码
+        
+//        _bookList = [[MTLJSONAdapter modelsOfClass:[BookModel class]
+//                                     fromJSONArray:dic[@"info"]
+//                                             error:nil] mutableCopy];
+        NSArray *info = [NSArray arrayWithArray:dic[@"info"]];
+        if (info.count) {
+            for (NSDictionary *item in info) {
+                BookModel *book = [[BookModel alloc] init];
+                book.car_style = item[@"car_style"];
+                book.coupon_id = item[@"coupon_id"];
+                book.dest_lat = item[@"dest_lat"];
+                book.dest_lng = item[@"dest_lng"];
+                book.dest_loc_str = item[@"dest_loc_str"];
+                book.driver_status = item[@"driver_status"];
+                book.isbook = item[@"isbook"];
+                book.order_allMoney = item[@"order_allMoney"];
+                book.order_allTime = item[@"order_allTime"];
+                book.order_duration_money = item[@"order_duration_money"];
+                book.order_id = item[@"order_id"];
+                book.order_initiate_rate = item[@"order_initiate_rate"];
+                book.order_mileage = item[@"order_mileage"];
+                book.order_mileage_money = item[@"order_mileage_money"];
+                book.order_payStatus = item[@"order_payStatus"];
+                book.order_status = item[@"order_status"];
+                book.order_time = item[@"order_time"];
+                book.relevance_id = item[@"relevance_id"];
+                book.star_loc_str = item[@"star_loc_str"];
+                book.startTimeStr = item[@"startTimeStr"];
+                book.startTimeType = item[@"startTimeType"];
+                book.start_lat = item[@"start_lat"];
+                book.start_lng = item[@"start_lng"];
+                book.user_id = item[@"user_id"];
+                
+                [_bookList addObject:book];
+            }
+        }
+        _isAll = _bookList.count < SIZE;
+        if (_isAll) {
+            [_loadingFooter loadedAll];
+        }
+        [self updateFooter];
         [_tableView reloadData];
+        _loadingMore = NO;
     } else {
-        NSArray *booklistTemp = [MTLJSONAdapter modelsOfClass:[BookModel class]
-                                           fromJSONArray:bookArr
-                                                   error:nil];
-        _isAll = booklistTemp.count == 0;
-        if (_bookList.count > 0) {
+        
+//        NSArray *booklistTemp = [MTLJSONAdapter modelsOfClass:[BookModel class]
+//                                                fromJSONArray:dic[@"info"]
+//                                                        error:nil];
+        
+        NSMutableArray *booklistTemp = [NSMutableArray array];
+        NSArray *info = [NSArray arrayWithArray:dic[@"info"]];
+        if (info.count) {
+            for (NSDictionary *item in info) {
+                BookModel *book = [[BookModel alloc] init];
+                book.car_style = item[@"car_style"];
+                book.coupon_id = item[@"coupon_id"];
+                book.dest_lat = item[@"dest_lat"];
+                book.dest_lng = item[@"dest_lng"];
+                book.dest_loc_str = item[@"dest_loc_str"];
+                book.driver_status = item[@"driver_status"];
+                book.isbook = item[@"isbook"];
+                book.order_allMoney = item[@"order_allMoney"];
+                book.order_allTime = item[@"order_allTime"];
+                book.order_duration_money = item[@"order_duration_money"];
+                book.order_id = item[@"order_id"];
+                book.order_initiate_rate = item[@"order_initiate_rate"];
+                book.order_mileage = item[@"order_mileage"];
+                book.order_mileage_money = item[@"order_mileage_money"];
+                book.order_payStatus = item[@"order_payStatus"];
+                book.order_status = item[@"order_status"];
+                book.order_time = item[@"order_time"];
+                book.relevance_id = item[@"relevance_id"];
+                book.star_loc_str = item[@"star_loc_str"];
+                book.startTimeStr = item[@"startTimeStr"];
+                book.startTimeType = item[@"startTimeType"];
+                book.start_lat = item[@"start_lat"];
+                book.start_lng = item[@"start_lng"];
+                book.user_id = item[@"user_id"];
+                
+                [booklistTemp addObject:book];
+            }
+        }
+        _isAll = booklistTemp.count < SIZE;
+        if (_isAll) {
+            [_loadingFooter loadedAll];
+        }
+        if (booklistTemp.count > 0) {
             [_tableView beginUpdates];
             NSMutableArray *indexs = [NSMutableArray array];
-            [_bookList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [booklistTemp enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 [indexs addObject:[NSIndexPath indexPathForRow:_bookList.count + idx
                                                      inSection:0]];
             }];
@@ -88,6 +223,8 @@
             [_bookList addObjectsFromArray:booklistTemp];
             [_tableView endUpdates];
         }
+        _loadingMore = NO;
+        [self updateFooter];
     }
     
 }
@@ -102,8 +239,8 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = COLORRGB(0xffffff);
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.tableHeaderView = [self loadHeaderView];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+//    _tableView.tableHeaderView = [self loadHeaderView];
     _tableView.tableFooterView = _loadingFooter;
     [self.view addSubview:_tableView];
     [self.view addSubview:[self loadFooterView]];
@@ -139,18 +276,13 @@
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectZero];
     footerView.backgroundColor = COLORRGB(0xf0f0f0);
     
-    UIImageView *selectAllImage = [[UIImageView alloc] initWithFrame:ccr(20, 10, 16, 16)];
-    selectAllImage.backgroundColor = COLORRGB(0xedad49);
-    selectAllImage.userInteractionEnabled = YES;
-    [footerView addSubview:selectAllImage];
-    
-    UIButton *selectAllButton = [UIButton buttonWithImageName:@""
-                                                  hlImageName:@""
-                                                   onTapBlock:^(UIButton *btn) {
-                                                       
-                                                   }];
-    selectAllButton.frame = selectAllImage.frame;
-    [footerView addSubview:selectAllButton];
+    _selectAllButton = [UIButton buttonWithImageName:@"checkbox_no"
+                                         hlImageName:@"checkbox_no"
+                                          onTapBlock:^(UIButton *btn) {
+                                              [self selectAllBookDidTaped];
+                                          }];
+    _selectAllButton.frame = ccr(20, 10, 16, 16);
+    [footerView addSubview:_selectAllButton];
     
     UILabel *selectAllLabel = [UILabel labelWithFrame:CGRectZero
                                                 color:COLORRGB(0x000000)
@@ -160,16 +292,16 @@
                                         numberOfLines:1];
     CGSize allSize = [selectAllLabel.text sizeWithAttributes:@{NSFontAttributeName:selectAllLabel.font}];
     [selectAllLabel sizeToFit];
-    selectAllLabel.frame = ccr(CGRectGetMaxX(selectAllImage.frame)+10,
-                               selectAllImage.origin.y,
+    selectAllLabel.frame = ccr(CGRectGetMaxX(_selectAllButton.frame)+10,
+                               _selectAllButton.origin.y,
                                allSize.width,
                                allSize.height);
     [footerView addSubview:selectAllLabel];
     
     UILabel *introdceLabel = [UILabel labelWithFrame:CGRectZero
-                                               color:COLORRGB(0xd7d7d7)
+                                               color:COLORRGB(0x000000)
                                                 font:HSFONT(11)
-                                                text:@"可开额度50.50元,满200.00元包邮"
+                                                text:@"需要至少选择5条行程才能开发票"
                                            alignment:NSTextAlignmentRight
                                        numberOfLines:1];
     CGSize introSize = [self getTextFromLabel:introdceLabel];
@@ -179,51 +311,39 @@
                               introSize.height);
     [footerView addSubview:introdceLabel];
     
-    UIButton *nextButton = [UIButton buttonWithImageName:@""
-                                             hlImageName:@""
-                                                   title:@"下一步"
-                                              titleColor:COLORRGB(0xffffff)
-                                                    font:HSFONT(15)
-                                              onTapBlock:^(UIButton *btn) {
-                                                  [self didClickNextButtonAction];
-                                              }];
-    nextButton.frame = ccr(SCREEN_WIDTH-20-150,
-                           CGRectGetMaxY(introdceLabel.frame)+10,
-                           150,
-                           50);
-    nextButton.backgroundColor = COLORRGB(0xedad49);
-    [footerView addSubview:nextButton];
+    _nextButton = [UIButton buttonWithImageName:@"orgbtn"
+                                    hlImageName:@"orgbtn_pressed"
+                              DisabledImageName:@"commbtn"
+                                          title:@"下一步"
+                                     titleColor:COLORRGB(0xffffff)
+                                           font:HSFONT(15)
+                             disabledTitleColor:COLORRGB(0xffffff)
+                                     onTapBlock:^(UIButton *btn) {
+                                         [self didClickNextButtonAction];
+                                     }];
+    _nextButton.frame = ccr(SCREEN_WIDTH-20-120,
+                            CGRectGetMaxY(introdceLabel.frame)+10,
+                            120,
+                            40);
+    [_nextButton setEnabled:NO];
+    [footerView addSubview:_nextButton];
     
-    _totalPrice = 0;
-    _totalRoute = 0;
-    _totalLabel = [UILabel labelWithFrame:CGRectZero
+    _totalLabel = [UILabel labelWithFrame:ccr(_selectAllButton.origin.x,
+                                              _nextButton.origin.y+(_nextButton.height-20)/2,
+                                              SCREEN_WIDTH-_selectAllButton.origin.x-_nextButton.width-10-20,
+                                              20)
                                     color:COLORRGB(0x000000)
                                      font:HSFONT(12)
-                                     text:[NSString stringWithFormat:@"合计:%.1f元 共%d个行程",_totalPrice,_totalRoute]
+                                     text:@""
                                 alignment:NSTextAlignmentLeft
                             numberOfLines:1];
-    NSMutableAttributedString *totalString = [[NSMutableAttributedString alloc] initWithString:_totalLabel.text];
-    NSString *priceText = [NSString stringWithFormat:@"%.1f",_totalPrice];
-    NSUInteger priceLength = priceText.length;
-    NSString *numberText = [NSString stringWithFormat:@"%d",_totalRoute];
-    NSUInteger numberLength = numberText.length;
-    NSUInteger numberLocation = _totalLabel.text.length-3-numberLength;
-    [totalString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
-                         range:NSMakeRange(3, priceLength)];
-    [totalString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
-                                 range:NSMakeRange(numberLocation, numberLength)];
-    _totalLabel.attributedText = totalString;
-    CGSize totalSize = [self getTextFromLabel:_totalLabel];
-    _totalLabel.frame = ccr(selectAllImage.origin.x,
-                           nextButton.origin.y+(nextButton.height-totalSize.height)/2,
-                           SCREEN_WIDTH-selectAllImage.origin.x-nextButton.width-10-20,
-                           totalSize.height);
     [footerView addSubview:_totalLabel];
-    CGFloat footHeight = CGRectGetMaxY(nextButton.frame)+10;
+    CGFloat footHeight = CGRectGetMaxY(_nextButton.frame)+10;
     footerView.frame = ccr(0,
                            SCREEN_HEIGHT-footHeight,
                            SCREEN_WIDTH,
-                           footHeight);
+                           footHeight
+                           );
     return footerView;
 }
 
@@ -245,6 +365,7 @@
     InvoiceCell *invoiceCell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!invoiceCell) {
         invoiceCell = [[InvoiceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        invoiceCell.delegate = self;
     }
     [self configureCell:invoiceCell atIndexPath:indexPath];
     CGRect frame = [invoiceCell calculateFrame];
@@ -260,53 +381,31 @@
         invoiceCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [self configureCell:invoiceCell atIndexPath:indexPath];
-    [_images addObject:invoiceCell.selectImage];
-    NSNumber *n = [NSNumber numberWithFloat:invoiceCell.price];
-    [_prices addObject:n];
-    BOOL isSelected = NO;
-    NSNumber *s = [NSNumber numberWithBool:isSelected];
-    [_selects addObject:s];
     return invoiceCell;
 }
 
 - (void)configureCell:(InvoiceCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     BookModel *book = _bookList[indexPath.row];
-    cell.date = @"10月27日";
-    cell.startTime = @"11:03";
-    cell.endTime = @"11:26";
-    cell.price = 20.90;
-    cell.startSite = @"沙河口区春柳河公交站";
-    cell.endSite = @"大连软件园15号楼";
+    cell.date = book.order_time;
+    NSDate *start = [NSDate dateWithTimeIntervalSince1970:[book.startTimeStr floatValue]];
+    cell.startTime = [start displayWithFormat:@"d号H点mm分"];
+    cell.price = book.order_allMoney;
+    cell.startSite = book.star_loc_str;
+    cell.endSite = book.dest_loc_str;
+    cell.isSelected = book.isSelected;
 }
 
 #pragma mark - tableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    for (int i=0; i<_images.count; i++) {
-//        if (i==indexPath.row) {
-            UIImageView *image = _images[indexPath.row];
-            BOOL isSelected = [_selects[indexPath.row] boolValue];
-            if (!isSelected) {
-                image.backgroundColor = COLORRGB(0xedad49);
-                isSelected = YES;
-                _totalRoute+=1;
-                _totalPrice+=[_prices[indexPath.row] floatValue];
-            } else {
-                image.backgroundColor = COLORRGB(0xd7d7d7);
-                isSelected = NO;
-                _totalRoute-=1;
-                _totalPrice-=[_prices[indexPath.row] floatValue];
-            }
-            _selects[indexPath.row] = [NSNumber numberWithBool:isSelected];
-            _images[indexPath.row] = image;
-            if (_totalPrice==-0) {
-                _totalPrice = 0;
-            }
-            _totalLabel.text = [NSString stringWithFormat:@"合计:%.1f元 共%d个行程",_totalPrice,_totalRoute];
-//        }
-//    }
+    InvoiceCell *invoiceCell = (InvoiceCell *)[tableView cellForRowAtIndexPath:indexPath];
+    BookModel *book = _bookList[indexPath.row];
+    book.isSelected = !invoiceCell.isSelected;
+    [_bookList setObject:book atIndexedSubscript:indexPath.row];
+    [invoiceCell calculateFrame];
+    [self updateFooter];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -315,6 +414,8 @@
         if(!_isAll)
         {
             [self getBooksForPage:_currentPage+1 isMore:YES];
+        } else {
+            [_loadingFooter loadedAll];
         }
     }
 }
@@ -333,8 +434,16 @@
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+#pragma mark - InvoiceCellDelegate
+
+- (void)invoiceCell:(InvoiceCell *)cell didChecked:(BOOL)checked
+{
+    NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
+    BookModel *book = _bookList[indexPath.row];
+    book.isSelected = checked;
+    [_bookList setObject:book atIndexedSubscript:indexPath.row];
+    [cell calculateFrame];
+    [self updateFooter];
 }
 
 @end

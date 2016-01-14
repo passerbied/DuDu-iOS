@@ -42,7 +42,7 @@
 }
 
 + (NSString *)managedObjectEntityName {
-    return @"CouponModel";
+    return @"BookModel";
 }
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {

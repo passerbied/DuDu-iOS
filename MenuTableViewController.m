@@ -147,7 +147,7 @@
         cell.title = @"我的行程";
     } else if (indexPath.row == 1) {
         cell.iconImage.image = IMG(@"tiny_coupon");
-        cell.title = @"优惠券";
+        cell.title = @"我的钱包";
         [cell addSubview:[self walletLabel]];
     } else if (indexPath.row == 2) {
         cell.iconImage.image = IMG(@"tiny_shared");
@@ -173,12 +173,9 @@
         myRouteVC.title = @"我的行程";
         [self.navigationController pushViewController:myRouteVC animated:YES];
     } else if (indexPath.row == 1) {
-//        MyWalletVC *myWalletVC = [[MyWalletVC alloc] init];
-//        myWalletVC.title = @"优惠券";
-//        [self.navigationController pushViewController:myWalletVC animated:YES];
-        CouponVC *couponVC = [[CouponVC alloc] init];
-        couponVC.title = @"我的优惠券";
-        [self.navigationController pushViewController:couponVC animated:YES];
+        MyWalletVC *myWalletVC = [[MyWalletVC alloc] init];
+        myWalletVC.title = @"优惠券";
+        [self.navigationController pushViewController:myWalletVC animated:YES];
     } else if (indexPath.row == 2) {
         RecommendVC *recommendVC = [[RecommendVC alloc] init];
         recommendVC.title = @"推荐有奖";
