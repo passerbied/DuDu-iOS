@@ -10,12 +10,13 @@
 
 @implementation InvoiceCell
 {
+    UIButton    *_checkBoxBtn;
     UILabel     *_routeInforLabel;
     UIImageView *_startSiteImage;
     UIImageView *_endSiteImage;
     UILabel     *_startSiteLabel;
     UILabel     *_endSiteLabel;
-    UIImageView *_bottomLine;
+    UILabel     *_priceLabel;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -29,7 +30,21 @@
 
 - (void)createSubViews
 {
-    _routeInforLabel = [UILabel labelWithFrame:CGRectZero
+    _checkBoxBtn = [UIButton buttonWithImageName:@"checkbox_no"
+                                     hlImageName:@"checkbox_no"
+                                      onTapBlock:^(UIButton *btn) {
+                                         if ([self.delegate respondsToSelector:@selector(invoiceCell:didChecked:)]) {
+                                             self.isSelected = !self.isSelected;
+                                             [self.delegate invoiceCell:self
+                                                             didChecked:self.isSelected];
+                                         }
+    }];
+    [self.contentView addSubview:_checkBoxBtn];
+    
+    _routeInforLabel = [UILabel labelWithFrame:ccr(16+16+10,
+                                                   10,
+                                                   SCREEN_WIDTH-32-10-10,
+                                                   20)
                                          color:COLORRGB(0x000000)
                                           font:HSFONT(12)
                                           text:@""
@@ -37,16 +52,18 @@
                                  numberOfLines:1];
     [self.contentView addSubview:_routeInforLabel];
     
-    self.selectImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.selectImage.userInteractionEnabled = YES;
-    self.selectImage.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.contentView addSubview:self.selectImage];
-    
-    _startSiteImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _startSiteImage = [[UIImageView alloc] initWithFrame:ccr(_routeInforLabel.origin.x,
+                                                             CGRectGetMaxY(_routeInforLabel.frame)+5,
+                                                             16,
+                                                             16)];
     _startSiteImage.userInteractionEnabled = YES;
     [self.contentView addSubview:_startSiteImage];
     
-    _startSiteLabel = [UILabel labelWithFrame:CGRectZero
+    _startSiteLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(_startSiteImage.frame)+5,
+                                                  _startSiteImage.origin.y,
+                                                  SCREEN_WIDTH-CGRectGetMaxX(_startSiteImage.frame)-5-20,
+                                                  16
+                                                  )
                                         color:COLORRGB(0x000000)
                                          font:HSFONT(12)
                                          text:@""
@@ -54,74 +71,79 @@
                                 numberOfLines:1];
     [self.contentView addSubview:_startSiteLabel];
     
-    _endSiteImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _endSiteImage = [[UIImageView alloc] initWithFrame:ccr(_startSiteImage.origin.x,
+                                                           CGRectGetMaxY(_startSiteImage.frame)+5,
+                                                           _startSiteImage.width,
+                                                           _startSiteImage.height)];
     _endSiteImage.userInteractionEnabled = YES;
     [self.contentView addSubview:_endSiteImage];
     
-    _endSiteLabel = [UILabel labelWithFrame:CGRectZero
+    _endSiteLabel = [UILabel labelWithFrame:ccr(_startSiteLabel.origin.x,
+                                                CGRectGetMaxY(_startSiteLabel.frame)+5,
+                                                _startSiteLabel.width,
+                                                _startSiteLabel.height
+                                                )
                                       color:COLORRGB(0x000000)
                                        font:HSFONT(12)
                                        text:@""
                                   alignment:NSTextAlignmentLeft
                               numberOfLines:1];
+    
     [self.contentView addSubview:_endSiteLabel];
     
-    _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.contentView addSubview:_bottomLine];
+    CGRect cellFrame = ccr(0,
+                           0,
+                           SCREEN_WIDTH,
+                           CGRectGetMaxY(_endSiteLabel.frame)+10
+                           );
+    _checkBoxBtn.frame = ccr(16, _startSiteImage.y, 16, 16);
+    
+    _priceLabel = [UILabel labelWithFrame:ccr(
+                                              SCREEN_WIDTH-80-10,
+                                              _startSiteImage.y,
+                                              80,
+                                              16
+                                              )
+                                    color:COLORRGB(0xff8830)
+                                     font:HSFONT(15)
+                                     text:@""
+                                alignment:NSTextAlignmentRight
+                            numberOfLines:1];
+    [self.contentView addSubview:_priceLabel];
+    
+    self.frame = cellFrame;
 }
 
 - (void)setData
 {
-    _routeInforLabel.text = [NSString stringWithFormat:@"%@ %@-%@ 车费%.1f元",self.date,self.startTime,self.endTime,self.price];
+    _routeInforLabel.text = self.startTime;
+    _priceLabel.text = [NSString stringWithFormat:@"¥ %@",self.price];
+    
+//    NSString *infor = _routeInforLabel.text;
+//    NSMutableAttributedString *inforString = [[NSMutableAttributedString alloc] initWithString:infor];
+//    NSUInteger priceLength = self.price.length;
+//    NSUInteger priceLocation = infor.length-1-priceLength;
+//    [inforString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
+//                         range:NSMakeRange(priceLocation, priceLength)];
+//    _routeInforLabel.attributedText = inforString;
+    
     _startSiteImage.image = IMG(@"tiny_circle_green");
     _endSiteImage.image = IMG(@"tiny_circle_red");
     _startSiteLabel.text = self.startSite;
     _endSiteLabel.text = self.endSite;
+    if (self.isSelected) {
+        [_checkBoxBtn setImage:IMG(@"checkbox_yes") forState:UIControlStateNormal];
+        [_checkBoxBtn setImage:IMG(@"checkbox_yes") forState:UIControlStateSelected];
+    } else {
+        [_checkBoxBtn setImage:IMG(@"checkbox_no") forState:UIControlStateNormal];
+        [_checkBoxBtn setImage:IMG(@"checkbox_no") forState:UIControlStateSelected];
+    }
 }
 
 - (CGRect)calculateFrame
 {
     [self setData];
-    NSString *price = [NSString stringWithFormat:@"%.1f",self.price];
-    NSString *infor = _routeInforLabel.text;
-    NSMutableAttributedString *inforString = [[NSMutableAttributedString alloc] initWithString:infor];
-    NSUInteger priceLength = price.length;
-    NSUInteger priceLocation = infor.length-1-priceLength;
-    [inforString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
-                         range:NSMakeRange(priceLocation, priceLength)];
-    _routeInforLabel.attributedText = inforString;
-    CGSize inforSize = [self getTextFromLabel:_routeInforLabel];
-    self.selectImage.frame = ccr(20, (self.height-20)/2, 16, 16);
-    _routeInforLabel.frame = ccr(CGRectGetMaxX(self.selectImage.frame)+10,
-                                 10,
-                                 SCREEN_WIDTH-CGRectGetMaxX(self.selectImage.frame)-10-10,
-                                 inforSize.height);
-    _startSiteImage.frame = ccr(_routeInforLabel.origin.x,
-                                CGRectGetMaxY(_routeInforLabel.frame)+5,
-                                16,
-                                16);
-    CGSize startSiteSize = [self getTextFromLabel:_startSiteLabel];
-    _startSiteLabel.frame = ccr(CGRectGetMaxX(_startSiteImage.frame)+5,
-                                _startSiteImage.origin.y,
-                                SCREEN_WIDTH-CGRectGetMaxX(_startSiteImage.frame)-5-20,
-                                startSiteSize.height);
-    _endSiteImage.frame = ccr(_startSiteImage.origin.x,
-                              CGRectGetMaxY(_startSiteImage.frame)+5,
-                              _startSiteImage.width,
-                              _startSiteImage.height);
-    CGSize endSiteSize = [self getTextFromLabel:_endSiteLabel];
-    _endSiteLabel.frame = ccr(_startSiteLabel.origin.x,
-                              CGRectGetMaxY(_startSiteLabel.frame)+5,
-                              _startSiteLabel.width,
-                              endSiteSize.height);
-    _bottomLine.frame = ccr(0, CGRectGetMaxY(_endSiteLabel.frame)+10-0.5, SCREEN_WIDTH, 0.5);
-    
-    CGRect cellFrame = ccr(0,
-                           0,
-                           SCREEN_WIDTH,
-                           CGRectGetMaxY(_bottomLine.frame));
-    return cellFrame;
+    return self.frame;
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label

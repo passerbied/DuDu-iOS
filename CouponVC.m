@@ -44,6 +44,7 @@
 {
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
+        [self.navigationController popViewControllerAnimated:YES];
         return;
     }
     [[DuDuAPIClient sharedClient] GET:USER_COUPON_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -110,7 +111,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.delegate respondsToSelector:@selector(couponVC:didSelectCouponIndex:)]) {
-        [self.delegate couponVC:self didSelectCouponIndex:indexPath.row];
+        [self.delegate couponVC:self didSelectCouponIndex:(int)indexPath.row];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

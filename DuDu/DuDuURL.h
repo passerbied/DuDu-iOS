@@ -64,7 +64,7 @@
 #define ORDER_EVALUATE(evaluate_level, order_id)        [NSString stringWithFormat:@"/order/evaluate?evaluate_level=%d&order_id=%@",evaluate_level, order_id]
 
 //发票
-#define BOOK_ORDER_LIST(page)           [NSString stringWithFormat:@"book-order-list?page=%d",page]
+#define BOOK_ORDER_LIST(page)           [NSString stringWithFormat:@"/user/book-order-list?page=%d",page]
 
 //检查更新（返回车型列表）
 #define CHECK_VERSION                   @"/exam/check-version"

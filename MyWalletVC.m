@@ -32,7 +32,7 @@
     _tableView = [[UITableView alloc] initWithFrame:ccr(0,
                                                         NAV_BAR_HEIGHT_IOS7+50,
                                                         SCREEN_WIDTH,
-                                                        180)];
+                                                        120)];
     _tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     _tableView.backgroundColor = COLORRGB(0xffffff);
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -65,6 +65,7 @@
     WalletCell *walletCell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!walletCell) {
         walletCell = [[WalletCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        walletCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     if (indexPath.row == 0) {
         walletCell.iconImage.image = IMG(@"tiny_bill");
@@ -74,8 +75,8 @@
         walletCell.title = @"优惠券";
     }
     else {
-        walletCell.iconImage.image = IMG(@"tiny_shared");
-        walletCell.title = @"余额";
+//        walletCell.iconImage.image = IMG(@"tiny_shared");
+//        walletCell.title = @"余额";
     }
     return walletCell;
 }

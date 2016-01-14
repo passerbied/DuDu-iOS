@@ -15,4 +15,5 @@
 
 @property (nonatomic, strong) UserModel *userInfo;
 @property (nonatomic, strong) CouponStore *coupons;
+@property (nonatomic, assign) BOOL isUserChanged;
 @end

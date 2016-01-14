@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "ZBCLodingFooter.h"
 #import "BookModel.h"
+#import "InvoiceCell.h"
 
-@interface InvoiceVC : UIViewController
+@interface InvoiceVC : BaseViewController
 <UITableViewDataSource,
 UITableViewDelegate,
-ZBCLodingFooterDelegate>
+ZBCLodingFooterDelegate,
+InvoiceCellDelegate>
 
 
 

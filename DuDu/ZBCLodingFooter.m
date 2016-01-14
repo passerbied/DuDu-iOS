@@ -23,7 +23,7 @@
         self.textColor = COLORRGB(0x929292);
         self.textAlignment = NSTextAlignmentCenter;
         self.userInteractionEnabled = YES;
-        self.text = LocalStr(@"label_loading");
+        self.text = @"正在加载...";
         
         _activity=
         [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -41,7 +41,7 @@
                                        onTapBlock:^(UIButton *btn) {
                                            [_activity startAnimating];
                                            _activity.alpha = 1;
-                                           self.text = LocalStr(@"label_loading");
+                                           self.text = @"正在加载...";
                                            _retryBtn.alpha = 0;
                                            if ([self.delegate respondsToSelector:@selector(retryFetching:)]) {
                                                [self.delegate retryFetching:self.isLoadMore];
@@ -57,7 +57,7 @@
 {
     _activity.alpha = 1;
     [_activity startAnimating];
-    self.text = LocalStr(@"label_loading");
+    self.text = @"正在加载...";
     _retryBtn.alpha = 0;
 }
 
@@ -73,7 +73,7 @@
 {
     [_activity stopAnimating];
     _activity.alpha = 0;
-    self.text = LocalStr(@"label_load_faild");
+    self.text = @"加载失败";
     _retryBtn.alpha = 1;
 }
 
@@ -81,7 +81,7 @@
 {
     [_activity stopAnimating];
     _activity.alpha = 0;
-    self.text = LocalStr(@"label_load_all");
+    self.text = @"";
     _retryBtn.alpha = 0;
 }
 

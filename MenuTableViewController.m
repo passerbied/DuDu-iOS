@@ -50,7 +50,7 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    if (!self.userInfo) {
+    if (!self.userInfo || !self.isUserChanged) {
         [self getUserInfo];
     }
     
@@ -147,7 +147,7 @@
         cell.title = @"我的行程";
     } else if (indexPath.row == 1) {
         cell.iconImage.image = IMG(@"tiny_coupon");
-        cell.title = @"优惠券";
+        cell.title = @"我的钱包";
         [cell addSubview:[self walletLabel]];
     } else if (indexPath.row == 2) {
         cell.iconImage.image = IMG(@"tiny_shared");
@@ -173,12 +173,9 @@
         myRouteVC.title = @"我的行程";
         [self.navigationController pushViewController:myRouteVC animated:YES];
     } else if (indexPath.row == 1) {
-//        MyWalletVC *myWalletVC = [[MyWalletVC alloc] init];
-//        myWalletVC.title = @"优惠券";
-//        [self.navigationController pushViewController:myWalletVC animated:YES];
-        CouponVC *couponVC = [[CouponVC alloc] init];
-        couponVC.title = @"我的优惠券";
-        [self.navigationController pushViewController:couponVC animated:YES];
+        MyWalletVC *myWalletVC = [[MyWalletVC alloc] init];
+        myWalletVC.title = @"优惠券";
+        [self.navigationController pushViewController:myWalletVC animated:YES];
     } else if (indexPath.row == 2) {
         RecommendVC *recommendVC = [[RecommendVC alloc] init];
         recommendVC.title = @"推荐有奖";
@@ -199,12 +196,12 @@
     UILabel *walletLabel = [UILabel labelWithFrame:CGRectZero
                                              color:COLORRGB(0xd7d7d7)
                                               font:HSFONT(12)
-                                              text:@""//@"券、发票、余额"
+                                              text:@"券、发票"
                                          alignment:NSTextAlignmentRight
                                      numberOfLines:1];
     CGSize walletSize = [walletLabel.text sizeWithAttributes:@{NSFontAttributeName:walletLabel.font}];
     [walletLabel sizeToFit];
-    walletLabel.frame = ccr(SCREEN_WIDTH-20-walletSize.width,
+    walletLabel.frame = ccr(SCREEN_WIDTH-30-walletSize.width,
                             (60-walletSize.height)/2,
                             walletSize.width,
                             walletSize.height);

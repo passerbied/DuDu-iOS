@@ -102,9 +102,9 @@
             [self.delegate addressPicker:self fromAddress:nil toAddress:poi];
         }
     }
-    if ([self.delegate respondsToSelector:@selector(addressPicker:didSelectedAddress:)]) {
-        [self.delegate addressPicker:self didSelectedAddress:poi];
-    }
+//    if ([self.delegate respondsToSelector:@selector(addressPicker:didSelectedAddress:)]) {
+//        [self.delegate addressPicker:self didSelectedAddress:poi];
+//    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
