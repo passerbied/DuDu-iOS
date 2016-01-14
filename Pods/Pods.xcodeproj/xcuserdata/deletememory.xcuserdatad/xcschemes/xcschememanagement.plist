@@ -19,6 +19,11 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>EDStarRating.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 		<key>HTAutocompleteTextField.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -28,6 +33,11 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>5</integer>
+		</dict>
+		<key>Mantle.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
@@ -77,6 +87,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>426BC4549A625B5E1E4200D5261A98BF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>44387EBC949E8899C4706A0DE9B5D6C6</key>
 		<dict>
 			<key>primary</key>
@@ -97,12 +112,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8AF9F12D3DACF29116BEEBD4966C856F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8F92AB6DEFFF61E08D86B03365A4F4AA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>9BEE5F063D739BF8536958FD76629434</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A496BEB92DEFB17901E6E062756B1B73</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>A98C9E866A704D1BB209B8140C5DE551</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AD9713EA784234E82C46DBF4DDC26FB5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -133,6 +168,16 @@
 			<true/>
 		</dict>
 		<key>EF5E2CC4103F2E84030B7718B43A9FCD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F34E7B5CB818D08A67374323AD24ADBB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F37FCE1C80A57B89ACB93712F92F6CA7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
