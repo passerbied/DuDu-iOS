@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32B07AEF1C48EA650014D0C9 /* ValuationRuleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B07AEE1C48EA650014D0C9 /* ValuationRuleVC.m */; };
 		32F039F61C0C9A9C00A2C4BD /* RouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039F51C0C9A9C00A2C4BD /* RouteCell.m */; };
 		32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039F91C0CA95000A2C4BD /* MyRouteVC.m */; };
 		32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */; };
@@ -142,6 +143,8 @@
 
 /* Begin PBXFileReference section */
 		07B21FC550B7DA0ECD623690 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		32B07AED1C48EA640014D0C9 /* ValuationRuleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleVC.h; sourceTree = "<group>"; };
+		32B07AEE1C48EA650014D0C9 /* ValuationRuleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleVC.m; sourceTree = "<group>"; };
 		32F039F41C0C9A9B00A2C4BD /* RouteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteCell.h; sourceTree = "<group>"; };
 		32F039F51C0C9A9C00A2C4BD /* RouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteCell.m; sourceTree = "<group>"; };
 		32F039F81C0CA95000A2C4BD /* MyRouteVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRouteVC.h; sourceTree = "<group>"; };
@@ -388,6 +391,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32B07AEC1C48E9520014D0C9 /* 计价规则Controller */ = {
+			isa = PBXGroup;
+			children = (
+				32B07AED1C48EA640014D0C9 /* ValuationRuleVC.h */,
+				32B07AEE1C48EA650014D0C9 /* ValuationRuleVC.m */,
+			);
+			name = "计价规则Controller";
+			sourceTree = "<group>";
+		};
 		32F039F71C0CA8DA00A2C4BD /* 我的行程Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -593,6 +605,7 @@
 				32F03A031C0DA18400A2C4BD /* 我的钱包Controller */,
 				32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */,
 				32F03A221C0EE45D00A2C4BD /* 设置Controller */,
+				32B07AEC1C48E9520014D0C9 /* 计价规则Controller */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1272,6 +1285,7 @@
 				486F52751BEE08140043874E /* NSArray+Additions.m in Sources */,
 				32F03A0F1C0E0EFF00A2C4BD /* WalletCell.m in Sources */,
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
+				32B07AEF1C48EA650014D0C9 /* ValuationRuleVC.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
 				32F03A6F1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m in Sources */,
 				32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */,

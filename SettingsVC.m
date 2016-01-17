@@ -10,6 +10,7 @@
 #import "SettingCell.h"
 #import "AddressVC.h"
 #import "APService.h"
+#import "ValuationRuleVC.h"
 
 @interface SettingsVC ()
 {
@@ -110,7 +111,9 @@
     } else if (indexPath.row==2) {
         
     } else if (indexPath.row==3) {
-        
+        ValuationRuleVC *ruleVC = [[ValuationRuleVC alloc] init];
+        ruleVC.title = @"计价规则";
+        [self.navigationController pushViewController:ruleVC animated:YES];
     } else {
         [[UIActionSheet
           actionSheetWithTitle:@"是否退出登录"
