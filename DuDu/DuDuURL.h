@@ -69,7 +69,8 @@
 //开发票
 #define DEAL_BOOK(ids, receipt_title, receipt_recipients, receipt_telephone, receipt_address)     [NSString stringWithFormat:@"/user/deal-book?ids=%@&receipt_title=%@&receipt_recipients=%@&receipt_telephone=%@&receipt_address=%@",ids, receipt_title, receipt_recipients, receipt_telephone, receipt_address]
 
-
+//统一下单
+#define ORDER_WX_PAY(order_id) [NSString stringWithFormat:@"/order/wx-pay?order_id=%@",order_id]
 
 //检查更新（返回车型列表）
 #define CHECK_VERSION                   @"/exam/check-version"
@@ -95,6 +96,7 @@
 #define Weixin_App_ID                   @"wx3141b44ce382fb8c"
 #define Weixin_App_Secret               @"3a3570fca9d350e015b304fc19e4a5e2"
 #define Weixin_RedirectUrl              ADD(BASE_URL,@"auth/weixin/callback")
+#define SPKEY                           @"daliandachesoftapppasswrod123456"
 
 //高徳MAP_KEY
 #define AMAP_KEY @"d42442167ce54d6fe790fdb161bb96f6"

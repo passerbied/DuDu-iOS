@@ -10,6 +10,9 @@
 #import "CheckDetailVC.h"
 #import "WXApiRequestHandler.h"
 #import "WXApiManager.h"
+#import "WXUtil.h"
+#import "WXApi.h"
+#import "payRequsestHandler.h"
 
 @interface RouteDetailVC ()<WXApiManagerDelegate>
 {
@@ -51,7 +54,8 @@
 
 @implementation RouteDetailVC
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xffffff);
     [self createSubViews];
@@ -594,12 +598,126 @@
 
 - (void)wechatPay
 {
-    NSString *res = [WXApiRequestHandler jumpToBizPay];
+    NSString *res = @"";
+    [self jumpToBizPay];
     if( ![@"" isEqual:res] ){
         UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:res delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alter show];
     }
+}
+
+- (void)jumpToBizPay
+{
+    [[DuDuAPIClient sharedClient] GET:ORDER_WX_PAY(self.orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        if ([dic[@"err"] intValue] == 0){
+            time_t now;
+            time(&now);
+            NSString *timeString = [NSString stringWithFormat:@"%ld", now];
+            //调起微信支付
+            PayReq* req             = [[PayReq alloc] init];
+            req.partnerId           = dic[@"info"][@"mch_id"];
+            req.prepayId            = dic[@"info"][@"prepay_id"];
+            req.nonceStr            = dic[@"info"][@"nonce_str" ];
+            req.timeStamp           = [timeString intValue];
+            req.package             = dic[@"info"][@"package"]?dic[@"info"][@"package"]:@"Sign=WXPay";
+            
+            NSMutableDictionary *signParams = [NSMutableDictionary dictionary];
+            [signParams setObject: dic[@"info"][@"appid"]        forKey:@"appid"];
+            [signParams setObject: req.nonceStr    forKey:@"noncestr"];
+            [signParams setObject: req.package      forKey:@"package"];
+            [signParams setObject: req.partnerId        forKey:@"partnerid"];
+            [signParams setObject: timeString   forKey:@"timestamp"];
+            [signParams setObject: req.prepayId     forKey:@"prepayid"];
+            
+            req.sign                = [self createMd5Sign:signParams];
+            [WXApi sendReq:req];
+            //日志输出
+            NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",dic[@"info"][@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
+        } else{
+            [ZBCToast showMessage:dic[@"info"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    }];
+//    NSString *urlString   = ADD(BASE_URL,[Utils urlWithToken:ORDER_WX_PAY(self.orderInfo.order_id)]);
+//    //解析服务端返回json数据
+//    NSError *error;
+//    //加载一个NSURL对象
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+//    //将请求的url数据放到NSData对象中
+//    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+//    if ( response != nil) {
+//        NSMutableDictionary *dict = NULL;
+//        //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
+//        dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
+//        
+//        NSLog(@"url:%@",urlString);
+//        if(dict != nil){
+//            if ([dict[@"err"] intValue] == 0){
+////                NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
+//                time_t now;
+//                time(&now);
+//                NSString *timeString = [NSString stringWithFormat:@"%ld", now];
+//                //调起微信支付
+//                PayReq* req             = [[PayReq alloc] init];
+//                req.partnerId           = dict[@"info"][@"mch_id"];
+//                req.prepayId            = dict[@"info"][@"prepay_id"];
+//                req.nonceStr            = dict[@"info"][@"nonce_str" ];
+//                req.timeStamp           = [timeString intValue];
+//                req.package             = dict[@"info"][@"package"]?dict[@"info"][@"package"]:@"Sign=WXPay";
+//                
+//                NSMutableDictionary *signParams = [NSMutableDictionary dictionary];
+//                [signParams setObject: dict[@"info"][@"appid"]        forKey:@"appid"];
+//                [signParams setObject: req.nonceStr    forKey:@"noncestr"];
+//                [signParams setObject: req.package      forKey:@"package"];
+//                [signParams setObject: req.partnerId        forKey:@"partnerid"];
+//                [signParams setObject: timeString   forKey:@"timestamp"];
+//                [signParams setObject: req.prepayId     forKey:@"prepayid"];
+//                
+//                req.sign                = [self createMd5Sign:signParams];
+//                [WXApi sendReq:req];
+//                //日志输出
+//                NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",dict[@"info"][@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
+//                return @"";
+//            } else{
+//                return dict[@"info"][@"return_msg"];
+//            }
+//        } else {
+//            return @"服务器返回错误，未获取到json对象";
+//        }
+//    } else {
+//        return @"服务器返回错误";
+//    }
+}
+
+- (NSString *)createMd5Sign:(NSMutableDictionary*)dict
+{
+    NSMutableString *contentString  =[NSMutableString string];
+    NSArray *keys = [dict allKeys];
+    //按字母顺序排序
+    NSArray *sortedArray = [keys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 compare:obj2 options:NSNumericSearch];
+    }];
+    //拼接字符串
+    for (NSString *categoryId in sortedArray) {
+        if (   ![[dict objectForKey:categoryId] isEqualToString:@""]
+            && ![categoryId isEqualToString:@"sign"]
+            && ![categoryId isEqualToString:@"key"]
+            )
+        {
+            [contentString appendFormat:@"%@=%@&", categoryId, [dict objectForKey:categoryId]];
+        }
+        
+    }
+    //添加key字段
+    [contentString appendFormat:@"key=%@", SPKEY];
+    //得到MD5 sign签名
+    NSString *md5Sign =[WXUtil md5:contentString];
+    
+    return md5Sign;
 }
 
 #pragma mark - click event

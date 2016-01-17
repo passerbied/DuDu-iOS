@@ -145,6 +145,10 @@
 		48F08F1B1C4B9FA200724CEC /* ValuationRuleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F1A1C4B9FA200724CEC /* ValuationRuleVC.m */; };
 		48F08F1E1C4BA0F400724CEC /* ValuationRuleListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F1D1C4BA0F400724CEC /* ValuationRuleListVC.m */; };
 		48F08F201C4BA96300724CEC /* plus64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08F1F1C4BA96300724CEC /* plus64@2x.png */; };
+		48F08F241C4BDB3100724CEC /* icon_logo70@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08F231C4BDB3100724CEC /* icon_logo70@2x.png */; };
+		48F08F2B1C4BFC0500724CEC /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F261C4BFC0500724CEC /* ApiXml.mm */; };
+		48F08F2C1C4BFC0500724CEC /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F281C4BFC0500724CEC /* payRequsestHandler.mm */; };
+		48F08F2D1C4BFC0500724CEC /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F2A1C4BFC0500724CEC /* WXUtil.mm */; };
 		F66BE02E18CD97BAD24F82F5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDC7A333845C15E87E74204 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -374,6 +378,13 @@
 		48F08F1C1C4BA0F400724CEC /* ValuationRuleListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleListVC.h; sourceTree = "<group>"; };
 		48F08F1D1C4BA0F400724CEC /* ValuationRuleListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleListVC.m; sourceTree = "<group>"; };
 		48F08F1F1C4BA96300724CEC /* plus64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus64@2x.png"; sourceTree = "<group>"; };
+		48F08F231C4BDB3100724CEC /* icon_logo70@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_logo70@2x.png"; sourceTree = "<group>"; };
+		48F08F251C4BFC0500724CEC /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
+		48F08F261C4BFC0500724CEC /* ApiXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApiXml.mm; sourceTree = "<group>"; };
+		48F08F271C4BFC0500724CEC /* payRequsestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payRequsestHandler.h; sourceTree = "<group>"; };
+		48F08F281C4BFC0500724CEC /* payRequsestHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = payRequsestHandler.mm; sourceTree = "<group>"; };
+		48F08F291C4BFC0500724CEC /* WXUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXUtil.h; sourceTree = "<group>"; };
+		48F08F2A1C4BFC0500724CEC /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
 		8DDC7A333845C15E87E74204 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D5C95255EB9D93E51C410 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -793,6 +804,7 @@
 		486F52851BEE225E0043874E /* imgs */ = {
 			isa = PBXGroup;
 			children = (
+				48F08F231C4BDB3100724CEC /* icon_logo70@2x.png */,
 				48F08F1F1C4BA96300724CEC /* plus64@2x.png */,
 				48F08EF11C47DB1E00724CEC /* checkbox_no@2x.png */,
 				48F08EF21C47DB1E00724CEC /* checkbox_yes@2x.png */,
@@ -1043,6 +1055,12 @@
 		48F08F011C4B905900724CEC /* 微信支付 */ = {
 			isa = PBXGroup;
 			children = (
+				48F08F251C4BFC0500724CEC /* ApiXml.h */,
+				48F08F261C4BFC0500724CEC /* ApiXml.mm */,
+				48F08F271C4BFC0500724CEC /* payRequsestHandler.h */,
+				48F08F281C4BFC0500724CEC /* payRequsestHandler.mm */,
+				48F08F291C4BFC0500724CEC /* WXUtil.h */,
+				48F08F2A1C4BFC0500724CEC /* WXUtil.mm */,
 				48F08F021C4B907400724CEC /* WXApiManager.h */,
 				48F08F031C4B907400724CEC /* WXApiManager.m */,
 				48F08F041C4B907400724CEC /* WXApiRequestHandler.h */,
@@ -1221,6 +1239,7 @@
 				48F08EEF1C47919400724CEC /* commbtn_pressed@2x.png in Resources */,
 				480E505D1BFB62A6006D545A /* tiny_unbind@2x.png in Resources */,
 				4867CDB41C22FD56003B1744 /* PushConfig.plist in Resources */,
+				48F08F241C4BDB3100724CEC /* icon_logo70@2x.png in Resources */,
 				486F52881BEE225E0043874E /* tiny_circle_green@2x.png in Resources */,
 				4867CE511C357790003B1744 /* orderInfo.json in Resources */,
 				4803E5C51C19CCB4000395AA /* Images.xcassets in Resources */,
@@ -1309,6 +1328,7 @@
 				486F52801BEE093F0043874E /* TopToolBar.m in Sources */,
 				32F03A721C228BBD00A2C4BD /* LoginVC.m in Sources */,
 				4867CE331C285533003B1744 /* UserModel.m in Sources */,
+				48F08F2D1C4BFC0500724CEC /* WXUtil.mm in Sources */,
 				486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */,
 				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
 				48F08F1E1C4BA0F400724CEC /* ValuationRuleListVC.m in Sources */,
@@ -1340,6 +1360,7 @@
 				482741481BE9FAFA00EF6FD8 /* MainViewController.m in Sources */,
 				487956CF1C3A9F2300193530 /* ZBCStarRatingView.m in Sources */,
 				4867CDBB1C26AF0F003B1744 /* DuDuAPIClient.m in Sources */,
+				48F08F2C1C4BFC0500724CEC /* payRequsestHandler.mm in Sources */,
 				32F039F61C0C9A9C00A2C4BD /* RouteCell.m in Sources */,
 				486F52421BEDFE650043874E /* UIView+Utils.m in Sources */,
 				486F525F1BEE07F40043874E /* UIActionSheet+KAddition.m in Sources */,
@@ -1348,6 +1369,7 @@
 				486F52661BEE07F40043874E /* UIView+KAddition.m in Sources */,
 				32F03A351C102BE700A2C4BD /* AddressVC.m in Sources */,
 				486F52621BEE07F40043874E /* UIButton+KAddition.m in Sources */,
+				48F08F2B1C4BFC0500724CEC /* ApiXml.mm in Sources */,
 				486F52D41BFB28AD0043874E /* MMDrawerController.m in Sources */,
 				32F03A311C0FF49A00A2C4BD /* CouponCell.m in Sources */,
 				486F52761BEE08140043874E /* NSData+Additions.m in Sources */,

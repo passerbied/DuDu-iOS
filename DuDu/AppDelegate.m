@@ -74,7 +74,7 @@
 - (void)setUpViewController
 {
     UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
-    logo.image = IMG(@"icon_huge");
+    logo.image = IMG(@"icon_logo70");
     [[MainViewController sharedMainViewController].navigationItem setTitleView:logo];
     [[MainViewController sharedMainViewController].navigationController.view.layer setCornerRadius:10.0f];
     
@@ -128,6 +128,35 @@
     // IOS 7 Support Required
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
+}
+
+#pragma mark - wx delegate
+
+- (void)onReq:(BaseReq *)req
+{
+    NSLog(@"type=%d\n openID=%@",req.type,req.openID);
+}
+
+- (void)onResp:(BaseResp *)resp
+{
+    NSLog(@"errorCode=%d \n error=%@ \n type=%d",resp.errCode,resp.errStr,resp.type);
+    if([resp isKindOfClass:[PayResp class]]){
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        NSString *strMsg = @"";
+        switch (resp.errCode) {
+            case WXSuccess:
+                strMsg = @"支付结果：成功！";
+                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                break;
+                
+            default:
+                strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                break;
+        }
+        [ZBCToast showMessage:strMsg];
+    }
+
 }
 
 - (void)application:(UIApplication *)application handleReceiveRemoteNotification:(NSDictionary *)userInfo
