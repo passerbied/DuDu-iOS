@@ -143,6 +143,8 @@
 		48F08F081C4B907400724CEC /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F031C4B907400724CEC /* WXApiManager.m */; };
 		48F08F091C4B907400724CEC /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F051C4B907400724CEC /* WXApiRequestHandler.m */; };
 		48F08F1B1C4B9FA200724CEC /* ValuationRuleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F1A1C4B9FA200724CEC /* ValuationRuleVC.m */; };
+		48F08F1E1C4BA0F400724CEC /* ValuationRuleListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F1D1C4BA0F400724CEC /* ValuationRuleListVC.m */; };
+		48F08F201C4BA96300724CEC /* plus64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08F1F1C4BA96300724CEC /* plus64@2x.png */; };
 		F66BE02E18CD97BAD24F82F5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDC7A333845C15E87E74204 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -369,6 +371,9 @@
 		48F08F051C4B907400724CEC /* WXApiRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiRequestHandler.m; sourceTree = "<group>"; };
 		48F08F191C4B9FA200724CEC /* ValuationRuleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleVC.h; sourceTree = "<group>"; };
 		48F08F1A1C4B9FA200724CEC /* ValuationRuleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleVC.m; sourceTree = "<group>"; };
+		48F08F1C1C4BA0F400724CEC /* ValuationRuleListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleListVC.h; sourceTree = "<group>"; };
+		48F08F1D1C4BA0F400724CEC /* ValuationRuleListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleListVC.m; sourceTree = "<group>"; };
+		48F08F1F1C4BA96300724CEC /* plus64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus64@2x.png"; sourceTree = "<group>"; };
 		8DDC7A333845C15E87E74204 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D5C95255EB9D93E51C410 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -788,6 +793,7 @@
 		486F52851BEE225E0043874E /* imgs */ = {
 			isa = PBXGroup;
 			children = (
+				48F08F1F1C4BA96300724CEC /* plus64@2x.png */,
 				48F08EF11C47DB1E00724CEC /* checkbox_no@2x.png */,
 				48F08EF21C47DB1E00724CEC /* checkbox_yes@2x.png */,
 				48F08EED1C47919400724CEC /* commbtn_pressed@2x.png */,
@@ -1086,6 +1092,8 @@
 			children = (
 				48F08F191C4B9FA200724CEC /* ValuationRuleVC.h */,
 				48F08F1A1C4B9FA200724CEC /* ValuationRuleVC.m */,
+				48F08F1C1C4BA0F400724CEC /* ValuationRuleListVC.h */,
+				48F08F1D1C4BA0F400724CEC /* ValuationRuleListVC.m */,
 			);
 			name = "计价规则";
 			sourceTree = "<group>";
@@ -1221,6 +1229,7 @@
 				487956D21C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png in Resources */,
 				4867CE5E1C369A3C003B1744 /* ordercancel.json in Resources */,
 				486F52891BEE225E0043874E /* tiny_circle_red@2x.png in Resources */,
+				48F08F201C4BA96300724CEC /* plus64@2x.png in Resources */,
 				48F08EF91C480FAD00724CEC /* agreement.txt in Resources */,
 				480E505C1BFB62A6006D545A /* tiny_shared@2x.png in Resources */,
 				4867CE271C271378003B1744 /* find_keep_icon_success@2x.png in Resources */,
@@ -1302,6 +1311,7 @@
 				4867CE331C285533003B1744 /* UserModel.m in Sources */,
 				486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */,
 				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
+				48F08F1E1C4BA0F400724CEC /* ValuationRuleListVC.m in Sources */,
 				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,
 				48F08F1B1C4B9FA200724CEC /* ValuationRuleVC.m in Sources */,
 				32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */,

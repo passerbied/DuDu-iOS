@@ -10,7 +10,7 @@
 #import "SettingCell.h"
 #import "AddressVC.h"
 #import "APService.h"
-#import "ValuationRuleVC.h"
+#import "ValuationRuleListVC.h"
 #import "LawVC.h"
 #import "WebVC.h"
 
@@ -99,9 +99,9 @@
         lawVC.title = @"法律条款";
         [self.navigationController pushViewController:lawVC animated:YES];
     } else if (indexPath.row==1) {
-        ValuationRuleVC *ruleVC = [[ValuationRuleVC alloc] init];
-        ruleVC.title = @"计价规则";
-        [self.navigationController pushViewController:ruleVC animated:YES];
+        ValuationRuleListVC *ruleListVC = [[ValuationRuleListVC alloc] init];
+        ruleListVC.title = @"计价规则";
+        [self.navigationController pushViewController:ruleListVC animated:YES];
     } else if (indexPath.row==2) {
         WebVC *agreementVC = [[WebVC alloc] init];
         agreementVC.resourcePath = @"about";

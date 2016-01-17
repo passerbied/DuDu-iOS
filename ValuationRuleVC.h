@@ -10,4 +10,5 @@
 
 @interface ValuationRuleVC : UIViewController
 
+@property (nonatomic, strong) CarModel *carStyle;
 @end

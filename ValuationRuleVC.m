@@ -18,6 +18,7 @@
     UILabel     *_valuationRuleLabel;
     UILabel     *_perMinutePriceLabel;
     UILabel     *_lowestPriceLabel;
+    UIImageView *_plusIcon;
 }
 
 @end
@@ -88,27 +89,27 @@
 
 - (void)setData
 {
-    _carTypeLabel.text = @"车型:快车";
+    _carTypeLabel.text = [NSString stringWithFormat:@"车型：%@",self.carStyle.car_style_name];
     _startPriceLabel.text = @"0元起步费";
-    _valuationRuleLabel.text = @"1.6元/公里(10.0公里以上时,2.0元/公里)";
-    _perMinutePriceLabel.text = @"0.5元/分钟";
-    _lowestPriceLabel.text = @"8.0元最低消费";
+    _valuationRuleLabel.text = [NSString stringWithFormat:@"%.1f元/公里(%d公里以上时，%.1f元/公里)",self.carStyle.per_kilometer_money,(int)self.carStyle.per_max_kilometer,self.carStyle.per_max_kilometer_money];
+    _perMinutePriceLabel.text = [NSString stringWithFormat:@"%.1f元/分钟",self.carStyle.wait_time_money];
+    _lowestPriceLabel.text = [NSString stringWithFormat:@"%.1f元最低消费",self.carStyle.start_money];
 }
 
 - (void)calculateFrame
 {
     [self setData];
     _carImage.frame = ccr((SCREEN_WIDTH-100)/2,
-                          NAV_BAR_HEIGHT_IOS7+50,
+                          NAV_BAR_HEIGHT_IOS7+20,
                           100,
                           100);
     CGSize typeSize = [self getTextFromLabel:_carTypeLabel];
     _leftLine.frame = ccr(50,
-                          CGRectGetMaxY(_carImage.frame)+50+(typeSize.height-0.5)/2,
+                          CGRectGetMaxY(_carImage.frame)+20+(typeSize.height-0.5)/2,
                           (SCREEN_WIDTH-50*2-typeSize.width-5)/2,
                           0.5);
     _carTypeLabel.frame = ccr(CGRectGetMaxX(_leftLine.frame)+5,
-                              CGRectGetMaxY(_carImage.frame)+50,
+                              CGRectGetMaxY(_carImage.frame)+20,
                               typeSize.width,
                               typeSize.height);
     _rightLine.frame = ccr(CGRectGetMaxX(_carTypeLabel.frame)+5,
@@ -120,19 +121,34 @@
                                  CGRectGetMaxY(_carTypeLabel.frame)+20,
                                  startSize.width,
                                  startSize.height);
+    
+    UIImageView *plusIcon1 = [[UIImageView alloc] initWithFrame:ccr((SCREEN_WIDTH-10)/2, CGRectGetMaxY(_startPriceLabel.frame)+15, 10, 10)];
+    plusIcon1.image = IMG(@"plus64");
+    [self.view addSubview:plusIcon1];
+    
     CGSize ruleSize = [self getTextFromLabel:_valuationRuleLabel];
     _valuationRuleLabel.frame = ccr((SCREEN_WIDTH-ruleSize.width)/2,
-                                    CGRectGetMaxY(_startPriceLabel.frame)+50,
+                                    CGRectGetMaxY(_startPriceLabel.frame)+40,
                                     ruleSize.width,
                                     ruleSize.height);
+    
+    UIImageView *plusIcon2 = [[UIImageView alloc] initWithFrame:ccr((SCREEN_WIDTH-10)/2, CGRectGetMaxY(_valuationRuleLabel.frame)+15, 10, 10)];
+    plusIcon2.image = IMG(@"plus64");
+    [self.view addSubview:plusIcon2];
+    
     CGSize perSize = [self getTextFromLabel:_perMinutePriceLabel];
     _perMinutePriceLabel.frame = ccr((SCREEN_WIDTH-perSize.width)/2,
-                                     CGRectGetMaxY(_valuationRuleLabel.frame)+50,
+                                     CGRectGetMaxY(_valuationRuleLabel.frame)+40,
                                      perSize.width,
                                      perSize.height);
+    
+    UIImageView *plusIcon3 = [[UIImageView alloc] initWithFrame:ccr((SCREEN_WIDTH-10)/2, CGRectGetMaxY(_perMinutePriceLabel.frame)+15, 10, 10)];
+    plusIcon3.image = IMG(@"plus64");
+    [self.view addSubview:plusIcon3];
+    
     CGSize lowSize = [self getTextFromLabel:_lowestPriceLabel];
     _lowestPriceLabel.frame = ccr((SCREEN_WIDTH-lowSize.width)/2,
-                                  CGRectGetMaxY(_perMinutePriceLabel.frame)+50,
+                                  CGRectGetMaxY(_perMinutePriceLabel.frame)+40,
                                   lowSize.width,
                                   lowSize.height);
 }
