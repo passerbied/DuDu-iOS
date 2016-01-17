@@ -13,6 +13,10 @@
 #import "ZBCProgressHUD.h"
 #import <QMapKit/QMapKit.h>
 #import <QMapSearchKit/QMapSearchKit.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import "MainViewController.h"
+#import "LoginVC.h"
+#import "GeoAndSuggestionViewController.h"
 
 @interface AppDelegate ()
 
@@ -21,6 +25,11 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [[IQKeyboardManager sharedManager] disableInViewControllerClass:[MainViewController class]];
+    [[IQKeyboardManager sharedManager] disableInViewControllerClass:[LoginVC class]];
+    [[IQKeyboardManager sharedManager] disableInViewControllerClass:[GeoAndSuggestionViewController class]];
     
 //    [MAMapServices sharedServices].apiKey = AMAP_KEY;
     [QMapServices sharedServices].apiKey = QMAP_KEY;

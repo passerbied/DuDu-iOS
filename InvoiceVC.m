@@ -7,7 +7,6 @@
 //
 
 #import "InvoiceVC.h"
-#import "InvoiceDetailVC.h"
 
 #define SIZE 10
 
@@ -60,7 +59,10 @@
                     isLoadMore:isMore];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
+        [_loadingFooter loadedAll];
+        _loadingMore = NO;
+        [_bookList removeAllObjects];
+        [_tableView reloadData];
     }];
 }
 
@@ -68,9 +70,9 @@
 {
     _totalPrice = 0;
     _totalRoute = 0;
-    for (BookModel *book in _bookList) {
-        if (book.isSelected) {
-            _totalPrice += [book.order_allMoney floatValue];
+    for (OrderModel *order in _bookList) {
+        if (order.isSelected) {
+            _totalPrice += [order.order_allMoney floatValue];
             _totalRoute ++;
         }
     }
@@ -101,18 +103,18 @@
                          range:NSMakeRange(numberLocation, numberLength)];
     _totalLabel.attributedText = totalString;
     
-    [_nextButton setEnabled:_totalRoute >= 2];
+    [_nextButton setEnabled:_totalRoute >= 5];
 }
 
 - (void)selectAllBookDidTaped
 {
     if (!_isSelectAll) {
-        for (BookModel *book in _bookList) {
-            book.isSelected = YES;
+        for (OrderModel *order in _bookList) {
+            order.isSelected = YES;
         }
     } else {
-        for (BookModel *book in _bookList) {
-            book.isSelected = NO;
+        for (OrderModel *order in _bookList) {
+            order.isSelected = NO;
         }
     }
     [_tableView reloadData];
@@ -133,33 +135,33 @@
         NSArray *info = [NSArray arrayWithArray:dic[@"info"]];
         if (info.count) {
             for (NSDictionary *item in info) {
-                BookModel *book = [[BookModel alloc] init];
-                book.car_style = item[@"car_style"];
-                book.coupon_id = item[@"coupon_id"];
-                book.dest_lat = item[@"dest_lat"];
-                book.dest_lng = item[@"dest_lng"];
-                book.dest_loc_str = item[@"dest_loc_str"];
-                book.driver_status = item[@"driver_status"];
-                book.isbook = item[@"isbook"];
-                book.order_allMoney = item[@"order_allMoney"];
-                book.order_allTime = item[@"order_allTime"];
-                book.order_duration_money = item[@"order_duration_money"];
-                book.order_id = item[@"order_id"];
-                book.order_initiate_rate = item[@"order_initiate_rate"];
-                book.order_mileage = item[@"order_mileage"];
-                book.order_mileage_money = item[@"order_mileage_money"];
-                book.order_payStatus = item[@"order_payStatus"];
-                book.order_status = item[@"order_status"];
-                book.order_time = item[@"order_time"];
-                book.relevance_id = item[@"relevance_id"];
-                book.star_loc_str = item[@"star_loc_str"];
-                book.startTimeStr = item[@"startTimeStr"];
-                book.startTimeType = item[@"startTimeType"];
-                book.start_lat = item[@"start_lat"];
-                book.start_lng = item[@"start_lng"];
-                book.user_id = item[@"user_id"];
+                OrderModel *order = [[OrderModel alloc] init];
+                order.car_style = item[@"car_style"];
+                order.coupon_id = item[@"coupon_id"];
+                order.dest_lat = item[@"dest_lat"];
+                order.dest_lng = item[@"dest_lng"];
+                order.dest_loc_str = item[@"dest_loc_str"];
+                order.driver_status = item[@"driver_status"];
+                order.isbook = item[@"isbook"];
+                order.order_allMoney = item[@"order_allMoney"];
+                order.order_allTime = item[@"order_allTime"];
+                order.order_duration_money = item[@"order_duration_money"];
+                order.order_id = item[@"order_id"];
+                order.order_initiate_rate = item[@"order_initiate_rate"];
+                order.order_mileage = item[@"order_mileage"];
+                order.order_mileage_money = item[@"order_mileage_money"];
+                order.order_payStatus = item[@"order_payStatus"];
+                order.order_status = item[@"order_status"];
+                order.order_time = item[@"order_time"];
+                order.relevance_id = item[@"relevance_id"];
+                order.star_loc_str = item[@"star_loc_str"];
+                order.startTimeStr = item[@"startTimeStr"];
+                order.startTimeType = item[@"startTimeType"];
+                order.start_lat = item[@"start_lat"];
+                order.start_lng = item[@"start_lng"];
+                order.user_id = item[@"user_id"];
                 
-                [_bookList addObject:book];
+                [_bookList addObject:order];
             }
         }
         _isAll = _bookList.count < SIZE;
@@ -179,33 +181,33 @@
         NSArray *info = [NSArray arrayWithArray:dic[@"info"]];
         if (info.count) {
             for (NSDictionary *item in info) {
-                BookModel *book = [[BookModel alloc] init];
-                book.car_style = item[@"car_style"];
-                book.coupon_id = item[@"coupon_id"];
-                book.dest_lat = item[@"dest_lat"];
-                book.dest_lng = item[@"dest_lng"];
-                book.dest_loc_str = item[@"dest_loc_str"];
-                book.driver_status = item[@"driver_status"];
-                book.isbook = item[@"isbook"];
-                book.order_allMoney = item[@"order_allMoney"];
-                book.order_allTime = item[@"order_allTime"];
-                book.order_duration_money = item[@"order_duration_money"];
-                book.order_id = item[@"order_id"];
-                book.order_initiate_rate = item[@"order_initiate_rate"];
-                book.order_mileage = item[@"order_mileage"];
-                book.order_mileage_money = item[@"order_mileage_money"];
-                book.order_payStatus = item[@"order_payStatus"];
-                book.order_status = item[@"order_status"];
-                book.order_time = item[@"order_time"];
-                book.relevance_id = item[@"relevance_id"];
-                book.star_loc_str = item[@"star_loc_str"];
-                book.startTimeStr = item[@"startTimeStr"];
-                book.startTimeType = item[@"startTimeType"];
-                book.start_lat = item[@"start_lat"];
-                book.start_lng = item[@"start_lng"];
-                book.user_id = item[@"user_id"];
+                OrderModel *order = [[OrderModel alloc] init];
+                order.car_style = item[@"car_style"];
+                order.coupon_id = item[@"coupon_id"];
+                order.dest_lat = item[@"dest_lat"];
+                order.dest_lng = item[@"dest_lng"];
+                order.dest_loc_str = item[@"dest_loc_str"];
+                order.driver_status = item[@"driver_status"];
+                order.isbook = item[@"isbook"];
+                order.order_allMoney = item[@"order_allMoney"];
+                order.order_allTime = item[@"order_allTime"];
+                order.order_duration_money = item[@"order_duration_money"];
+                order.order_id = item[@"order_id"];
+                order.order_initiate_rate = item[@"order_initiate_rate"];
+                order.order_mileage = item[@"order_mileage"];
+                order.order_mileage_money = item[@"order_mileage_money"];
+                order.order_payStatus = item[@"order_payStatus"];
+                order.order_status = item[@"order_status"];
+                order.order_time = item[@"order_time"];
+                order.relevance_id = item[@"relevance_id"];
+                order.star_loc_str = item[@"star_loc_str"];
+                order.startTimeStr = item[@"startTimeStr"];
+                order.startTimeType = item[@"startTimeType"];
+                order.start_lat = item[@"start_lat"];
+                order.start_lng = item[@"start_lng"];
+                order.user_id = item[@"user_id"];
                 
-                [booklistTemp addObject:book];
+                [booklistTemp addObject:order];
             }
         }
         _isAll = booklistTemp.count < SIZE;
@@ -388,14 +390,14 @@
 
 - (void)configureCell:(InvoiceCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    BookModel *book = _bookList[indexPath.row];
+    OrderModel *order = _bookList[indexPath.row];
 
-    NSDate *start = [NSDate dateWithTimeIntervalSince1970:[book.startTimeStr floatValue]];
+    NSDate *start = [NSDate dateWithTimeIntervalSince1970:[order.startTimeStr floatValue]];
     cell.startTime = [start displayWithFormat:@"yyyy-MM-dd H:mm"];
-    cell.price = book.order_allMoney;
-    cell.startSite = book.star_loc_str;
-    cell.endSite = book.dest_loc_str;
-    cell.isSelected = book.isSelected;
+    cell.price = order.order_allMoney;
+    cell.startSite = order.star_loc_str;
+    cell.endSite = order.dest_loc_str;
+    cell.isSelected = order.isSelected;
 }
 
 #pragma mark - tableView delegate
@@ -403,10 +405,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InvoiceCell *invoiceCell = (InvoiceCell *)[tableView cellForRowAtIndexPath:indexPath];
-    BookModel *book = _bookList[indexPath.row];
-    book.isSelected = !book.isSelected;
-    invoiceCell.isSelected = book.isSelected;
-    [_bookList setObject:book atIndexedSubscript:indexPath.row];
+    OrderModel *order = _bookList[indexPath.row];
+    order.isSelected = !order.isSelected;
+    invoiceCell.isSelected = order.isSelected;
+    [_bookList setObject:order atIndexedSubscript:indexPath.row];
     [invoiceCell calculateFrame];
     [self updateFooter];
 }
@@ -434,6 +436,18 @@
 {
     InvoiceDetailVC *detailVC = [[InvoiceDetailVC alloc] init];
     detailVC.title = @"按行程开票";
+    detailVC.delegate = self;
+    BookModel *book = [[BookModel alloc] init];
+    book.book_price = [NSString stringWithFormat:@"%.1f元",_totalPrice];
+    NSString *ids = @"";
+    for (OrderModel *order in _bookList) {
+        if(order.isSelected){
+            ids = [ids stringByAppendingString:[order.order_id stringValue]];
+            ids = [ids stringByAppendingString:@","];
+        }
+    }
+    book.order_ids = ids;
+    detailVC.book = book;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
@@ -442,11 +456,18 @@
 - (void)invoiceCell:(InvoiceCell *)cell didChecked:(BOOL)checked
 {
     NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
-    BookModel *book = _bookList[indexPath.row];
-    book.isSelected = checked;
-    [_bookList setObject:book atIndexedSubscript:indexPath.row];
+    OrderModel *order = _bookList[indexPath.row];
+    order.isSelected = checked;
+    [_bookList setObject:order atIndexedSubscript:indexPath.row];
     [cell calculateFrame];
     [self updateFooter];
+}
+
+#pragma mark - InvoiceDetailVCDelegate
+
+- (void)dealBookSuccess
+{
+    [self getBooksForPage:0 isMore:NO];
 }
 
 @end

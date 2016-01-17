@@ -26,6 +26,7 @@ PODS:
   - DCAnimationKit (0.0.6)
   - EDStarRating (1.1)
   - HTAutocompleteTextField (1.3.2)
+  - IQKeyboardManager (3.3.5)
   - JPush (1.8.8)
   - Mantle (2.0.6):
     - Mantle/extobjc (= 2.0.6)
@@ -44,6 +45,7 @@ DEPENDENCIES:
   - DCAnimationKit
   - EDStarRating
   - HTAutocompleteTextField
+  - IQKeyboardManager
   - JPush
   - Mantle (~> 2.0.2)
   - MBProgressHUD
@@ -60,6 +62,7 @@ SPEC CHECKSUMS:
   DCAnimationKit: 7133bef877ce1aa113dcfeea1380ca67f91f7608
   EDStarRating: a41a6440a945020745d0e9ff8ada7d1afa952114
   HTAutocompleteTextField: ce809f04875e843e20f214ab973bb496ba7a93b1
+  IQKeyboardManager: 128bcb96b3ec03ff87942cdd7fa7f44491aa3d08
   JPush: d1a4a90294389d2c6bd2ca987df8140dd4ffcbd2
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad

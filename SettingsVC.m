@@ -11,6 +11,8 @@
 #import "AddressVC.h"
 #import "APService.h"
 #import "ValuationRuleVC.h"
+#import "LawVC.h"
+#import "WebVC.h"
 
 @interface SettingsVC ()
 {
@@ -25,18 +27,19 @@
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createTableView];
+    [self setExtraCellLineHidden:_tableView];
 }
 
 - (void)createTableView
 {
     _tableView = [[UITableView alloc] initWithFrame:ccr(0,
-                                                        NAV_BAR_HEIGHT_IOS7+30,
+                                                        NAV_BAR_HEIGHT_IOS7,
                                                         SCREEN_WIDTH,
-                                                        SCREEN_HEIGHT-NAV_BAR_HEIGHT_IOS7-30*2)];
+                                                        SCREEN_HEIGHT-NAV_BAR_HEIGHT_IOS7)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = COLORRGB(0xffffff);
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     [self.view addSubview:_tableView];
 }
@@ -50,7 +53,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -60,44 +63,31 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.row==0) {
-//        static NSString *identifier = @"cell";
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-//        if (!cell) {
-//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-//        }
-//        [cell addSubview:[self addressLabel]];
-//        [cell addSubview:[self arrowImage]];
-//        [cell addSubview:[self bottomLine]];
-//        return cell;
-//    } else {
         static NSString *identifier = @"conditionCell";
-        SettingCell *settingCell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        UITableViewCell *settingCell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!settingCell) {
-            settingCell = [[SettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            settingCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             settingCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            settingCell.textLabel.font = HSFONT(15);
+            settingCell.textLabel.textColor = COLORRGB(0x000000);
         }
         switch (indexPath.row) {
             case 0:
-                settingCell.condition = @"帮助与反馈";
+                settingCell.textLabel.text = @"法律条款";
                 break;
             case 1:
-                settingCell.condition = @"法律条款";
+                settingCell.textLabel.text = @"计价规则";
                 break;
             case 2:
-                settingCell.condition = @"关于海豹";
+                settingCell.textLabel.text = @"关于嘟嘟";
                 break;
             case 3:
-                settingCell.condition = @"计价规则";
-                break;
-            case 4:
-                settingCell.condition = @"退出登录";
+                settingCell.textLabel.text = @"退出登录";
                 break;
             default:
                 break;
         }
         return settingCell;
-//    }
 }
 
 #pragma mark - tableView delegate
@@ -105,32 +95,32 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0) {
-        
+        LawVC *lawVC = [[LawVC alloc] init];
+        lawVC.title = @"法律条款";
+        [self.navigationController pushViewController:lawVC animated:YES];
     } else if (indexPath.row==1) {
-        
-    } else if (indexPath.row==2) {
-        
-    } else if (indexPath.row==3) {
+//        WebVC *agreementVC = [[WebVC alloc] init];
+//        agreementVC.resourcePath = @"price";
+//        agreementVC.title = @"计价规则";
+//        [self.navigationController pushViewController:agreementVC animated:YES];
         ValuationRuleVC *ruleVC = [[ValuationRuleVC alloc] init];
         ruleVC.title = @"计价规则";
         [self.navigationController pushViewController:ruleVC animated:YES];
+    } else if (indexPath.row==2) {
+        WebVC *agreementVC = [[WebVC alloc] init];
+        agreementVC.resourcePath = @"about";
+        agreementVC.title = @"关于嘟嘟";
+        [self.navigationController pushViewController:agreementVC animated:YES];
     } else {
-        [[UIActionSheet
-          actionSheetWithTitle:@"是否退出登录"
-          cancelTitle:@"取消"
-          otherItems:[UIActionSheetItem
-                      itemWithTitle:@"确定"
-                      block:^(void) {
-                          [self.navigationController popToRootViewControllerAnimated:YES];
-                          [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
-                          [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
-                                       alias:@"-1"
-                            callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                                      object:self];
-                          [ZBCToast showMessage:@"退出登录成功"];
-                          
-                      }],
-          nil] showInView:self.navigationController.view];
+        [[UIActionSheet actionSheetWithTitle:@"是否退出登录" cancelTitle:@"取消" destructiveTitle:@"确定" destructiveBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [UICKeyChainStore removeAllItemsForService:KEY_STORE_SERVICE];
+            [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                         alias:@"-1"
+              callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                        object:self];
+            [ZBCToast showMessage:@"退出登录成功"];
+        } otherItems:nil] showInView:self.navigationController.view];
     }
 }
 
@@ -176,6 +166,13 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)setExtraCellLineHidden: (UITableView *)tableView
+{
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
 }
 
 @end

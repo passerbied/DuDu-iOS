@@ -16,4 +16,5 @@ pod 'AMap2DMap'
 pod 'AMapSearch'
 pod 'Mantle','~> 2.0.2'
 pod 'EDStarRating'
+pod 'IQKeyboardManager'
 

@@ -7,10 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BookModel.h"
+
+@protocol InvoiceDetailVCDelegate;
 
 @interface InvoiceDetailVC : UIViewController
 <UITableViewDataSource,
 UITableViewDelegate,
 UITextFieldDelegate>
+
+@property (nonatomic, strong) BookModel *book;
+@property (nonatomic, strong) id<InvoiceDetailVCDelegate> delegate;
+
+@end
+
+@protocol InvoiceDetailVCDelegate <NSObject>
+
+- (void)dealBookSuccess;
 
 @end

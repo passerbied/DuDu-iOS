@@ -28,7 +28,6 @@
     #import "BaseViewController.h"
     #import "CarStore.h"
     #import "CarModel.h"
-    #import "OrderHistoryModel.h"
     #import "OrderModel.h"
     #import "OrderStore.h"
 #endif

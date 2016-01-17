@@ -35,11 +35,13 @@
                                                         120)];
     _tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     _tableView.backgroundColor = COLORRGB(0xffffff);
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.scrollEnabled = NO;
     [self.view addSubview:_tableView];
+    [self setExtraCellLineHidden:_tableView];
+    
 }
 
 #pragma mark - tableView dataSource
@@ -97,4 +99,12 @@
         
     }
 }
+
+- (void)setExtraCellLineHidden: (UITableView *)tableView
+{
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
+}
+
 @end

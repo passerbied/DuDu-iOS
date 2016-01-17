@@ -66,6 +66,11 @@
 //发票
 #define BOOK_ORDER_LIST(page)           [NSString stringWithFormat:@"/user/book-order-list?page=%d",page]
 
+//开发票
+#define DEAL_BOOK(ids, receipt_title, receipt_recipients, receipt_telephone, receipt_address)     [NSString stringWithFormat:@"/user/deal-book?ids=%@&receipt_title=%@&receipt_recipients=%@&receipt_telephone=%@&receipt_address=%@",ids, receipt_title, receipt_recipients, receipt_telephone, receipt_address]
+
+
+
 //检查更新（返回车型列表）
 #define CHECK_VERSION                   @"/exam/check-version"
 

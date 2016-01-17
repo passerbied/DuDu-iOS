@@ -29,6 +29,11 @@
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
+		<key>IQKeyboardManager.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -77,7 +82,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>05C3B78812FC35B8CCB7A7B19C81E1B3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1D94E6A734A0785E59B0ED167D8D6908</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>379D85403C474C7CD4782FCAAA3504D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3F9317F855B94A54B7C2E18FD5A2751D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -157,6 +177,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>D5D5362FBB3DE5AF5B03BAFB6BE09440</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>DE7D9E61F17F2A93CC340CD73A6C539B</key>
 		<dict>
 			<key>primary</key>
@@ -178,6 +203,16 @@
 			<true/>
 		</dict>
 		<key>F37FCE1C80A57B89ACB93712F92F6CA7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F8AF815F6F2DF09E1AB2BE0C66F06C34</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB26011CD68B9ED402780CF913823ED7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

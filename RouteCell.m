@@ -19,7 +19,7 @@
     UILabel     *_endSiteLabel;
     UILabel     *_chargeStatusLabel;
     UILabel     *_chargeLabel;
-    UIImageView *_bottomLine;
+//    UIImageView *_bottomLine;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -100,10 +100,10 @@
 //    [self.contentView addSubview:_chargeLabel];
     
     
-    _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
-    _bottomLine.userInteractionEnabled = YES;
-    [self.contentView addSubview:_bottomLine];
+//    _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
+//    _bottomLine.userInteractionEnabled = YES;
+//    [self.contentView addSubview:_bottomLine];
 }
 
 - (void)setData
@@ -164,14 +164,14 @@
                               _startSiteLabel.width,
                               siteSize.height);
     
-    _bottomLine.frame = ccr(0,
-                            CGRectGetMaxY(_endSiteImage.frame)+9.5,
-                            SCREEN_WIDTH,
-                            0.5);
+//    _bottomLine.frame = ccr(0,
+//                            CGRectGetMaxY(_endSiteImage.frame)+9.5,
+//                            SCREEN_WIDTH,
+//                            0.5);
     CGRect cellFrame = ccr(0,
                            0,
                            SCREEN_WIDTH,
-                           CGRectGetMaxY(_bottomLine.frame));
+                           CGRectGetMaxY(_endSiteLabel.frame)+10);
     return cellFrame;
 }
 
