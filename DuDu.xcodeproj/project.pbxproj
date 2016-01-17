@@ -511,7 +511,7 @@
 				48F08F0C1C4B969E00724CEC /* 设置列表 */,
 				48F08F0F1C4B9C2C00724CEC /* 计价规则 */,
 				48F08F0B1C4B95CF00724CEC /* 使用条款 */,
-				32F03A321C102B9C00A2C4BD /* 常用地址 */,
+				32F03A321C102B9C00A2C4BD /* 常用地址（暂时未开放入口） */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -543,13 +543,13 @@
 			name = "打车券Cell";
 			sourceTree = "<group>";
 		};
-		32F03A321C102B9C00A2C4BD /* 常用地址 */ = {
+		32F03A321C102B9C00A2C4BD /* 常用地址（暂时未开放入口） */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A331C102BE700A2C4BD /* AddressVC.h */,
 				32F03A341C102BE700A2C4BD /* AddressVC.m */,
 			);
-			name = "常用地址";
+			name = "常用地址（暂时未开放入口）";
 			sourceTree = "<group>";
 		};
 		32F03A361C15805B00A2C4BD /* 添加印象Controller(废除) */ = {
