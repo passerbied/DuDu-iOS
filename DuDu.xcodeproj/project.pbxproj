@@ -39,7 +39,6 @@
 		480E505B1BFB62A6006D545A /* tiny_history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50561BFB62A6006D545A /* tiny_history@2x.png */; };
 		480E505C1BFB62A6006D545A /* tiny_shared@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50571BFB62A6006D545A /* tiny_shared@2x.png */; };
 		480E505D1BFB62A6006D545A /* tiny_unbind@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 480E50581BFB62A6006D545A /* tiny_unbind@2x.png */; };
-		480E50671C02252D006D545A /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E50661C02252D006D545A /* HistoryTableViewController.m */; };
 		482741391BE8E9C200EF6FD8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482741381BE8E9C200EF6FD8 /* QuartzCore.framework */; };
 		4827413B1BE8E9D300EF6FD8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4827413A1BE8E9D300EF6FD8 /* OpenGLES.framework */; };
 		4827413D1BE8E9E700EF6FD8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4827413C1BE8E9E700EF6FD8 /* CoreGraphics.framework */; };
@@ -141,6 +140,8 @@
 		48F08EFB1C48141B00724CEC /* law.txt in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EFA1C48141B00724CEC /* law.txt */; };
 		48F08EFE1C4817B500724CEC /* LawVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08EFD1C4817B500724CEC /* LawVC.m */; };
 		48F08F001C48242900724CEC /* about.txt in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EFF1C48242900724CEC /* about.txt */; };
+		48F08F081C4B907400724CEC /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F031C4B907400724CEC /* WXApiManager.m */; };
+		48F08F091C4B907400724CEC /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F051C4B907400724CEC /* WXApiRequestHandler.m */; };
 		F66BE02E18CD97BAD24F82F5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDC7A333845C15E87E74204 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -200,8 +201,6 @@
 		480E50561BFB62A6006D545A /* tiny_history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tiny_history@2x.png"; sourceTree = "<group>"; };
 		480E50571BFB62A6006D545A /* tiny_shared@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tiny_shared@2x.png"; sourceTree = "<group>"; };
 		480E50581BFB62A6006D545A /* tiny_unbind@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tiny_unbind@2x.png"; sourceTree = "<group>"; };
-		480E50651C02252D006D545A /* HistoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewController.h; sourceTree = "<group>"; };
-		480E50661C02252D006D545A /* HistoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewController.m; sourceTree = "<group>"; };
 		482741381BE8E9C200EF6FD8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4827413A1BE8E9D300EF6FD8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		4827413C1BE8E9E700EF6FD8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -356,13 +355,17 @@
 		48F08EEE1C47919400724CEC /* commbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commbtn@2x.png"; sourceTree = "<group>"; };
 		48F08EF11C47DB1E00724CEC /* checkbox_no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_no@2x.png"; sourceTree = "<group>"; };
 		48F08EF21C47DB1E00724CEC /* checkbox_yes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_yes@2x.png"; sourceTree = "<group>"; };
-		48F08EF51C480C4400724CEC /* WebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebVC.h; sourceTree = "<group>"; };
-		48F08EF61C480C4400724CEC /* WebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebVC.m; sourceTree = "<group>"; };
+		48F08EF51C480C4400724CEC /* WebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebVC.h; path = ../WebVC.h; sourceTree = "<group>"; };
+		48F08EF61C480C4400724CEC /* WebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebVC.m; path = ../WebVC.m; sourceTree = "<group>"; };
 		48F08EF81C480FAD00724CEC /* agreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = agreement.txt; sourceTree = "<group>"; };
 		48F08EFA1C48141B00724CEC /* law.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = law.txt; sourceTree = "<group>"; };
 		48F08EFC1C4817B500724CEC /* LawVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LawVC.h; sourceTree = "<group>"; };
 		48F08EFD1C4817B500724CEC /* LawVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LawVC.m; sourceTree = "<group>"; };
 		48F08EFF1C48242900724CEC /* about.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = about.txt; sourceTree = "<group>"; };
+		48F08F021C4B907400724CEC /* WXApiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiManager.h; sourceTree = "<group>"; };
+		48F08F031C4B907400724CEC /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
+		48F08F041C4B907400724CEC /* WXApiRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiRequestHandler.h; sourceTree = "<group>"; };
+		48F08F051C4B907400724CEC /* WXApiRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiRequestHandler.m; sourceTree = "<group>"; };
 		8DDC7A333845C15E87E74204 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D5C95255EB9D93E51C410 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -397,22 +400,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		32F039F71C0CA8DA00A2C4BD /* 我的行程Controller */ = {
+		32F039F71C0CA8DA00A2C4BD /* 我的行程 */ = {
 			isa = PBXGroup;
 			children = (
 				32F039F81C0CA95000A2C4BD /* MyRouteVC.h */,
 				32F039F91C0CA95000A2C4BD /* MyRouteVC.m */,
 			);
-			name = "我的行程Controller";
+			name = "我的行程";
 			sourceTree = "<group>";
 		};
-		32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */ = {
+		32F039FE1C0CDE6C00A2C4BD /* 行程详情 */ = {
 			isa = PBXGroup;
 			children = (
 				32F039FB1C0CB6DF00A2C4BD /* RouteDetailVC.h */,
 				32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */,
 			);
-			name = "行程详情Controller";
+			name = "行程详情";
 			sourceTree = "<group>";
 		};
 		32F039FF1C0CDEC900A2C4BD /* 查看明细Controller(废弃) */ = {
@@ -424,15 +427,14 @@
 			name = "查看明细Controller(废弃)";
 			sourceTree = "<group>";
 		};
-		32F03A031C0DA18400A2C4BD /* 我的钱包Controller */ = {
+		32F03A031C0DA18400A2C4BD /* 我的钱包 */ = {
 			isa = PBXGroup;
 			children = (
-				32F03A071C0DFCFF00A2C4BD /* MyWalletVC.h */,
-				32F03A081C0DFCFF00A2C4BD /* MyWalletVC.m */,
-				32F03A101C0E8ED500A2C4BD /* 按行程开票Controller */,
-				32F03A2A1C0FF07100A2C4BD /* 打车券Controller */,
+				48F08F0D1C4B96CE00724CEC /* 钱包列表 */,
+				32F03A101C0E8ED500A2C4BD /* 按行程开票 */,
+				32F03A2A1C0FF07100A2C4BD /* 打车券 */,
 			);
-			name = "我的钱包Controller";
+			name = "我的钱包";
 			sourceTree = "<group>";
 		};
 		32F03A0A1C0E0E0600A2C4BD /* 行程Cell */ = {
@@ -464,7 +466,7 @@
 			name = "钱包Cell";
 			sourceTree = "<group>";
 		};
-		32F03A101C0E8ED500A2C4BD /* 按行程开票Controller */ = {
+		32F03A101C0E8ED500A2C4BD /* 按行程开票 */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A111C0E8F6800A2C4BD /* InvoiceVC.h */,
@@ -472,7 +474,7 @@
 				32F03A181C0EB52200A2C4BD /* InvoiceDetailVC.h */,
 				32F03A191C0EB52200A2C4BD /* InvoiceDetailVC.m */,
 			);
-			name = "按行程开票Controller";
+			name = "按行程开票";
 			sourceTree = "<group>";
 		};
 		32F03A141C0E929500A2C4BD /* 发票Cell */ = {
@@ -486,27 +488,23 @@
 			name = "发票Cell";
 			sourceTree = "<group>";
 		};
-		32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */ = {
+		32F03A1E1C0ED6A100A2C4BD /* 推荐有奖 */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A1F1C0ED6E700A2C4BD /* RecommendVC.h */,
 				32F03A201C0ED6E700A2C4BD /* RecommendVC.m */,
 			);
-			name = "推荐有奖Controller";
+			name = "推荐有奖";
 			sourceTree = "<group>";
 		};
-		32F03A221C0EE45D00A2C4BD /* 设置Controller */ = {
+		32F03A221C0EE45D00A2C4BD /* 设置 */ = {
 			isa = PBXGroup;
 			children = (
-				32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */,
-				32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */,
-				32F03A321C102B9C00A2C4BD /* 常用地址Controller */,
-				48F08EF51C480C4400724CEC /* WebVC.h */,
-				48F08EF61C480C4400724CEC /* WebVC.m */,
-				48F08EFC1C4817B500724CEC /* LawVC.h */,
-				48F08EFD1C4817B500724CEC /* LawVC.m */,
+				48F08F0C1C4B969E00724CEC /* 设置列表 */,
+				48F08F0B1C4B95CF00724CEC /* 使用条款 */,
+				32F03A321C102B9C00A2C4BD /* 常用地址 */,
 			);
-			name = "设置Controller";
+			name = "设置";
 			sourceTree = "<group>";
 		};
 		32F03A261C0EE81D00A2C4BD /* 设置Cell */ = {
@@ -518,13 +516,13 @@
 			name = "设置Cell";
 			sourceTree = "<group>";
 		};
-		32F03A2A1C0FF07100A2C4BD /* 打车券Controller */ = {
+		32F03A2A1C0FF07100A2C4BD /* 打车券 */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A2B1C0FF0C400A2C4BD /* CouponVC.h */,
 				32F03A2C1C0FF0C400A2C4BD /* CouponVC.m */,
 			);
-			name = "打车券Controller";
+			name = "打车券";
 			sourceTree = "<group>";
 		};
 		32F03A2E1C0FF47200A2C4BD /* 打车券Cell */ = {
@@ -536,13 +534,13 @@
 			name = "打车券Cell";
 			sourceTree = "<group>";
 		};
-		32F03A321C102B9C00A2C4BD /* 常用地址Controller */ = {
+		32F03A321C102B9C00A2C4BD /* 常用地址 */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A331C102BE700A2C4BD /* AddressVC.h */,
 				32F03A341C102BE700A2C4BD /* AddressVC.m */,
 			);
-			name = "常用地址Controller";
+			name = "常用地址";
 			sourceTree = "<group>";
 		};
 		32F03A361C15805B00A2C4BD /* 添加印象Controller(废除) */ = {
@@ -554,13 +552,13 @@
 			name = "添加印象Controller(废除)";
 			sourceTree = "<group>";
 		};
-		32F03A3A1C168F2800A2C4BD /* 预约车Controller */ = {
+		32F03A3A1C168F2800A2C4BD /* 下订单详情页 */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A3B1C16B3D600A2C4BD /* OrderVC.h */,
 				32F03A3C1C16B3D600A2C4BD /* OrderVC.m */,
 			);
-			name = "预约车Controller";
+			name = "下订单详情页";
 			sourceTree = "<group>";
 		};
 		4803E5C61C19CF8A000395AA /* 登录注册页 */ = {
@@ -595,17 +593,15 @@
 		480E50501BFB5DD6006D545A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				480E50461BFB4CDA006D545A /* MenuTableViewController.h */,
-				480E50471BFB4CDA006D545A /* MenuTableViewController.m */,
-				480E50651C02252D006D545A /* HistoryTableViewController.h */,
-				480E50661C02252D006D545A /* HistoryTableViewController.m */,
-				32F039F71C0CA8DA00A2C4BD /* 我的行程Controller */,
-				32F039FE1C0CDE6C00A2C4BD /* 行程详情Controller */,
+				48F08F0E1C4B96EE00724CEC /* 菜单列表 */,
+				48F08F011C4B905900724CEC /* 微信支付 */,
+				32F039F71C0CA8DA00A2C4BD /* 我的行程 */,
+				32F039FE1C0CDE6C00A2C4BD /* 行程详情 */,
 				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller(废弃) */,
 				32F03A361C15805B00A2C4BD /* 添加印象Controller(废除) */,
-				32F03A031C0DA18400A2C4BD /* 我的钱包Controller */,
-				32F03A1E1C0ED6A100A2C4BD /* 推荐有奖Controller */,
-				32F03A221C0EE45D00A2C4BD /* 设置Controller */,
+				32F03A031C0DA18400A2C4BD /* 我的钱包 */,
+				32F03A1E1C0ED6A100A2C4BD /* 推荐有奖 */,
+				32F03A221C0EE45D00A2C4BD /* 设置 */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -642,6 +638,8 @@
 			children = (
 				4867CE361C29492E003B1744 /* BaseViewController.h */,
 				4867CE371C29492E003B1744 /* BaseViewController.m */,
+				48F08EF51C480C4400724CEC /* WebVC.h */,
+				48F08EF61C480C4400724CEC /* WebVC.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -766,7 +764,6 @@
 			children = (
 				482741461BE9FAFA00EF6FD8 /* MainViewController.h */,
 				482741471BE9FAFA00EF6FD8 /* MainViewController.m */,
-				32F03A3A1C168F2800A2C4BD /* 预约车Controller */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -979,6 +976,7 @@
 				4803E5C61C19CF8A000395AA /* 登录注册页 */,
 				480E50451BFB4CA8006D545A /* 菜单页 */,
 				486F52AC1BF0AB0B0043874E /* 地点选择页 */,
+				32F03A3A1C168F2800A2C4BD /* 下订单详情页 */,
 				482741491BE9FB0000EF6FD8 /* 首页 */,
 			);
 			name = Featrues;
@@ -1030,6 +1028,53 @@
 				486F52431BEDFE680043874E /* UIView+Utils */,
 			);
 			name = Extends;
+			sourceTree = "<group>";
+		};
+		48F08F011C4B905900724CEC /* 微信支付 */ = {
+			isa = PBXGroup;
+			children = (
+				48F08F021C4B907400724CEC /* WXApiManager.h */,
+				48F08F031C4B907400724CEC /* WXApiManager.m */,
+				48F08F041C4B907400724CEC /* WXApiRequestHandler.h */,
+				48F08F051C4B907400724CEC /* WXApiRequestHandler.m */,
+			);
+			name = "微信支付";
+			sourceTree = "<group>";
+		};
+		48F08F0B1C4B95CF00724CEC /* 使用条款 */ = {
+			isa = PBXGroup;
+			children = (
+				48F08EFC1C4817B500724CEC /* LawVC.h */,
+				48F08EFD1C4817B500724CEC /* LawVC.m */,
+			);
+			name = "使用条款";
+			sourceTree = "<group>";
+		};
+		48F08F0C1C4B969E00724CEC /* 设置列表 */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A231C0EE4BC00A2C4BD /* SettingsVC.h */,
+				32F03A241C0EE4BC00A2C4BD /* SettingsVC.m */,
+			);
+			name = "设置列表";
+			sourceTree = "<group>";
+		};
+		48F08F0D1C4B96CE00724CEC /* 钱包列表 */ = {
+			isa = PBXGroup;
+			children = (
+				32F03A071C0DFCFF00A2C4BD /* MyWalletVC.h */,
+				32F03A081C0DFCFF00A2C4BD /* MyWalletVC.m */,
+			);
+			name = "钱包列表";
+			sourceTree = "<group>";
+		};
+		48F08F0E1C4B96EE00724CEC /* 菜单列表 */ = {
+			isa = PBXGroup;
+			children = (
+				480E50461BFB4CDA006D545A /* MenuTableViewController.h */,
+				480E50471BFB4CDA006D545A /* MenuTableViewController.m */,
+			);
+			name = "菜单列表";
 			sourceTree = "<group>";
 		};
 		B9A60DF0667155F4D73D0652 /* Frameworks */ = {
@@ -1224,7 +1269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				480E50671C02252D006D545A /* HistoryTableViewController.m in Sources */,
+				48F08F081C4B907400724CEC /* WXApiManager.m in Sources */,
 				486F52C31BF889EB0043874E /* TimePicker.m in Sources */,
 				487956DB1C3C24CA00193530 /* BookModel.m in Sources */,
 				486F52601BEE07F40043874E /* UIActionSheetItem.m in Sources */,
@@ -1234,6 +1279,7 @@
 				32F03A3D1C16B3D600A2C4BD /* OrderVC.m in Sources */,
 				486F52951BEE684A0043874E /* ZBCToast.m in Sources */,
 				4847D3AF1C148D82004634F5 /* CouponModel.m in Sources */,
+				48F08F091C4B907400724CEC /* WXApiRequestHandler.m in Sources */,
 				486F52641BEE07F40043874E /* UIImage+PL.m in Sources */,
 				486F529C1BEE6F6C0043874E /* Utils.m in Sources */,
 				32F03A291C0EE84300A2C4BD /* SettingCell.m in Sources */,

@@ -8,8 +8,10 @@
 
 #import "RouteDetailVC.h"
 #import "CheckDetailVC.h"
+#import "WXApiRequestHandler.h"
+#import "WXApiManager.h"
 
-@interface RouteDetailVC ()
+@interface RouteDetailVC ()<WXApiManagerDelegate>
 {
     UIView      *_routeView;
     UILabel     *_timeLabel;
@@ -583,11 +585,21 @@
                                      titleColor:COLORRGB(0xffffff)
                                            font:HSFONT(15)
                                      onTapBlock:^(UIButton *btn) {
-                                         
+                                         [self wechatPay];
                                      }];
         _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
     }
     return _payBtn;
+}
+
+- (void)wechatPay
+{
+    NSString *res = [WXApiRequestHandler jumpToBizPay];
+    if( ![@"" isEqual:res] ){
+        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:res delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alter show];
+    }
 }
 
 #pragma mark - click event
