@@ -19,15 +19,30 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>EDStarRating.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 		<key>HTAutocompleteTextField.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
+		<key>IQKeyboardManager.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>5</integer>
+		</dict>
+		<key>Mantle.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
@@ -67,12 +82,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>05C3B78812FC35B8CCB7A7B19C81E1B3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1D94E6A734A0785E59B0ED167D8D6908</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>379D85403C474C7CD4782FCAAA3504D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3F9317F855B94A54B7C2E18FD5A2751D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>410B25DF16EA5C5B3E2698F74F9625FB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>426BC4549A625B5E1E4200D5261A98BF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,12 +132,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8AF9F12D3DACF29116BEEBD4966C856F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8F92AB6DEFFF61E08D86B03365A4F4AA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>9BEE5F063D739BF8536958FD76629434</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A496BEB92DEFB17901E6E062756B1B73</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>A98C9E866A704D1BB209B8140C5DE551</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AD9713EA784234E82C46DBF4DDC26FB5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -122,6 +177,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>D5D5362FBB3DE5AF5B03BAFB6BE09440</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>DE7D9E61F17F2A93CC340CD73A6C539B</key>
 		<dict>
 			<key>primary</key>
@@ -133,6 +193,26 @@
 			<true/>
 		</dict>
 		<key>EF5E2CC4103F2E84030B7718B43A9FCD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F34E7B5CB818D08A67374323AD24ADBB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F37FCE1C80A57B89ACB93712F92F6CA7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F8AF815F6F2DF09E1AB2BE0C66F06C34</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB26011CD68B9ED402780CF913823ED7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

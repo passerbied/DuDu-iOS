@@ -142,6 +142,7 @@
 		48F08F001C48242900724CEC /* about.txt in Resources */ = {isa = PBXBuildFile; fileRef = 48F08EFF1C48242900724CEC /* about.txt */; };
 		48F08F081C4B907400724CEC /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F031C4B907400724CEC /* WXApiManager.m */; };
 		48F08F091C4B907400724CEC /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F051C4B907400724CEC /* WXApiRequestHandler.m */; };
+		48F08F1B1C4B9FA200724CEC /* ValuationRuleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F1A1C4B9FA200724CEC /* ValuationRuleVC.m */; };
 		F66BE02E18CD97BAD24F82F5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDC7A333845C15E87E74204 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -366,6 +367,8 @@
 		48F08F031C4B907400724CEC /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
 		48F08F041C4B907400724CEC /* WXApiRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiRequestHandler.h; sourceTree = "<group>"; };
 		48F08F051C4B907400724CEC /* WXApiRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiRequestHandler.m; sourceTree = "<group>"; };
+		48F08F191C4B9FA200724CEC /* ValuationRuleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleVC.h; sourceTree = "<group>"; };
+		48F08F1A1C4B9FA200724CEC /* ValuationRuleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleVC.m; sourceTree = "<group>"; };
 		8DDC7A333845C15E87E74204 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D5C95255EB9D93E51C410 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -501,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				48F08F0C1C4B969E00724CEC /* 设置列表 */,
+				48F08F0F1C4B9C2C00724CEC /* 计价规则 */,
 				48F08F0B1C4B95CF00724CEC /* 使用条款 */,
 				32F03A321C102B9C00A2C4BD /* 常用地址 */,
 			);
@@ -1077,6 +1081,15 @@
 			name = "菜单列表";
 			sourceTree = "<group>";
 		};
+		48F08F0F1C4B9C2C00724CEC /* 计价规则 */ = {
+			isa = PBXGroup;
+			children = (
+				48F08F191C4B9FA200724CEC /* ValuationRuleVC.h */,
+				48F08F1A1C4B9FA200724CEC /* ValuationRuleVC.m */,
+			);
+			name = "计价规则";
+			sourceTree = "<group>";
+		};
 		B9A60DF0667155F4D73D0652 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1290,6 +1303,7 @@
 				486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */,
 				32F03A251C0EE4BC00A2C4BD /* SettingsVC.m in Sources */,
 				32F03A1A1C0EB52200A2C4BD /* InvoiceDetailVC.m in Sources */,
+				48F08F1B1C4B9FA200724CEC /* ValuationRuleVC.m in Sources */,
 				32F03A211C0ED6E700A2C4BD /* RecommendVC.m in Sources */,
 				4867CE611C36A310003B1744 /* CarStore.m in Sources */,
 				4867CE381C29492E003B1744 /* BaseViewController.m in Sources */,
