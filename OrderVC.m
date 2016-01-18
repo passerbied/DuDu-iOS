@@ -192,8 +192,7 @@
         return;
     }
     [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(self.orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        [ZBCToast showMessage:dic[@"info"]];
+        [ZBCToast showMessage:@"订单已取消"];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];
