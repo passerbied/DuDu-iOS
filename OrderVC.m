@@ -27,6 +27,7 @@
     UILabel     *_timerLabel;
     int         _timerCount;
     NSTimer     *_timer;
+    SIAlertView *_alertView;
 }
 
 @end
@@ -72,6 +73,12 @@
      [self calculateFrame];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    _alertView = nil;
+}
+
 - (void)createSubViews
 {
     UIButton *cancelBtn = [UIButton buttonWithImageName:@""
@@ -80,33 +87,38 @@
                                              titleColor:COLORRGB(0xffffff)
                                                    font:HSFONT(15)
                                              onTapBlock:^(UIButton *btn) {
-                                                 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@""
-                                                                                                  andMessage:@"\n您确定要取消订单吗？\n"];
-                                                 alertView.messageFont = HSFONT(14);
-                                                 alertView.buttonColor = COLORRGB(0xf39a00);
-                                                 alertView.buttonFont = HSFONT(15);
-                                                 alertView.cancelButtonColor = COLORRGB(0xf39a00);
-                                                 [alertView addButtonWithTitle:@"取消订单"
+                                                 _alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"\n您确定要取消订单吗？\n"];
+                                                 _alertView.messageFont = HSFONT(14);
+                                                 _alertView.buttonColor = COLORRGB(0xf39a00);
+                                                 _alertView.buttonFont = HSFONT(15);
+                                                 _alertView.cancelButtonColor = COLORRGB(0xf39a00);
+                                                 _alertView.didShowHandler = ^(SIAlertView *alertView) {
+                                                 };
+                                                 _alertView.didDismissHandler = ^(SIAlertView *alertView) {
+                                                     alertView = nil;
+                                                 };
+                                                 _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+
+                                                 __weak id weakSelf = self;
+                                                 [_alertView addButtonWithTitle:@"取消订单"
                                                                           type:SIAlertViewButtonTypeDefault
                                                                        handler:^(SIAlertView *alert) {
-                                                                           [self cancelOrder];
+                                                                           [weakSelf cancelOrder];
                                                                        }];
-                                                 [alertView addButtonWithTitle:@"继续等待"
+                                                 [_alertView addButtonWithTitle:@"继续等待"
                                                                           type:SIAlertViewButtonTypeCancel
                                                                        handler:^(SIAlertView *alert) {
                                                                            [alert dismissAnimated:YES];
                                                                        }];
-                                                 alertView.didShowHandler = ^(SIAlertView *alertView) {
-                                                 };
-                                                 alertView.didDismissHandler = ^(SIAlertView *alertView) {
-                                                     alertView = nil;
-                                                 };
-                                                 alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
-                                                 [alertView show];
+                                                 [_alertView show];
                                                  
                                              }];
     cancelBtn.frame = ccr(0, 0, 40, 40);
-    [self showRightTitle:YES withButton:cancelBtn];
+    //取消操作限乘车之前
+    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver ||
+        [self.orderInfo.order_status intValue] == OrderStatusDriverIsComing) {
+        [self showRightTitle:YES withButton:cancelBtn];
+    }
     
     _headerView = [[UIView alloc] initWithFrame:CGRectZero];
     _headerView.backgroundColor = COLORRGB(0xffffff);
@@ -207,7 +219,7 @@
     _noticeLabel.text = self.orderStatusInfo;
     
     if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
-        _timerCount = 90;
+        _timerCount = 2;
         [_timer setFireDate:[NSDate distantPast]];
         _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                   target:self
@@ -227,29 +239,30 @@
         [_timer invalidate];
         _timer = nil;
         
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@""
-                                                         andMessage:@"\n您等待了较长的时间，系统会赠送您优惠券\n\n是否继续等待嘟嘟为您服务？\n"];
-        alertView.messageFont = HSFONT(14);
-        alertView.buttonColor = COLORRGB(0xf39a00);
-        alertView.buttonFont = HSFONT(15);
-        alertView.cancelButtonColor = COLORRGB(0xf39a00);
-        [alertView addButtonWithTitle:@"取消订单"
+        _alertView = [[SIAlertView alloc] initWithTitle:@""
+                                             andMessage:@"\n您等待了较长的时间，系统会赠送您优惠券\n\n是否继续等待嘟嘟为您服务？\n"];
+        _alertView.messageFont = HSFONT(14);
+        _alertView.buttonColor = COLORRGB(0xf39a00);
+        _alertView.buttonFont = HSFONT(15);
+        _alertView.cancelButtonColor = COLORRGB(0xf39a00);
+        __weak id weakSelf = self;
+        [_alertView addButtonWithTitle:@"取消订单"
                                  type:SIAlertViewButtonTypeDefault
                               handler:^(SIAlertView *alert) {
-                                  [self cancelOrder];
+                                  [weakSelf cancelOrder];
                               }];
-        [alertView addButtonWithTitle:@"继续等待"
+        [_alertView addButtonWithTitle:@"继续等待"
                                  type:SIAlertViewButtonTypeCancel
                               handler:^(SIAlertView *alert) {
                                   [alert dismissAnimated:YES];
                               }];
-        alertView.didShowHandler = ^(SIAlertView *alertView) {
+        _alertView.didShowHandler = ^(SIAlertView *alertView) {
         };
-        alertView.didDismissHandler = ^(SIAlertView *alertView) {
+        _alertView.didDismissHandler = ^(SIAlertView *alertView) {
             alertView = nil;
         };
-        alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
-        [alertView show];
+        _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+        [_alertView show];
         
     }
 }

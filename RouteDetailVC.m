@@ -185,25 +185,23 @@
     }
     [[DuDuAPIClient sharedClient] GET:FLUSH_ORDER_STATUS([self.orderInfo.order_id intValue]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
-        OrderModel *flushedInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                       fromJSONDictionary:dic[@"info"]
-                                                    error:nil];
-        if (flushedInfo) {
-            self.orderInfo.car_position_id = flushedInfo.car_position_id;
-            self.orderInfo.car_color = flushedInfo.car_color;
-            self.orderInfo.car_plate_number = flushedInfo.car_plate_number;
-            self.orderInfo.driver_nickname = flushedInfo.driver_nickname;
-            self.orderInfo.driver_telephone = flushedInfo.driver_telephone;
-            self.orderInfo.driver_photo = flushedInfo.driver_photo;
-            self.orderInfo.order_status = flushedInfo.order_status;
-            self.orderInfo.car_brand = flushedInfo.car_brand;
-            self.orderInfo.order_initiate_rate = flushedInfo.order_initiate_rate;
-            self.orderInfo.order_mileage = flushedInfo.order_mileage;
-            self.orderInfo.order_mileage_money = flushedInfo.order_mileage_money;
-            self.orderInfo.order_duration_money = flushedInfo.order_duration_money;
-            self.orderInfo.order_allTime = flushedInfo.order_allTime;
-            self.orderInfo.order_allMoney = flushedInfo.order_allMoney;
-            self.orderInfo.location = flushedInfo.location;
+        
+        if (dic && dic[@"info"]) {
+            self.orderInfo.car_position_id = dic[@"info"][@"car_position_id"];
+            self.orderInfo.car_color = dic[@"info"][@"car_color"];
+            self.orderInfo.car_plate_number = dic[@"info"][@"car_plate_number"];
+            self.orderInfo.driver_nickname = dic[@"info"][@"driver_nickname"];
+            self.orderInfo.driver_telephone = dic[@"info"][@"driver_telephone"];
+            self.orderInfo.driver_photo = dic[@"info"][@"driver_photo"];
+            self.orderInfo.order_status = dic[@"info"][@"order_status"];
+            self.orderInfo.car_brand = dic[@"info"][@"car_brand"];
+            self.orderInfo.order_initiate_rate = dic[@"info"][@"order_initiate_rate"];
+            self.orderInfo.order_mileage = dic[@"info"][@"order_mileage"];
+            self.orderInfo.order_mileage_money = dic[@"info"][@"order_mileage_money"];
+            self.orderInfo.order_duration_money = dic[@"info"][@"order_duration_money"];
+            self.orderInfo.order_allTime = dic[@"info"][@"order_allTime"];
+            self.orderInfo.order_allMoney = dic[@"info"][@"order_allMoney"];
+            self.orderInfo.location = dic[@"info"][@"location"];
         } else {
             self.orderInfo.car_color = @"";
             self.orderInfo.car_brand = @"未知车型";
