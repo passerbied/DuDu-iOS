@@ -40,6 +40,7 @@
     BOOL            _isUpdated;
     QMSRoutePlan    *_currentRoutPlan;
     CouponModel     *_currentCoupon;
+    BOOL            _isOrderIng;
 }
 
 + (instancetype)sharedMainViewController
@@ -64,13 +65,12 @@
         _orderVC.title = @"正在为你预约嘟嘟快车";
         _fromLocation = [[QUserLocation alloc] init];
         _toLocation = [[QUserLocation alloc] init];
-//        _fromPointAnnotation = [[QPointAnnotation alloc] init];
-//        _toPointAnnotation = [[QPointAnnotation alloc] init];
     }
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     _isFirstAppear = YES;
@@ -85,7 +85,6 @@
     self.mapView = [[QMapView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
-//    NSLog(@"%f",self.mapView.maxZoomLevel);
     
     self.mapView.userTrackingMode = QUserTrackingModeNone;
     
@@ -115,15 +114,13 @@
                                       }];
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     [self.view addSubview:_locationBtn];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (_isFirstAppear) {
-        [self startLocation];
-        _isFirstAppear = NO;
-    }
+    [self getIngOrder];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -137,6 +134,83 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView removeOverlays:self.mapView.overlays];
 }
+
+- (void)getIngOrder
+{
+    [[DuDuAPIClient sharedClient] GET:USER_ORDER_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject][@"info"];
+        NSArray *ing = [MTLJSONAdapter modelsOfClass:[OrderModel class]
+                                       fromJSONArray:dic[@"ing"]
+                                               error:nil];
+
+        _isOrderIng = ing.count;
+        
+        //第一次进入画面并且没有未完成订单时进行用户定位
+        if (_isFirstAppear && !_isOrderIng) {
+            [self startLocation];
+            _isFirstAppear = NO;
+        } else {
+            OrderModel *orderInfo = ing[0];
+            
+            if ([orderInfo.order_status intValue] == OrderStatusWatingForDriver) { //等待派单
+                
+                [OrderVC sharedOrderVC].orderInfo = orderInfo;
+                [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
+                [OrderVC sharedOrderVC].title = @"订单信息";
+                [OrderVC sharedOrderVC].orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                [self.navigationController presentViewController:[OrderVC sharedOrderVC] animated:YES completion:nil];
+            } else if ([orderInfo.order_status intValue] == OrderStatusDriverCancel) { //司机取消（理论上不会返回这个状态的订单信息）
+                [ZBCToast showMessage:@"司机取消订单"];
+                RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                detailVC.title = @"订单详情";
+                detailVC.orderInfo = orderInfo;
+                detailVC.isHistory = NO;
+                detailVC.isForCharge = NO;
+                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+            } else if ([orderInfo.order_status intValue] == OrderStatusUserCancel) { //用户取消（理论上不会返回这个状态的订单信息）
+                [ZBCToast showMessage:@"您已取消该订单"];
+                RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                detailVC.title = @"订单详情";
+                detailVC.orderInfo = orderInfo;
+                detailVC.isHistory = NO;
+                detailVC.isForCharge = NO;
+                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+            } else if ([orderInfo.order_status intValue] == OrderStatusTravelStart) { //开始乘车
+                [ZBCToast showMessage:@"开始乘车"];
+                RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                detailVC.title = @"订单详情";
+                detailVC.orderInfo = orderInfo;
+                detailVC.isHistory = NO;
+                detailVC.isForCharge = NO;
+                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+            } else if ([orderInfo.order_status intValue] == OrderStatusWatingForPay) { //等待付款
+                [ZBCToast showMessage:@"请尽快付款"];
+                RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                detailVC.title = @"订单详情";
+                detailVC.orderInfo = orderInfo;
+                detailVC.isHistory = NO;
+                detailVC.isForCharge = YES;
+                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+            } else if ([orderInfo.order_status intValue] == OrderStatusDriverIsComing) { //司机前往
+                RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
+                detailVC.title = @"订单详情";
+                detailVC.orderInfo = orderInfo;
+                detailVC.isHistory = NO;
+                detailVC.isForCharge = YES;
+                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+            } else if ([orderInfo.order_status intValue] == OrderStatusComleted) { //订单完成
+                //下单接口中不该返回完成状态的订单信息，不做处理
+                return;
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
+
 
 #pragma mark - 开始定位当前位置
 - (void)startLocation
@@ -277,61 +351,7 @@
                 
             } else if([dic[@"err"] intValue] == OrderResultNotCompleted){ //订单未完成
                 
-                OrderModel *orderInfo = [MTLJSONAdapter modelOfClass:[OrderModel class]
-                                                  fromJSONDictionary:dic[@"info"]
-                                                               error:nil];
                 
-                if ([orderInfo.order_status intValue] == OrderStatusWatingForDriver) { //等待派单
-                    
-                    [OrderVC sharedOrderVC].orderInfo = orderInfo;
-                    [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
-                    [OrderVC sharedOrderVC].title = @"订单信息";
-                    [OrderVC sharedOrderVC].orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
-                    [self.navigationController pushViewController:[OrderVC sharedOrderVC]
-                                                         animated:YES];
-                } else if ([orderInfo.order_status intValue] == OrderStatusDriverCancel) { //司机取消（理论上不会返回这个状态的订单信息）
-                    [ZBCToast showMessage:@"司机取消订单"];
-                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                    detailVC.title = @"订单详情";
-                    detailVC.orderInfo = orderInfo;
-                    detailVC.isHistory = NO;
-                    detailVC.isForCharge = NO;
-                    [self.navigationController pushViewController:detailVC animated:YES];
-                } else if ([orderInfo.order_status intValue] == OrderStatusUserCancel) { //用户取消（理论上不会返回这个状态的订单信息）
-                    [ZBCToast showMessage:@"您已取消该订单"];
-                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                    detailVC.title = @"订单详情";
-                    detailVC.orderInfo = orderInfo;
-                    detailVC.isHistory = NO;
-                    detailVC.isForCharge = NO;
-                    [self.navigationController pushViewController:detailVC animated:YES];
-                } else if ([orderInfo.order_status intValue] == OrderStatusTravelStart) { //开始乘车
-                    [ZBCToast showMessage:@"开始乘车"];
-                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                    detailVC.title = @"订单详情";
-                    detailVC.orderInfo = orderInfo;
-                    detailVC.isHistory = NO;
-                    detailVC.isForCharge = NO;
-                    [self.navigationController pushViewController:detailVC animated:YES];
-                } else if ([orderInfo.order_status intValue] == OrderStatusWatingForPay) { //等待付款
-                    [ZBCToast showMessage:@"请尽快付款"];
-                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                    detailVC.title = @"订单详情";
-                    detailVC.orderInfo = orderInfo;
-                    detailVC.isHistory = NO;
-                    detailVC.isForCharge = YES;
-                    [self.navigationController pushViewController:detailVC animated:YES];
-                } else if ([orderInfo.order_status intValue] == OrderStatusDriverIsComing) { //司机前往
-                    RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                    detailVC.title = @"订单详情";
-                    detailVC.orderInfo = orderInfo;
-                    detailVC.isHistory = NO;
-                    detailVC.isForCharge = YES;
-                    [self.navigationController pushViewController:detailVC animated:YES];
-                } else if ([orderInfo.order_status intValue] == OrderStatusComleted) { //订单完成
-                    //下单接口中不该返回完成状态的订单信息，不做处理
-                    return;
-                }
                 
             } else if([dic[@"err"] intValue] == OrderResultCouponCantUse) { //优惠券不可用
                 [ZBCToast showMessage:@"优惠券不可用"];
