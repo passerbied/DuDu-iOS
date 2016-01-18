@@ -104,7 +104,7 @@
                                               80,
                                               16
                                               )
-                                    color:COLORRGB(0xff8830)
+                                    color:COLORRGB(0xf39a00)
                                      font:HSFONT(15)
                                      text:@""
                                 alignment:NSTextAlignmentRight

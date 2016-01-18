@@ -73,7 +73,7 @@
                                            initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                            target:nil action:nil];
         negativeSpacer.title = @"";
-        negativeSpacer.width = -18;
+//        negativeSpacer.width = -8;
         
         self.navigationItem.leftBarButtonItems = [NSArray
                                                   arrayWithObjects:negativeSpacer, barBtnShare, nil];

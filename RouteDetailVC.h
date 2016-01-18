@@ -26,5 +26,6 @@ AppDelegateDelegate>
 @property (nonatomic, assign) NSInteger modelIndex;
 @property (readwrite, nonatomic, assign) OrderResult resultStatus; //下订单返回的错误类别
 @property (readwrite, nonatomic, assign) OrderStatus orderStatus; //订单状态类别
+@property (nonatomic, assign) BOOL isModal;
 
 @end

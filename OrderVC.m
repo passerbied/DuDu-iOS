@@ -7,6 +7,7 @@
 //
 
 #import "OrderVC.h"
+#import "SIAlertView.h"
 
 @interface OrderVC ()
 {
@@ -22,36 +23,47 @@
     UILabel     *_noticeLabel;
     UIImageView *_bottomLine;
     UIButton    *_changeCarBtn;
+    UIImageView *_timerImageView;
+    UILabel     *_timerLabel;
+    int         _timerCount;
+    NSTimer     *_timer;
 }
 
 @end
 
 @implementation OrderVC
 
-+ (instancetype)sharedOrderVC
-{
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedOrderVC = nil;
-    dispatch_once(&pred, ^{
-        _sharedOrderVC = [[self alloc] init];
-    });
-    return _sharedOrderVC;
-}
+//+ (instancetype)sharedOrderVC
+//{
+//    static dispatch_once_t pred = 0;
+//    __strong static id _sharedOrderVC = nil;
+//    dispatch_once(&pred, ^{
+//        _sharedOrderVC = [[self alloc] init];
+//    });
+//    return _sharedOrderVC;
+//}
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-//        [self createSubViews];
-    }
-    return self;
-}
+//- (id)init
+//{
+//    self = [super init];
+//    if (self) {
+////        [self createSubViews];
+//    }
+//    return self;
+//}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createSubViews];
+//    if (self.isModal) {
+//        UIButton *btn = [UIButton buttonWithImageName:@"gn_pop_icon_shut" hlImageName:@"gn_pop_icon_shut_hl" onTapBlock:^(UIButton *btn) {
+//            [self dismissViewControllerAnimated:YES completion:^{
+//            }];
+//        }];
+//        [self showLeftBarItem:YES withButton:btn];
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -65,12 +77,33 @@
     UIButton *cancelBtn = [UIButton buttonWithImageName:@""
                                             hlImageName:@""
                                                   title:@"取消"
-                                             titleColor:COLORRGB(0x000000)
+                                             titleColor:COLORRGB(0xffffff)
                                                    font:HSFONT(15)
                                              onTapBlock:^(UIButton *btn) {
-                                                 [[UIActionSheet actionSheetWithTitle:@"是否取消订单" cancelTitle:@"返回" destructiveTitle:@"取消订单" destructiveBlock:^{
-                                                     [self cancelOrder];
-                                                 } otherItems:nil] showInView:self.navigationController.view];
+                                                 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@""
+                                                                                                  andMessage:@"\n您确定要取消订单吗？\n"];
+                                                 alertView.messageFont = HSFONT(14);
+                                                 alertView.buttonColor = COLORRGB(0xf39a00);
+                                                 alertView.buttonFont = HSFONT(15);
+                                                 alertView.cancelButtonColor = COLORRGB(0xf39a00);
+                                                 [alertView addButtonWithTitle:@"取消订单"
+                                                                          type:SIAlertViewButtonTypeDefault
+                                                                       handler:^(SIAlertView *alert) {
+                                                                           [self cancelOrder];
+                                                                       }];
+                                                 [alertView addButtonWithTitle:@"继续等待"
+                                                                          type:SIAlertViewButtonTypeCancel
+                                                                       handler:^(SIAlertView *alert) {
+                                                                           [alert dismissAnimated:YES];
+                                                                       }];
+                                                 alertView.didShowHandler = ^(SIAlertView *alertView) {
+                                                 };
+                                                 alertView.didDismissHandler = ^(SIAlertView *alertView) {
+                                                     alertView = nil;
+                                                 };
+                                                 alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+                                                 [alertView show];
+                                                 
                                              }];
     cancelBtn.frame = ccr(0, 0, 40, 40);
     [self showRightTitle:YES withButton:cancelBtn];
@@ -115,6 +148,20 @@
                           numberOfLines:1];
     [_headerView addSubview:_endLabel];
     
+    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
+        _timerImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _timerImageView.image = IMG(@"circle_orange");
+        [_headerView addSubview:_timerImageView];
+        
+        _timerLabel = [UILabel labelWithFrame:CGRectZero
+                                        color:COLORRGB(0x000000)
+                                         font:HSFONT(15)
+                                         text:@"--"
+                                    alignment:NSTextAlignmentCenter
+                                numberOfLines:1];
+        [_timerImageView addSubview:_timerLabel];
+    }
+    
     _noticeLabel = [UILabel labelWithFrame:CGRectZero
                                      color:COLORRGB(0x63666b)
                                       font:HSFONT(15)
@@ -141,13 +188,13 @@
 {
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         return;
     }
     [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(self.orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
         [ZBCToast showMessage:dic[@"info"]];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];
 }
@@ -159,7 +206,53 @@
     _startLabel.text = self.orderInfo.star_loc_str;
     _endLabel.text = self.orderInfo.dest_loc_str;
     _noticeLabel.text = self.orderStatusInfo;
-    [ZBCToast showMessage:self.orderStatusInfo];
+    
+    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
+        _timerCount = 90;
+        [_timer setFireDate:[NSDate distantPast]];
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                  target:self
+                                                selector:@selector(timerFireMethod:)
+                                                userInfo:nil
+                                                 repeats:YES];
+    }
+}
+
+- (void)timerFireMethod:(NSTimer*)theTimer
+{
+    if (_timerCount>0) {
+        _timerLabel.text = STR_I(_timerCount--);
+    } else {
+        _timerLabel.text = @"--";
+        [_timer setFireDate:[NSDate distantFuture]];
+        [_timer invalidate];
+        _timer = nil;
+        
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@""
+                                                         andMessage:@"\n您等待了较长的时间，系统会赠送您优惠券\n\n是否继续等待嘟嘟为您服务？\n"];
+        alertView.messageFont = HSFONT(14);
+        alertView.buttonColor = COLORRGB(0xf39a00);
+        alertView.buttonFont = HSFONT(15);
+        alertView.cancelButtonColor = COLORRGB(0xf39a00);
+        [alertView addButtonWithTitle:@"取消订单"
+                                 type:SIAlertViewButtonTypeDefault
+                              handler:^(SIAlertView *alert) {
+                                  [self cancelOrder];
+                              }];
+        [alertView addButtonWithTitle:@"继续等待"
+                                 type:SIAlertViewButtonTypeCancel
+                              handler:^(SIAlertView *alert) {
+                                  [alert dismissAnimated:YES];
+                              }];
+        alertView.didShowHandler = ^(SIAlertView *alertView) {
+        };
+        alertView.didDismissHandler = ^(SIAlertView *alertView) {
+            alertView = nil;
+        };
+        alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+        [alertView show];
+        
+    }
 }
 
 - (void)calculateFrame
@@ -189,8 +282,24 @@
                           CGRectGetMaxY(_startLabel.frame)+10,
                           endSize.width,
                           16);
+    
+    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
+        UILabel *title = [UILabel labelWithFrame:ccr(SCREEN_WIDTH-100-10,
+                                                     _timeLabel.y,
+                                                     100,
+                                                     _timeLabel.height)
+                                           color:COLORRGB(0x63666b)
+                                            font:HSFONT(12)
+                                            text:@"嘟嘟为您提供服务"
+                                       alignment:NSTextAlignmentRight
+                                   numberOfLines:1];
+        [_headerView addSubview:title];
+        _timerImageView.frame = ccr(SCREEN_WIDTH-30-40, CGRectGetMaxY(title.frame)+10, 40, 40);
+        _timerLabel.frame = ccr(0, 0, _timerImageView.width, _timerImageView.height);
+    }
+    
     _headerView.frame = ccr(0,
-                            NAV_BAR_HEIGHT_IOS7,
+                            0,
                             SCREEN_WIDTH,
                             CGRectGetMaxY(_endLabel.frame)+10);
     _bottomLine.frame = ccr(0,
@@ -229,7 +338,7 @@
 {
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         return;
     }
     [[DuDuAPIClient sharedClient] GET:

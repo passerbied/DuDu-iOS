@@ -60,7 +60,7 @@
     [super viewDidLoad];
     self.delegate =self;
     self.interactivePopGestureRecognizer.delegate = self;
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:HSFONT(16),NSFontAttributeName, COLORRGB(0xff8830),NSForegroundColorAttributeName,nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:HSFONT(16),NSFontAttributeName, COLORRGB(0xf39a00),NSForegroundColorAttributeName,nil];
     self.navigationBar.titleTextAttributes = dict;
 }
 

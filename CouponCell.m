@@ -32,7 +32,7 @@
     [self.contentView addSubview:self.bgImage];
     
     _typeLabel = [UILabel labelWithFrame:CGRectZero
-                                   color:COLORRGB(0xff8830)
+                                   color:COLORRGB(0xf39a00)
                                     font:HSFONT(15)
                                     text:@""
                                alignment:NSTextAlignmentLeft
@@ -40,7 +40,7 @@
     [self.bgImage addSubview:_typeLabel];
     
     _dateLabel = [UILabel labelWithFrame:CGRectZero
-                                   color:COLORRGB(0xff8830)
+                                   color:COLORRGB(0xf39a00)
                                     font:HSFONT(12)
                                     text:@""
                                alignment:NSTextAlignmentLeft
@@ -48,7 +48,7 @@
     [self.bgImage addSubview:_dateLabel];
     
     _detailLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0xff8830)
+                                     color:COLORRGB(0xf39a00)
                                       font:HSFONT(20)
                                       text:@""
                                  alignment:NSTextAlignmentRight

@@ -60,11 +60,13 @@ install_resource()
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "AMap2DMap/MAMapKit.framework/Versions/3.1.0.56231a5/Resources/AMap.bundle"
   install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
+  install_resource "SIAlertView/SIAlertView/SIAlertView.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/TOWebViewControllerLocalizable.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "AMap2DMap/MAMapKit.framework/Versions/3.1.0.56231a5/Resources/AMap.bundle"
   install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
+  install_resource "SIAlertView/SIAlertView/SIAlertView.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/TOWebViewControllerLocalizable.bundle"
 fi
 

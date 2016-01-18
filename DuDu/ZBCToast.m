@@ -19,7 +19,7 @@
                                       kCRToastTimeIntervalKey : @(0.8f),
                                       kCRToastTextKey : message,
                                       kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
-                                      kCRToastBackgroundColorKey : COLORRGB(0xedad49),
+                                      kCRToastBackgroundColorKey : COLORRGB(0xf39a00),
                                       kCRToastAnimationInTypeKey : @(CRToastAnimationTypeLinear),
                                       kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeLinear),
                                       kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionTop),

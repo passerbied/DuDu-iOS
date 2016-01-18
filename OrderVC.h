@@ -17,8 +17,9 @@
 @property (readwrite, nonatomic, assign) OrderStatus orderStatus; //订单状态类别
 @property (nonatomic, copy) NSString *orderStatusInfo;
 @property (nonatomic, strong) CarStore *carStore;
+@property (nonatomic, assign) BOOL isModal;
 
-+ (instancetype)sharedOrderVC;
+//+ (instancetype)sharedOrderVC;
 
 - (void)calculateFrame;
 

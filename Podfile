@@ -17,4 +17,5 @@ pod 'AMapSearch'
 pod 'Mantle','~> 2.0.2'
 pod 'EDStarRating'
 pod 'IQKeyboardManager'
+pod 'SIAlertView'
 

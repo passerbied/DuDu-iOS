@@ -123,7 +123,7 @@
                                                             CGRectGetMaxY(line2.frame),
                                                             _locationView.width-PADDING*2-toIcon.width,
                                                             44)
-                                                  color:COLORRGB(0xff8830)
+                                                  color:COLORRGB(0xf39a00)
                                                    font:HSFONT(15)
                                                    text:@"你要去哪儿"];
         [_locationView addSubview:self.toAddressLabel];
@@ -174,7 +174,7 @@
         
         [_budgetView addSubview:self.budgetLabel];
         
-        self.couponLabel = [UILabel labelWithFrame:ccr(0, CGRectGetMaxY(self.budgetLabel.frame), _budgetView.width, 20) color:COLORRGB(0xff8830) font:HSFONT(12) text:@"暂无优惠" alignment:NSTextAlignmentCenter numberOfLines:1];
+        self.couponLabel = [UILabel labelWithFrame:ccr(0, CGRectGetMaxY(self.budgetLabel.frame), _budgetView.width, 20) color:COLORRGB(0xf39a00) font:HSFONT(12) text:@"暂无优惠" alignment:NSTextAlignmentCenter numberOfLines:1];
         self.couponLabel.userInteractionEnabled = YES;
         [_budgetView addSubview:self.couponLabel];
         
@@ -207,7 +207,7 @@
 - (void)updateCharge:(NSString *)money coupon:(CouponModel *)coupon
 {
     NSMutableAttributedString *budgetString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约%@元",money]];
-    [budgetString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xff8830)}
+    [budgetString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xf39a00)}
                           range:NSMakeRange(1, money.length)];
     [budgetString addAttributes:@{NSFontAttributeName:HSFONT(22)}
                           range:NSMakeRange(1, money.length)];

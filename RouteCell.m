@@ -50,7 +50,7 @@
     [self.contentView addSubview:_typeLabel];
     
     _statusLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0xff8830)
+                                     color:COLORRGB(0xf39a00)
                                       font:HSFONT(12)
                                       text:@""
                                  alignment:NSTextAlignmentRight

@@ -149,6 +149,9 @@
 		48F08F2B1C4BFC0500724CEC /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F261C4BFC0500724CEC /* ApiXml.mm */; };
 		48F08F2C1C4BFC0500724CEC /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F281C4BFC0500724CEC /* payRequsestHandler.mm */; };
 		48F08F2D1C4BFC0500724CEC /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48F08F2A1C4BFC0500724CEC /* WXUtil.mm */; };
+		48F08F301C4CEF3B00724CEC /* gn_pop_icon_shut_hl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08F2E1C4CEF3B00724CEC /* gn_pop_icon_shut_hl@2x.png */; };
+		48F08F311C4CEF3B00724CEC /* gn_pop_icon_shut@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08F2F1C4CEF3B00724CEC /* gn_pop_icon_shut@2x.png */; };
+		48F08F331C4D38E900724CEC /* circle_orange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F08F321C4D38E900724CEC /* circle_orange@2x.png */; };
 		F66BE02E18CD97BAD24F82F5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDC7A333845C15E87E74204 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -385,6 +388,9 @@
 		48F08F281C4BFC0500724CEC /* payRequsestHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = payRequsestHandler.mm; sourceTree = "<group>"; };
 		48F08F291C4BFC0500724CEC /* WXUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXUtil.h; sourceTree = "<group>"; };
 		48F08F2A1C4BFC0500724CEC /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
+		48F08F2E1C4CEF3B00724CEC /* gn_pop_icon_shut_hl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gn_pop_icon_shut_hl@2x.png"; sourceTree = "<group>"; };
+		48F08F2F1C4CEF3B00724CEC /* gn_pop_icon_shut@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gn_pop_icon_shut@2x.png"; sourceTree = "<group>"; };
+		48F08F321C4D38E900724CEC /* circle_orange@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle_orange@2x.png"; sourceTree = "<group>"; };
 		8DDC7A333845C15E87E74204 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D5C95255EB9D93E51C410 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -804,6 +810,9 @@
 		486F52851BEE225E0043874E /* imgs */ = {
 			isa = PBXGroup;
 			children = (
+				48F08F321C4D38E900724CEC /* circle_orange@2x.png */,
+				48F08F2E1C4CEF3B00724CEC /* gn_pop_icon_shut_hl@2x.png */,
+				48F08F2F1C4CEF3B00724CEC /* gn_pop_icon_shut@2x.png */,
 				48F08F231C4BDB3100724CEC /* icon_logo70@2x.png */,
 				48F08F1F1C4BA96300724CEC /* plus64@2x.png */,
 				48F08EF11C47DB1E00724CEC /* checkbox_no@2x.png */,
@@ -1225,6 +1234,7 @@
 				48F08F001C48242900724CEC /* about.txt in Resources */,
 				4867CE2E1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png in Resources */,
 				4847D3AC1C147D8C004634F5 /* orgbtn_pressed@2x.png in Resources */,
+				48F08F301C4CEF3B00724CEC /* gn_pop_icon_shut_hl@2x.png in Resources */,
 				487956F51C439F8700193530 /* icon_my_location_48px@2x.png in Resources */,
 				4867CE291C271387003B1744 /* find_keep_icon_fail@2x.png in Resources */,
 				48F08EFB1C48141B00724CEC /* law.txt in Resources */,
@@ -1236,6 +1246,8 @@
 				480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */,
 				486F527A1BEE08140043874E /* README.txt in Resources */,
 				487956D31C3AA24700193530 /* gn_icon_scoreinput@2x.png in Resources */,
+				48F08F331C4D38E900724CEC /* circle_orange@2x.png in Resources */,
+				48F08F311C4CEF3B00724CEC /* gn_pop_icon_shut@2x.png in Resources */,
 				48F08EEF1C47919400724CEC /* commbtn_pressed@2x.png in Resources */,
 				480E505D1BFB62A6006D545A /* tiny_unbind@2x.png in Resources */,
 				4867CDB41C22FD56003B1744 /* PushConfig.plist in Resources */,

@@ -63,6 +63,14 @@
     [self flushOrderStatus];
     AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     appdelegate.delegate = self;
+    
+    if (self.isModal) {
+        UIButton *btn = [UIButton buttonWithImageName:@"gn_pop_icon_shut" hlImageName:@"gn_pop_icon_shut_hl" onTapBlock:^(UIButton *btn) {
+            [self dismissViewControllerAnimated:YES completion:^{
+            }];
+        }];
+        [self showLeftBarItem:YES withButton:btn];
+    }
 }
 
 - (void)createSubViews
@@ -401,7 +409,7 @@
                                         text:@"未知车型"
                                    alignment:NSTextAlignmentCenter
                                numberOfLines:1];
-    _carStyleLabel.layer.borderColor = COLORRGB(0xff8830).CGColor;
+    _carStyleLabel.layer.borderColor = COLORRGB(0xf39a00).CGColor;
     _carStyleLabel.layer.borderWidth = 1;
     _carStyleLabel.layer.cornerRadius = 5.0f;
     [_driverView addSubview:_carStyleLabel];
@@ -529,7 +537,7 @@
     
     
     _payTypeLabel = [UILabel labelWithFrame:CGRectZero
-                                      color:COLORRGB(0xff8830)
+                                      color:COLORRGB(0xf39a00)
                                        font:HSFONT(13)
                                        text:@""
                                   alignment:NSTextAlignmentLeft
@@ -541,7 +549,7 @@
     [_chargeView addSubview:_payLine];
     
     _payPrice = [UILabel labelWithFrame:CGRectZero
-                                  color:COLORRGB(0xff8830)
+                                  color:COLORRGB(0xf39a00)
                                    font:HSFONT(13)
                                    text:@""
                               alignment:NSTextAlignmentRight

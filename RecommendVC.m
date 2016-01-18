@@ -39,14 +39,14 @@
                                  alignment:NSTextAlignmentCenter
                              numberOfLines:1];
     _couponlabel.backgroundColor = [UIColor clearColor];
-    _couponlabel.layer.borderColor = COLORRGB(0xff8830).CGColor;
+    _couponlabel.layer.borderColor = COLORRGB(0xf39a00).CGColor;
     _couponlabel.layer.borderWidth = 1.0f;
     [couponView addSubview:_couponlabel];
     
     UIButton *shareButton = [UIButton buttonWithImageName:@""
                                               hlImageName:@""
                                                     title:@"分享至微信朋友圈"
-                                               titleColor:COLORRGB(0xff8830)
+                                               titleColor:COLORRGB(0xf39a00)
                                                      font:HSFONT(15)
                                                onTapBlock:^(UIButton *btn) {
                                                    [self shareCoupon];

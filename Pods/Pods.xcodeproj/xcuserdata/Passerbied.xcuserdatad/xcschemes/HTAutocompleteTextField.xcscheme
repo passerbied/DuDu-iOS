@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'E5F1938AD64E86CEDC28D0E5'
+               BlueprintIdentifier = '0D11474CF60DC7AFAB254F5B'
                BlueprintName = 'HTAutocompleteTextField'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libHTAutocompleteTextField.a'>

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7B703F0E5EF30C49B22E0913'
+               BlueprintIdentifier = '856498E4AEFB756378AB09E5'
                BlueprintName = 'EDStarRating'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libEDStarRating.a'>

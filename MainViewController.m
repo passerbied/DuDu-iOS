@@ -147,19 +147,26 @@
         _isOrderIng = ing.count;
         
         //第一次进入画面并且没有未完成订单时进行用户定位
-        if (_isFirstAppear && !_isOrderIng) {
-            [self startLocation];
-            _isFirstAppear = NO;
+        if (!_isOrderIng) {
+            if (_isFirstAppear) {
+                [self startLocation];
+                _isFirstAppear = NO;
+            }
         } else {
             OrderModel *orderInfo = ing[0];
             
             if ([orderInfo.order_status intValue] == OrderStatusWatingForDriver) { //等待派单
-                
-                [OrderVC sharedOrderVC].orderInfo = orderInfo;
-                [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
-                [OrderVC sharedOrderVC].title = @"订单信息";
-                [OrderVC sharedOrderVC].orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
-                [self.navigationController presentViewController:[OrderVC sharedOrderVC] animated:YES completion:nil];
+                OrderVC *orderVC = [[OrderVC alloc] init];
+                orderVC.orderInfo = orderInfo;
+                orderVC.isModal = YES;
+                orderVC.resultStatus = [dic[@"err"] intValue];
+                orderVC.title = @"当前订单";
+                orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
+                [nav.navigationBar setTranslucent:NO];
+                [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
+                [nav.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,HSFONT(16),NSFontAttributeName,nil]];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
             } else if ([orderInfo.order_status intValue] == OrderStatusDriverCancel) { //司机取消（理论上不会返回这个状态的订单信息）
                 [ZBCToast showMessage:@"司机取消订单"];
                 RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
@@ -167,23 +174,29 @@
                 detailVC.orderInfo = orderInfo;
                 detailVC.isHistory = NO;
                 detailVC.isForCharge = NO;
-                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
-            } else if ([orderInfo.order_status intValue] == OrderStatusUserCancel) { //用户取消（理论上不会返回这个状态的订单信息）
-                [ZBCToast showMessage:@"您已取消该订单"];
-                RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                detailVC.title = @"订单详情";
-                detailVC.orderInfo = orderInfo;
-                detailVC.isHistory = NO;
-                detailVC.isForCharge = NO;
-                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+                detailVC.isModal = YES;
+                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:detailVC];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
             } else if ([orderInfo.order_status intValue] == OrderStatusTravelStart) { //开始乘车
-                [ZBCToast showMessage:@"开始乘车"];
+//                OrderVC *orderVC = [[OrderVC alloc] init];
+//                orderVC.orderInfo = orderInfo;
+//                orderVC.isModal = YES;
+//                orderVC.resultStatus = [dic[@"err"] intValue];
+//                orderVC.title = @"当前订单";
+//                orderVC.orderStatusInfo = @"嘟嘟正在为您服务";
+//                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
+//                [nav.navigationBar setTranslucent:NO];
+//                [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
+//                [nav.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,HSFONT(16),NSFontAttributeName,nil]];
+//                [self.navigationController presentViewController:nav animated:YES completion:nil];
                 RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                detailVC.title = @"订单详情";
+                detailVC.title = @"开始乘车";
                 detailVC.orderInfo = orderInfo;
                 detailVC.isHistory = NO;
                 detailVC.isForCharge = NO;
-                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+                detailVC.isModal = YES;
+                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:detailVC];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
             } else if ([orderInfo.order_status intValue] == OrderStatusWatingForPay) { //等待付款
                 [ZBCToast showMessage:@"请尽快付款"];
                 RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
@@ -191,14 +204,21 @@
                 detailVC.orderInfo = orderInfo;
                 detailVC.isHistory = NO;
                 detailVC.isForCharge = YES;
-                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+                detailVC.isModal = YES;
+                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:detailVC];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
             } else if ([orderInfo.order_status intValue] == OrderStatusDriverIsComing) { //司机前往
-                RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-                detailVC.title = @"订单详情";
-                detailVC.orderInfo = orderInfo;
-                detailVC.isHistory = NO;
-                detailVC.isForCharge = YES;
-                [self.navigationController presentViewController:detailVC animated:YES completion:nil];
+                OrderVC *orderVC = [[OrderVC alloc] init];
+                orderVC.orderInfo = orderInfo;
+                orderVC.isModal = YES;
+                orderVC.resultStatus = [dic[@"err"] intValue];
+                orderVC.title = @"当前订单";
+                orderVC.orderStatusInfo = @"司机正在前往，请耐心等待";
+                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
+                [nav.navigationBar setTranslucent:NO];
+                [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
+                [nav.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,HSFONT(16),NSFontAttributeName,nil]];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
             } else if ([orderInfo.order_status intValue] == OrderStatusComleted) { //订单完成
                 //下单接口中不该返回完成状态的订单信息，不做处理
                 return;
@@ -335,24 +355,28 @@
                 orderInfo.start_lng = dic[@"info"][@"start_lng"];
                 orderInfo.user_id = dic[@"info"][@"user_id"];
                 
+                OrderVC *orderVC = [[OrderVC alloc] init];
+                
                 if ([dic[@"err"] intValue] == OrderResultHaveOtherCar) {
                     CarStore *carStore = [[CarStore alloc] init];
                     carStore.cars = [MTLJSONAdapter modelOfClass:[CarModel class]
                                               fromJSONDictionary:dic[@"car_style"]
                                                            error:nil];
-                    [OrderVC sharedOrderVC].carStore = carStore;
+                    orderVC.carStore = carStore;
                 }
-                [OrderVC sharedOrderVC].orderInfo = orderInfo;
-                [OrderVC sharedOrderVC].resultStatus = [dic[@"err"] intValue];
-                [OrderVC sharedOrderVC].title = @"订单信息";
-                [OrderVC sharedOrderVC].orderStatusInfo = dic[@"order_info"];
-                [self.navigationController pushViewController:[OrderVC sharedOrderVC]
-                                                     animated:YES];
+                orderVC.orderInfo = orderInfo;
+                orderVC.resultStatus = [dic[@"err"] intValue];
+                orderVC.title = @"当前订单";
+                orderVC.orderStatusInfo = dic[@"order_info"];
+                orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
+                [nav.navigationBar setTranslucent:NO];
+                [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
+                [nav.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,HSFONT(16),NSFontAttributeName,nil]];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
                 
             } else if([dic[@"err"] intValue] == OrderResultNotCompleted){ //订单未完成
-                
-                
-                
+                return;
             } else if([dic[@"err"] intValue] == OrderResultCouponCantUse) { //优惠券不可用
                 [ZBCToast showMessage:@"优惠券不可用"];
                 return;
