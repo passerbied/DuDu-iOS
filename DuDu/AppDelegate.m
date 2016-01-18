@@ -147,6 +147,9 @@
             case WXSuccess:
                 strMsg = @"支付结果：成功！";
                 NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                if ([self.delegate respondsToSelector:@selector(paySuccessed:)]) {
+                    [self.delegate paySuccessed:YES];
+                }
                 break;
                 
             default:

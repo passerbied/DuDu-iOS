@@ -48,6 +48,7 @@
     UIButton    *_payBtn;
     
     BOOL        _isRatingChanged;
+    BOOL        _isPayed;
 }
 
 @end
@@ -60,6 +61,8 @@
     self.view.backgroundColor = COLORRGB(0xffffff);
     [self createSubViews];
     [self flushOrderStatus];
+    AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    appdelegate.delegate = self;
 }
 
 - (void)createSubViews
@@ -157,7 +160,9 @@
     
     if(self.isForCharge) {
         _payBtn.alpha = 1;
+        _ratingView.alpha = 0;
     } else {
+        _payBtn.alpha = 0;
         _ratingView.alpha = 1;
     }
     
@@ -250,7 +255,7 @@
     _payTypeLabel.text = self.orderInfo.order_payStatus_str;
     _payPrice.text = [NSString stringWithFormat:@"%.1f元",-[self.orderInfo.order_allMoney floatValue]];
     
-    self.starRating.editable = ([self.orderInfo.order_status intValue] == 5 && [self.orderInfo.evaluate_level floatValue]==0); //只有已付款并且没评过星的才可以评星
+    self.starRating.editable = (([self.orderInfo.order_status intValue] == 5 || _isPayed) && [self.orderInfo.evaluate_level floatValue]==0); //只有已付款并且没评过星的才可以评星, _isPayed是因为服务器刷新数据比微信回调速度慢造成支付成功但数据未更新成已支付。
     self.starRating.rating = [self.orderInfo.evaluate_level floatValue];
     
 }
@@ -691,6 +696,14 @@
 //    } else {
 //        return @"服务器返回错误";
 //    }
+}
+
+- (void)paySuccessed:(BOOL)isSuccessed
+{
+    self.isHistory = YES;
+    self.isForCharge = NO;
+    _isPayed = YES;
+    [self flushOrderStatus];
 }
 
 - (NSString *)createMd5Sign:(NSMutableDictionary*)dict

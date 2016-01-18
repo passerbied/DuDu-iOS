@@ -11,11 +11,13 @@
 #import "ZBCStarRating.h"
 #import "WXApi.h"
 #import "WXApiObject.h"
+#import "AppDelegate.h"
 
 @interface RouteDetailVC : BaseViewController
 <CommentVCDelegate,
 EDStarRatingProtocol,
-WXApiDelegate>
+WXApiDelegate,
+AppDelegateDelegate>
 
 @property (nonatomic, strong) OrderModel *orderInfo;
 @property (nonatomic, strong) ZBCStarRating *starRating;
