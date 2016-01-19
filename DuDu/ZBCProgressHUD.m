@@ -94,6 +94,8 @@
     [self hideHUDForWindow:KEY_WINDOW animated:NO];
     [KEY_WINDOW addSubview:[self sharedZBCProgressHUD]];
     [[self sharedZBCProgressHUD] show:animated];
+    [self sharedZBCProgressHUD].labelText = @"";
+    [self sharedZBCProgressHUD].detailsLabelText = @"";
     [self sharedZBCProgressHUD].mode = MBProgressHUDAnimationFade;
     [self sharedZBCProgressHUD].dimBackground = NO;
     [self sharedZBCProgressHUD].opacity = 0.5;

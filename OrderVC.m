@@ -26,8 +26,11 @@
     UIImageView *_timerImageView;
     UILabel     *_timerLabel;
     int         _timerCount;
-    NSTimer     *_timer;
+    NSTimer     *_countDownTimer;
+    NSTimer     *_fetchDataTimer;
     SIAlertView *_alertView;
+    UILabel     *_timerTitle;
+    UIButton    *_cancelBtn;
 }
 
 @end
@@ -77,11 +80,15 @@
 {
     [super viewDidDisappear:animated];
     _alertView = nil;
+    [_countDownTimer invalidate];
+    _countDownTimer = nil;
+    [_fetchDataTimer invalidate];
+    _fetchDataTimer = nil;
 }
 
 - (void)createSubViews
 {
-    UIButton *cancelBtn = [UIButton buttonWithImageName:@""
+    _cancelBtn = [UIButton buttonWithImageName:@""
                                             hlImageName:@""
                                                   title:@"取消"
                                              titleColor:COLORRGB(0xffffff)
@@ -113,12 +120,7 @@
                                                  [_alertView show];
                                                  
                                              }];
-    cancelBtn.frame = ccr(0, 0, 40, 40);
-    //取消操作限乘车之前
-    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver ||
-        [self.orderInfo.order_status intValue] == OrderStatusDriverIsComing) {
-        [self showRightTitle:YES withButton:cancelBtn];
-    }
+    _cancelBtn.frame = ccr(0, 0, 40, 40);
     
     _headerView = [[UIView alloc] initWithFrame:CGRectZero];
     _headerView.backgroundColor = COLORRGB(0xffffff);
@@ -161,6 +163,18 @@
     [_headerView addSubview:_endLabel];
     
     if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
+        
+        _timerTitle = [UILabel labelWithFrame:ccr(SCREEN_WIDTH-100-10,
+                                                  _timeLabel.y,
+                                                  100,
+                                                  _timeLabel.height)
+                                        color:COLORRGB(0x63666b)
+                                         font:HSFONT(12)
+                                         text:@"嘟嘟为您提供服务"
+                                    alignment:NSTextAlignmentRight
+                                numberOfLines:1];
+        [_headerView addSubview:_timerTitle];
+        
         _timerImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         _timerImageView.image = IMG(@"circle_orange");
         [_headerView addSubview:_timerImageView];
@@ -210,22 +224,101 @@
     }];
 }
 
+- (void)flushOrderStatus:(NSTimer *)timer
+{
+    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
+        [ZBCToast showMessage:@"请先登录"];
+        [_fetchDataTimer invalidate];
+        _fetchDataTimer = nil;
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    [[DuDuAPIClient sharedClient] GET:FLUSH_ORDER_STATUS([self.orderInfo.order_id intValue]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
+        
+        if (dic && dic[@"info"]) {
+            self.orderInfo.car_position_id = dic[@"info"][@"car_position_id"];
+            self.orderInfo.car_color = dic[@"info"][@"car_color"];
+            self.orderInfo.car_plate_number = dic[@"info"][@"car_plate_number"];
+            self.orderInfo.driver_nickname = dic[@"info"][@"driver_nickname"];
+            self.orderInfo.driver_telephone = dic[@"info"][@"driver_telephone"];
+            self.orderInfo.driver_photo = dic[@"info"][@"driver_photo"];
+            self.orderInfo.order_status = dic[@"info"][@"order_status"];
+            self.orderInfo.car_brand = dic[@"info"][@"car_brand"];
+            self.orderInfo.order_initiate_rate = dic[@"info"][@"order_initiate_rate"];
+            self.orderInfo.order_mileage = dic[@"info"][@"order_mileage"];
+            self.orderInfo.order_mileage_money = dic[@"info"][@"order_mileage_money"];
+            self.orderInfo.order_duration_money = dic[@"info"][@"order_duration_money"];
+            self.orderInfo.order_allTime = dic[@"info"][@"order_allTime"];
+            self.orderInfo.order_allMoney = dic[@"info"][@"order_allMoney"];
+            self.orderInfo.location = dic[@"info"][@"location"];
+        } else {
+            self.orderInfo.car_color = @"";
+            self.orderInfo.car_brand = @"未知车型";
+            self.orderInfo.car_plate_number = @"未知车牌号";
+            self.orderInfo.driver_nickname = @"未知司机";
+            self.orderInfo.driver_telephone = [NSNumber numberWithInt:0];
+        }
+        
+        [self calculateFrame];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self calculateFrame];
+    }];
+}
+
 - (void)setData
 {
+    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
+        [self showRightTitle:YES withButton:_cancelBtn];
+        self.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+        if (!_countDownTimer) {
+            _timerCount = 2;
+            [_countDownTimer setFireDate:[NSDate distantPast]];
+            _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                               target:self
+                                                             selector:@selector(timerFireMethod:)
+                                                             userInfo:nil
+                                                              repeats:YES];
+        }
+        
+    } else if ([self.orderInfo.order_status intValue] == OrderStatusDriverIsComing) {
+        self.orderStatusInfo = @"司机正在前往，请耐心等待";
+        [self showRightTitle:YES withButton:_cancelBtn];
+        [ZBCToast showMessage:@"司机正在前往，请耐心等待"];
+    } else if ([self.orderInfo.order_status intValue] == OrderStatusDriverCancel) {
+        self.orderStatusInfo = @"司机取消订单";
+        [self showRightTitle:NO withButton:nil];
+        [ZBCToast showMessage:@"司机取消订单"];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    } else if ([self.orderInfo.order_status intValue] == OrderStatusTravelStart) {
+        self.orderStatusInfo = @"行程中，嘟嘟正在为您服务";
+        [self showRightTitle:NO withButton:nil];
+        [ZBCToast showMessage:@"嘟嘟正在为您服务"];
+    } else if ([self.orderInfo.order_status intValue] == OrderStatusComleted) {
+        self.orderStatusInfo = @"订单完成";
+        [self showRightTitle:NO withButton:nil];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    } else if ([self.orderInfo.order_status intValue] == OrderStatusWatingForPay) {
+        self.orderStatusInfo = @"行程结束，请尽快付款";
+        [self showRightTitle:NO withButton:nil];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }
+    
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
     _timeLabel.text = [date displayWithFormat:@"d号H点mm分"];
     _startLabel.text = self.orderInfo.star_loc_str;
     _endLabel.text = self.orderInfo.dest_loc_str;
     _noticeLabel.text = self.orderStatusInfo;
     
-    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
-        _timerCount = 2;
-        [_timer setFireDate:[NSDate distantPast]];
-        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                  target:self
-                                                selector:@selector(timerFireMethod:)
-                                                userInfo:nil
-                                                 repeats:YES];
+    if (!_fetchDataTimer) {
+        [_fetchDataTimer setFireDate:[NSDate distantPast]];
+        _fetchDataTimer = [NSTimer scheduledTimerWithTimeInterval:15.0
+                                                           target:self
+                                                         selector:@selector(flushOrderStatus:)
+                                                         userInfo:nil
+                                                          repeats:YES];
+
     }
 }
 
@@ -235,9 +328,8 @@
         _timerLabel.text = STR_I(_timerCount--);
     } else {
         _timerLabel.text = @"--";
-        [_timer setFireDate:[NSDate distantFuture]];
-        [_timer invalidate];
-        _timer = nil;
+        [_countDownTimer setFireDate:[NSDate distantFuture]];
+        [_countDownTimer invalidate];
         
         _alertView = [[SIAlertView alloc] initWithTitle:@""
                                              andMessage:@"\n您等待了较长的时间，系统会赠送您优惠券\n\n是否继续等待嘟嘟为您服务？\n"];
@@ -296,18 +388,15 @@
                           16);
     
     if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
-        UILabel *title = [UILabel labelWithFrame:ccr(SCREEN_WIDTH-100-10,
-                                                     _timeLabel.y,
-                                                     100,
-                                                     _timeLabel.height)
-                                           color:COLORRGB(0x63666b)
-                                            font:HSFONT(12)
-                                            text:@"嘟嘟为您提供服务"
-                                       alignment:NSTextAlignmentRight
-                                   numberOfLines:1];
-        [_headerView addSubview:title];
-        _timerImageView.frame = ccr(SCREEN_WIDTH-30-40, CGRectGetMaxY(title.frame)+10, 40, 40);
+        _timerImageView.alpha = 1;
+        _timerTitle.alpha = 1;
+        _timerLabel.alpha = 1;
+        _timerImageView.frame = ccr(SCREEN_WIDTH-30-40, CGRectGetMaxY(_timerTitle.frame)+10, 40, 40);
         _timerLabel.frame = ccr(0, 0, _timerImageView.width, _timerImageView.height);
+    } else {
+        _timerImageView.alpha = 0;
+        _timerTitle.alpha = 0;
+        _timerLabel.alpha = 0;
     }
     
     _headerView.frame = ccr(0,
