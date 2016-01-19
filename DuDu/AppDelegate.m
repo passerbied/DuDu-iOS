@@ -132,32 +132,32 @@
 {
     NSLog(@"errorCode=%d \n error=%@ \n type=%d",resp.errCode,resp.errStr,resp.type);
     if (!resp.errCode) {
-        //        if([resp isKindOfClass:[PayResp class]]){
-        //支付返回结果，实际支付结果需要去微信服务器端查询
-        NSString *strMsg = @"";
-        switch (resp.errCode) {
-            case WXSuccess:
-                strMsg = @"支付结果：成功！";
-                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
-                if ([self.delegate respondsToSelector:@selector(paySuccessed:)]) {
-                    [self.delegate paySuccessed:YES];
-                }
-                break;
-                
-            default:
-                strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
-                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
-                break;
+        if([resp isKindOfClass:[PayResp class]]){
+            //支付返回结果，实际支付结果需要去微信服务器端查询
+            NSString *strMsg = @"";
+            switch (resp.errCode) {
+                case WXSuccess:
+                    strMsg = @"支付结果：成功！";
+                    NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                    if ([self.delegate respondsToSelector:@selector(paySuccessed:)]) {
+                        [self.delegate paySuccessed:YES];
+                    }
+                    break;
+                    
+                default:
+                    strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+                    NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                    break;
+            }
+            [ZBCToast showMessage:strMsg];
+        } else if ([resp isKindOfClass:[SendMessageToWXResp class]]){
+            
+            [[DuDuAPIClient sharedClient] GET:SHARE parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+                [ZBCToast showMessage:@"分享成功"];
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            }];
         }
-        [ZBCToast showMessage:strMsg];
-    } else if ([resp isKindOfClass:[SendMessageToWXResp class]]){
-        
-        [[DuDuAPIClient sharedClient] GET:SHARE parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-            [ZBCToast showMessage:@"分享成功"];
-        } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        }];
     }
-
 }
 
 - (void)application:(UIApplication *)application handleReceiveRemoteNotification:(NSDictionary *)userInfo
