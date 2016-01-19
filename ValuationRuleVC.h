@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ValuationRuleVC : UIViewController
+@interface ValuationRuleVC : BaseViewController
 
 @property (nonatomic, strong) CarModel *carStyle;
 @end

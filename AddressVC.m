@@ -120,7 +120,7 @@
     return bottomLine;
 }
 
-#pragma mark - AddressPickerViewControllerDelegate
+#pragma mark - GeoAndSuggestionViewControllerDelegate
 
 - (void)addressPicker:(GeoAndSuggestionViewController *)pickerVC fromAddress:(QMSSuggestionPoiData *)fromPoi toAddress:(QMSSuggestionPoiData *)toPoi
 {
