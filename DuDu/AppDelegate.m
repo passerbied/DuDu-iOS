@@ -131,7 +131,8 @@
 - (void)onResp:(BaseResp *)resp
 {
     NSLog(@"errorCode=%d \n error=%@ \n type=%d",resp.errCode,resp.errStr,resp.type);
-    if([resp isKindOfClass:[PayResp class]]){
+    if (!resp.errCode) {
+        //        if([resp isKindOfClass:[PayResp class]]){
         //支付返回结果，实际支付结果需要去微信服务器端查询
         NSString *strMsg = @"";
         switch (resp.errCode) {
@@ -149,6 +150,12 @@
                 break;
         }
         [ZBCToast showMessage:strMsg];
+    } else if ([resp isKindOfClass:[SendMessageToWXResp class]]){
+        
+        [[DuDuAPIClient sharedClient] GET:SHARE parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+            [ZBCToast showMessage:@"分享成功"];
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        }];
     }
 
 }

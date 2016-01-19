@@ -12,6 +12,7 @@
 #import "WXApi.h"
 #import "WXApiObject.h"
 #import "AppDelegate.h"
+#import "CouponStore.h"
 
 @interface RouteDetailVC : BaseViewController
 <CommentVCDelegate,

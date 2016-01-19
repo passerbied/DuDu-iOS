@@ -87,26 +87,26 @@
     [WXApi sendReq:req];
 }
 
-- (void)onReq:(BaseReq *)req
-{
-    NSLog(@"onReq======= openID:%@; type:%d",req.openID,req.type);
-}
-
-- (void)onResp:(BaseResp *)resp
-{
-    NSLog(@"onResp========== errCode:%d; err:%@; type:%d",resp.errCode,resp.errStr,resp.type);
-    
-    if (resp.errCode) {
-        [ZBCToast showMessage:resp.errStr];
-    } else {
-        
-        [[DuDuAPIClient sharedClient] GET:SHARE parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-            
-        } failure:^(NSURLSessionDataTask *task, NSError *error) {
-            
-        }];
-    }
-    
-}
+//- (void)onReq:(BaseReq *)req
+//{
+//    NSLog(@"onReq======= openID:%@; type:%d",req.openID,req.type);
+//}
+//
+//- (void)onResp:(BaseResp *)resp
+//{
+//    NSLog(@"onResp========== errCode:%d; err:%@; type:%d",resp.errCode,resp.errStr,resp.type);
+//    
+//    if (resp.errCode) {
+//        [ZBCToast showMessage:resp.errStr];
+//    } else {
+//        
+//        [[DuDuAPIClient sharedClient] GET:SHARE parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+//            
+//        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//            
+//        }];
+//    }
+//    
+//}
 
 @end

@@ -76,7 +76,7 @@
 #define CHECK_VERSION                   @"/exam/check-version"
 
 //分享成功接口
-#define SHARE                           @""
+#define SHARE                           @"/user/user-share"
 
 //Umeng
 #define UM_APP_KEY                      @""

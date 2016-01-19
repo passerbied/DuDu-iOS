@@ -46,6 +46,7 @@
     UIView      *_ratingView;
     
     UIButton    *_payBtn;
+    UIButton    *_shareBtn;
     
     BOOL        _isRatingChanged;
     BOOL        _isPayed;
@@ -80,10 +81,12 @@
     [self.view addSubview:[self chargeView]];
     [self.view addSubview:[self ratingView]];
     [self.view addSubview:[self payBtn]];
+    [self.view addSubview:[self shareBtn]];
     
     _driverView.alpha = 0;
     _payBtn.alpha = 0;
     _ratingView.alpha = 0;
+    _shareBtn.alpha = 0;
     
 //    [self calculateFrame];
 }
@@ -167,13 +170,12 @@
     _ratingView.y = CGRectGetMaxY(_chargeView.frame)+30;
     
     if(self.isForCharge) {
-        _payBtn.alpha = 1;
         _ratingView.alpha = 0;
     } else {
-        _payBtn.alpha = 0;
         _ratingView.alpha = 1;
     }
-    
+    _payBtn.alpha = !([self.orderInfo.order_status intValue] == 5 || _isPayed);
+    _shareBtn.alpha = ([self.orderInfo.order_status intValue] == 5 || _isPayed);
 }
 
 - (void)flushOrderStatus
@@ -605,6 +607,42 @@
         _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
     }
     return _payBtn;
+}
+
+- (UIButton *)shareBtn
+{
+    if (!_shareBtn) {
+        _shareBtn = [UIButton buttonWithImageName:@"orgbtn"
+                                        hlImageName:@"orgbtn_pressed"
+                                              title:@"分享至微信朋友圈"
+                                         titleColor:COLORRGB(0xffffff)
+                                               font:HSFONT(15)
+                                         onTapBlock:^(UIButton *btn) {
+                                             [self shareCoupon];
+                                         }];
+        _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    }
+    return _shareBtn;
+}
+
+- (void)shareCoupon
+{
+    WXMediaMessage *message = [WXMediaMessage message];
+    NSString *imgStr = [CouponStore sharedCouponStore].shareInfo[@"weixin_pic"];
+    [message setThumbImage:IMG(imgStr)];
+    message.title = [CouponStore sharedCouponStore].shareInfo[@"weixin_title"];
+    message.description = [CouponStore sharedCouponStore].shareInfo[@"weixin_title"];
+    
+    
+    WXWebpageObject *webObj = [WXWebpageObject object];
+    webObj.webpageUrl = [CouponStore sharedCouponStore].shareInfo[@"weixin_link"];
+    message.mediaObject = webObj;
+    
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = message;
+    req.scene = WXSceneTimeline;
+    [WXApi sendReq:req];
 }
 
 - (void)wechatPay
