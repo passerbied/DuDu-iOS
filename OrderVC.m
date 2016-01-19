@@ -273,7 +273,7 @@
         [self showRightTitle:YES withButton:_cancelBtn];
         self.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
         if (!_countDownTimer) {
-            _timerCount = 2;
+            _timerCount = 90;
             [_countDownTimer setFireDate:[NSDate distantPast]];
             _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                                target:self
