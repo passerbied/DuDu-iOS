@@ -16,4 +16,5 @@
 
 + (instancetype)sharedCouponStore;
 
+
 @end

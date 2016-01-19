@@ -121,6 +121,7 @@
 {
     [super viewDidAppear:animated];
     [self getIngOrder];
+    [self getCouponInfo];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -229,7 +230,6 @@
         
     }];
 }
-
 
 
 #pragma mark - 开始定位当前位置
@@ -416,10 +416,6 @@
 
 - (void)getCouponInfo
 {
-    if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
-        [ZBCToast showMessage:@"请先登录"];
-        return;
-    }
     [[DuDuAPIClient sharedClient] GET:USER_COUPON_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dic = [DuDuAPIClient parseJSONFrom:responseObject];
