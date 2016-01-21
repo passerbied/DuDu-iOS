@@ -50,6 +50,8 @@
     
     BOOL        _isRatingChanged;
     BOOL        _isPayed;
+    
+    NSTimer     *_fetchDataTimer;
 }
 
 @end
@@ -74,13 +76,20 @@
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_fetchDataTimer invalidate];
+    _fetchDataTimer = nil;
+}
+
 - (void)createSubViews
 {
     [self.view addSubview:[self routeView]];
     [self.view addSubview:[self driverView]];
     [self.view addSubview:[self chargeView]];
     [self.view addSubview:[self ratingView]];
-    [self.view addSubview:[self payBtn]];
+    [self.view addSubview:[self weixinPayBtn]];
     [self.view addSubview:[self shareBtn]];
     
     _driverView.alpha = 0;
@@ -182,7 +191,11 @@
 {
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
-        [self.navigationController popViewControllerAnimated:YES];
+        if (self.isModal) {
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
         return;
     }
     [[DuDuAPIClient sharedClient] GET:FLUSH_ORDER_STATUS([self.orderInfo.order_id intValue]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -266,9 +279,28 @@
     _payTypeLabel.text = self.orderInfo.order_payStatus_str;
     _payPrice.text = [NSString stringWithFormat:@"%.1f元",-[self.orderInfo.order_allMoney floatValue]];
     
+    [_payBtn setTitle:self.orderInfo.order_payStatus_str forState:UIControlStateNormal];
+    [_payBtn setTitle:self.orderInfo.order_payStatus_str forState:UIControlStateSelected];
+
+    if (self.orderInfo.order_payStatus) {
+        [self cashPayBtn];
+    } else {
+        [self weixinPayBtn];
+    }
+    
+    
     self.starRating.editable = (([self.orderInfo.order_status intValue] == 5 || _isPayed) && [self.orderInfo.evaluate_level floatValue]==0); //只有已付款并且没评过星的才可以评星, _isPayed是因为服务器刷新数据比微信回调速度慢造成支付成功但数据未更新成已支付。
     self.starRating.rating = [self.orderInfo.evaluate_level floatValue];
     
+    if (!_fetchDataTimer) {
+        [_fetchDataTimer setFireDate:[NSDate distantPast]];
+        _fetchDataTimer = [NSTimer scheduledTimerWithTimeInterval:15.0
+                                                           target:self
+                                                         selector:@selector(flushOrderStatus)
+                                                         userInfo:nil
+                                                          repeats:YES];
+        
+    }
 }
 
 - (UIView *)routeView
@@ -596,19 +628,32 @@
     return _ratingView;
 }
 
-- (UIButton *)payBtn
+- (UIButton *)cashPayBtn
 {
-    if (!_payBtn) {
-        _payBtn = [UIButton buttonWithImageName:@"orgbtn"
-                                    hlImageName:@"orgbtn_pressed"
-                                          title:@"微信支付"
-                                     titleColor:COLORRGB(0xffffff)
-                                           font:HSFONT(15)
-                                     onTapBlock:^(UIButton *btn) {
-                                         [self wechatPay];
-                                     }];
-        _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
-    }
+    _payBtn = [UIButton buttonWithImageName:@"commbtn"
+                                hlImageName:@"commbtn_pressed"
+                                      title:@"现金支付完成"
+                                 titleColor:COLORRGB(0xffffff)
+                                       font:HSFONT(15)
+                                 onTapBlock:^(UIButton *btn) {
+                                 }];
+    _payBtn.enabled =NO;
+    _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    return _payBtn;
+}
+
+- (UIButton *)weixinPayBtn
+{
+    _payBtn = [UIButton buttonWithImageName:@"orgbtn"
+                                hlImageName:@"orgbtn_pressed"
+                                      title:@"微信支付"
+                                 titleColor:COLORRGB(0xffffff)
+                                       font:HSFONT(15)
+                                 onTapBlock:^(UIButton *btn) {
+                                     [self wechatPay];
+                                 }];
+    _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    _payBtn.enabled = YES;
     return _payBtn;
 }
 
