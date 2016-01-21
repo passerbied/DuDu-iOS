@@ -17,6 +17,7 @@
 #import "MainViewController.h"
 #import "LoginVC.h"
 #import "GeoAndSuggestionViewController.h"
+#import "adModel.h"
 
 @interface AppDelegate ()
 
@@ -87,6 +88,12 @@
         NSArray *cars = [MTLJSONAdapter modelsOfClass:[CarModel class]
                                         fromJSONArray:carStyles
                                                 error:nil];
+        
+        //获取广告信息
+        [MainViewController sharedMainViewController].adInfo =
+        [MTLJSONAdapter modelOfClass:[adModel class]
+                  fromJSONDictionary:[DuDuAPIClient parseJSONFrom:responseObject][@"ad"]
+                               error:nil];
         
         //获取分享信息
         [CouponStore sharedCouponStore].shareInfo =

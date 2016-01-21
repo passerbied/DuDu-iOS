@@ -41,6 +41,8 @@
     QMSRoutePlan    *_currentRoutPlan;
     CouponModel     *_currentCoupon;
     BOOL            _isOrderIng;
+    
+    UIView          *_adView;
 }
 
 + (instancetype)sharedMainViewController
@@ -115,6 +117,8 @@
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     [self.view addSubview:_locationBtn];
     
+    [self.view addSubview:[self adView]];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -134,6 +138,27 @@
     self.mapView.showsUserLocation = NO;
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView removeOverlays:self.mapView.overlays];
+}
+
+- (UIView *)adView
+{
+    if (!_adView) {
+        _adView = [[UIView alloc] initWithFrame:ccr(30, _topToolBar.height+NAV_BAR_HEIGHT_IOS7+30, SCREEN_WIDTH-60,480)];
+        _adView.backgroundColor = [UIColor orangeColor];
+        UIButton *closeBtn = [UIButton buttonWithImageName:@"" hlImageName:@"" onTapBlock:^(UIButton *btn) {
+            [_adView removeFromSuperview];
+        }];
+        closeBtn.backgroundColor = COLORRGB(0x000000);
+        closeBtn.frame = ccr(_adView.width-30, 0, 30, 30);
+        [_adView addSubview:closeBtn];
+//        NSData *data = [NSData dataWithContentsOfURL:URL(self.adInfo.advertisement_url)];
+//        UIImage *img = [UIImage imageWithData:data];
+//        CGSize size = img.size;
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:ccr(0, 10, _adView.width-10, _adView.height-10)];
+        [imgView setImageWithURL:URL(self.adInfo.advertisement_url)];
+        [_adView addSubview:imgView];
+    }
+    return _adView;
 }
 
 - (void)getIngOrder

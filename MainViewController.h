@@ -18,6 +18,7 @@
 #import <QMapKit/QMapKit.h>
 #import <QMapSearchKit/QMapSearchKit.h>
 #import "CouponVC.h"
+#import "adModel.h"
 
 @interface MainViewController : BaseViewController
 <TopToolBarDelegate,
@@ -31,14 +32,15 @@ CouponVCDelegate
 >
 
 + (instancetype)sharedMainViewController;
-//@property (nonatomic, strong) MAMapView *mapView;
-@property (nonatomic, strong) QMapView *mapView;
-@property (nonatomic, strong) QMSSearcher *search;
+
+@property (nonatomic, strong) QMapView      *mapView;
+@property (nonatomic, strong) QMSSearcher   *search;
 @property (nonatomic, strong) QUserLocation *fromLocation;
 @property (nonatomic, strong) QUserLocation *toLocation;
-@property (nonatomic, strong) TopToolBar *topToolBar;
-@property (nonatomic, strong) NSArray *carStyles;
-@property (nonatomic, strong) CarModel *currentCar;
+@property (nonatomic, strong) TopToolBar    *topToolBar;
+@property (nonatomic, strong) NSArray       *carStyles;
+@property (nonatomic, strong) CarModel      *currentCar;
+@property (nonatomic, strong) adModel       *adInfo;
 
 @end
 

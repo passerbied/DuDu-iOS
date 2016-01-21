@@ -109,6 +109,7 @@
 		486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52D21BFB28AD0043874E /* UIViewController+MMDrawerController.m */; };
 		48708B7E1C5092350015BDA2 /* ShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48708B7D1C5092350015BDA2 /* ShareModel.m */; };
 		48708B801C50E64B0015BDA2 /* phone-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48708B7F1C50E64B0015BDA2 /* phone-icon@2x.png */; };
+		48708B831C513CA50015BDA2 /* adModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48708B821C513CA50015BDA2 /* adModel.m */; };
 		487956CE1C3A9F2300193530 /* ZBCStarRating.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956CB1C3A9F2300193530 /* ZBCStarRating.m */; };
 		487956CF1C3A9F2300193530 /* ZBCStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956CD1C3A9F2300193530 /* ZBCStarRatingView.m */; };
 		487956D21C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956D01C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png */; };
@@ -332,6 +333,8 @@
 		48708B7C1C5092350015BDA2 /* ShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareModel.h; sourceTree = "<group>"; };
 		48708B7D1C5092350015BDA2 /* ShareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareModel.m; sourceTree = "<group>"; };
 		48708B7F1C50E64B0015BDA2 /* phone-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phone-icon@2x.png"; sourceTree = "<group>"; };
+		48708B811C513CA50015BDA2 /* adModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = adModel.h; sourceTree = "<group>"; };
+		48708B821C513CA50015BDA2 /* adModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = adModel.m; sourceTree = "<group>"; };
 		487956CA1C3A9F2300193530 /* ZBCStarRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCStarRating.h; sourceTree = "<group>"; };
 		487956CB1C3A9F2300193530 /* ZBCStarRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCStarRating.m; sourceTree = "<group>"; };
 		487956CC1C3A9F2300193530 /* ZBCStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCStarRatingView.h; sourceTree = "<group>"; };
@@ -954,6 +957,8 @@
 				4867CE461C34D9D0003B1744 /* CarInfo */,
 				4867CE3E1C317E9B003B1744 /* OrderInfo */,
 				4867CE301C285509003B1744 /* UserInfo */,
+				48708B811C513CA50015BDA2 /* adModel.h */,
+				48708B821C513CA50015BDA2 /* adModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1375,6 +1380,7 @@
 				4867CE5C1C364FA7003B1744 /* OrderStore.m in Sources */,
 				32F03A131C0E8F6900A2C4BD /* InvoiceVC.m in Sources */,
 				486F52B81BF0E87F0043874E /* YBNavigationContoller.m in Sources */,
+				48708B831C513CA50015BDA2 /* adModel.m in Sources */,
 				32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */,
 				32F03A021C0CDF1300A2C4BD /* CheckDetailVC.m in Sources */,
 				486F52D31BFB28AD0043874E /* MMDrawerBarButtonItem.m in Sources */,
