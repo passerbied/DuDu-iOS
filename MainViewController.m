@@ -320,7 +320,8 @@
                               orderInfo.dest_loc_str,
                               orderInfo.car_style,
                               orderInfo.startTimeType,
-                              orderInfo.startTimeStr);
+                              orderInfo.startTimeStr,
+                              _currentCoupon.coupon_id);
     
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];

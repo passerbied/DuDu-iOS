@@ -204,6 +204,7 @@
             self.orderInfo.order_allTime = dic[@"info"][@"order_allTime"];
             self.orderInfo.order_allMoney = dic[@"info"][@"order_allMoney"];
             self.orderInfo.location = dic[@"info"][@"location"];
+            self.orderInfo.order_payStatus = dic[@"info"][@"order_payStatus"];
         } else {
             self.orderInfo.car_color = @"";
             self.orderInfo.car_brand = @"未知车型";
