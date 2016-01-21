@@ -42,6 +42,9 @@
     UILabel     *_payTypeLabel;
     UILabel     *_payPrice;
     UIImageView *_payLine;
+    UILabel     *_nightServiceTitle;
+    UIImageView *_nightServiceLine;
+    UILabel     *_nightServiceLabel;
     
     UIView      *_ratingView;
     
@@ -140,21 +143,58 @@
                           _duringPrice.origin.x-5*2-CGRectGetMaxX(_duringLabel.frame),
                           _mileageLine.height);
     
-    CGSize couponSize = [self getTextFromLabel:_couponLabel];
-    _couponLabel.frame = ccr(_duringLabel.origin.x,
-                             CGRectGetMaxY(_duringLabel.frame)+5,
-                             couponSize.width,
-                             couponSize.height);
-    CGSize couponTitleSize = [self getTextFromLabel:_couponPrice];
-    _couponPrice.frame = ccr(SCREEN_WIDTH-20-couponTitleSize.width,
-                             CGRectGetMaxY(_duringPrice.frame)+5,
-                             couponTitleSize.width,
-                             couponTitleSize.height);
-    _couponLine.frame = ccr(CGRectGetMaxX(_couponLabel.frame)+5,
-                            CGRectGetMaxY(_couponLabel.frame)-couponTitleSize.height/2,
-                            _couponPrice.origin.x-5*2-CGRectGetMaxX(_couponLabel.
-                                                                    frame),
-                            _duringLine.height);
+    if ([Utils checkNightService]) {
+        CGSize nightServiceTitleSize = [self getTextFromLabel:_nightServiceTitle];
+        _nightServiceTitle.frame = ccr(_duringLabel.x,
+                                       CGRectGetMaxY(_duringLabel.frame)+5,
+                                       nightServiceTitleSize.width,
+                                       nightServiceTitleSize.height);
+        
+        CGSize nightServiceSize = [self getTextFromLabel:_nightServiceLabel];
+        _nightServiceLabel.frame = ccr(SCREEN_WIDTH-20-nightServiceSize.width,
+                                       CGRectGetMaxY(_duringPrice.frame)+5,
+                                       nightServiceSize.width,
+                                       nightServiceSize.height);
+        
+        
+        _nightServiceLine.frame = ccr(CGRectGetMaxX(_nightServiceTitle.frame)+5,
+                                      CGRectGetMaxY(_nightServiceTitle.frame)-nightServiceTitleSize.height/2,
+                                      _nightServiceLabel.origin.x-5*2-CGRectGetMaxX(_nightServiceTitle.frame),
+                                      _duringLine.height);
+        
+        CGSize couponSize = [self getTextFromLabel:_couponLabel];
+        _couponLabel.frame = ccr(_duringLabel.origin.x,
+                                 CGRectGetMaxY(_nightServiceTitle.frame)+5,
+                                 couponSize.width,
+                                 couponSize.height);
+        CGSize couponTitleSize = [self getTextFromLabel:_couponPrice];
+        _couponPrice.frame = ccr(SCREEN_WIDTH-20-couponTitleSize.width,
+                                 CGRectGetMaxY(_nightServiceLabel.frame)+5,
+                                 couponTitleSize.width,
+                                 couponTitleSize.height);
+        _couponLine.frame = ccr(CGRectGetMaxX(_couponLabel.frame)+5,
+                                CGRectGetMaxY(_couponLabel.frame)-couponTitleSize.height/2,
+                                _couponPrice.origin.x-5*2-CGRectGetMaxX(_couponLabel.
+                                                                        frame),
+                                _nightServiceLine.height);
+    } else {
+        CGSize couponSize = [self getTextFromLabel:_couponLabel];
+        _couponLabel.frame = ccr(_duringLabel.origin.x,
+                                 CGRectGetMaxY(_duringLabel.frame)+5,
+                                 couponSize.width,
+                                 couponSize.height);
+        CGSize couponTitleSize = [self getTextFromLabel:_couponPrice];
+        _couponPrice.frame = ccr(SCREEN_WIDTH-20-couponTitleSize.width,
+                                 CGRectGetMaxY(_duringPrice.frame)+5,
+                                 couponTitleSize.width,
+                                 couponTitleSize.height);
+        _couponLine.frame = ccr(CGRectGetMaxX(_couponLabel.frame)+5,
+                                CGRectGetMaxY(_couponLabel.frame)-couponTitleSize.height/2,
+                                _couponPrice.origin.x-5*2-CGRectGetMaxX(_couponLabel.
+                                                                        frame),
+                                _duringLine.height);
+    }
+    
     
     CGSize payTypeSize = [self getTextFromLabel:_payTypeLabel];
     _payTypeLabel.frame = ccr(_couponLabel.origin.x,
@@ -489,26 +529,6 @@
                             numberOfLines:1];
     [_chargeView addSubview:_priceLabel];
     
-    //    _startLabel = [UILabel labelWithFrame:CGRectZero
-    //                                    color:COLORRGB(0x000000)
-    //                                     font:HSFONT(13)
-    //                                     text:@"起步价"
-    //                                alignment:NSTextAlignmentLeft
-    //                            numberOfLines:1];
-    //    [chargeView addSubview:_startLabel];
-    //
-    //    _startLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    //    _startLine.backgroundColor = COLORRGB(0xd7d7d7);
-    //    [chargeView addSubview:_startLine];
-    //
-    //    _startPrice = [UILabel labelWithFrame:CGRectZero
-    //                                    color:COLORRGB(0x000000)
-    //                                     font:HSFONT(13)
-    //                                     text:@""
-    //                                alignment:NSTextAlignmentRight
-    //                            numberOfLines:1];
-    //    [chargeView addSubview:_startPrice];
-    
     _mileageLabel = [UILabel labelWithFrame:CGRectZero
                                       color:COLORRGB(0x000000)
                                        font:HSFONT(13)
@@ -548,6 +568,27 @@
                                alignment:NSTextAlignmentRight
                            numberOfLines:1];
     [_chargeView addSubview:_duringPrice];
+    
+    _nightServiceTitle = [UILabel labelWithFrame:CGRectZero
+                                           color:COLORRGB(0x000000)
+                                            font:HSFONT(13)
+                                            text:@"夜间服务加价"
+                                       alignment:NSTextAlignmentRight
+                                   numberOfLines:1];
+    [_chargeView addSubview:_nightServiceTitle];
+    
+    _nightServiceLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _nightServiceLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_chargeView addSubview:_nightServiceLine];
+    
+    NSString *times = [NSString stringWithFormat:@"%.1f倍",self.orderInfo.night_service_times];
+    _nightServiceLabel = [UILabel labelWithFrame:CGRectZero
+                                     color:COLORRGB(0x000000)
+                                      font:HSFONT(13)
+                                      text:times
+                                 alignment:NSTextAlignmentRight
+                             numberOfLines:1];
+    [_chargeView addSubview:_nightServiceLabel];
     
     
     _couponLabel = [UILabel labelWithFrame:CGRectZero

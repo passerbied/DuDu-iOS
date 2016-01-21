@@ -131,4 +131,23 @@
     return rect;
 }
 
++ (BOOL)checkNightService
+{
+    NSDate * date = [NSDate date];
+    NSTimeInterval sec = [date timeIntervalSinceNow];
+    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
+    
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:currentDate];
+    
+    int hour = (int)[dateComponent hour];
+    NSLog(@"当前时间：%d点",hour);
+    if ((22 < hour & hour < 24) || hour < 5) { //夜间计价
+        return YES;
+    }
+    return NO;
+}
+
 @end

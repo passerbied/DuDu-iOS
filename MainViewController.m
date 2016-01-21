@@ -463,7 +463,7 @@
         charge = charge - [coupon.coupon_discount floatValue];
     }
     
-    if ([self checkNightService]) {
+    if ([Utils checkNightService]) {
         charge = charge * [_currentCar.night_service_times floatValue];
     }
     //保证费用为非负数
@@ -472,25 +472,6 @@
     }
     
     [_bottomToolBar updateCharge:[NSString stringWithFormat:@"%.1f",charge] coupon:coupon];
-}
-
-- (BOOL)checkNightService
-{
-    NSDate * date = [NSDate date];
-    NSTimeInterval sec = [date timeIntervalSinceNow];
-    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
-    
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-    NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:currentDate];
-    
-    int hour = (int)[dateComponent hour];
-    NSLog(@"当前时间：%d点",hour);
-    if ((22 < hour & hour < 24) || hour < 5) { //夜间计价
-        return YES;
-    }
-    return NO;
 }
 
 #pragma mark - 发送打车订单

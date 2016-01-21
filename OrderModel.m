@@ -7,6 +7,7 @@
 //
 
 #import "OrderModel.h"
+#import "MainViewController.h"
 
 @implementation OrderModel
 
@@ -127,6 +128,16 @@
             return @"";
             break;
     }
+}
+
+- (float)night_service_times
+{
+    for (CarModel *car in [MainViewController sharedMainViewController].carStyles) {
+        if (car.car_style_id == _car_style) {
+            return [car.night_service_times floatValue];
+        }
+    }
+    return 1.5;
 }
 
 @end

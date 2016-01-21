@@ -44,4 +44,12 @@
 
 + (CGRect)getLabelRect:(UILabel *)label;
 
+/**
+ *  判断当前是否是夜间服务时段(22:00~05:00)
+ *
+ *
+ *  @return BOOL
+ */
++ (BOOL)checkNightService;
+
 @end
