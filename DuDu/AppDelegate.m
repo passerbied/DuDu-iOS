@@ -89,7 +89,10 @@
                                                 error:nil];
         
         //获取分享信息
-        [CouponStore sharedCouponStore].shareInfo = [DuDuAPIClient parseJSONFrom:responseObject][@"wx_config"];
+        [CouponStore sharedCouponStore].shareInfo =
+        [MTLJSONAdapter modelOfClass:[ShareModel class]
+                  fromJSONDictionary:[DuDuAPIClient parseJSONFrom:responseObject][@"wx_config"]
+                               error:nil];
         
         carStore.cars = [cars mutableCopy];
 

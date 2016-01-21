@@ -61,10 +61,10 @@
 - (void)setData
 {
     self.share_coupon = @"优惠券";
-    self.share_title = [CouponStore sharedCouponStore].shareInfo[@"weixin_title"];
-    self.share_desc = [CouponStore sharedCouponStore].shareInfo[@"weixin_title"];
-    self.share_link = [CouponStore sharedCouponStore].shareInfo[@"weixin_link"];
-    self.share_thumb = [CouponStore sharedCouponStore].shareInfo[@"weixin_pic"];
+    self.share_title = [CouponStore sharedCouponStore].shareInfo.weixin_title;
+    self.share_desc = [CouponStore sharedCouponStore].shareInfo.weixin_title;
+    self.share_link = [CouponStore sharedCouponStore].shareInfo.weixin_link;
+    self.share_thumb = [CouponStore sharedCouponStore].shareInfo.weixin_pic;
     _couponlabel.text = self.share_coupon;
 }
 

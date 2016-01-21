@@ -190,14 +190,6 @@
                 [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
                 [nav.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,HSFONT(16),NSFontAttributeName,nil]];
                 [self.navigationController presentViewController:nav animated:YES completion:nil];
-//                RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];
-//                detailVC.title = @"开始乘车";
-//                detailVC.orderInfo = orderInfo;
-//                detailVC.isHistory = NO;
-//                detailVC.isForCharge = NO;
-//                detailVC.isModal = YES;
-//                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:detailVC];
-//                [self.navigationController presentViewController:nav animated:YES completion:nil];
             } else if ([orderInfo.order_status intValue] == OrderStatusWatingForPay) { //等待付款
                 [ZBCToast showMessage:@"请尽快付款"];
                 RouteDetailVC *detailVC = [[RouteDetailVC alloc] init];

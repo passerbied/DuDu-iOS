@@ -21,6 +21,6 @@
 
 //+ (instancetype)sharedOrderVC;
 
-- (void)calculateFrame;
+//- (void)calculateFrame;
 
 @end

@@ -78,8 +78,6 @@
     
 }
 
-#pragma mark - UISearchBarDelegate
-
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     //配置搜索参数

@@ -8,72 +8,58 @@
 
 #import "OrderVC.h"
 #import "SIAlertView.h"
+#import "CouponStore.h"
 
 @interface OrderVC ()
 {
-    UIView      *_headerView;
-    UIImageView *_timeImage;
+    UIView      *_routeView;
     UILabel     *_timeLabel;
-    UIImageView *_startImage;
     UILabel     *_startLabel;
-    UIImageView *_endImage;
     UILabel     *_endLabel;
-    UILabel     *_numberLabel;
-    UILabel     *_minuteLabel;
-    UILabel     *_noticeLabel;
-    UIImageView *_bottomLine;
-    UIButton    *_changeCarBtn;
     UIImageView *_timerImageView;
     UILabel     *_timerLabel;
+    UIImageView *_bottomLine;
+    
+    UILabel     *_noticeLabel;
+    
+    UIView      *_driverView;
+    UIImageView *_avator;
+    UILabel     *_driverNameLabel;
+    UILabel     *_carNumLabel;
+    UILabel     *_carStyleLabel;
+    UILabel     *_carColorLabel;
+    
     int         _timerCount;
     NSTimer     *_countDownTimer;
     NSTimer     *_fetchDataTimer;
     SIAlertView *_alertView;
     UILabel     *_timerTitle;
     UIButton    *_cancelBtn;
+    
+    UIWebView   *_phoneCallWebView;
 }
 
 @end
 
 @implementation OrderVC
 
-//+ (instancetype)sharedOrderVC
-//{
-//    static dispatch_once_t pred = 0;
-//    __strong static id _sharedOrderVC = nil;
-//    dispatch_once(&pred, ^{
-//        _sharedOrderVC = [[self alloc] init];
-//    });
-//    return _sharedOrderVC;
-//}
-
-//- (id)init
-//{
-//    self = [super init];
-//    if (self) {
-////        [self createSubViews];
-//    }
-//    return self;
-//}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
-    [self createSubViews];
-//    if (self.isModal) {
-//        UIButton *btn = [UIButton buttonWithImageName:@"gn_pop_icon_shut" hlImageName:@"gn_pop_icon_shut_hl" onTapBlock:^(UIButton *btn) {
-//            [self dismissViewControllerAnimated:YES completion:^{
-//            }];
-//        }];
-//        [self showLeftBarItem:YES withButton:btn];
-//    }
+    [self setupCancelBtn];
+    [self.view addSubview:[self routeView]];
+    [self.view addSubview:[self noticeLabel]];
+    [self.view addSubview:[self driverView]];
+    [self showDriverView:NO];
+    [self showOtherCars:NO];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-     [self calculateFrame];
+    [self flushOrderStatus:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -86,129 +72,254 @@
     _fetchDataTimer = nil;
 }
 
-- (void)createSubViews
+- (void)cancelDidTapped
 {
-    _cancelBtn = [UIButton buttonWithImageName:@""
-                                            hlImageName:@""
-                                                  title:@"取消"
-                                             titleColor:COLORRGB(0xffffff)
-                                                   font:HSFONT(15)
-                                             onTapBlock:^(UIButton *btn) {
-                                                 _alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"\n您确定要取消订单吗？\n"];
-                                                 _alertView.messageFont = HSFONT(14);
-                                                 _alertView.buttonColor = COLORRGB(0xf39a00);
-                                                 _alertView.buttonFont = HSFONT(15);
-                                                 _alertView.cancelButtonColor = COLORRGB(0xf39a00);
-                                                 _alertView.didShowHandler = ^(SIAlertView *alertView) {
-                                                 };
-                                                 _alertView.didDismissHandler = ^(SIAlertView *alertView) {
-                                                     alertView = nil;
-                                                 };
-                                                 _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+    _alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"\n您确定要取消订单吗？\n"];
+    _alertView.messageFont = HSFONT(14);
+    _alertView.buttonColor = COLORRGB(0xf39a00);
+    _alertView.buttonFont = HSFONT(15);
+    _alertView.cancelButtonColor = COLORRGB(0xf39a00);
+    _alertView.didShowHandler = ^(SIAlertView *alertView) {
+    };
+    _alertView.didDismissHandler = ^(SIAlertView *alertView) {
+        alertView = nil;
+    };
+    _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+    
+    __weak id weakSelf = self;
+    [_alertView addButtonWithTitle:@"取消订单"
+                              type:SIAlertViewButtonTypeDefault
+                           handler:^(SIAlertView *alert) {
+                               [weakSelf cancelOrder];
+                           }];
+    [_alertView addButtonWithTitle:@"继续等待"
+                              type:SIAlertViewButtonTypeCancel
+                           handler:^(SIAlertView *alert) {
+                               [alert dismissAnimated:YES];
+                           }];
+    [_alertView show];
+}
 
-                                                 __weak id weakSelf = self;
-                                                 [_alertView addButtonWithTitle:@"取消订单"
-                                                                          type:SIAlertViewButtonTypeDefault
-                                                                       handler:^(SIAlertView *alert) {
-                                                                           [weakSelf cancelOrder];
-                                                                       }];
-                                                 [_alertView addButtonWithTitle:@"继续等待"
-                                                                          type:SIAlertViewButtonTypeCancel
-                                                                       handler:^(SIAlertView *alert) {
-                                                                           [alert dismissAnimated:YES];
-                                                                       }];
-                                                 [_alertView show];
-                                                 
-                                             }];
-    _cancelBtn.frame = ccr(0, 0, 40, 40);
+- (UIView *)routeView
+{
+    if (!_routeView) {
+        _routeView = [[UIView alloc] init];
+    }
     
-    _headerView = [[UIView alloc] initWithFrame:CGRectZero];
-    _headerView.backgroundColor = COLORRGB(0xffffff);
-    [self.view addSubview:_headerView];
+    UIImageView *timeImage = [[UIImageView alloc] initWithFrame:ccr(10, 10, 16, 16)];
+    timeImage.image = IMG(@"tiny_clock");
+    [_routeView addSubview:timeImage];
     
-    _timeImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _timeImage.image = IMG(@"tiny_clock");
-    [_headerView addSubview:_timeImage];
-    
-    _timeLabel = [UILabel labelWithFrame:CGRectZero
+    _timeLabel = [UILabel labelWithFrame:ccr(36,
+                                             10,
+                                             SCREEN_WIDTH-36,
+                                             16)
                                    color:COLORRGB(0x000000)
                                     font:HSFONT(12)
                                     text:@""
                                alignment:NSTextAlignmentLeft
                            numberOfLines:1];
-    [_headerView addSubview:_timeLabel];
+    [_routeView addSubview:_timeLabel];
     
-    _startImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _startImage.image = IMG(@"tiny_circle_green");
-    [_headerView addSubview:_startImage];
+    UIImageView *startImage = [[UIImageView alloc] initWithFrame:ccr(timeImage.origin.x,
+                                                                     CGRectGetMaxY(timeImage.frame)+10,
+                                                                     timeImage.width,
+                                                                     timeImage.height)];
+    startImage.image = IMG(@"tiny_circle_green");
+    [_routeView addSubview:startImage];
     
-    _startLabel = [UILabel labelWithFrame:CGRectZero
+    _startLabel = [UILabel labelWithFrame:ccr(_timeLabel.x,
+                                              CGRectGetMaxY(_timeLabel.frame)+10,
+                                              _timeLabel.width,
+                                              16)
                                     color:COLORRGB(0x000000)
                                      font:HSFONT(12)
                                      text:@""
                                 alignment:NSTextAlignmentLeft
                             numberOfLines:1];
-    [_headerView addSubview:_startLabel];
+    [_routeView addSubview:_startLabel];
     
-    _endImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _endImage.image = IMG(@"tiny_circle_red");
-    [_headerView addSubview:_endImage];
+    UIImageView *endImage = [[UIImageView alloc] initWithFrame:ccr(startImage.origin.x,
+                                                                   CGRectGetMaxY(startImage.frame)+10,
+                                                                   startImage.width,
+                                                                   startImage.height)];
+    endImage.image = IMG(@"tiny_circle_red");
+    [_routeView addSubview:endImage];
     
-    _endLabel = [UILabel labelWithFrame:CGRectZero
+    _endLabel = [UILabel labelWithFrame:ccr(_startLabel.x,
+                                            CGRectGetMaxY(_startLabel.frame)+10,
+                                            _startLabel.width,
+                                            16)
                                   color:COLORRGB(0x000000)
                                    font:HSFONT(12)
                                    text:@""
                               alignment:NSTextAlignmentLeft
                           numberOfLines:1];
-    [_headerView addSubview:_endLabel];
+    [_routeView addSubview:_endLabel];
     
-    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
-        
-        _timerTitle = [UILabel labelWithFrame:ccr(SCREEN_WIDTH-100-10,
-                                                  _timeLabel.y,
-                                                  100,
-                                                  _timeLabel.height)
-                                        color:COLORRGB(0x63666b)
-                                         font:HSFONT(12)
-                                         text:@"嘟嘟为您提供服务"
-                                    alignment:NSTextAlignmentRight
-                                numberOfLines:1];
-        [_headerView addSubview:_timerTitle];
-        
-        _timerImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _timerImageView.image = IMG(@"circle_orange");
-        [_headerView addSubview:_timerImageView];
-        
-        _timerLabel = [UILabel labelWithFrame:CGRectZero
-                                        color:COLORRGB(0x000000)
-                                         font:HSFONT(15)
-                                         text:@"--"
-                                    alignment:NSTextAlignmentCenter
-                                numberOfLines:1];
-        [_timerImageView addSubview:_timerLabel];
-    }
+    _timerTitle = [UILabel labelWithFrame:ccr(SCREEN_WIDTH-100-10,
+                                              _timeLabel.y,
+                                              100,
+                                              _timeLabel.height)
+                                    color:COLORRGB(0x63666b)
+                                     font:HSFONT(12)
+                                     text:@"嘟嘟为您提供服务"
+                                alignment:NSTextAlignmentRight
+                            numberOfLines:1];
+    [_routeView addSubview:_timerTitle];
+    _timerTitle.alpha = 0;
     
-    _noticeLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0x63666b)
-                                      font:HSFONT(15)
-                                      text:@"欢迎使用嘟嘟出行"
-                                 alignment:NSTextAlignmentCenter
-                             numberOfLines:0];
-    [self.view addSubview:_noticeLabel];
+    _timerImageView = [[UIImageView alloc] initWithFrame:ccr(
+                                                             SCREEN_WIDTH-30-40,
+                                                             CGRectGetMaxY(_timerTitle.frame)+10,
+                                                             40,
+                                                             40)];
+    _timerImageView.image = IMG(@"circle_orange");
+    _timerImageView.alpha = 0;
+    [_routeView addSubview:_timerImageView];
     
-    _bottomLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _bottomLine.backgroundColor = COLORRGB(0xd7d7d7);
-    [self.view addSubview:_bottomLine];
+    _timerLabel = [UILabel labelWithFrame:ccr(0,
+                                              0,
+                                              _timerImageView.width,
+                                              _timerImageView.height
+                                              )
+                                    color:COLORRGB(0x000000)
+                                     font:HSFONT(15)
+                                     text:@"--"
+                                alignment:NSTextAlignmentCenter
+                            numberOfLines:1];
+    [_timerImageView addSubview:_timerLabel];
+    
+    _routeView.frame = ccr(0,
+                           0,
+                           SCREEN_WIDTH,
+                           CGRectGetMaxY(_endLabel.frame)+20);
+    
+    return _routeView;
 }
 
-//TODO:remove test json
-//
-//- (void)cancelOrder
-//{
-//    NSDictionary *dic = [DuDuAPIClient parseJSONFrom:[Utils testDicFrom:@"ordercancel"]];
-//    [ZBCToast showMessage:dic[@"info"]];
-//    [self.navigationController popToRootViewControllerAnimated:YES];
-//}
+- (UILabel *)noticeLabel
+{
+    if (!_noticeLabel) {
+        _noticeLabel = [UILabel labelWithFrame:ccr(0,
+                                                   CGRectGetMaxY(_routeView.frame)+10,
+                                                   SCREEN_WIDTH,
+                                                   20)
+                                         color:COLORRGB(0x63666b)
+                                          font:HSFONT(15)
+                                          text:@"欢迎使用嘟嘟出行"
+                                     alignment:NSTextAlignmentCenter
+                                 numberOfLines:0];
+    }
+    return _noticeLabel;
+}
+
+- (UIButton *)setupCancelBtn
+{
+    if (!_cancelBtn) {
+        _cancelBtn = [UIButton buttonWithImageName:@""
+                                       hlImageName:@""
+                                             title:@"取消"
+                                        titleColor:COLORRGB(0xffffff)
+                                              font:HSFONT(15)
+                                        onTapBlock:^(UIButton *btn) {
+                                            [self cancelDidTapped];
+                                        }];
+        _cancelBtn.frame = ccr(0, 0, 40, 40);
+    }
+    return _cancelBtn;
+}
+
+- (UIView *)driverView
+{
+    if (!_driverView) {
+        _driverView = [[UIView alloc] init];
+    }
+    
+    UILabel *driverTitleLabel = [UILabel labelWithFrame:ccr((SCREEN_WIDTH-70)/2, 20, 70, 20)
+                                                  color:COLORRGB(0xd7d7d7)
+                                                   font:HSFONT(12)
+                                                   text:@"车辆信息"
+                                              alignment:NSTextAlignmentCenter
+                                          numberOfLines:1];
+    [_driverView addSubview:driverTitleLabel];
+    
+    UIImageView *leftLine = [[UIImageView alloc] initWithFrame:ccr(driverTitleLabel.x-5-50, 30, 50, 0.5)];
+    leftLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_driverView addSubview:leftLine];
+    
+    UIImageView *rightLine = [[UIImageView alloc] initWithFrame:ccr(CGRectGetMaxX(driverTitleLabel.frame)+5, leftLine.y, leftLine.width, leftLine.height)];
+    rightLine.backgroundColor = COLORRGB(0xd7d7d7);
+    [_driverView addSubview:rightLine];
+    
+    _avator = [[UIImageView alloc] initWithFrame:ccr(10,
+                                                     CGRectGetMaxY(driverTitleLabel.frame)+10,
+                                                     50,
+                                                     50)];
+    [_avator setImageWithURL:URL([Utils emptyIfNull:self.orderInfo.driver_photo])
+            placeholderImage:IMG(@"account")];
+    _avator.layer.cornerRadius = _avator.width/2;
+    _avator.layer.masksToBounds = YES;
+    
+    [_driverView addSubview:_avator];
+    
+    
+    NSString *driver_acount = [NSString stringWithFormat:@"%@",self.orderInfo.driver_nickname];
+    _driverNameLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(_avator.frame)+10,
+                                                   _avator.y,
+                                                   150,
+                                                   _avator.height/2)
+                                         color:COLORRGB(0x000000)
+                                          font:HSFONT(12)
+                                          text:driver_acount];
+    [_driverView addSubview:_driverNameLabel];
+    
+    _carNumLabel = [UILabel labelWithFrame:ccr(_driverNameLabel.x,
+                                               CGRectGetMaxY(_driverNameLabel.frame),
+                                               60,
+                                               _avator.height/2)
+                                     color:COLORRGB(0x000000)
+                                      font:HSFONT(12)
+                                      text:self.orderInfo.car_plate_number];
+    [_driverView addSubview:_carNumLabel];
+    
+    _carStyleLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(_carNumLabel.frame)+10,
+                                                 _carNumLabel.y+5,
+                                                 70,
+                                                 15)
+                                       color:COLORRGB(0x63666b)
+                                        font:HSFONT(12)
+                                        text:@"未知车型"
+                                   alignment:NSTextAlignmentCenter
+                               numberOfLines:1];
+    _carStyleLabel.layer.borderColor = COLORRGB(0xf39a00).CGColor;
+    _carStyleLabel.layer.borderWidth = 1;
+    _carStyleLabel.layer.cornerRadius = 5.0f;
+    [_driverView addSubview:_carStyleLabel];
+    
+    UIButton *phoneBtn = [UIButton buttonWithImageName:@"phone-icon" hlImageName:@"phone-icon" onTapBlock:^(UIButton *btn) {
+        [self makeACall:self.orderInfo.driver_telephone];
+    }];
+    phoneBtn.frame = ccr(SCREEN_WIDTH-35-20, _avator.y+5, 35, 35);
+    [_driverView addSubview:phoneBtn];
+    
+    _driverView.frame = ccr(0,
+                            CGRectGetMaxY(_noticeLabel.frame),
+                            SCREEN_WIDTH,
+                            CGRectGetMaxY(_avator.frame));
+    return _driverView;
+}
+
+-(void)makeACall:(NSNumber *)num
+{
+    NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",num]];
+    if (!_phoneCallWebView) {
+        _phoneCallWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        [self.view addSubview:_phoneCallWebView];
+    }
+    [_phoneCallWebView loadRequest:[NSURLRequest requestWithURL:phoneURL]];
+    
+}
 
 - (void)cancelOrder
 {
@@ -222,6 +333,47 @@
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];
+}
+
+- (void)showTimerView:(BOOL)show
+{
+    _timerTitle.alpha = show;
+    _timerImageView.alpha = show;
+}
+
+- (void)showDriverView:(BOOL)show
+{
+    _driverView.alpha = show;
+//    if (show) {
+//        _noticeLabel.y = CGRectGetMaxY(_driverView.frame)+30;
+//    } else {
+//        _noticeLabel.y = CGRectGetMaxY(_routeView.frame)+30;
+//    }
+}
+
+- (void)showOtherCars:(BOOL)show
+{
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            [view removeFromSuperview];
+        }
+    }
+    if (show) {
+        
+        for (int i=0; i<self.carStore.cars.count; i++) {
+            CarModel *car = self.carStore.cars[i];
+            UIButton *carBtn = [UIButton buttonWithImageName:@"orgbtn"
+                                                 hlImageName:@"orgbtn_pressed"
+                                                       title:car.car_style_name
+                                                  titleColor:COLORRGB(0xffffff)
+                                                        font:HSFONT(15)
+                                                  onTapBlock:^(UIButton *btn) {
+                                                      [self changeOrderToCarStyle:car];
+                                                  }];
+            carBtn.frame = ccr(10, CGRectGetMaxY(_noticeLabel.frame) + 10 + 40*i, SCREEN_WIDTH-20, 40);
+            [self.view addSubview:carBtn];
+        }
+    }
 }
 
 - (void)flushOrderStatus:(NSTimer *)timer
@@ -259,11 +411,10 @@
             self.orderInfo.driver_nickname = @"未知司机";
             self.orderInfo.driver_telephone = [NSNumber numberWithInt:0];
         }
-        
-        [self calculateFrame];
+        [self setData];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self calculateFrame];
+        [self setData];
     }];
 }
 
@@ -273,7 +424,7 @@
         [self showRightTitle:YES withButton:_cancelBtn];
         self.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
         if (!_countDownTimer) {
-            _timerCount = 90;
+            _timerCount = [CouponStore sharedCouponStore].shareInfo.wait_order_time_seconds;
             [_countDownTimer setFireDate:[NSDate distantPast]];
             _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                                target:self
@@ -310,6 +461,14 @@
     _startLabel.text = self.orderInfo.star_loc_str;
     _endLabel.text = self.orderInfo.dest_loc_str;
     _noticeLabel.text = self.orderStatusInfo;
+    [_avator setImageWithURL:URL([Utils emptyIfNull:self.orderInfo.driver_photo])
+            placeholderImage:IMG(@"account")];
+    _carStyleLabel.text = [NSString stringWithFormat:@"%@ %@",self.orderInfo.car_color, self.orderInfo.car_brand];
+    _carColorLabel.text = self.orderInfo.car_color;
+    
+    _driverNameLabel.text = [NSString stringWithFormat:@"%@",self.orderInfo.driver_nickname];
+    _carNumLabel.text = self.orderInfo.car_plate_number;
+    
     
     if (!_fetchDataTimer) {
         [_fetchDataTimer setFireDate:[NSDate distantPast]];
@@ -320,6 +479,10 @@
                                                           repeats:YES];
 
     }
+    
+    [self showTimerView:([self.orderInfo.order_status intValue]==OrderStatusWatingForDriver)];
+    [self showDriverView:([self.orderInfo.order_status intValue]>OrderStatusWatingForDriver)];
+    [self showOtherCars:(self.resultStatus==OrderResultHaveOtherCar)];
 }
 
 - (void)timerFireMethod:(NSTimer*)theTimer
@@ -359,82 +522,6 @@
     }
 }
 
-- (void)calculateFrame
-{
-    [self setData];
-    _timeImage.frame = ccr(10, 10, 16, 16);
-    CGSize timeSize = [self getTextFromLabel:_timeLabel];
-    _timeLabel.frame = ccr(CGRectGetMaxX(_timeImage.frame)+10,
-                           _timeImage.origin.y,
-                           timeSize.width,
-                           16);
-    _startImage.frame = ccr(_timeImage.origin.x,
-                            CGRectGetMaxY(_timeImage.frame)+10,
-                            _timeImage.width,
-                            _timeImage.height);
-    CGSize startSize = [self getTextFromLabel:_startLabel];
-    _startLabel.frame = ccr(_timeLabel.origin.x,
-                            CGRectGetMaxY(_timeLabel.frame)+10,
-                            startSize.width,
-                            16);
-    _endImage.frame = ccr(_startImage.origin.x,
-                          CGRectGetMaxY(_startImage.frame)+10,
-                          _startImage.width,
-                          _startImage.height);
-    CGSize endSize = [self getTextFromLabel:_endLabel];
-    _endLabel.frame = ccr(_startLabel.origin.x,
-                          CGRectGetMaxY(_startLabel.frame)+10,
-                          endSize.width,
-                          16);
-    
-    if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
-        _timerImageView.alpha = 1;
-        _timerTitle.alpha = 1;
-        _timerLabel.alpha = 1;
-        _timerImageView.frame = ccr(SCREEN_WIDTH-30-40, CGRectGetMaxY(_timerTitle.frame)+10, 40, 40);
-        _timerLabel.frame = ccr(0, 0, _timerImageView.width, _timerImageView.height);
-    } else {
-        _timerImageView.alpha = 0;
-        _timerTitle.alpha = 0;
-        _timerLabel.alpha = 0;
-    }
-    
-    _headerView.frame = ccr(0,
-                            0,
-                            SCREEN_WIDTH,
-                            CGRectGetMaxY(_endLabel.frame)+10);
-    _bottomLine.frame = ccr(0,
-                            CGRectGetMaxY(_headerView.frame)-0.5,
-                            SCREEN_WIDTH,
-                            0.5);
-    CGSize noticeSize = [self getTextFromLabel:_noticeLabel];
-    _noticeLabel.frame = ccr((SCREEN_WIDTH-noticeSize.width)/2,
-                             CGRectGetMaxY(_headerView.frame)+30,
-                             noticeSize.width,
-                             noticeSize.height);
-    for (UIView *view in self.view.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            [view removeFromSuperview];
-        }
-    }
-    if (self.resultStatus == OrderResultHaveOtherCar) {
-        for (int i=0; i<self.carStore.cars.count; i++) {
-            CarModel *car = self.carStore.cars[i];
-            UIButton *carBtn = [UIButton buttonWithImageName:@"orgbtn"
-                                                 hlImageName:@"orgbtn_pressed"
-                                                       title:car.car_style_name
-                                                  titleColor:COLORRGB(0xffffff)
-                                                        font:HSFONT(15)
-                                                  onTapBlock:^(UIButton *btn) {
-                                                      [self changeOrderToCarStyle:car];
-                                                  }];
-            carBtn.frame = ccr(10, CGRectGetMaxY(_noticeLabel.frame) + 10 + 40*i, SCREEN_WIDTH-20, 40);
-            [self.view addSubview:carBtn];
-        }
-    }
-    
-}
-
 - (void)changeOrderToCarStyle:(CarModel *)car
 {
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
@@ -449,7 +536,7 @@
                               success:^(NSURLSessionDataTask *task, id responseObject) {
                                   [self.carStore.cars removeAllObjects];
                                   self.resultStatus = OrderResultChangedCar;
-                                  [self calculateFrame];
+                                  [self setData];
                                   [ZBCToast showMessage:@"修改车型成功，请耐心等候"];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];

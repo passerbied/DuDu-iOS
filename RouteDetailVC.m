@@ -230,6 +230,8 @@
     _timeLabel.text = [date displayWithFormat:@"yyyy-M-d H:mm"];
     _startLabel.text = self.orderInfo.star_loc_str;
     _endLabel.text = self.orderInfo.dest_loc_str;
+    [_avator setImageWithURL:URL([Utils emptyIfNull:self.orderInfo.driver_photo])
+            placeholderImage:IMG(@"account")];
     _carStyleLabel.text = [NSString stringWithFormat:@"%@ %@",self.orderInfo.car_color, self.orderInfo.car_brand];
     _carColorLabel.text = self.orderInfo.car_color;
     
@@ -628,14 +630,14 @@
 - (void)shareCoupon
 {
     WXMediaMessage *message = [WXMediaMessage message];
-    NSString *imgStr = [CouponStore sharedCouponStore].shareInfo[@"weixin_pic"];
+    NSString *imgStr = [CouponStore sharedCouponStore].shareInfo.weixin_pic;
     [message setThumbImage:IMG(imgStr)];
-    message.title = [CouponStore sharedCouponStore].shareInfo[@"weixin_title"];
-    message.description = [CouponStore sharedCouponStore].shareInfo[@"weixin_title"];
+    message.title = [CouponStore sharedCouponStore].shareInfo.weixin_title;
+    message.description = [CouponStore sharedCouponStore].shareInfo.weixin_title;
     
     
     WXWebpageObject *webObj = [WXWebpageObject object];
-    webObj.webpageUrl = [CouponStore sharedCouponStore].shareInfo[@"weixin_link"];
+    webObj.webpageUrl = [CouponStore sharedCouponStore].shareInfo.weixin_link;
     message.mediaObject = webObj;
     
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];

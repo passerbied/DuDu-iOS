@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "CouponModel.h"
+#import "ShareModel.h"
 
 @interface CouponStore : NSObject
 
 @property (nonatomic, strong) NSArray *info;
-@property (nonatomic, strong) NSDictionary *shareInfo;
+@property (nonatomic, strong) ShareModel *shareInfo;
 
 + (instancetype)sharedCouponStore;
 

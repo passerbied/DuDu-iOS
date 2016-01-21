@@ -107,6 +107,8 @@
 		486F52D41BFB28AD0043874E /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52CE1BFB28AD0043874E /* MMDrawerController.m */; };
 		486F52D51BFB28AD0043874E /* MMDrawerVisualState.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52D01BFB28AD0043874E /* MMDrawerVisualState.m */; };
 		486F52D61BFB28AD0043874E /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52D21BFB28AD0043874E /* UIViewController+MMDrawerController.m */; };
+		48708B7E1C5092350015BDA2 /* ShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48708B7D1C5092350015BDA2 /* ShareModel.m */; };
+		48708B801C50E64B0015BDA2 /* phone-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48708B7F1C50E64B0015BDA2 /* phone-icon@2x.png */; };
 		487956CE1C3A9F2300193530 /* ZBCStarRating.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956CB1C3A9F2300193530 /* ZBCStarRating.m */; };
 		487956CF1C3A9F2300193530 /* ZBCStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956CD1C3A9F2300193530 /* ZBCStarRatingView.m */; };
 		487956D21C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956D01C3AA24700193530 /* gn_icon_scoreinput_sl@2x.png */; };
@@ -327,6 +329,9 @@
 		486F52D01BFB28AD0043874E /* MMDrawerVisualState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerVisualState.m; sourceTree = "<group>"; };
 		486F52D11BFB28AD0043874E /* UIViewController+MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MMDrawerController.h"; sourceTree = "<group>"; };
 		486F52D21BFB28AD0043874E /* UIViewController+MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MMDrawerController.m"; sourceTree = "<group>"; };
+		48708B7C1C5092350015BDA2 /* ShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareModel.h; sourceTree = "<group>"; };
+		48708B7D1C5092350015BDA2 /* ShareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareModel.m; sourceTree = "<group>"; };
+		48708B7F1C50E64B0015BDA2 /* phone-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phone-icon@2x.png"; sourceTree = "<group>"; };
 		487956CA1C3A9F2300193530 /* ZBCStarRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCStarRating.h; sourceTree = "<group>"; };
 		487956CB1C3A9F2300193530 /* ZBCStarRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCStarRating.m; sourceTree = "<group>"; };
 		487956CC1C3A9F2300193530 /* ZBCStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCStarRatingView.h; sourceTree = "<group>"; };
@@ -810,6 +815,7 @@
 		486F52851BEE225E0043874E /* imgs */ = {
 			isa = PBXGroup;
 			children = (
+				48708B7F1C50E64B0015BDA2 /* phone-icon@2x.png */,
 				48F08F321C4D38E900724CEC /* circle_orange@2x.png */,
 				48F08F2E1C4CEF3B00724CEC /* gn_pop_icon_shut_hl@2x.png */,
 				48F08F2F1C4CEF3B00724CEC /* gn_pop_icon_shut@2x.png */,
@@ -901,6 +907,15 @@
 			path = MMDrawerController;
 			sourceTree = "<group>";
 		};
+		48708B7B1C5092020015BDA2 /* ShareModel */ = {
+			isa = PBXGroup;
+			children = (
+				48708B7C1C5092350015BDA2 /* ShareModel.h */,
+				48708B7D1C5092350015BDA2 /* ShareModel.m */,
+			);
+			name = ShareModel;
+			sourceTree = "<group>";
+		};
 		487956C91C3A9F0E00193530 /* StarRatingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -933,6 +948,7 @@
 		487956E01C3D44AD00193530 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				48708B7B1C5092020015BDA2 /* ShareModel */,
 				487956D81C3C24A300193530 /* BookModel */,
 				4867CE471C3535E6003B1744 /* CouponModel */,
 				4867CE461C34D9D0003B1744 /* CarInfo */,
@@ -1235,6 +1251,7 @@
 				4867CE2E1C284821003B1744 /* nav_btn_back_hl_88_88@2x.png in Resources */,
 				4847D3AC1C147D8C004634F5 /* orgbtn_pressed@2x.png in Resources */,
 				48F08F301C4CEF3B00724CEC /* gn_pop_icon_shut_hl@2x.png in Resources */,
+				48708B801C50E64B0015BDA2 /* phone-icon@2x.png in Resources */,
 				487956F51C439F8700193530 /* icon_my_location_48px@2x.png in Resources */,
 				4867CE291C271387003B1744 /* find_keep_icon_fail@2x.png in Resources */,
 				48F08EFB1C48141B00724CEC /* law.txt in Resources */,
@@ -1351,6 +1368,7 @@
 				4867CE381C29492E003B1744 /* BaseViewController.m in Sources */,
 				487956EE1C3D517A00193530 /* GeoAndSuggestionViewController.m in Sources */,
 				4867CE411C317EC9003B1744 /* OrderModel.m in Sources */,
+				48708B7E1C5092350015BDA2 /* ShareModel.m in Sources */,
 				486F52831BEE0DE20043874E /* BottomToolBar.m in Sources */,
 				486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */,
 				32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */,
