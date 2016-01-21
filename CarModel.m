@@ -38,7 +38,8 @@
              @"per_max_kilometer"       : @"per_max_kilometer",
              @"per_max_kilometer_money" : @"per_max_kilometer_money",
              @"wait_time_money"         : @"wait_time_money",
-             @"start_money"             : @"start_money"
+             @"start_money"             : @"start_money",
+             @"night_service_times"     : @"night_service_times",
              };
 }
 
