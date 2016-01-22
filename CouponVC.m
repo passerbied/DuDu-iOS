@@ -98,7 +98,7 @@
     NSString *date = coupon.coupon_exp_at;
     cell.date = [NSString stringWithFormat:@"有效期至%@",date];
     if ([coupon.coupon_discount floatValue] < 1) {
-        cell.detail = [NSString stringWithFormat:@"%.2f折",[coupon.coupon_discount floatValue]];
+        cell.detail = [NSString stringWithFormat:@"%.1f折",[coupon.coupon_discount floatValue]*10];
     } else {
         cell.detail = [NSString stringWithFormat:@"%.1f元",[coupon.coupon_discount floatValue]];
     }
