@@ -137,6 +137,7 @@
 {
     [super viewDidDisappear:animated];
     [self showAdView:NO];
+    _isFirstAppear = NO;
 }
 
 - (void)clearMapView
@@ -175,8 +176,9 @@
         _adView.alpha = show;
     } completion:^(BOOL finished) {
         _isAdShowing = show;
-        if (!show) {
+        if (!show & _isFirstAppear) {
             [self getIngOrder];
+//            _isFirstAppear = NO;
         }
     }];
 }
@@ -246,7 +248,7 @@
                 orderVC.isModal = YES;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
-                orderVC.orderStatusInfo = @"嘟嘟正在为您服务";
+                orderVC.orderStatusInfo = [NSString stringWithFormat:@"行程中，%@正在为您服务",[MainViewController sharedMainViewController].currentCar.car_style_name];
                 ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
                 [nav.navigationBar setTranslucent:NO];
                 [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];

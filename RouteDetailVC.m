@@ -66,7 +66,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xffffff);
     [self createSubViews];
-    [self flushOrderStatus];
+    [self flushOrderStatus:nil];
     AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     appdelegate.delegate = self;
     
@@ -92,7 +92,8 @@
     [self.view addSubview:[self driverView]];
     [self.view addSubview:[self chargeView]];
     [self.view addSubview:[self ratingView]];
-    [self.view addSubview:[self weixinPayBtn]];
+    _payBtn = [self weixinPayBtn];
+    [self.view addSubview:_payBtn];
     [self.view addSubview:[self shareBtn]];
     
     _driverView.alpha = 0;
@@ -195,24 +196,29 @@
                                 _duringLine.height);
     }
     
+    if ([self.orderInfo.order_status intValue] == OrderStatusComleted) {
+        CGSize payTypeSize = [self getTextFromLabel:_payTypeLabel];
+        _payTypeLabel.frame = ccr(_couponLabel.origin.x,
+                                  CGRectGetMaxY(_couponLabel.frame)+10,
+                                  payTypeSize.width,
+                                  payTypeSize.height);
+        CGSize payPriceSize = [self getTextFromLabel:_payPrice];
+        _payPrice.frame = ccr(SCREEN_WIDTH-20-payPriceSize.width,
+                              CGRectGetMaxY(_couponPrice.frame)+10,
+                              payPriceSize.width,
+                              payPriceSize.height);
+        _payLine.frame = ccr(CGRectGetMaxX(_payTypeLabel.frame)+5,
+                             CGRectGetMaxY(_payTypeLabel.frame)-payTypeSize.
+                             height/2,
+                             _payPrice.origin.x-5*2-CGRectGetMaxX(_payTypeLabel
+                                                                  .frame),
+                             _couponLine.height);
+        _chargeView.height = CGRectGetMaxY(_payLine.frame);
+    } else {
+        _chargeView.height = CGRectGetMaxY(_couponLine.frame);
+    }
     
-    CGSize payTypeSize = [self getTextFromLabel:_payTypeLabel];
-    _payTypeLabel.frame = ccr(_couponLabel.origin.x,
-                              CGRectGetMaxY(_couponLabel.frame)+10,
-                              payTypeSize.width,
-                              payTypeSize.height);
-    CGSize payPriceSize = [self getTextFromLabel:_payPrice];
-    _payPrice.frame = ccr(SCREEN_WIDTH-20-payPriceSize.width,
-                          CGRectGetMaxY(_couponPrice.frame)+10,
-                          payPriceSize.width,
-                          payPriceSize.height);
-    _payLine.frame = ccr(CGRectGetMaxX(_payTypeLabel.frame)+5,
-                         CGRectGetMaxY(_payTypeLabel.frame)-payTypeSize.
-                         height/2,
-                         _payPrice.origin.x-5*2-CGRectGetMaxX(_payTypeLabel
-                                                              .frame),
-                         _couponLine.height);
-    _chargeView.height = CGRectGetMaxY(_payLine.frame);
+    
     
     _driverView.alpha = 1;
     _chargeView.y = CGRectGetMaxY(_driverView.frame)+10;
@@ -227,7 +233,7 @@
     _shareBtn.alpha = ([self.orderInfo.order_status intValue] == 5 || _isPayed);
 }
 
-- (void)flushOrderStatus
+- (void)flushOrderStatus:(NSTimer *)timer
 {
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
@@ -316,17 +322,18 @@
         _couponLabel.text = @"满减优惠";
         _couponPrice.text = [NSString stringWithFormat:@"%.1f元",couponPrice];
     }
-    _payTypeLabel.text = self.orderInfo.order_payStatus_str;
-    _payPrice.text = [NSString stringWithFormat:@"%.1f元",-[self.orderInfo.order_allMoney floatValue]];
-    
-    [_payBtn setTitle:self.orderInfo.order_payStatus_str forState:UIControlStateNormal];
-    [_payBtn setTitle:self.orderInfo.order_payStatus_str forState:UIControlStateSelected];
-
-    if (self.orderInfo.order_payStatus) {
-        [self cashPayBtn];
-    } else {
-        [self weixinPayBtn];
+    if ([self.orderInfo.order_status intValue]== OrderStatusComleted) {
+        _payTypeLabel.text = self.orderInfo.order_payStatus_str;
+        _payPrice.text = [NSString stringWithFormat:@"%.1f元",-[self.orderInfo.order_allMoney floatValue]];
     }
+
+    [_payBtn removeFromSuperview];
+    if ([self.orderInfo.order_payStatus intValue]) {
+        _payBtn = [self cashPayBtn];
+    } else {
+        _payBtn = [self weixinPayBtn];
+    }
+    [self.view addSubview:_payBtn];
     
     
     self.starRating.editable = (([self.orderInfo.order_status intValue] == 5 || _isPayed) && [self.orderInfo.evaluate_level floatValue]==0); //只有已付款并且没评过星的才可以评星, _isPayed是因为服务器刷新数据比微信回调速度慢造成支付成功但数据未更新成已支付。
@@ -336,7 +343,7 @@
         [_fetchDataTimer setFireDate:[NSDate distantPast]];
         _fetchDataTimer = [NSTimer scheduledTimerWithTimeInterval:15.0
                                                            target:self
-                                                         selector:@selector(flushOrderStatus)
+                                                         selector:@selector(flushOrderStatus:)
                                                          userInfo:nil
                                                           repeats:YES];
         
@@ -671,21 +678,21 @@
 
 - (UIButton *)cashPayBtn
 {
-    _payBtn = [UIButton buttonWithImageName:@"commbtn"
-                                hlImageName:@"commbtn_pressed"
+    UIButton *cashPayBtn = [UIButton buttonWithImageName:@"commbtn"
+                                hlImageName:@"commbtn"
                                       title:@"现金支付完成"
                                  titleColor:COLORRGB(0xffffff)
                                        font:HSFONT(15)
                                  onTapBlock:^(UIButton *btn) {
                                  }];
-    _payBtn.enabled =NO;
-    _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
-    return _payBtn;
+//    cashPayBtn.enabled =NO;
+    cashPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    return cashPayBtn;
 }
 
 - (UIButton *)weixinPayBtn
 {
-    _payBtn = [UIButton buttonWithImageName:@"orgbtn"
+    UIButton *weixinPayBtn = [UIButton buttonWithImageName:@"orgbtn"
                                 hlImageName:@"orgbtn_pressed"
                                       title:@"微信支付"
                                  titleColor:COLORRGB(0xffffff)
@@ -693,9 +700,9 @@
                                  onTapBlock:^(UIButton *btn) {
                                      [self wechatPay];
                                  }];
-    _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
-    _payBtn.enabled = YES;
-    return _payBtn;
+    weixinPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    weixinPayBtn.enabled = YES;
+    return weixinPayBtn;
 }
 
 - (UIButton *)shareBtn
@@ -836,7 +843,7 @@
     self.isHistory = YES;
     self.isForCharge = NO;
     _isPayed = YES;
-    [self flushOrderStatus];
+    [self flushOrderStatus:nil];
 }
 
 - (NSString *)createMd5Sign:(NSMutableDictionary*)dict
