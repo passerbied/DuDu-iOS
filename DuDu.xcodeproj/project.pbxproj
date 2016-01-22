@@ -448,13 +448,13 @@
 			name = "我的行程";
 			sourceTree = "<group>";
 		};
-		32F039FE1C0CDE6C00A2C4BD /* 行程详情 */ = {
+		32F039FE1C0CDE6C00A2C4BD /* 结算后的订单详情页 */ = {
 			isa = PBXGroup;
 			children = (
 				32F039FB1C0CB6DF00A2C4BD /* RouteDetailVC.h */,
 				32F039FC1C0CB6DF00A2C4BD /* RouteDetailVC.m */,
 			);
-			name = "行程详情";
+			name = "结算后的订单详情页";
 			sourceTree = "<group>";
 		};
 		32F039FF1C0CDEC900A2C4BD /* 查看明细Controller(废弃) */ = {
@@ -592,13 +592,13 @@
 			name = "添加印象Controller(废除)";
 			sourceTree = "<group>";
 		};
-		32F03A3A1C168F2800A2C4BD /* 下订单详情页 */ = {
+		32F03A3A1C168F2800A2C4BD /* 结算前的订单详情页 */ = {
 			isa = PBXGroup;
 			children = (
 				32F03A3B1C16B3D600A2C4BD /* OrderVC.h */,
 				32F03A3C1C16B3D600A2C4BD /* OrderVC.m */,
 			);
-			name = "下订单详情页";
+			name = "结算前的订单详情页";
 			sourceTree = "<group>";
 		};
 		4803E5C61C19CF8A000395AA /* 登录注册页 */ = {
@@ -636,7 +636,7 @@
 				48F08F0E1C4B96EE00724CEC /* 菜单列表 */,
 				48F08F011C4B905900724CEC /* 微信支付 */,
 				32F039F71C0CA8DA00A2C4BD /* 我的行程 */,
-				32F039FE1C0CDE6C00A2C4BD /* 行程详情 */,
+				32F039FE1C0CDE6C00A2C4BD /* 结算后的订单详情页 */,
 				32F039FF1C0CDEC900A2C4BD /* 查看明细Controller(废弃) */,
 				32F03A361C15805B00A2C4BD /* 添加印象Controller(废除) */,
 				32F03A031C0DA18400A2C4BD /* 我的钱包 */,
@@ -1045,7 +1045,7 @@
 				4803E5C61C19CF8A000395AA /* 登录注册页 */,
 				480E50451BFB4CA8006D545A /* 菜单页 */,
 				486F52AC1BF0AB0B0043874E /* 地点选择页 */,
-				32F03A3A1C168F2800A2C4BD /* 下订单详情页 */,
+				32F03A3A1C168F2800A2C4BD /* 结算前的订单详情页 */,
 				482741491BE9FB0000EF6FD8 /* 首页 */,
 			);
 			name = Featrues;
