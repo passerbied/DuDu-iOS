@@ -92,7 +92,7 @@
                                                             44)
                                                   color:COLORRGB(0x63666b)
                                                    font:HSFONT(15)
-                                                   text:@"蓝戴时空汇"];
+                                                   text:@""];
         [_locationView addSubview:self.fromAddressLabel];
         
         _fromAddressBtn = [UIButton buttonWithImageName:nil hlImageName:nil onTapBlock:^(UIButton *btn) {

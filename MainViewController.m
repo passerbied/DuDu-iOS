@@ -530,6 +530,7 @@
     if ([Utils checkNightService]) {
         charge = charge * [_currentCar.night_service_times floatValue];
     }
+
     //保证费用为非负数
     if (charge < 0) {
         charge = 0;
