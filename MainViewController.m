@@ -43,6 +43,8 @@
     BOOL            _isOrderIng;
     
     UIView          *_adView;
+    UIImageView     *_adImageView;
+    BOOL            _isAdShowing;
 }
 
 + (instancetype)sharedMainViewController
@@ -117,20 +119,24 @@
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     [self.view addSubview:_locationBtn];
     
-    [self.view addSubview:[self adView]];
+    [KEY_WINDOW addSubview:[self adView]];
+    [self getAd];
     
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self getIngOrder];
+    if (!_isAdShowing) {
+        [self getIngOrder];
+    }
     [self getCouponInfo];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [self showAdView:NO];
 }
 
 - (void)clearMapView
@@ -140,23 +146,52 @@
     [self.mapView removeOverlays:self.mapView.overlays];
 }
 
+- (void)getAd
+{
+    _isAdShowing = YES;
+    [[DuDuAPIClient sharedClient] GET:CHECK_VERSION parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        //获取广告信息
+        adModel *adInfo =
+        [MTLJSONAdapter modelOfClass:[adModel class]
+                  fromJSONDictionary:[DuDuAPIClient parseJSONFrom:responseObject][@"ad"]
+                               error:nil];
+        self.adInfo = adInfo;
+        if (self.adInfo) {
+            [_adImageView setImageWithURL:URL(self.adInfo.advertisement_url)];
+            [self showAdView:YES];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        _isAdShowing = NO;
+    }];
+}
+
+- (void)showAdView:(BOOL)show
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        _adView.alpha = show;
+    } completion:^(BOOL finished) {
+        _isAdShowing = show;
+        if (!show) {
+            [self getIngOrder];
+        }
+    }];
+}
+
 - (UIView *)adView
 {
     if (!_adView) {
-        _adView = [[UIView alloc] initWithFrame:ccr(30, _topToolBar.height+NAV_BAR_HEIGHT_IOS7+30, SCREEN_WIDTH-60,480)];
-        _adView.backgroundColor = [UIColor orangeColor];
-        UIButton *closeBtn = [UIButton buttonWithImageName:@"" hlImageName:@"" onTapBlock:^(UIButton *btn) {
-            [_adView removeFromSuperview];
+        _adView = [[UIView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT)];
+        _adView.backgroundColor = COLORRGBA(0x000000, 0.2);
+        _adImageView = [[UIImageView alloc] initWithFrame:ccr((SCREEN_WIDTH-300)/2, _topToolBar.height+NAV_BAR_HEIGHT_IOS7+50, 300-10, 400-10)];
+        _adImageView.backgroundColor = COLORRGB(0xffffff);
+        [_adView addSubview:_adImageView];
+        UIButton *closeBtn = [UIButton buttonWithImageName:@"close_btn" hlImageName:@"close_btn_hl" onTapBlock:^(UIButton *btn) {
+            [self showAdView:NO];
         }];
-        closeBtn.backgroundColor = COLORRGB(0x000000);
-        closeBtn.frame = ccr(_adView.width-30, 0, 30, 30);
+        closeBtn.frame = ccr(CGRectGetMaxX(_adImageView.frame)-15, _adImageView.y-15, 30, 30);
         [_adView addSubview:closeBtn];
-//        NSData *data = [NSData dataWithContentsOfURL:URL(self.adInfo.advertisement_url)];
-//        UIImage *img = [UIImage imageWithData:data];
-//        CGSize size = img.size;
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:ccr(0, 10, _adView.width-10, _adView.height-10)];
-        [imgView setImageWithURL:URL(self.adInfo.advertisement_url)];
-        [_adView addSubview:imgView];
     }
     return _adView;
 }

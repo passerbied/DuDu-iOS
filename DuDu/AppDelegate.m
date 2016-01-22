@@ -89,12 +89,6 @@
                                         fromJSONArray:carStyles
                                                 error:nil];
         
-        //获取广告信息
-        [MainViewController sharedMainViewController].adInfo =
-        [MTLJSONAdapter modelOfClass:[adModel class]
-                  fromJSONDictionary:[DuDuAPIClient parseJSONFrom:responseObject][@"ad"]
-                               error:nil];
-        
         //获取分享信息
         [CouponStore sharedCouponStore].shareInfo =
         [MTLJSONAdapter modelOfClass:[ShareModel class]

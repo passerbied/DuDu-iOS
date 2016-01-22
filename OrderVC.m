@@ -297,7 +297,7 @@
     _carStyleLabel.layer.cornerRadius = 5.0f;
     [_driverView addSubview:_carStyleLabel];
     
-    UIButton *phoneBtn = [UIButton buttonWithImageName:@"phone-icon" hlImageName:@"phone-icon" onTapBlock:^(UIButton *btn) {
+    UIButton *phoneBtn = [UIButton buttonWithImageName:@"phone-icon2" hlImageName:@"phone-icon2" onTapBlock:^(UIButton *btn) {
         [self makeACall:self.orderInfo.driver_telephone];
     }];
     phoneBtn.frame = ccr(SCREEN_WIDTH-35-20, _avator.y+5, 35, 35);
