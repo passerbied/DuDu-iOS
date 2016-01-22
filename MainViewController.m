@@ -157,9 +157,11 @@
                   fromJSONDictionary:[DuDuAPIClient parseJSONFrom:responseObject][@"ad"]
                                error:nil];
         self.adInfo = adInfo;
-        if (self.adInfo) {
+        if (self.adInfo && [self.adInfo.advertisement_status intValue]==1) {
             [_adImageView setImageWithURL:URL(self.adInfo.advertisement_url)];
             [self showAdView:YES];
+        } else {
+            [self showAdView:NO];
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
