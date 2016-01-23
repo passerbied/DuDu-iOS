@@ -59,7 +59,7 @@
 {
     [self hideHUDForWindow:KEY_WINDOW animated:NO];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:isSuccessed?IMG(@"find_keep_icon_success"):IMG(@"find_keep_icon_fail")];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:isSuccessed?IMG(@""):IMG(@"")];
     [KEY_WINDOW addSubview:[self sharedZBCProgressHUD]];
     [[self sharedZBCProgressHUD] show:animated];
     [self sharedZBCProgressHUD].mode = MBProgressHUDModeCustomView;

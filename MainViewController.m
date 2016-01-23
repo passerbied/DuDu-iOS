@@ -120,6 +120,7 @@
     [self.view addSubview:_locationBtn];
     
     [KEY_WINDOW addSubview:[self adView]];
+    [self startLocation];
     [self getAd];
     
 }
@@ -130,7 +131,11 @@
     if (!_isAdShowing) {
         [self getIngOrder];
     }
-    [self getCouponInfo];
+    if (_currentCoupon) {
+        [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
+    } else {
+        [self getCouponInfo];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -151,7 +156,6 @@
 {
     _isAdShowing = YES;
     [[DuDuAPIClient sharedClient] GET:CHECK_VERSION parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        
         //获取广告信息
         adModel *adInfo =
         [MTLJSONAdapter modelOfClass:[adModel class]
@@ -159,14 +163,17 @@
                                error:nil];
         self.adInfo = adInfo;
         if (self.adInfo && [self.adInfo.advertisement_status intValue]==1) {
+            [ZBCToast showMessage:@"获取广告成功，请等待广告图片加载"];
             [_adImageView setImageWithURL:URL(self.adInfo.advertisement_url)];
             [self showAdView:YES];
         } else {
+            [ZBCToast showMessage:@"完成广告请求，但没有获取到广告数据"];
             [self showAdView:NO];
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         _isAdShowing = NO;
+        [ZBCToast showMessage:@"获取广告失败，接口或网络出差"];
     }];
 }
 
@@ -176,7 +183,7 @@
         _adView.alpha = show;
     } completion:^(BOOL finished) {
         _isAdShowing = show;
-        if (!show & _isFirstAppear) {
+        if (!show & _isFirstAppear) { //第一次进入主页面并且没有展示的时候才显示广告
             [self getIngOrder];
 //            _isFirstAppear = NO;
         }
@@ -582,7 +589,11 @@
         [_bottomToolBar showChargeView:YES];
         
         [self setupAnnotation:NO];
-        [self getCouponInfo];
+        if (_currentCoupon) {
+            [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
+        } else {
+            [self getCouponInfo];
+        }
     }
 }
 

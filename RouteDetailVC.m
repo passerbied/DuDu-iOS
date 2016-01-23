@@ -434,7 +434,7 @@
     self.starRating.editable = (([self.orderInfo.order_status intValue] == 5 || _isPayed) && [self.orderInfo.evaluate_level floatValue]==0); //只有已付款并且没评过星的才可以评星, _isPayed是因为服务器刷新数据比微信回调速度慢造成支付成功但数据未更新成已支付。
     self.starRating.rating = [self.orderInfo.evaluate_level floatValue];
     
-    if (!_fetchDataTimer) {
+    if (!_fetchDataTimer && self.isModal) {
         [_fetchDataTimer setFireDate:[NSDate distantPast]];
         _fetchDataTimer = [NSTimer scheduledTimerWithTimeInterval:15.0
                                                            target:self

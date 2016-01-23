@@ -31,6 +31,25 @@
 
 - (void)showErrorMessage:(NSString *)message
 {
+    if ([message isEqualToString:@"no one catch this order"]) {
+        message = @"当前订单没有匹配车辆";
+    } else if ([message isEqualToString:@"no this car_style"]) {
+        message = @"没有此车型";
+    } else if ([message isEqualToString:@"no this order"]) {
+        message = @"没有此订单";
+    }  else if ([message isEqualToString:@"user not have this coupon"]) {
+        message = @"没有此优惠券";
+    } else if ([message isEqualToString:@"no order"]) {
+        message = @"没有此订单";
+    } else if ([message isEqualToString:@"order status wrong"]) {
+        message = @"订单状态错误";
+    } else if ([message isEqualToString:@"not your pay"]) {
+        message = @"不是您的订单";
+    } else if ([message isEqualToString:@"already"]) {
+        message = @"已经评过星了";
+    } else if ([message isEqualToString:@"order error"]) {
+        message = @"订单出错";
+    }
     [ZBCProgressHUD hideHUDForWindow:KEY_WINDOW animated:NO];
     [ZBCProgressHUD showCompleteHUD:NO
                           labelText:@""

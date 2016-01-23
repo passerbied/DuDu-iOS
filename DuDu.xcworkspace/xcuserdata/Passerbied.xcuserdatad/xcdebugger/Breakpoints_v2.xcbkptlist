@@ -2,4 +2,100 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RouteDetailVC.m"
+            timestampString = "475223102.669793"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "862"
+            endingLineNumber = "862"
+            landmarkName = "-wechatPay"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RouteDetailVC.m"
+            timestampString = "475223109.902051"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "903"
+            endingLineNumber = "903"
+            landmarkName = "-jumpToBizPay"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__29-[RouteDetailVC jumpToBizPay]_block_invoke"
+                  moduleName = "DuDu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Passerbied/Desktop/DuDu-iOS/RouteDetailVC.m"
+                  timestampString = "475223109.91197"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "903"
+                  endingLineNumber = "903"
+                  offsetFromSymbolStart = "2624">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_522"
+                  moduleName = "DuDu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Passerbied/Desktop/DuDu-iOS/RouteDetailVC.m"
+                  timestampString = "475223109.913107"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_523"
+                  moduleName = "DuDu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Passerbied/Desktop/DuDu-iOS/RouteDetailVC.m"
+                  timestampString = "475223109.913476"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__29-[RouteDetailVC jumpToBizPay]_block_invoke525"
+                  moduleName = "DuDu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Passerbied/Desktop/DuDu-iOS/RouteDetailVC.m"
+                  timestampString = "475223109.91382"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "903"
+                  endingLineNumber = "903"
+                  offsetFromSymbolStart = "80">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
