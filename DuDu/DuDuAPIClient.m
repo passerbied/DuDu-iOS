@@ -33,6 +33,7 @@
 {
     if ([message isEqualToString:@"no one catch this order"]) {
         message = @"当前订单没有匹配车辆";
+        return;
     } else if ([message isEqualToString:@"no this car_style"]) {
         message = @"没有此车型";
     } else if ([message isEqualToString:@"no this order"]) {

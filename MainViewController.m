@@ -217,9 +217,9 @@
         _adView.backgroundColor = COLORRGBA(0x000000, 0.2);
         CGRect adFrame;
         if (IS_BETTER_THAN_IPHONE_4S) {
-            adFrame = ccr((SCREEN_WIDTH-300)/2, (SCREEN_HEIGHT-400-10)/2, 300-10, 400-10);
+            adFrame = ccr((SCREEN_WIDTH-300+10)/2, (SCREEN_HEIGHT-400+10)/2, 300-10, 400-10);
         } else {
-            adFrame = ccr((SCREEN_WIDTH-240)/2, (SCREEN_HEIGHT-320-10)/2, 240-10, 320-10);
+            adFrame = ccr((SCREEN_WIDTH-240+10)/2, (SCREEN_HEIGHT-320+10)/2, 240-10, 320-10);
         }
         
         _adImageView = [[UIImageView alloc] initWithFrame:adFrame];
