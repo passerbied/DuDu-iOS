@@ -119,15 +119,34 @@
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     [self.view addSubview:_locationBtn];
     
-    [KEY_WINDOW addSubview:[self adView]];
+    [self.navigationController.view addSubview:[self adView]];
     [self startLocation];
     [self getAd];
     
 }
 
+- (void)clearData
+{
+    _isRightNow = YES;
+    NSDate *now = [NSDate date];
+    _startTimeStr = [now timeIntervalSince1970];
+    
+    _bottomToolBar.startTimeLabel.text = @"提前预约，出行方便";
+    _bottomToolBar.fromAddressLabel.text = @"定位中...";
+    _bottomToolBar.toAddressLabel.text = @"你要去哪儿";
+    _bottomToolBar.toAddressLabel.textColor = COLORRGB(0xf39a00);
+    [_bottomToolBar showChargeView:NO];
+    [_bottomToolBar showTimeLabel:NO];
+    _isUpdated = NO;
+    _currentCoupon = nil;
+    [self clearMapView];
+    [self startLocation];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     if (!_isAdShowing) {
         [self getIngOrder];
     }
@@ -147,6 +166,9 @@
 
 - (void)clearMapView
 {
+    _currentRoutPlan = nil;
+    _fromPointAnnotation = nil;
+    _toPointAnnotation = nil;
     self.mapView.showsUserLocation = NO;
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView removeOverlays:self.mapView.overlays];
@@ -163,17 +185,15 @@
                                error:nil];
         self.adInfo = adInfo;
         if (self.adInfo && [self.adInfo.advertisement_status intValue]==1) {
-            [ZBCToast showMessage:@"获取广告成功，请等待广告图片加载"];
+//            [ZBCToast showMessage:[NSString stringWithFormat:@"广告地址：%@",self.adInfo.advertisement_url]];
             [_adImageView setImageWithURL:URL(self.adInfo.advertisement_url)];
             [self showAdView:YES];
         } else {
-            [ZBCToast showMessage:@"完成广告请求，但没有获取到广告数据"];
             [self showAdView:NO];
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         _isAdShowing = NO;
-        [ZBCToast showMessage:@"获取广告失败，接口或网络出差"];
     }];
 }
 
@@ -195,13 +215,24 @@
     if (!_adView) {
         _adView = [[UIView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT)];
         _adView.backgroundColor = COLORRGBA(0x000000, 0.2);
-        _adImageView = [[UIImageView alloc] initWithFrame:ccr((SCREEN_WIDTH-300)/2, _topToolBar.height+NAV_BAR_HEIGHT_IOS7+50, 300-10, 400-10)];
+        CGRect adFrame;
+        if (IS_BETTER_THAN_IPHONE_4S) {
+            adFrame = ccr((SCREEN_WIDTH-300)/2, (SCREEN_HEIGHT-400-10)/2, 300-10, 400-10);
+        } else {
+            adFrame = ccr((SCREEN_WIDTH-240)/2, (SCREEN_HEIGHT-320-10)/2, 240-10, 320-10);
+        }
+        
+        _adImageView = [[UIImageView alloc] initWithFrame:adFrame];
         _adImageView.backgroundColor = COLORRGB(0xffffff);
+        _adImageView.layer.borderColor = COLORRGB(0xdedede).CGColor;
+        _adImageView.layer.borderWidth = 0.5f;
+        _adImageView.layer.cornerRadius = 3.0f;
+        _adImageView.layer.masksToBounds = YES;
         [_adView addSubview:_adImageView];
         UIButton *closeBtn = [UIButton buttonWithImageName:@"close_btn" hlImageName:@"close_btn_hl" onTapBlock:^(UIButton *btn) {
             [self showAdView:NO];
         }];
-        closeBtn.frame = ccr(CGRectGetMaxX(_adImageView.frame)-15, _adImageView.y-15, 30, 30);
+        closeBtn.frame = ccr(CGRectGetMaxX(_adImageView.frame)-20, _adImageView.y-10, 30, 30);
         [_adView addSubview:closeBtn];
     }
     return _adView;
@@ -299,7 +330,6 @@
 - (void)startLocation
 {
     self.mapView.showsUserLocation = YES;
-//    [self.mapView setUserTrackingMode:QUserTrackingModeFollow animated:YES];
     [self.mapView setZoomLevel:16.1 animated:YES];
 }
 
@@ -749,26 +779,26 @@
 - (void)setupAnnotation:(BOOL)isFrom
 {
     if (isFrom) {
+        if (!_fromPointAnnotation) {
+            _fromPointAnnotation = [[QPointAnnotation alloc] init];
+        }
         for (QPointAnnotation *point in self.mapView.annotations) {
             if (_fromPointAnnotation == point) {
                 [self.mapView removeAnnotation:_fromPointAnnotation];
             }
-        }
-        if (!_fromPointAnnotation) {
-            _fromPointAnnotation = [[QPointAnnotation alloc] init];
         }
         [self.mapView setCenterCoordinate:_fromLocation.coordinate];
         [_fromPointAnnotation setCoordinate:_fromLocation.coordinate];
         [self.mapView setZoomLevel:16.1 animated:YES];
         [self.mapView addAnnotation:_fromPointAnnotation];
     } else {
+        if (!_toPointAnnotation) {
+            _toPointAnnotation = [[QPointAnnotation alloc] init];
+        }
         for (QPointAnnotation *point in self.mapView.annotations) {
             if (_toPointAnnotation == point) {
                 [self.mapView removeAnnotation:_toPointAnnotation];
             }
-        }
-        if (!_toPointAnnotation) {
-            _toPointAnnotation = [[QPointAnnotation alloc] init];
         }
         [_toPointAnnotation setCoordinate:_toLocation.coordinate];
 //        [self.mapView setCenterCoordinate:_toLocation.coordinate zoomLevel:16.1 animated:YES];

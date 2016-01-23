@@ -24,6 +24,7 @@
 - (void)updateLocation:(NSString *)location;
 - (void)updateCharge:(NSString *)money coupon:(CouponModel *)coupon;
 - (void)showChargeView:(BOOL)show;
+- (void)showTimeLabel:(BOOL)show;
 
 @end
 

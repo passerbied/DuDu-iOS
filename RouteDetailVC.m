@@ -959,6 +959,7 @@
     self.isForCharge = NO;
     _isPayed = YES;
     [self flushOrderStatus:nil];
+    [[MainViewController sharedMainViewController] clearData];
 }
 
 - (NSString *)createMd5Sign:(NSMutableDictionary*)dict

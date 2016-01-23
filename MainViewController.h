@@ -11,8 +11,6 @@
 #import "BottomToolBar.h"
 #import "TimePicker.h"
 #import "MenuTableViewController.h"
-//#import <MAMapKit/MAMapKit.h>
-//#import <AMapSearchKit/AMapSearchKit.h>
 #import "OrderModel.h"
 #import "GeoAndSuggestionViewController.h"
 #import <QMapKit/QMapKit.h>
@@ -41,6 +39,8 @@ CouponVCDelegate
 @property (nonatomic, strong) NSArray       *carStyles;
 @property (nonatomic, strong) CarModel      *currentCar;
 @property (nonatomic, strong) adModel       *adInfo;
+
+- (void)clearData;
 
 @end
 
