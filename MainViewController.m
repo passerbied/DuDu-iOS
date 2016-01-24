@@ -25,22 +25,19 @@
 {
     BottomToolBar   *_bottomToolBar;
     TimePicker      *_timePicker;
-    UIActivityIndicatorView *_activityView;
     MenuTableViewController *_menuVC;
     OrderVC                 *_orderVC;
     
     NSString        *_currentCity;
-    NSMutableArray  *_annotations;
     UIButton        *_locationBtn;
     QPointAnnotation   *_fromPointAnnotation;
     QPointAnnotation   *_toPointAnnotation;
     BOOL            _isFirstAppear;
-    BOOL            _isRightNow;
+    BOOL            _isAppointment; //是否是预约
     NSTimeInterval  _startTimeStr;
     BOOL            _isUpdated;
     QMSRoutePlan    *_currentRoutPlan;
     CouponModel     *_currentCoupon;
-    BOOL            _isOrderIng;
     
     UIView          *_adView;
     UIImageView     *_adImageView;
@@ -61,7 +58,6 @@
 {
     self = [super init];
     if (self) {
-        _annotations = [NSMutableArray array];
         _menuVC = [[MenuTableViewController alloc] init];
         _menuVC.title = @"个人中心";
         
@@ -69,6 +65,8 @@
         _orderVC.title = @"正在为你预约嘟嘟快车";
         _fromLocation = [[QUserLocation alloc] init];
         _toLocation = [[QUserLocation alloc] init];
+        
+        self.orderStore = [[OrderStore alloc] init];
     }
     return self;
 }
@@ -127,7 +125,7 @@
 
 - (void)clearData
 {
-    _isRightNow = YES;
+    _isAppointment = NO;
     NSDate *now = [NSDate date];
     _startTimeStr = [now timeIntervalSince1970];
     
@@ -148,7 +146,7 @@
     [super viewDidAppear:animated];
     
     if (!_isAdShowing) {
-        [self getIngOrder];
+        [self getOrderList];
     }
     if (_currentCoupon) {
         [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
@@ -185,7 +183,6 @@
                                error:nil];
         self.adInfo = adInfo;
         if (self.adInfo && [self.adInfo.advertisement_status intValue]==1) {
-//            [ZBCToast showMessage:[NSString stringWithFormat:@"广告地址：%@",self.adInfo.advertisement_url]];
             [_adImageView setImageWithURL:URL(self.adInfo.advertisement_url)];
             [self showAdView:YES];
         } else {
@@ -204,7 +201,7 @@
     } completion:^(BOOL finished) {
         _isAdShowing = show;
         if (!show & _isFirstAppear) { //第一次进入主页面并且没有展示的时候才显示广告
-            [self getIngOrder];
+            [self getOrderList];
 //            _isFirstAppear = NO;
         }
     }];
@@ -238,7 +235,7 @@
     return _adView;
 }
 
-- (void)getIngOrder
+- (void)getOrderList
 {
     [[DuDuAPIClient sharedClient] GET:USER_ORDER_INFO parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -246,17 +243,21 @@
         NSArray *ing = [MTLJSONAdapter modelsOfClass:[OrderModel class]
                                        fromJSONArray:dic[@"ing"]
                                                error:nil];
-
-        _isOrderIng = ing.count;
+        
+        NSArray *history = [MTLJSONAdapter modelsOfClass:[OrderModel class]
+                                       fromJSONArray:dic[@"history"]
+                                               error:nil];
+        self.orderStore.ing = [ing mutableCopy];
+        self.orderStore.history = [history mutableCopy];
         
         //第一次进入画面并且没有未完成订单时进行用户定位
-        if (!_isOrderIng) {
+        if (!self.orderStore.ing.count) {
             if (_isFirstAppear) {
                 [self startLocation];
                 _isFirstAppear = NO;
             }
         } else {
-            OrderModel *orderInfo = ing[0];
+            OrderModel *orderInfo = _orderStore.ing[0];
             
             if ([orderInfo.order_status intValue] == OrderStatusWatingForDriver) { //等待派单
                 OrderVC *orderVC = [[OrderVC alloc] init];
@@ -373,6 +374,7 @@
 {
     GeoAndSuggestionViewController *searchVC = [[GeoAndSuggestionViewController alloc] init];
     searchVC.delegate = self;
+    searchVC.historyOrders = self.orderStore.history;
     searchVC.title = @"出发地";
     searchVC.isFrom = YES;
     searchVC.currentCity = _currentCity;
@@ -383,6 +385,7 @@
 {
     GeoAndSuggestionViewController *searchVC = [[GeoAndSuggestionViewController alloc] init];
     searchVC.delegate = self;
+    searchVC.historyOrders = self.orderStore.history;
     searchVC.title = @"目的地";
     searchVC.isFrom = NO;
     searchVC.currentCity = _currentCity;
@@ -469,16 +472,27 @@
                 [nav.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,HSFONT(16),NSFontAttributeName,nil]];
                 [self.navigationController presentViewController:nav animated:YES completion:nil];
                 
-            } else if([dic[@"err"] intValue] == OrderResultNotCompleted){ //订单未完成
+            } else if([dic[@"err"] intValue] == OrderResultNotCompleted){ //订单未完成，理论不会有这个分支，因为只要有未完成订单就直接跳到详情页
                 return;
             } else if([dic[@"err"] intValue] == OrderResultCouponCantUse) { //优惠券不可用
                 [ZBCToast showMessage:@"优惠券不可用"];
                 return;
             } else if([dic[@"err"] intValue] == OrderResultNoCarUse){ //没有可用车辆
-                [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(dic[@"info"][@"order_id"]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-                    [ZBCToast showMessage:@"当前无可用车辆，已为您取消订单"];
-                } failure:^(NSURLSessionDataTask *task, NSError *error) {
-                }];
+                OrderVC *orderVC = [[OrderVC alloc] init];
+                orderVC.orderInfo = orderInfo;
+                orderVC.isModal = YES;
+                orderVC.resultStatus = [dic[@"err"] intValue];
+                orderVC.title = @"当前订单";
+                orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
+                [nav.navigationBar setTranslucent:NO];
+                [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
+                [nav.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,HSFONT(16),NSFontAttributeName,nil]];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
+//                [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(dic[@"info"][@"order_id"]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+//                    [ZBCToast showMessage:@"当前无可用车辆，已为您取消订单"];
+//                } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//                }];
             } else {
                 
             }
@@ -589,10 +603,12 @@
     orderInfo.star_loc_str = _bottomToolBar.fromAddressLabel.text;
     orderInfo.dest_loc_str = _bottomToolBar.toAddressLabel.text;
     orderInfo.car_style = _currentCar.car_style_id;
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
-    NSTimeInterval now = [date timeIntervalSince1970]*1;
-    orderInfo.startTimeStr = [NSString stringWithFormat:@"%f",now];
-    orderInfo.startTimeType = [NSNumber numberWithInt:_isRightNow];
+    if (!_isAppointment) { //不是预约单，取现在时间
+        NSDate *now = [NSDate date];
+        _startTimeStr = [now timeIntervalSince1970];
+    }
+    orderInfo.startTimeStr = [NSString stringWithFormat:@"%d",(int)_startTimeStr];
+    orderInfo.startTimeType = [NSNumber numberWithInt:_isAppointment];
     
     [self sentOrder:orderInfo];
 }
@@ -667,7 +683,7 @@
 
 - (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp isRightNow:(BOOL)isRightNow
 {
-    _isRightNow = isRightNow;
+    _isAppointment = !isRightNow;
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeStamp];
     _bottomToolBar.startTimeLabel.text = [date displayWithFormat:@"d号H点mm分"];
     _startTimeStr = timeStamp;
@@ -753,7 +769,6 @@
         _fromLocation = userLocation;
         QMSReverseGeoCodeSearchOption *regeocoder = [[QMSReverseGeoCodeSearchOption alloc] init];
         [regeocoder setLocation:[NSString stringWithFormat:@"%f,%f",userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude]];
-//        [regeocoder setLocationWithCenterCoordinate:userLocation.location.coordinate];
         
         //返回坐标点附近poi列表
         [regeocoder setGet_poi:NO];

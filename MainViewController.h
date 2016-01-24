@@ -39,6 +39,7 @@ CouponVCDelegate
 @property (nonatomic, strong) NSArray       *carStyles;
 @property (nonatomic, strong) CarModel      *currentCar;
 @property (nonatomic, strong) adModel       *adInfo;
+@property (nonatomic, strong) OrderStore    *orderStore;
 
 - (void)clearData;
 

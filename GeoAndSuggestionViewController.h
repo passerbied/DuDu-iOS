@@ -11,11 +11,12 @@
 
 @protocol GeoAndSuggestionViewControllerDelegate;
 
-@interface GeoAndSuggestionViewController : UIViewController
+@interface GeoAndSuggestionViewController : BaseViewController
 
 @property (nonatomic, strong) QMSSuggestionPoiData *poi;
 @property (nonatomic, strong) id<GeoAndSuggestionViewControllerDelegate> delegate;
 @property (nonatomic, copy) NSString *currentCity;
+@property (nonatomic, strong) NSMutableArray *historyOrders;
 @property (nonatomic, assign) BOOL isFrom;
 
 @end

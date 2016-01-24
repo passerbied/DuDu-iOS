@@ -8,6 +8,7 @@
 
 #import "GeoAndSuggestionViewController.h"
 #import <QMapKit/QMapKit.h>
+#import "OrderModel.h"
 
 @interface GeoAndSuggestionViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, QMSSearchDelegate>
 
@@ -15,22 +16,29 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) QMSSearcher *mapSearcher;
-
 @property (nonatomic, strong) QMSSuggestionResult *suggestionResut;
 
 @end
 
 @implementation GeoAndSuggestionViewController
+{
+    NSArray *_start_List;
+    NSArray *_dest_List;
 
-- (void)viewDidLoad {
+}
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    _start_List = [NSArray array];
+    _dest_List = [NSArray array];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    self.mapSearcher = [[QMSSearcher alloc] initWithDelegate:self];
     
+    [self getHistoryLocDescriptions:self.historyOrders];
     [self initSearchBar];
     [self initTableView];
 
-    self.mapSearcher = [[QMSSearcher alloc] initWithDelegate:self];
 }
 
 - (void)initSearchBar
@@ -53,20 +61,59 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    [self.tableView reloadData];
+}
+
+- (void)getHistoryLocDescriptions:(NSArray *)historyOrders
+{
+    for (int i = 0; i<historyOrders.count; i++) {
+        OrderModel *order = historyOrders[i];
+        QMSReverseGeoCodeSearchOption *option = [[QMSReverseGeoCodeSearchOption alloc] init];
+        [option setGet_poi:NO];
+        if (self.isFrom) {
+            option.location = [NSString stringWithFormat:@"%@,%@",order.start_lat,order.start_lng];
+        } else {
+            option.location = [NSString stringWithFormat:@"%@,%@",order.dest_lat,order.dest_lng];
+        }
+        [self.mapSearcher searchWithReverseGeoCodeSearchOption:option];
+    }
 }
 
 #pragma mark - QMSSearcher Delegate
 
 - (void)searchWithSearchOption:(QMSSearchOption *)searchOption didFailWithError:(NSError *)error
 {
-    NSLog(@"error:%@", error);
+    NSLog(@"error:%@", error.description);
 }
 
 - (void)searchWithSuggestionSearchOption:(QMSSuggestionSearchOption *)suggestionSearchOption didReceiveResult:(QMSSuggestionResult *)suggestionSearchResult
 {
-//    NSLog(@"suggest result:%@", suggestionSearchResult);
     self.suggestionResut = suggestionSearchResult;
     [self.tableView reloadData];
+}
+
+- (void)searchWithReverseGeoCodeSearchOption:(QMSReverseGeoCodeSearchOption *)reverseGeoCodeSearchOption didReceiveResult:(QMSReverseGeoCodeSearchResult *)reverseGeoCodeSearchResult
+{
+    if (!self.suggestionResut) {
+        for (int i = 0; i<self.historyOrders.count; i++) {
+            OrderModel *order = self.historyOrders[i];
+            if (self.isFrom) {
+                if ([reverseGeoCodeSearchOption.location isEqualToString:[NSString stringWithFormat:@"%@,%@",order.start_lat,order.start_lng]]) {
+                    order.star_loc_description = reverseGeoCodeSearchResult.formatted_addresses.recommend;
+                    [self.historyOrders setObject:order atIndexedSubscript:i];
+                    NSArray *rows = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:i inSection:0], nil];
+                    [self.tableView reloadRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationNone];
+                }
+            } else {
+                if ([reverseGeoCodeSearchOption.location isEqualToString:[NSString stringWithFormat:@"%@,%@",order.dest_lat,order.dest_lng]]) {
+                    order.dest_loc_description = reverseGeoCodeSearchResult.formatted_addresses.recommend;
+                    [self.historyOrders setObject:order atIndexedSubscript:i];
+                    NSArray *rows = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:i inSection:0], nil];
+                    [self.tableView reloadRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationNone];
+                }
+            }
+        }
+    }
 }
 
 #pragma mark - UISearchBarDelegate
@@ -92,7 +139,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QMSSuggestionPoiData *poi = self.suggestionResut.dataArray[indexPath.row];
+    QMSSuggestionPoiData *poi;
+    if ([self.suggestionResut.dataArray count]) {
+        poi = self.suggestionResut.dataArray[indexPath.row];
+    } else {
+        OrderModel *order = self.historyOrders[indexPath.row];
+        poi = [[QMSSuggestionPoiData alloc] init];
+        if (self.isFrom) {
+            poi.location = CLLocationCoordinate2DMake([order.start_lat floatValue],[order.start_lng floatValue]);
+            poi.title = order.star_loc_str;
+        } else {
+            poi.location = CLLocationCoordinate2DMake([order.dest_lat floatValue],[order.dest_lng floatValue]);
+            poi.title = order.dest_loc_str;
+        }
+    }
+    
     if ([self.delegate respondsToSelector:@selector(addressPicker:fromAddress:toAddress:)]) {
         if (self.isFrom) {
             [self.delegate addressPicker:self fromAddress:poi toAddress:nil];
@@ -100,15 +161,15 @@
             [self.delegate addressPicker:self fromAddress:nil toAddress:poi];
         }
     }
-//    if ([self.delegate respondsToSelector:@selector(addressPicker:didSelectedAddress:)]) {
-//        [self.delegate addressPicker:self didSelectedAddress:poi];
-//    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.suggestionResut.dataArray count];
+    if ([self.suggestionResut.dataArray count]) {
+        return [self.suggestionResut.dataArray count];
+    }
+    return [self.historyOrders count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,11 +181,23 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseId];
     }
     
-    QMSSuggestionPoiData *poi = [self.suggestionResut.dataArray objectAtIndex:[indexPath row
-                                                                               ]];
+    if (self.suggestionResut.dataArray.count) {
+        QMSSuggestionPoiData *poi = [self.suggestionResut.dataArray objectAtIndex:[indexPath row
+                                                                                   ]];
+        
+        [cell.textLabel setText:poi.title];
+        [cell.detailTextLabel setText:poi.address];
+    } else {
+        OrderModel *order = self.historyOrders[indexPath.row];
+        if (self.isFrom) {
+            [cell.textLabel setText:order.star_loc_str];
+            [cell.detailTextLabel setText:order.star_loc_description?order.star_loc_description:order.star_loc_str];
+        } else {
+            [cell.textLabel setText:order.dest_loc_str];
+            [cell.detailTextLabel setText:order.dest_loc_description?order.dest_loc_description:order.dest_loc_str];
+        }
+    }
     
-    [cell.textLabel setText:poi.title];
-    [cell.detailTextLabel setText:poi.address];
     
     return cell;
 }

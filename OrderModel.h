@@ -36,9 +36,11 @@ typedef NS_ENUM(NSUInteger, OrderStatus) {
 @property (nonatomic, copy) NSString *start_lat;
 @property (nonatomic, copy) NSString *start_lng;
 @property (nonatomic, copy) NSString *star_loc_str;
+@property (nonatomic, copy) NSString *star_loc_description;
 @property (nonatomic, copy) NSString *dest_lat;
 @property (nonatomic, copy) NSString *dest_lng;
 @property (nonatomic, copy) NSString *dest_loc_str;
+@property (nonatomic, copy) NSString *dest_loc_description;
 @property (nonatomic, copy) NSNumber *car_style;
 @property (nonatomic, copy) NSNumber *startTimeType;
 @property (nonatomic, copy) NSString *startTimeStr;
