@@ -840,7 +840,8 @@
 {
     WXMediaMessage *message = [WXMediaMessage message];
     NSString *imgStr = [CouponStore sharedCouponStore].shareInfo.weixin_pic;
-    [message setThumbImage:IMG(imgStr)];
+    NSData *img = [NSData dataWithContentsOfURL:URL(imgStr)];
+    [message setThumbData:img];
     message.title = [CouponStore sharedCouponStore].shareInfo.weixin_title;
     message.description = [CouponStore sharedCouponStore].shareInfo.weixin_title;
     

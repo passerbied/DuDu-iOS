@@ -331,6 +331,7 @@
     }
     [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(self.orderInfo.order_id) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [ZBCToast showMessage:@"订单已取消"];
+//        [[MainViewController sharedMainViewController] clearData];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];
@@ -450,10 +451,12 @@
     } else if ([self.orderInfo.order_status intValue] == OrderStatusComleted) {
         self.orderStatusInfo = @"订单完成";
         [self showRightTitle:NO withButton:nil];
+        [[MainViewController sharedMainViewController] clearData];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } else if ([self.orderInfo.order_status intValue] == OrderStatusWatingForPay) {
         self.orderStatusInfo = @"行程结束，请尽快付款";
         [self showRightTitle:NO withButton:nil];
+        [[MainViewController sharedMainViewController] clearData];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
     
@@ -495,31 +498,32 @@
         [_countDownTimer setFireDate:[NSDate distantFuture]];
         [_countDownTimer invalidate];
         
-        _alertView = [[SIAlertView alloc] initWithTitle:@""
-                                             andMessage:@"\n您等待了较长的时间，系统会赠送您优惠券\n\n是否继续等待嘟嘟为您服务？\n"];
-        _alertView.messageFont = HSFONT(14);
-        _alertView.buttonColor = COLORRGB(0xf39a00);
-        _alertView.buttonFont = HSFONT(15);
-        _alertView.cancelButtonColor = COLORRGB(0xf39a00);
-        __weak id weakSelf = self;
-        [_alertView addButtonWithTitle:@"取消订单"
-                                 type:SIAlertViewButtonTypeDefault
-                              handler:^(SIAlertView *alert) {
-                                  [weakSelf cancelOrder];
-                              }];
-        [_alertView addButtonWithTitle:@"继续等待"
-                                 type:SIAlertViewButtonTypeCancel
-                              handler:^(SIAlertView *alert) {
-                                  [alert dismissAnimated:YES];
-                              }];
-        _alertView.didShowHandler = ^(SIAlertView *alertView) {
-        };
-        _alertView.didDismissHandler = ^(SIAlertView *alertView) {
-            alertView = nil;
-        };
-        _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
-        [_alertView show];
-        
+        if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
+            _alertView = [[SIAlertView alloc] initWithTitle:@""
+                                                 andMessage:@"\n您等待了较长的时间，系统会赠送您优惠券\n\n是否继续等待嘟嘟为您服务？\n"];
+            _alertView.messageFont = HSFONT(14);
+            _alertView.buttonColor = COLORRGB(0xf39a00);
+            _alertView.buttonFont = HSFONT(15);
+            _alertView.cancelButtonColor = COLORRGB(0xf39a00);
+            __weak id weakSelf = self;
+            [_alertView addButtonWithTitle:@"取消订单"
+                                      type:SIAlertViewButtonTypeDefault
+                                   handler:^(SIAlertView *alert) {
+                                       [weakSelf cancelOrder];
+                                   }];
+            [_alertView addButtonWithTitle:@"继续等待"
+                                      type:SIAlertViewButtonTypeCancel
+                                   handler:^(SIAlertView *alert) {
+                                       [alert dismissAnimated:YES];
+                                   }];
+            _alertView.didShowHandler = ^(SIAlertView *alertView) {
+            };
+            _alertView.didDismissHandler = ^(SIAlertView *alertView) {
+                alertView = nil;
+            };
+            _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+            [_alertView show];
+        }
     }
 }
 

@@ -126,6 +126,7 @@
 		487956EE1C3D517A00193530 /* GeoAndSuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487956ED1C3D517A00193530 /* GeoAndSuggestionViewController.m */; };
 		487956F31C439F4500193530 /* QMapKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 487956F21C439F4500193530 /* QMapKit.bundle */; };
 		487956F51C439F8700193530 /* icon_my_location_48px@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956F41C439F8700193530 /* icon_my_location_48px@2x.png */; };
+		48EA70CA1C5604D90086BC64 /* icon60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48EA70C91C5604D90086BC64 /* icon60@3x.png */; };
 		48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D01BE7A65500AFF1D4 /* main.m */; };
 		48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D31BE7A65500AFF1D4 /* AppDelegate.m */; };
 		48EAD6361BE7B7C400AFF1D4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EAD6351BE7B7C400AFF1D4 /* AudioToolbox.framework */; };
@@ -361,6 +362,7 @@
 		487956ED1C3D517A00193530 /* GeoAndSuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoAndSuggestionViewController.m; sourceTree = "<group>"; };
 		487956F21C439F4500193530 /* QMapKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = QMapKit.bundle; sourceTree = "<group>"; };
 		487956F41C439F8700193530 /* icon_my_location_48px@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_my_location_48px@2x.png"; sourceTree = "<group>"; };
+		48EA70C91C5604D90086BC64 /* icon60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon60@3x.png"; sourceTree = "<group>"; };
 		48EAD5CC1BE7A65500AFF1D4 /* DuDu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuDu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48EAD5D01BE7A65500AFF1D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		48EAD5D21BE7A65500AFF1D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -824,6 +826,7 @@
 		486F52851BEE225E0043874E /* imgs */ = {
 			isa = PBXGroup;
 			children = (
+				48EA70C91C5604D90086BC64 /* icon60@3x.png */,
 				48708B891C51ED1F0015BDA2 /* close_btn_hl@2x.png */,
 				48708B871C51ECF00015BDA2 /* close_btn@2x.png */,
 				48708B851C51D69A0015BDA2 /* phone-icon2@2x.png */,
@@ -1280,6 +1283,7 @@
 				48F08EFB1C48141B00724CEC /* law.txt in Resources */,
 				486F528F1BEE567E0043874E /* arrow_down@2x.png in Resources */,
 				4867CE2D1C284821003B1744 /* nav_btn_back_88_88@2x.png in Resources */,
+				48EA70CA1C5604D90086BC64 /* icon60@3x.png in Resources */,
 				4847D3AA1C147D75004634F5 /* orgbtn@2x.png in Resources */,
 				480E504E1BFB54D3006D545A /* account@2x.png in Resources */,
 				486F52901BEE567E0043874E /* arrow_up_pressed@2x.png in Resources */,
@@ -1575,7 +1579,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
