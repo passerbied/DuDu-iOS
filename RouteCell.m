@@ -109,7 +109,7 @@
 - (void)setData
 {
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
-    _timeLabel.text = [date displayWithFormat:@"yyyy-m-d HH:mm"];
+    _timeLabel.text = [date displayWithFormat:@"yyyy-M-dd HH:mm"];
     _statusLabel.text = self.orderInfo.order_status_str;
     _startSiteLabel.text = self.orderInfo.star_loc_str;
     _endSiteLabel.text = self.orderInfo.dest_loc_str;
