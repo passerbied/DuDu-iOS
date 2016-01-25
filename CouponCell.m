@@ -66,7 +66,7 @@
 
 - (void)setData
 {
-    _typeLabel.text = self.type;
+    _typeLabel.text = [NSString stringWithFormat:@"%@",self.coupon_title];
     _dateLabel.text = self.date;
     _detailLabel.text = self.detail;
     _conditionLabel.text = self.condition;

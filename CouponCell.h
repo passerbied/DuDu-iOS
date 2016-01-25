@@ -10,7 +10,8 @@
 
 @interface CouponCell : UITableViewCell
 
-@property (nonatomic, copy)NSString *type;
+@property (nonatomic, copy)NSString *coupon_title;
+@property (nonatomic, copy)NSString *coupon_type;
 @property (nonatomic, copy)NSString *date;
 @property (nonatomic, copy)NSString *detail;
 @property (nonatomic, copy)NSString *condition;

@@ -1029,7 +1029,7 @@
 #pragma mark - StarRating delegate
 - (void)starsSelectionChanged:(EDStarRating *)control rating:(float)rating
 {
-    if ([self.orderInfo.evaluate_level init] == 0) {
+    if ([self.orderInfo.evaluate_level intValue] == 0) {
         [self sentRating:rating];
     }
 }

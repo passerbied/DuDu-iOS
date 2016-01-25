@@ -94,7 +94,8 @@
 - (void)configureCell:(CouponCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     CouponModel *coupon = self.coupons[indexPath.row];
-    cell.type = coupon.coupon_type;
+    cell.coupon_title = coupon.coupon_title;
+    cell.coupon_type = coupon.coupon_type;
     NSString *date = coupon.coupon_exp_at;
     cell.date = [NSString stringWithFormat:@"有效期至%@",date];
     if ([coupon.coupon_discount floatValue] < 1) {

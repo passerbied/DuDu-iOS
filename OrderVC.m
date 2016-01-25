@@ -405,6 +405,7 @@
             self.orderInfo.order_duration_money = dic[@"info"][@"order_duration_money"];
             self.orderInfo.order_allTime = dic[@"info"][@"order_allTime"];
             self.orderInfo.order_allMoney = dic[@"info"][@"order_allMoney"];
+            self.orderInfo.startTimeType = dic[@"info"][@"startTimeType"];
             self.orderInfo.location = dic[@"info"][@"location"];
         } else {
             self.orderInfo.car_color = @"";
@@ -424,15 +425,19 @@
 {
     if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
         [self showRightTitle:YES withButton:_cancelBtn];
-        self.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
-        if (!_countDownTimer) {
-            _timerCount = [CouponStore sharedCouponStore].shareInfo.wait_order_time_seconds;
-            [_countDownTimer setFireDate:[NSDate distantPast]];
-            _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                               target:self
-                                                             selector:@selector(timerFireMethod:)
-                                                             userInfo:nil
-                                                              repeats:YES];
+        if (![self.orderInfo.startTimeType intValue]) {
+            self.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+            if (!_countDownTimer) {
+                _timerCount = [CouponStore sharedCouponStore].shareInfo.wait_order_time_seconds;
+                [_countDownTimer setFireDate:[NSDate distantPast]];
+                _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                                   target:self
+                                                                 selector:@selector(timerFireMethod:)
+                                                                 userInfo:nil
+                                                                  repeats:YES];
+            }
+        } else {
+            self.orderStatusInfo = @"嘟嘟已经接单，出发前20分钟司机会主动联系您";
         }
         
     } else if ([self.orderInfo.order_status intValue] == OrderStatusDriverIsComing) {
@@ -486,7 +491,7 @@
 
     }
     
-    [self showTimerView:([self.orderInfo.order_status intValue]==OrderStatusWatingForDriver)];
+    [self showTimerView:([self.orderInfo.order_status intValue]==OrderStatusWatingForDriver && ![self.orderInfo.startTimeType intValue])];
     [self showDriverView:([self.orderInfo.order_status intValue]>OrderStatusWatingForDriver)];
     [self showOtherCars:(self.resultStatus==OrderResultHaveOtherCar)];
 }

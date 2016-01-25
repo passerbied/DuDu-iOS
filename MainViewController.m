@@ -416,17 +416,17 @@
 }
 */
 
-- (void)sentOrder:(OrderModel *)orderInfo
+- (void)sentOrder:(OrderModel *)order
 {
-    NSString *url = ADD_ORDER(orderInfo.start_lat,
-                              orderInfo.start_lng,
-                              orderInfo.star_loc_str,
-                              orderInfo.dest_lat,
-                              orderInfo.dest_lng,
-                              orderInfo.dest_loc_str,
-                              orderInfo.car_style,
-                              orderInfo.startTimeType,
-                              orderInfo.startTimeStr,
+    NSString *url = ADD_ORDER(order.start_lat,
+                              order.start_lng,
+                              order.star_loc_str,
+                              order.dest_lat,
+                              order.dest_lng,
+                              order.dest_loc_str,
+                              order.car_style,
+                              order.startTimeType,
+                              order.startTimeStr,
                               _currentCoupon.coupon_id);
     
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
@@ -453,6 +453,7 @@
                 orderInfo.start_lat = dic[@"info"][@"start_lat"];
                 orderInfo.start_lng = dic[@"info"][@"start_lng"];
                 orderInfo.user_id = dic[@"info"][@"user_id"];
+                orderInfo.startTimeType = order.startTimeType;
                 
                 OrderVC *orderVC = [[OrderVC alloc] init];
                 
@@ -467,7 +468,12 @@
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
                 orderVC.orderStatusInfo = dic[@"order_info"];
-                orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                if ([orderInfo.startTimeType intValue]) {
+                    orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                } else {
+                    orderVC.orderStatusInfo = @"嘟嘟已经接单，出发前20分钟我们的司机会主动联系您";
+                }
+                
                 ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
                 [nav.navigationBar setTranslucent:NO];
                 [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
@@ -481,7 +487,7 @@
                 return;
             } else if([dic[@"err"] intValue] == OrderResultNoCarUse){ //没有可用车辆
                 OrderVC *orderVC = [[OrderVC alloc] init];
-                orderVC.orderInfo = orderInfo;
+                orderVC.orderInfo = order;
                 orderVC.isModal = YES;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
@@ -491,10 +497,6 @@
                 [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
                 [nav.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,HSFONT(16),NSFontAttributeName,nil]];
                 [self.navigationController presentViewController:nav animated:YES completion:nil];
-//                [[DuDuAPIClient sharedClient] GET:CANCEL_ORDER(dic[@"info"][@"order_id"]) parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-//                    [ZBCToast showMessage:@"当前无可用车辆，已为您取消订单"];
-//                } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//                }];
             } else {
                 
             }
