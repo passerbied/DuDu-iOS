@@ -16,23 +16,22 @@ font-family: -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue", "Lucida Gr
 "SimSun", "Droid Sans Fallback", sans-serif;
 }
 .container-aboutus{
-margin: auto auto 20px auto;
-max-width: 1100px;
+margin: auto auto auto auto;
+max-width: 640px;
 min-width: 320px;
 }
 
 .container-aboutus .content{
 background: #FFF;
 padding-top: 20px;
-padding-bottom: 20px;
+padding-bottom: 0px;
 font-size: 14px;
 line-height: 1.8em;
 margin: auto;
 width: 100%;
-height: 100%;
+height: 85%;
 }
 .container-aboutus .content p{
-text-align: left;
 color: #000000;
 padding-left: 10px;
 padding-right: 10px;
@@ -54,14 +53,21 @@ position: relative;
 }
 
 .container-aboutus .footer {
+background: #FFF;
 width: 100%;
+height: 15%;
 position:absolute;
 bottom: 0px;
-padding-left: 10px;
-padding-right: 10px;
+padding-left: 0px;
+padding-right: 0px;
 text-align:center;
-color: #000000;
 }
+
+.footer p{
+color: #939393;
+font-size:13px
+}
+
 </style>
 </head>
 <body>
@@ -72,9 +78,9 @@ color: #000000;
 </p>
 <p>电话：<a tel:4009016008="">4009016008</a>
 </p>
-<p>邮箱：<a mailto:dachesoftapp@sina.com="">dachesoftapp@sina.com</a>
+<p>邮箱：<a href="mailto:dachesoftapp@sina.com">dachesoftapp@sina.com</a>
 </p>
-<p>网址：<a href="http://www.kupocar.cn">www.kupocar.cn</a>
+<p>网址：<a href="http://www.kupaocar.cn">www.kupaocar.cn</a>
 </p>
 <p>地址：辽宁大连市沙河口区民政街331号17F-2
 </p>

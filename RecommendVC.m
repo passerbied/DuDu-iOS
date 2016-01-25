@@ -71,7 +71,8 @@
 - (void)shareCoupon
 {
     WXMediaMessage *message = [WXMediaMessage message];
-    [message setThumbImage:IMG(self.share_thumb)];
+    NSData *img = [NSData dataWithContentsOfURL:URL(self.share_thumb)];
+    [message setThumbData:img];
     message.title = self.share_title;
     message.description = self.share_desc;
     
