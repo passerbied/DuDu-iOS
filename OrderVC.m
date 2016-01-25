@@ -461,7 +461,7 @@
     } else if ([self.orderInfo.order_status intValue] == OrderStatusWatingForPay) {
         self.orderStatusInfo = @"行程结束，请尽快付款";
         [self showRightTitle:NO withButton:nil];
-        [[MainViewController sharedMainViewController] clearData];
+//        [[MainViewController sharedMainViewController] clearData];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } else {
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];

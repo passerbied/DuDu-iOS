@@ -338,6 +338,7 @@
 
 - (void)locateMapView
 {
+    [self clearData];
     [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
 }
 

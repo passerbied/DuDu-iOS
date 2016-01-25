@@ -392,7 +392,7 @@
     _driverNameLabel.text = [NSString stringWithFormat:@"%@(%@)",self.orderInfo.driver_nickname,self.orderInfo.driver_telephone];
     _carNumLabel.text = self.orderInfo.car_plate_number;
     
-    _priceLabel.text = [NSString stringWithFormat:@"%@元",self.orderInfo.order_allMoney];
+    _priceLabel.text = [NSString stringWithFormat:@"%.1f元",[self.orderInfo.order_allMoney floatValue]];
     
     NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:_priceLabel.text];
     NSUInteger priceLength = _priceLabel.text.length-1;
@@ -401,7 +401,7 @@
     _priceLabel.attributedText = priceString;
     
     float mileage = [self.orderInfo.order_mileage floatValue];
-    _mileageLabel.text = [NSString stringWithFormat:@"里程(%.2f公里)",mileage];
+    _mileageLabel.text = [NSString stringWithFormat:@"里程(%.1f公里)",mileage];
     float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
     _mileagePrice.text = [NSString stringWithFormat:@"%.1f元",mileagePrice];
     int during = [self.orderInfo.order_allTime intValue];
@@ -419,7 +419,7 @@
     _minPrice.text = [NSString stringWithFormat:@"%.1f元",[MainViewController sharedMainViewController].currentCar.start_money];
     if ([self.orderInfo.order_status intValue]== OrderStatusComleted) {
         _payTypeLabel.text = self.orderInfo.order_payStatus_str;
-        _payPrice.text = [NSString stringWithFormat:@"%.1f元",-[self.orderInfo.order_allMoney floatValue]];
+        _payPrice.text = [NSString stringWithFormat:@"%.1f元",[self.orderInfo.order_allMoney floatValue]];
     }
 
     [_payBtn removeFromSuperview];
