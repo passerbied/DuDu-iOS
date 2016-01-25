@@ -458,6 +458,8 @@
         [self showRightTitle:NO withButton:nil];
         [[MainViewController sharedMainViewController] clearData];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
     
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
