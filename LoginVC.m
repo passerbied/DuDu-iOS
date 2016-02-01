@@ -255,7 +255,7 @@
 - (void)timerFireMethod:(NSTimer*)theTimer
 {
     if (_timerCount>0) {
-        [_verifyButton setTitle:STR_I(_timerCount--) forState:UIControlStateNormal];
+        [_verifyButton setTitle:STR_I((int)_timerCount--) forState:UIControlStateNormal];
         _verifyButton.enabled = NO;
     } else {
         [_verifyButton setTitle:@"验证" forState:UIControlStateNormal];

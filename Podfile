@@ -6,7 +6,7 @@ pod 'AFNetworking'
 pod 'UICKeyChainStore'
 pod 'CRToast'
 pod 'pop'
-pod 'UMengAnalytics', '~> 3.5.16'
+#pod 'UMengAnalytics', '~> 3.5.16'
 pod 'DCAnimationKit'                # https://github.com/daltoniam/DCAnimationKit
 pod 'MBProgressHUD'                 # https://github.com/jdg/MBProgressHUD
 pod 'JPush'

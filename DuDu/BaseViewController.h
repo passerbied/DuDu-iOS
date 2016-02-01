@@ -18,8 +18,6 @@
 
 - (void)loadLoginVC:(BOOL)showBackButton animation:(BOOL)animation;
 
-- (void)hideLoginVC:(BOOL)showBackButton animation:(BOOL)animation;
-
 - (BOOL)checkHaveLogin;
 
 @end

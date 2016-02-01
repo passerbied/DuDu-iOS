@@ -99,7 +99,6 @@
 		486F529C1BEE6F6C0043874E /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F529B1BEE6F6C0043874E /* Utils.m */; };
 		486F52AF1BF0ABD90043874E /* AddressPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52AE1BF0ABD90043874E /* AddressPickerViewController.m */; };
 		486F52B31BF0E7D00043874E /* ZBCNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52B21BF0E7D00043874E /* ZBCNavVC.m */; };
-		486F52B81BF0E87F0043874E /* YBNavigationContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52B51BF0E87F0043874E /* YBNavigationContoller.m */; };
 		486F52B91BF0E87F0043874E /* YBNavSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52B71BF0E87F0043874E /* YBNavSearchBar.m */; };
 		486F52BD1BF1E1DE0043874E /* YBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52BC1BF1E1DE0043874E /* YBTextField.m */; };
 		486F52C31BF889EB0043874E /* TimePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 486F52C21BF889EA0043874E /* TimePicker.m */; };
@@ -318,8 +317,6 @@
 		486F52AE1BF0ABD90043874E /* AddressPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressPickerViewController.m; sourceTree = "<group>"; };
 		486F52B11BF0E7D00043874E /* ZBCNavVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCNavVC.h; sourceTree = "<group>"; };
 		486F52B21BF0E7D00043874E /* ZBCNavVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCNavVC.m; sourceTree = "<group>"; };
-		486F52B41BF0E87F0043874E /* YBNavigationContoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNavigationContoller.h; sourceTree = "<group>"; };
-		486F52B51BF0E87F0043874E /* YBNavigationContoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBNavigationContoller.m; sourceTree = "<group>"; };
 		486F52B61BF0E87F0043874E /* YBNavSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNavSearchBar.h; sourceTree = "<group>"; };
 		486F52B71BF0E87F0043874E /* YBNavSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBNavSearchBar.m; sourceTree = "<group>"; };
 		486F52BB1BF1E1DE0043874E /* YBTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBTextField.h; sourceTree = "<group>"; };
@@ -901,8 +898,6 @@
 			children = (
 				486F52BB1BF1E1DE0043874E /* YBTextField.h */,
 				486F52BC1BF1E1DE0043874E /* YBTextField.m */,
-				486F52B41BF0E87F0043874E /* YBNavigationContoller.h */,
-				486F52B51BF0E87F0043874E /* YBNavigationContoller.m */,
 				486F52B61BF0E87F0043874E /* YBNavSearchBar.h */,
 				486F52B71BF0E87F0043874E /* YBNavSearchBar.m */,
 				486F52B11BF0E7D00043874E /* ZBCNavVC.h */,
@@ -1408,7 +1403,6 @@
 				32F03A1D1C0EBAD300A2C4BD /* InvoiceDetailCell.m in Sources */,
 				4867CE5C1C364FA7003B1744 /* OrderStore.m in Sources */,
 				32F03A131C0E8F6900A2C4BD /* InvoiceVC.m in Sources */,
-				486F52B81BF0E87F0043874E /* YBNavigationContoller.m in Sources */,
 				48708B831C513CA50015BDA2 /* adModel.m in Sources */,
 				32F039FD1C0CB6DF00A2C4BD /* RouteDetailVC.m in Sources */,
 				32F03A021C0CDF1300A2C4BD /* CheckDetailVC.m in Sources */,
