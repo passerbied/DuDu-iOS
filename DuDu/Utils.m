@@ -138,9 +138,9 @@
     
 }
 
-+ (BOOL)checkNightService
++ (BOOL)checkNightService:(NSDate *)date
 {
-    NSDate * date = [NSDate date];
+//    NSDate * date = [NSDate date];
     NSTimeInterval sec = [date timeIntervalSinceNow];
     NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
     

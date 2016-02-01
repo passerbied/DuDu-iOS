@@ -52,6 +52,6 @@
  *
  *  @return BOOL
  */
-+ (BOOL)checkNightService;
++ (BOOL)checkNightService:(NSDate *)date;
 
 @end

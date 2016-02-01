@@ -164,14 +164,18 @@
     _duringLine.frame = ccr(CGRectGetMaxX(_duringLabel.frame)+5,
                           CGRectGetMaxY(_duringLabel.frame)-duringSize.height/2,
                           _duringPrice.origin.x-5*2-CGRectGetMaxX(_duringLabel.frame),
-                          _mileageLine.height);
+                          0.5);
     
-    if ([Utils checkNightService]) { //夜间服务
+    CGFloat minPriceY = CGRectGetMaxY(_duringLabel.frame)+5;
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
+    
+    if ([Utils checkNightService:date]) { //夜间服务
         CGSize nightLabelSize = [self getTextFromLabel:_nightLabel];
-        _nightLabel.frame = ccr(_duringLabel.x,
-                                       CGRectGetMaxY(_duringLabel.frame)+5,
-                                       nightLabelSize.width,
-                                       nightLabelSize.height);
+        _nightLabel.frame = ccr(_mileageLabel.x,
+                                CGRectGetMaxY(_duringLabel.frame)+5,
+                                nightLabelSize.width,
+                                nightLabelSize.height);
         
         CGSize nightPriceSize = [self getTextFromLabel:_nightPrice];
         _nightPrice.frame = ccr(SCREEN_WIDTH-20-nightPriceSize.width,
@@ -183,121 +187,59 @@
         _nightLine.frame = ccr(CGRectGetMaxX(_nightLabel.frame)+5,
                                       CGRectGetMaxY(_nightLabel.frame)-_nightLabel.height/2,
                                       _nightPrice.x-5*2-CGRectGetMaxX(_nightLabel.frame),
-                                      _duringLine.height);
+                                      0.5);
         
-        if ([self.orderInfo.coupon_id intValue]) { //有优惠
-            CGSize couponSize = [self getTextFromLabel:_couponLabel];
-            _couponLabel.frame = ccr(_nightLabel.x,
-                                     CGRectGetMaxY(_nightLabel.frame)+5,
-                                     couponSize.width,
-                                     couponSize.height);
-            CGSize couponTitleSize = [self getTextFromLabel:_couponPrice];
-            _couponPrice.frame = ccr(SCREEN_WIDTH-20-couponTitleSize.width,
-                                     CGRectGetMaxY(_nightPrice.frame)+5,
-                                     couponTitleSize.width,
-                                     couponTitleSize.height);
-            _couponLine.frame = ccr(CGRectGetMaxX(_couponLabel.frame)+5,
-                                    CGRectGetMaxY(_couponLabel.frame)-couponTitleSize.height/2,
-                                    _couponPrice.x-5*2-CGRectGetMaxX(_couponLabel.
-                                                                            frame),
-                                    _nightLine.height);
-            
-            CGSize minSize = [self getTextFromLabel:_minPriceLabel];
-            _minPriceLabel.frame = ccr(_couponLabel.x,
-                                     CGRectGetMaxY(_couponLabel.frame)+5,
-                                     minSize.width,
-                                     minSize.height);
-            CGSize minPriceSize = [self getTextFromLabel:_minPrice];
-            _minPrice.frame = ccr(SCREEN_WIDTH-20-minPriceSize.width,
-                                     CGRectGetMaxY(_couponPrice.frame)+5,
-                                     minPriceSize.width,
-                                     minPriceSize.height);
-            _minPriceLine.frame = ccr(CGRectGetMaxX(_minPriceLabel.frame)+5,
-                                    CGRectGetMaxY(_minPriceLabel.frame)-minPriceSize.height/2,
-                                    _minPrice.x-5*2-CGRectGetMaxX(_minPriceLabel.
-                                                                            frame),
-                                    _couponLine.height);
-        } else { //无优惠
-            CGSize minSize = [self getTextFromLabel:_minPriceLabel];
-            _minPriceLabel.frame = ccr(_nightLabel.x,
-                                       CGRectGetMaxY(_nightLabel.frame)+5,
-                                       minSize.width,
-                                       minSize.height);
-            CGSize minPriceSize = [self getTextFromLabel:_minPrice];
-            _minPrice.frame = ccr(SCREEN_WIDTH-20-minPriceSize.width,
-                                  CGRectGetMaxY(_nightPrice.frame)+5,
-                                  minPriceSize.width,
-                                  minPriceSize.height);
-            _minPriceLine.frame = ccr(CGRectGetMaxX(_minPriceLabel.frame)+5,
-                                      CGRectGetMaxY(_minPriceLabel.frame)-minPriceSize.height/2,
-                                      _minPrice.x-5*2-CGRectGetMaxX(_minPriceLabel.
-                                                                    frame),
-                                      _nightLine.height);
-        }
+        minPriceY = CGRectGetMaxY(_nightLabel.frame)+5;
+    }
+    
+    CGSize minSize = [self getTextFromLabel:_minPriceLabel];
+    _minPriceLabel.frame = ccr(_mileageLabel.x,
+                               minPriceY,
+                               minSize.width,
+                               minSize.height);
+    CGSize minPriceSize = [self getTextFromLabel:_minPrice];
+    _minPrice.frame = ccr(SCREEN_WIDTH-20-minPriceSize.width,
+                          minPriceY,
+                          minPriceSize.width,
+                          minPriceSize.height);
+    _minPriceLine.frame = ccr(CGRectGetMaxX(_minPriceLabel.frame)+5,
+                              CGRectGetMaxY(_minPriceLabel.frame)-minPriceSize.height/2,
+                              _minPrice.x-5*2-CGRectGetMaxX(_minPriceLabel.
+                                                            frame),
+                              0.5);
+    
+    CGFloat payPriceY = CGRectGetMaxY(_minPriceLabel.frame)+5;
+    
+    if ([self.orderInfo.coupon_id intValue]) { //有优惠
         
+        CGSize couponSize = [self getTextFromLabel:_couponLabel];
+        _couponLabel.frame = ccr(_mileageLabel.origin.x,
+                                 CGRectGetMaxY(_minPriceLabel.frame)+5,
+                                 couponSize.width,
+                                 couponSize.height);
+        CGSize couponTitleSize = [self getTextFromLabel:_couponPrice];
+        _couponPrice.frame = ccr(SCREEN_WIDTH-20-couponTitleSize.width,
+                                 _couponLabel.y,
+                                 couponTitleSize.width,
+                                 couponTitleSize.height);
+        _couponLine.frame = ccr(CGRectGetMaxX(_couponLabel.frame)+5,
+                                CGRectGetMaxY(_couponLabel.frame)-couponTitleSize.height/2,
+                                _couponPrice.origin.x-5*2-CGRectGetMaxX(_couponLabel.
+                                                                        frame),
+                                0.5);
         
-    } else { //非夜间服务
-        if ([self.orderInfo.coupon_id intValue]) { //有优惠
-            CGSize couponSize = [self getTextFromLabel:_couponLabel];
-            _couponLabel.frame = ccr(_duringLabel.origin.x,
-                                     CGRectGetMaxY(_duringLabel.frame)+5,
-                                     couponSize.width,
-                                     couponSize.height);
-            CGSize couponTitleSize = [self getTextFromLabel:_couponPrice];
-            _couponPrice.frame = ccr(SCREEN_WIDTH-20-couponTitleSize.width,
-                                     CGRectGetMaxY(_duringPrice.frame)+5,
-                                     couponTitleSize.width,
-                                     couponTitleSize.height);
-            _couponLine.frame = ccr(CGRectGetMaxX(_couponLabel.frame)+5,
-                                    CGRectGetMaxY(_couponLabel.frame)-couponTitleSize.height/2,
-                                    _couponPrice.origin.x-5*2-CGRectGetMaxX(_couponLabel.
-                                                                            frame),
-                                    _duringLine.height);
-            
-            CGSize minSize = [self getTextFromLabel:_minPriceLabel];
-            _minPriceLabel.frame = ccr(_couponLabel.x,
-                                       CGRectGetMaxY(_couponLabel.frame)+5,
-                                       minSize.width,
-                                       minSize.height);
-            CGSize minPriceSize = [self getTextFromLabel:_minPrice];
-            _minPrice.frame = ccr(SCREEN_WIDTH-20-minPriceSize.width,
-                                  CGRectGetMaxY(_couponPrice.frame)+5,
-                                  minPriceSize.width,
-                                  minPriceSize.height);
-            _minPriceLine.frame = ccr(CGRectGetMaxX(_minPriceLabel.frame)+5,
-                                      CGRectGetMaxY(_minPriceLabel.frame)-minPriceSize.height/2,
-                                      _minPrice.x-5*2-CGRectGetMaxX(_minPriceLabel.
-                                                                    frame),
-                                      _couponLine.height);
-            
-        } else { //无优惠
-            CGSize minSize = [self getTextFromLabel:_minPriceLabel];
-            _minPriceLabel.frame = ccr(_duringLabel.x,
-                                       CGRectGetMaxY(_duringLabel.frame)+5,
-                                       minSize.width,
-                                       minSize.height);
-            CGSize minPriceSize = [self getTextFromLabel:_minPrice];
-            _minPrice.frame = ccr(SCREEN_WIDTH-20-minPriceSize.width,
-                                  CGRectGetMaxY(_duringPrice.frame)+5,
-                                  minPriceSize.width,
-                                  minPriceSize.height);
-            _minPriceLine.frame = ccr(CGRectGetMaxX(_minPriceLabel.frame)+5,
-                                      CGRectGetMaxY(_minPriceLabel.frame)-minPriceSize.height/2,
-                                      _minPrice.x-5*2-CGRectGetMaxX(_minPriceLabel.
-                                                                    frame),
-                                      _duringLine.height);
-        }
+        payPriceY = CGRectGetMaxY(_couponLabel.frame)+5;
     }
     
     if ([self.orderInfo.order_status intValue] == OrderStatusComleted) {
         CGSize payTypeSize = [self getTextFromLabel:_payTypeLabel];
-        _payTypeLabel.frame = ccr(_minPriceLabel.origin.x,
-                                  CGRectGetMaxY(_minPriceLabel.frame)+10,
+        _payTypeLabel.frame = ccr(_mileageLabel.origin.x,
+                                  payPriceY + 5,
                                   payTypeSize.width,
                                   payTypeSize.height);
         CGSize payPriceSize = [self getTextFromLabel:_payPrice];
         _payPrice.frame = ccr(SCREEN_WIDTH-20-payPriceSize.width,
-                              CGRectGetMaxY(_minPrice.frame)+10,
+                              _payTypeLabel.y,
                               payPriceSize.width,
                               payPriceSize.height);
         _payLine.frame = ccr(CGRectGetMaxX(_payTypeLabel.frame)+5,
@@ -305,10 +247,10 @@
                              height/2,
                              _payPrice.origin.x-5*2-CGRectGetMaxX(_payTypeLabel
                                                                   .frame),
-                             _minPriceLine.height);
+                             0.5);
         _chargeView.height = CGRectGetMaxY(_payLine.frame);
     } else {
-        _chargeView.height = CGRectGetMaxY(_minPriceLine.frame);
+        _chargeView.height = payPriceY;
     }
     
     

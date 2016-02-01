@@ -10,9 +10,15 @@
 
 @interface hitchhikeView : UIView
 
-@property (nonatomic, copy) NSString *from_location;
-@property (nonatomic, copy) NSString *to_location;
-@property (nonatomic, copy) NSString *start_at;
-@property (nonatomic, copy) NSString *people_count;
+- (void)setStartLocation:(NSString *)start_location;
+- (void)setDestLocation:(NSString *)dest_location;
+- (void)setStartTime:(NSString *)start_time;
+- (void)setPeopleCount:(NSString *)people_count;
+
+@end
+
+@protocol hitchhikeViewDelegate <NSObject>
+
+- (void)hitchhikeView:(hitchhikeView *)hitchhikeView didTapped:(UILabel *)label;
 
 @end

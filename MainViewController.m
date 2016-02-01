@@ -588,7 +588,11 @@
         charge = charge - [coupon.coupon_discount floatValue];
     }
     
-    if ([Utils checkNightService]) {
+    NSDate * date = [NSDate date];
+    NSTimeInterval sec = [date timeIntervalSinceNow];
+    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
+    
+    if ([Utils checkNightService:currentDate]) {
         charge = charge * [_currentCar.night_service_times floatValue];
     }
 
