@@ -54,7 +54,7 @@
                                        fromJSONArray:dic[@"info"]
                                                error:nil];
         [CouponStore sharedCouponStore].info = arr;
-        self.coupons = [CouponStore sharedCouponStore].info = arr;
+        self.coupons = [CouponStore sharedCouponStore].info;
 
         [_tableView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

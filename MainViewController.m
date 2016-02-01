@@ -38,10 +38,12 @@
     BOOL            _isUpdated;
     QMSRoutePlan    *_currentRoutPlan;
     CouponModel     *_currentCoupon;
+    float           _currentMoney;
     
     UIView          *_adView;
     UIImageView     *_adImageView;
     BOOL            _isAdShowing;
+    BOOL            _isCheckedCoupon;
 }
 
 + (instancetype)sharedMainViewController
@@ -404,6 +406,7 @@
 {
     CouponVC *couponVC =[[CouponVC alloc] init];
     couponVC.title = @"选择优惠券";
+//    couponVC.coupons = [[CouponStore sharedCouponStore] sortedCouponsWithMoney:_currentMoney];
     couponVC.delegate = self;
     [self.navigationController pushViewController:couponVC animated:YES];
 }
@@ -552,7 +555,6 @@
     }];
 }
 
-
 #pragma mark - 估算费用
 - (void)guessChargeWithCoupon:(CouponModel *)coupon routPlan:(QMSRoutePlan *)plan carStyle:(CarModel *)car
 {
@@ -576,9 +578,24 @@
         + duration*wait_time_money;
     }
     
+    //夜间服务费
+    NSDate * date = [NSDate date];
+    NSTimeInterval sec = [date timeIntervalSinceNow];
+    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
+    
+    if ([Utils checkNightService:currentDate]) {
+        charge = charge * [_currentCar.night_service_times floatValue];
+    }
+    
     //保证费用不少于起步价
     if (charge < start_money) {
         charge = start_money;
+    }
+    
+    //给出最优惠券
+    if (!_isCheckedCoupon) {
+        coupon = [[CouponStore sharedCouponStore] cheapestCoupon:charge];
+        _currentCoupon = coupon;
     }
     
     //根据不同优惠类型计算折扣价
@@ -586,14 +603,6 @@
         charge = charge * [coupon.coupon_discount floatValue];
     } else {
         charge = charge - [coupon.coupon_discount floatValue];
-    }
-    
-    NSDate * date = [NSDate date];
-    NSTimeInterval sec = [date timeIntervalSinceNow];
-    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
-    
-    if ([Utils checkNightService:currentDate]) {
-        charge = charge * [_currentCar.night_service_times floatValue];
     }
 
     //保证费用为非负数
@@ -631,6 +640,7 @@
 
 - (void)addressPicker:(GeoAndSuggestionViewController *)vc fromAddress:(QMSSuggestionPoiData *)fromLoc toAddress:(QMSSuggestionPoiData *)toLoc
 {
+    _isCheckedCoupon = NO;
     if (fromLoc) {
         NSLog(@"fromLoc:%f,%f",fromLoc.location.latitude,fromLoc.location.longitude);
         [_fromLocation setCoordinate:fromLoc.location];
@@ -714,6 +724,7 @@
 
 - (void)couponVC:(CouponVC *)vc didSelectCouponIndex:(int)index
 {
+    _isCheckedCoupon = YES;
     _currentCoupon = [CouponStore sharedCouponStore].info.count?[CouponStore sharedCouponStore].info[index]:nil;
     [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
 }

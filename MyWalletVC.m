@@ -93,6 +93,7 @@
         [self.navigationController pushViewController:invoiceVC animated:YES];
     } else if (indexPath.row==1) {
         CouponVC *couponVC = [[CouponVC alloc] init];
+        couponVC.coupons = [CouponStore sharedCouponStore].info;
         couponVC.title = @"我的优惠券";
         [self.navigationController pushViewController:couponVC animated:YES];
     } else {
