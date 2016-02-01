@@ -28,6 +28,7 @@
 #define IS_IOS7 ((floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1))
 
 //Device Version
+#define IS_BETTER_THAN_IPHONE_5 [[UIScreen mainScreen] bounds].size.height > 600.0
 #define IS_BETTER_THAN_IPHONE_4S [[UIScreen mainScreen] bounds].size.height > 500.0
 #define IS_IPHONE_5 (fabs((double)[[UIScreen mainScreen] bounds].size.height-(double)568 ) < DBL_EPSILON)
 

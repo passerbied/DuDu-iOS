@@ -85,15 +85,15 @@
     if (indexPath.section==0) {
         switch (indexPath.row) {
             case 0:
-                detailCell.message = @"开票金额";
+                detailCell.message = @"发票金额";
                 [detailCell addSubview:[self priceLabel]];
                 break;
             case 1:
-                detailCell.message = @"开票抬头";
+                detailCell.message = @"公司抬头";
                 [detailCell addSubview:[self titleTextField]];
                 break;
             case 2:
-                detailCell.message = @"开票内容";
+                detailCell.message = @"发票内容";
                 [detailCell addSubview:[self typeLabel]];
                 break;
             default:
@@ -198,7 +198,7 @@
         [priceString addAttributes:@{NSForegroundColorAttributeName:COLORRGB(0xedad49)}
                              range:NSMakeRange(0, priceLength)];
         _priceLabel.attributedText = priceString;
-        NSString *title = @"开票金额";
+        NSString *title = @"发票金额";
         CGSize titleSize = [title sizeWithAttributes:@{NSFontAttributeName:_priceLabel.font}];
         _titleWidth = titleSize.width;
         CGSize priceSize = [_priceLabel.text sizeWithAttributes:@{NSFontAttributeName:_priceLabel.font}];

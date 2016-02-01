@@ -17,6 +17,8 @@
 
 @interface RouteDetailVC ()<WXApiManagerDelegate>
 {
+    UIScrollView *_scrollView;
+    
     //**************  行程Info start ************
     UIView      *_routeView;
     UILabel     *_timeLabel;
@@ -83,11 +85,19 @@
 
 @implementation RouteDetailVC
 
+- (void)loadView
+{
+    [super loadView];
+    _scrollView = [[UIScrollView alloc] initWithFrame:ccr(0, -NAV_BAR_HEIGHT_IOS7, SCREEN_WIDTH, SCREEN_HEIGHT+NAV_BAR_HEIGHT_IOS7)];
+    [self.view addSubview:_scrollView];
+    self.view.backgroundColor = COLORRGB(0xffffff);
+    [self createSubViews];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = COLORRGB(0xffffff);
-    [self createSubViews];
+    
     [self flushOrderStatus:nil];
     AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     appdelegate.delegate = self;
@@ -110,13 +120,13 @@
 
 - (void)createSubViews
 {
-    [self.view addSubview:[self routeView]];
-    [self.view addSubview:[self driverView]];
-    [self.view addSubview:[self chargeView]];
-    [self.view addSubview:[self ratingView]];
+    [_scrollView addSubview:[self routeView]];
+    [_scrollView addSubview:[self driverView]];
+    [_scrollView addSubview:[self chargeView]];
+    [_scrollView addSubview:[self ratingView]];
     _payBtn = [self weixinPayBtn];
-    [self.view addSubview:_payBtn];
-    [self.view addSubview:[self shareBtn]];
+    [_scrollView addSubview:_payBtn];
+    [_scrollView addSubview:[self shareBtn]];
     
     _driverView.alpha = 0;
     _payBtn.alpha = 0;
@@ -253,19 +263,27 @@
         _chargeView.height = payPriceY;
     }
     
-    
-    
     _driverView.alpha = 1;
     _chargeView.y = CGRectGetMaxY(_driverView.frame)+10;
     _ratingView.y = CGRectGetMaxY(_chargeView.frame)+30;
     
     if(self.isForCharge) {
         _ratingView.alpha = 0;
+        _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_payBtn.frame));
     } else {
         _ratingView.alpha = 1;
     }
-    _payBtn.alpha = !([self.orderInfo.order_status intValue] == 5 || _isPayed);
-    _shareBtn.alpha = ([self.orderInfo.order_status intValue] == 5 || _isPayed);
+    NSLog(@"%f",SCREEN_HEIGHT);
+    if (([self.orderInfo.order_status intValue] == 5 || _isPayed)) {
+        _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_shareBtn.frame)+10);
+        _payBtn.alpha = 0;
+        _shareBtn.alpha = 1;
+    } else {
+        _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_payBtn.frame)+10);
+        _payBtn.alpha = 1;
+        _shareBtn.alpha = 0;
+    }
+    
 }
 
 - (void)flushOrderStatus:(NSTimer *)timer
@@ -723,12 +741,23 @@
     [_ratingView addSubview:rightLine];
     
     self.starRating = [[ZBCStarRating alloc] initWithFrame:ccr((SCREEN_WIDTH-200)/2,
-                                                               CGRectGetMaxY(ratingTitleLabel.frame)+20,
+                                                               CGRectGetMaxY(ratingTitleLabel.frame)+10,
                                                                200,
                                                                40)];
     self.starRating.delegate = self;
     [_ratingView addSubview:self.starRating];
-    _ratingView.frame = ccr(0, SCREEN_HEIGHT-150, SCREEN_WIDTH, CGRectGetMaxY(self.starRating.frame));
+    
+    UILabel *content = [UILabel labelWithFrame:ccr(0,
+                                                   CGRectGetMaxY(self.starRating.frame),
+                                                   SCREEN_WIDTH,
+                                                   40)
+                                         color:COLORRGB(0xf39a00)
+                                          font:HSFONT(13)
+                                          text:@"有了您的评价，我们会做得更好\n如果对我们司机不满意，请致电4009016008"
+                                     alignment:NSTextAlignmentCenter
+                                 numberOfLines:2];
+    [_ratingView addSubview:content];
+    _ratingView.frame = ccr(0, SCREEN_HEIGHT-150, SCREEN_WIDTH, CGRectGetMaxY(content.frame));
     
     return _ratingView;
 }
@@ -742,8 +771,12 @@
                                        font:HSFONT(15)
                                  onTapBlock:^(UIButton *btn) {
                                  }];
-//    cashPayBtn.enabled =NO;
-    cashPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    if (IS_BETTER_THAN_IPHONE_5) {
+        cashPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    } else {
+        cashPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, 667 - 50, 260, 40);
+    }
+    
     return cashPayBtn;
 }
 
@@ -757,7 +790,11 @@
                                  onTapBlock:^(UIButton *btn) {
                                      [self wechatPay];
                                  }];
-    weixinPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    if (IS_BETTER_THAN_IPHONE_5) {
+        weixinPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+    } else {
+        weixinPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, 667 - 50, 260, 40);
+    }
     weixinPayBtn.enabled = YES;
     return weixinPayBtn;
 }
@@ -773,7 +810,11 @@
                                          onTapBlock:^(UIButton *btn) {
                                              [self shareCoupon];
                                          }];
-        _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+        if (IS_BETTER_THAN_IPHONE_5) {
+            _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+        } else {
+            _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, 667 - 50, 260, 40);
+        }
     }
     return _shareBtn;
 }
