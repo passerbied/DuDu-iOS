@@ -44,6 +44,8 @@
 
 + (CGRect)getLabelRect:(UILabel *)label;
 
++ (BOOL)isValidURL:(NSString *)url;
+
 /**
  *  判断当前是否是夜间服务时段(22:00~05:00)
  *

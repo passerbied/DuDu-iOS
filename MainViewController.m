@@ -88,7 +88,7 @@
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
     
-    self.mapView.userTrackingMode = QUserTrackingModeNone;
+    self.mapView.userTrackingMode = QUserTrackingModeFollow;
     
     self.topToolBar = [[TopToolBar alloc] initWithFrame:ccr(0,
                                                             NAV_BAR_HEIGHT_IOS7,
@@ -130,7 +130,8 @@
     _startTimeStr = [now timeIntervalSince1970];
     
     _bottomToolBar.startTimeLabel.text = @"提前预约，出行方便";
-    _bottomToolBar.fromAddressLabel.text = @"定位中...";
+    _bottomToolBar.fromAddressLabel.text = @"从哪儿出发";
+    _bottomToolBar.fromAddressLabel.textColor = COLORRGB(0xf39a00);
     _bottomToolBar.toAddressLabel.text = @"你要去哪儿";
     _bottomToolBar.toAddressLabel.textColor = COLORRGB(0xf39a00);
     [_bottomToolBar showChargeView:NO];
@@ -167,7 +168,7 @@
     _currentRoutPlan = nil;
     _fromPointAnnotation = nil;
     _toPointAnnotation = nil;
-    self.mapView.showsUserLocation = NO;
+//    self.mapView.showsUserLocation = NO;
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView removeOverlays:self.mapView.overlays];
 }
@@ -183,7 +184,11 @@
                                error:nil];
         self.adInfo = adInfo;
         if (self.adInfo && [self.adInfo.advertisement_status intValue]==1) {
-            [_adImageView setImageWithURL:URL(self.adInfo.advertisement_url)];
+            NSString *src = self.adInfo.advertisement_url;
+            if (![Utils isValidURL:src]) {
+                src = ADD(@"http://www.kupaocar.cn", src);
+            }
+            [_adImageView setImageWithURL:URL(src)];
             [self showAdView:YES];
         } else {
             [self showAdView:NO];
@@ -338,7 +343,7 @@
 
 - (void)locateMapView
 {
-    [self clearData];
+//    [self clearData];
     [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
 }
 
@@ -628,6 +633,7 @@
         [_fromLocation setTitle:fromLoc.title];
         
         _bottomToolBar.fromAddressLabel.text = fromLoc.title;
+        _bottomToolBar.fromAddressLabel.textColor = COLORRGB(0x63666b);
         [self setupAnnotation:YES];
     }
     if (toLoc){
@@ -673,7 +679,7 @@
     if (label == toolBar.startTimeLabel) {
         [self showTimePicker:YES];
     } else if (label == toolBar.fromAddressLabel) {
-        self.mapView.showsUserLocation = NO;
+//        self.mapView.showsUserLocation = NO;
         [self showFromAddressPicker];
     } else if (label == toolBar.toAddressLabel) {
         [self showToAddressPicker];
@@ -774,12 +780,13 @@
         _fromLocation = userLocation;
         QMSReverseGeoCodeSearchOption *regeocoder = [[QMSReverseGeoCodeSearchOption alloc] init];
         [regeocoder setLocation:[NSString stringWithFormat:@"%f,%f",userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude]];
-        
+        [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
         //返回坐标点附近poi列表
         [regeocoder setGet_poi:NO];
         //设置坐标所属坐标系，以返回正确地址，默认为腾讯所用坐标系
         [regeocoder setCoord_type:QMSReverseGeoCodeCoordinateTencentGoogleGaodeType];
         [self.search searchWithReverseGeoCodeSearchOption:regeocoder];
+        _isUpdated = YES;
     }
 }
 
@@ -787,12 +794,24 @@
 
 #pragma mark - 根据定位解析出位置信息
 
+- (void)searchWithSearchOption:(QMSSearchOption *)searchOption didFailWithError:(NSError *)error
+{
+    _bottomToolBar.fromAddressLabel.text = @"从哪儿出发";
+    _bottomToolBar.fromAddressLabel.textColor = COLORRGB(0xf39a00);
+}
+
 - (void)searchWithReverseGeoCodeSearchOption:(QMSReverseGeoCodeSearchOption *)reverseGeoCodeSearchOption didReceiveResult:(QMSReverseGeoCodeSearchResult *)reverseGeoCodeSearchResult
 {
-    _bottomToolBar.fromAddressLabel.text = reverseGeoCodeSearchResult.formatted_addresses?reverseGeoCodeSearchResult.formatted_addresses.recommend:@"定位失败,请点击选取";
+    if (reverseGeoCodeSearchResult.formatted_addresses) {
+        _bottomToolBar.fromAddressLabel.text = reverseGeoCodeSearchResult.formatted_addresses.recommend;
+        _bottomToolBar.fromAddressLabel.textColor = COLORRGB(0x63666b);
+    } else {
+        _bottomToolBar.fromAddressLabel.text = @"从哪儿出发";
+        _bottomToolBar.fromAddressLabel.textColor = COLORRGB(0xf39a00);
+    }
+    
     _currentCity = reverseGeoCodeSearchResult.ad_info.province;
     [self setupAnnotation:YES];
-    _isUpdated = YES;
 }
 
 #pragma mark -  地图打点

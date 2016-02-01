@@ -127,6 +127,7 @@
 		487956F31C439F4500193530 /* QMapKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 487956F21C439F4500193530 /* QMapKit.bundle */; };
 		487956F51C439F8700193530 /* icon_my_location_48px@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956F41C439F8700193530 /* icon_my_location_48px@2x.png */; };
 		48EA70CA1C5604D90086BC64 /* icon60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48EA70C91C5604D90086BC64 /* icon60@3x.png */; };
+		48EA70E51C5E6C150086BC64 /* hitchhikeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EA70E41C5E6C140086BC64 /* hitchhikeView.m */; };
 		48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D01BE7A65500AFF1D4 /* main.m */; };
 		48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D31BE7A65500AFF1D4 /* AppDelegate.m */; };
 		48EAD6361BE7B7C400AFF1D4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EAD6351BE7B7C400AFF1D4 /* AudioToolbox.framework */; };
@@ -363,6 +364,8 @@
 		487956F21C439F4500193530 /* QMapKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = QMapKit.bundle; sourceTree = "<group>"; };
 		487956F41C439F8700193530 /* icon_my_location_48px@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_my_location_48px@2x.png"; sourceTree = "<group>"; };
 		48EA70C91C5604D90086BC64 /* icon60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon60@3x.png"; sourceTree = "<group>"; };
+		48EA70E31C5E6C140086BC64 /* hitchhikeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hitchhikeView.h; sourceTree = "<group>"; };
+		48EA70E41C5E6C140086BC64 /* hitchhikeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hitchhikeView.m; sourceTree = "<group>"; };
 		48EAD5CC1BE7A65500AFF1D4 /* DuDu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuDu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48EAD5D01BE7A65500AFF1D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		48EAD5D21BE7A65500AFF1D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -797,6 +800,8 @@
 				486F527F1BEE093F0043874E /* TopToolBar.m */,
 				486F52811BEE0DE20043874E /* BottomToolBar.h */,
 				486F52821BEE0DE20043874E /* BottomToolBar.m */,
+				48EA70E31C5E6C140086BC64 /* hitchhikeView.h */,
+				48EA70E41C5E6C140086BC64 /* hitchhikeView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1442,6 +1447,7 @@
 				32F03A0F1C0E0EFF00A2C4BD /* WalletCell.m in Sources */,
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
+				48EA70E51C5E6C150086BC64 /* hitchhikeView.m in Sources */,
 				48F08EF71C480C4400724CEC /* WebVC.m in Sources */,
 				32F03A6F1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m in Sources */,
 				32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */,

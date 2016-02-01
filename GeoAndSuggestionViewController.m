@@ -10,7 +10,7 @@
 #import <QMapKit/QMapKit.h>
 #import "OrderModel.h"
 
-@interface GeoAndSuggestionViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, QMSSearchDelegate>
+@interface GeoAndSuggestionViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, QMSSearchDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
@@ -200,6 +200,12 @@
     
     
     return cell;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.searchBar endEditing:YES];
+    self.searchBar.placeholder = self.searchBar.text;
 }
 
 @end

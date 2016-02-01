@@ -131,6 +131,13 @@
     return rect;
 }
 
++ (BOOL)isValidURL:(NSString *)url{
+    NSString *regex = @"^http(s*)://(www.)*kupaocar.cn(.*)$";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [predicate evaluateWithObject:url];
+    
+}
+
 + (BOOL)checkNightService
 {
     NSDate * date = [NSDate date];
