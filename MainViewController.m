@@ -44,6 +44,7 @@
     UIImageView     *_adImageView;
     BOOL            _isAdShowing;
     BOOL            _isCheckedCoupon;
+    BOOL            _isUnuseCoupon;
 }
 
 + (instancetype)sharedMainViewController
@@ -154,7 +155,9 @@
     if (_currentCoupon) {
         [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
     } else {
-        [self getCouponInfo];
+        if (!_isUnuseCoupon) {
+            [self getCouponInfo];
+        }
     }
 }
 
@@ -406,6 +409,7 @@
 {
     CouponVC *couponVC =[[CouponVC alloc] init];
     couponVC.title = @"选择优惠券";
+    couponVC.showUnuseHeader = YES;
 //    couponVC.coupons = [[CouponStore sharedCouponStore] sortedCouponsWithMoney:_currentMoney];
     couponVC.delegate = self;
     [self.navigationController pushViewController:couponVC animated:YES];
@@ -436,7 +440,7 @@
                               order.car_style,
                               order.startTimeType,
                               order.startTimeStr,
-                              _currentCoupon.coupon_id);
+                              _isUnuseCoupon?nil:_currentCoupon.coupon_id);
     
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
@@ -593,7 +597,7 @@
     }
     
     //给出最优惠券
-    if (!_isCheckedCoupon) {
+    if (!_isUnuseCoupon && !_isCheckedCoupon) {
         coupon = [[CouponStore sharedCouponStore] cheapestCoupon:charge];
         _currentCoupon = coupon;
     }
@@ -725,10 +729,18 @@
 - (void)couponVC:(CouponVC *)vc didSelectCouponIndex:(int)index
 {
     _isCheckedCoupon = YES;
+    _isUnuseCoupon = NO;
     _currentCoupon = [CouponStore sharedCouponStore].info.count?[CouponStore sharedCouponStore].info[index]:nil;
     [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
 }
 
+- (void)didSelectUnuseCoupon
+{
+    _currentCoupon = nil;
+    _isCheckedCoupon = YES;
+    _isUnuseCoupon = YES;
+    [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
+}
 
 #pragma mark - ------------- MapView 相关代码 -------------
 

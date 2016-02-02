@@ -37,6 +37,35 @@
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    
+    if (self.showUnuseHeader) {
+        UIView *header = [[UIView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH, 45)];
+        UILabel *content = [UILabel labelWithFrame:ccr(5, 5, SCREEN_WIDTH-10, 35)
+                                             color:COLORRGB(0x63666b)
+                                              font:HSFONT(15)
+                                              text:@"不使用优惠券"
+                                         alignment:NSTextAlignmentCenter
+                                     numberOfLines:1];
+        content.backgroundColor = COLORRGB(0xffffff);
+        content.layer.borderColor = COLORRGB(0xf39a00).CGColor;
+        content.layer.borderWidth = 0.5f;
+        content.layer.masksToBounds = YES;
+        content.layer.cornerRadius = 5.0;
+        [header addSubview:content];
+        UIButton *btn = [UIButton buttonWithImageName:nil
+                                          hlImageName:nil
+                                           onTapBlock:^(UIButton *btn) {
+                                               if ([self.delegate respondsToSelector:@selector(didSelectUnuseCoupon)]) {
+                                                   [self.delegate didSelectUnuseCoupon];
+                                               }
+                                               [self.navigationController popViewControllerAnimated:YES];
+                                           }];
+        btn.frame = content.frame;
+        [header addSubview:btn];
+        
+        _tableView.tableHeaderView = header;
+    }
+    
     [self.view addSubview:_tableView];
 }
 
@@ -63,6 +92,11 @@
 }
 
 #pragma mark - tableView dataSource 
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 50.0f;
+//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -103,7 +137,7 @@
     } else {
         cell.detail = [NSString stringWithFormat:@"%.1f元",[coupon.coupon_discount floatValue]];
     }
-    cell.condition = [NSString stringWithFormat:@"限消费满%.1f元，且在%@~%@时段使用",[coupon.coupon_max_monny floatValue],coupon.coupon_user_start_time,coupon.coupon_user_end_time];
+    cell.condition = [NSString stringWithFormat:@"限消费满%.1f元，且在%@~%@时段使用(%@专用)",[coupon.coupon_max_monny floatValue],coupon.coupon_user_start_time,coupon.coupon_user_end_time,coupon.car_style_name];
     cell.bgImage.backgroundColor = COLORRGB(0xffffff);
 }
 

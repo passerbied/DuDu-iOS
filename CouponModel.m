@@ -13,6 +13,7 @@
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
     return @{
+             @"car_style_id"          : @"car_style_id",
              @"userRef_id"            : @"userRef_id",
              @"coupon_id"             : @"coupon_id",
              @"user_id"               : @"user_id",
@@ -35,6 +36,11 @@
 
 + (NSDictionary *)managedObjectKeysByPropertyKey {
     return nil;
+}
+
+- (NSString *)car_style_name
+{
+    return [[CarStore sharedCarStore] getCarStyleNameForCarStyleID:_car_style_id];
 }
 
 - (NSString *)coupon_type

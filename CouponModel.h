@@ -13,6 +13,8 @@
 @property (nonatomic, copy) NSNumber *userRef_id;
 @property (nonatomic, copy) NSNumber *coupon_id;
 @property (nonatomic, copy) NSNumber *user_id;
+@property (nonatomic, copy) NSNumber *car_style_id;
+@property (nonatomic, copy) NSString *car_style_name;
 @property (nonatomic, copy) NSString *coupon_get_datetime;
 @property (nonatomic, copy) NSString *coupon_discount;
 @property (nonatomic, copy) NSString *coupon_title;

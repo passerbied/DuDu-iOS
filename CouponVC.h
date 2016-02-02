@@ -18,11 +18,13 @@ UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *coupons;
 @property (nonatomic, strong) id<CouponVCDelegate> delegate;
+@property (nonatomic, assign) BOOL showUnuseHeader;
 
 @end
 
 @protocol CouponVCDelegate <NSObject>
 
 - (void)couponVC:(CouponVC *)vc didSelectCouponIndex:(int)index;
+- (void)didSelectUnuseCoupon;
 
 @end

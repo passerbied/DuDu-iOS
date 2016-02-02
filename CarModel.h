@@ -19,6 +19,6 @@
 @property (nonatomic, assign) CGFloat  start_money;
 @property (nonatomic, copy)  NSString  *night_service_times;
 
-- (id)initWithCarStyle:(NSNumber *)car_style_id;
+//- (id)initWithCarStyle:(NSNumber *)car_style_id;
 
 @end

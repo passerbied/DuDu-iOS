@@ -12,4 +12,8 @@
 
 @property (nonatomic, strong) NSMutableArray *cars;
 
++ (instancetype)sharedCarStore;
+
+- (NSString *)getCarStyleNameForCarStyleID:(NSNumber *)number;
+
 @end

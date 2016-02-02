@@ -28,10 +28,14 @@
 
 - (void)createSubViews
 {
-    self.bgImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.bgImage = [[UIImageView alloc] initWithFrame:ccr(5, 5, SCREEN_WIDTH-5*2, 100-5*2)];
+    self.bgImage.layer.borderColor = COLORRGB(0xf39a00).CGColor;
+    self.bgImage.layer.borderWidth = 0.5f;
+    self.bgImage.layer.masksToBounds = YES;
+    self.bgImage.layer.cornerRadius = 5.0;
     [self.contentView addSubview:self.bgImage];
     
-    _typeLabel = [UILabel labelWithFrame:CGRectZero
+    _typeLabel = [UILabel labelWithFrame:ccr(10, 5, 200, 20)
                                    color:COLORRGB(0xf39a00)
                                     font:HSFONT(15)
                                     text:@""
@@ -39,7 +43,10 @@
                            numberOfLines:1];
     [self.bgImage addSubview:_typeLabel];
     
-    _dateLabel = [UILabel labelWithFrame:CGRectZero
+    _dateLabel = [UILabel labelWithFrame:ccr(_typeLabel.origin.x,
+                                             CGRectGetMaxY(_typeLabel.frame)+5,
+                                             200,
+                                             20)
                                    color:COLORRGB(0xf39a00)
                                     font:HSFONT(12)
                                     text:@""
@@ -47,16 +54,27 @@
                            numberOfLines:1];
     [self.bgImage addSubview:_dateLabel];
     
-    _detailLabel = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0xf39a00)
-                                      font:HSFONT(20)
+    _detailLabel = [UILabel labelWithFrame:ccr(self.bgImage.width-56-10,
+                                               10,
+                                               56,
+                                               56)
+                                     color:COLORRGB(0xffffff)
+                                      font:HSFONT(15)
                                       text:@""
-                                 alignment:NSTextAlignmentRight
+                                 alignment:NSTextAlignmentCenter
                              numberOfLines:1];
+    _detailLabel.backgroundColor = COLORRGB(0xf39a00);
+    _detailLabel.layer.borderColor = COLORRGB(0xffffff).CGColor;
+    _detailLabel.layer.borderWidth = 0.5f;
+    _detailLabel.layer.masksToBounds = YES;
+    _detailLabel.layer.cornerRadius = 28;
     [self.bgImage addSubview:_detailLabel];
     
-    _conditionLabel = [UILabel labelWithFrame:CGRectZero
-                                        color:COLORRGB(0x000000)
+    _conditionLabel = [UILabel labelWithFrame:ccr(_dateLabel.origin.x,
+                                                  self.bgImage.height - 30,
+                                                  SCREEN_WIDTH,
+                                                  20)
+                                        color:COLORRGB(0x63666b)
                                          font:HSFONT(12)
                                          text:@""
                                     alignment:NSTextAlignmentLeft
@@ -75,24 +93,11 @@
 - (void)calculateFrame
 {
     [self setData];
-    self.bgImage.frame = ccr(10, 5, SCREEN_WIDTH-10*2, 100-5*2);
-    CGSize typeSize = [self getTextFromLabel:_typeLabel];
-    _typeLabel.frame = ccr(10, 5, typeSize.width, typeSize.height);
-    CGSize dateSize = [self getTextFromLabel:_dateLabel];
-    _dateLabel.frame = ccr(_typeLabel.origin.x,
-                           CGRectGetMaxY(_typeLabel.frame)+5,
-                           dateSize.width,
-                           dateSize.height);
-    CGSize detailSize = [self getTextFromLabel:_detailLabel];
-    _detailLabel.frame = ccr(SCREEN_WIDTH-10*2-10-detailSize.width,
-                             _typeLabel.origin.y,
-                             detailSize.width,
-                             detailSize.height);
-    CGSize conditionSize = [self getTextFromLabel:_conditionLabel];
-    _conditionLabel.frame = ccr(_dateLabel.origin.x,
-                                100-5*2-5-conditionSize.height,
-                                conditionSize.width,
-                                conditionSize.height);
+//    CGSize conditionSize = [self getTextFromLabel:_conditionLabel];
+//    _conditionLabel.frame = ccr(_dateLabel.origin.x,
+//                                100-5*2-5-conditionSize.height,
+//                                conditionSize.width,
+//                                conditionSize.height);
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label

@@ -220,7 +220,7 @@
             self.couponLabel.text = [NSString stringWithFormat:@"已优惠 %.1f元",[coupon.coupon_discount floatValue]];
         }
     } else {
-        self.couponLabel.text = @"暂无优惠";
+        self.couponLabel.text = @"无优惠";
     }
 }
 
