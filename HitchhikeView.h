@@ -14,10 +14,15 @@
 
 @property (nonatomic, strong) id<HitchhikeViewDelegate> delegate;
 
-- (void)setStartLocation:(NSString *)start_location;
-- (void)setDestLocation:(NSString *)dest_location;
-- (void)setStartTime:(NSString *)start_time;
-- (void)setPeopleCount:(NSString *)people_count;
+@property (nonatomic, strong) UILabel *startLocationLabel;
+@property (nonatomic, strong) UILabel *destLocationLabel;
+@property (nonatomic, strong) UILabel *startTimeLabel;
+@property (nonatomic, strong) UILabel *peopleCountLabel;
+
+//- (void)setStartLocation:(NSString *)start_location;
+//- (void)setDestLocation:(NSString *)dest_location;
+//- (void)setStartTime:(NSString *)start_time;
+//- (void)setPeopleCount:(NSString *)people_count;
 
 @end
 

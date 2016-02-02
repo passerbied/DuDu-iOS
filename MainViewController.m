@@ -13,6 +13,7 @@
 #import "CouponStore.h"
 #import <objc/runtime.h>
 #import "RouteDetailVC.h"
+#import "hitchhikeVC.h"
 
 #define PADDING 10
 #define bottomToolBar_Height  88
@@ -120,7 +121,7 @@
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     [self.view addSubview:_locationBtn];
     
-    [self.navigationController.view addSubview:[self adView]];
+//    [self.navigationController.view addSubview:[self adView]];
     [self startLocation];
     [self getAd];
     
@@ -686,8 +687,21 @@
 
 - (void)topToolBar:(TopToolBar *)topToolBar didCarButonTapped:(int)index
 {
-    _currentCar = self.carStyles[index];
-    [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
+    CarModel *car = self.carStyles[index];
+    if ([car.car_style_name isEqualToString:@"顺风车"] ) {
+        HitchhikeVC *hitchhikeVC = [[HitchhikeVC alloc] init];
+        hitchhikeVC.title = @"发布顺风车订单";
+        hitchhikeVC.currentCity = _currentCity;
+        hitchhikeVC.currentCar = car;
+        hitchhikeVC.orderStore = self.orderStore;
+        [self.navigationController pushViewController:hitchhikeVC animated:YES];
+        [_topToolBar updateCarStylesWith:self.carStyles];
+    } else {
+        _currentCar = self.carStyles[index];
+        [self guessChargeWithCoupon:_currentCoupon
+                           routPlan:_currentRoutPlan
+                           carStyle:_currentCar];
+    }
 }
 
 #pragma mark - BottomToolBarDelegate

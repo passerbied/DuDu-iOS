@@ -50,6 +50,7 @@
 		4847D3AF1C148D82004634F5 /* CouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4847D3AE1C148D82004634F5 /* CouponModel.m */; };
 		485C3D1A1C60C95100CB1AAF /* people@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 485C3D191C60C95000CB1AAF /* people@2x.png */; };
 		485C3D201C60CC0E00CB1AAF /* HitchhikeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 485C3D1F1C60CC0E00CB1AAF /* HitchhikeVC.m */; };
+		485C3D231C610D7600CB1AAF /* CountPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 485C3D221C610D7600CB1AAF /* CountPicker.m */; };
 		4867CDB41C22FD56003B1744 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4867CDB31C22FD56003B1744 /* PushConfig.plist */; };
 		4867CDBB1C26AF0F003B1744 /* DuDuAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CDBA1C26AF0E003B1744 /* DuDuAPIClient.m */; };
 		4867CDBF1C26B0E7003B1744 /* ZBCProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CDBE1C26B0E7003B1744 /* ZBCProgressHUD.m */; };
@@ -234,6 +235,8 @@
 		485C3D191C60C95000CB1AAF /* people@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "people@2x.png"; sourceTree = "<group>"; };
 		485C3D1E1C60CC0E00CB1AAF /* HitchhikeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HitchhikeVC.h; sourceTree = "<group>"; };
 		485C3D1F1C60CC0E00CB1AAF /* HitchhikeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HitchhikeVC.m; sourceTree = "<group>"; };
+		485C3D211C610D7600CB1AAF /* CountPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountPicker.h; sourceTree = "<group>"; };
+		485C3D221C610D7600CB1AAF /* CountPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountPicker.m; sourceTree = "<group>"; };
 		48606E7B1BE7C15D00F34138 /* DuDuURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuDuURL.h; sourceTree = "<group>"; };
 		4861C4DD1BECB88A008FA0A5 /* DuDu-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DuDu-Prefix.pch"; sourceTree = "<group>"; };
 		4861C4DE1BECB8D1008FA0A5 /* FastCodeDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FastCodeDefines.h; sourceTree = "<group>"; };
@@ -685,6 +688,8 @@
 			children = (
 				48EA70E31C5E6C140086BC64 /* HitchhikeView.h */,
 				48EA70E41C5E6C140086BC64 /* HitchhikeView.m */,
+				485C3D211C610D7600CB1AAF /* CountPicker.h */,
+				485C3D221C610D7600CB1AAF /* CountPicker.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1075,12 +1080,12 @@
 		48EAD5EB1BE7B6F500AFF1D4 /* Featrues */ = {
 			isa = PBXGroup;
 			children = (
-				485C3D1B1C60CBA600CB1AAF /* 顺风车发单页 */,
 				487956E01C3D44AD00193530 /* Models */,
 				4803E5C61C19CF8A000395AA /* 登录注册页 */,
 				480E50451BFB4CA8006D545A /* 菜单页 */,
 				486F52AC1BF0AB0B0043874E /* 地点选择页 */,
 				32F03A3A1C168F2800A2C4BD /* 结算前的订单详情页 */,
+				485C3D1B1C60CBA600CB1AAF /* 顺风车发单页 */,
 				482741491BE9FB0000EF6FD8 /* 首页 */,
 			);
 			name = Featrues;
@@ -1442,6 +1447,7 @@
 				486F52D31BFB28AD0043874E /* MMDrawerBarButtonItem.m in Sources */,
 				486F52611BEE07F40043874E /* UIAlertView+KAddition.m in Sources */,
 				480E50531BFB5DF6006D545A /* MenuCell.m in Sources */,
+				485C3D231C610D7600CB1AAF /* CountPicker.m in Sources */,
 				48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */,
 				4867CE451C34D9C5003B1744 /* CarModel.m in Sources */,
 				32F03A2D1C0FF0C400A2C4BD /* CouponVC.m in Sources */,

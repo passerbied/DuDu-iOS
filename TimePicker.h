@@ -22,21 +22,7 @@
 
 @protocol TimePickerDelegate <NSObject>
 
-//- (void)timePickerView:(TimePicker *)pickerView didSelectButton:(UIButton *)btn;
-
 - (void)timePickerViewDidCancel;
-
-//- (NSInteger)numberOfComponentsInTimePickerView:(TimePicker *)pickerView;
-//
-//- (NSInteger)timePickerView:(TimePicker *)pickerView numberOfRowsInComponent:(NSInteger)component;
-//
-//- (CGFloat)timePickerView:(TimePicker *)pickerView rowHeightForComponent:(NSInteger)component;
-//
-//- (CGFloat)timePickerView:(TimePicker *)pickerView widthForComponent:(NSInteger)component;
-//
-//- (UIView *)timePickerView:(TimePicker *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view;
-//
-//- (void)timePickerView:(TimePicker *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component;
 
 - (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp isRightNow:(BOOL) isRightNow;
 

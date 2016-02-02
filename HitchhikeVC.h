@@ -6,9 +6,25 @@
 //  Copyright © 2016 i-chou. All rights reserved.
 //
 
-#import "BaseViewController.h"
+//#import "BaseViewController.h"
 #import "HitchhikeView.h"
+#import "GeoAndSuggestionViewController.h"
+#import "TimePicker.h"
+#import "CountPicker.h"
+#import <QMapKit/QMapKit.h>
 
-@interface HitchhikeVC : BaseViewController<HitchhikeViewDelegate>
+@interface HitchhikeVC : BaseViewController
+<
+HitchhikeViewDelegate,
+GeoAndSuggestionViewControllerDelegate,
+TimePickerDelegate,
+CountPickerDelegate
+>
+
+@property (nonatomic, strong) OrderStore *orderStore;
+@property (nonatomic, copy)   NSString *currentCity;
+@property (nonatomic, strong) CarModel *currentCar;
+@property (nonatomic, strong) QUserLocation *fromLocation;
+@property (nonatomic, strong) QUserLocation *toLocation;
 
 @end
