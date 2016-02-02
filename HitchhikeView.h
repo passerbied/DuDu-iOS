@@ -1,5 +1,5 @@
 //
-//  hitchhikeView.h
+//  HitchhikeView.h
 //  DuDu
 //
 //  Created by i-chou on 2/1/16.
@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface hitchhikeView : UIView
+@protocol HitchhikeViewDelegate;
+
+@interface HitchhikeView : UIView
+
+@property (nonatomic, strong) id<HitchhikeViewDelegate> delegate;
 
 - (void)setStartLocation:(NSString *)start_location;
 - (void)setDestLocation:(NSString *)dest_location;
@@ -17,8 +21,8 @@
 
 @end
 
-@protocol hitchhikeViewDelegate <NSObject>
+@protocol HitchhikeViewDelegate <NSObject>
 
-- (void)hitchhikeView:(hitchhikeView *)hitchhikeView didTapped:(UILabel *)label;
+- (void)hitchhikeView:(HitchhikeView *)hitchhikeView didTapped:(UILabel *)label;
 
 @end

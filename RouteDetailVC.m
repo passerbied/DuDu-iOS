@@ -273,7 +273,6 @@
     } else {
         _ratingView.alpha = 1;
     }
-    NSLog(@"%f",SCREEN_HEIGHT);
     if (([self.orderInfo.order_status intValue] == 5 || _isPayed)) {
         _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_shareBtn.frame)+10);
         _payBtn.alpha = 0;
@@ -391,7 +390,7 @@
     [self.view addSubview:_payBtn];
     
     
-    self.starRating.editable = (([self.orderInfo.order_status intValue] == 5 || _isPayed) && [self.orderInfo.evaluate_level floatValue]==0); //只有已付款并且没评过星的才可以评星, _isPayed是因为服务器刷新数据比微信回调速度慢造成支付成功但数据未更新成已支付。
+    self.starRating.editable = ([self.orderInfo.order_status intValue] == 5 || _isPayed); //只有已付款并且没评过星的才可以评星, _isPayed是因为服务器刷新数据比微信回调速度慢造成支付成功但数据未更新成已支付。
     self.starRating.rating = [self.orderInfo.evaluate_level floatValue];
     
     if (!_fetchDataTimer && self.isModal) {
@@ -745,6 +744,7 @@
                                                                200,
                                                                40)];
     self.starRating.delegate = self;
+    self.starRating.rating = 5.0;
     [_ratingView addSubview:self.starRating];
     
     UILabel *content = [UILabel labelWithFrame:ccr(0,
@@ -985,6 +985,7 @@
 
 - (void)sentRating:(float)rating
 {
+    [self showRightBarItem:YES withButton:nil];
     [[DuDuAPIClient sharedClient] GET:ORDER_EVALUATE((int)rating, self.orderInfo.order_id)
                            parameters:nil
                               success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -1013,7 +1014,10 @@
 - (void)starsSelectionChanged:(EDStarRating *)control rating:(float)rating
 {
     if ([self.orderInfo.evaluate_level intValue] == 0) {
-        [self sentRating:rating];
+        UIButton *btn = [UIButton buttonWithImageName:nil hlImageName:nil title:@"提交评星" titleColor:COLORRGB(0x000000) onTapBlock:^(UIButton *btn) {
+            [self sentRating:rating];
+        }];
+        [self showRightBarItem:YES withButton:btn];
     }
 }
 

@@ -48,6 +48,8 @@
 		4847D3AA1C147D75004634F5 /* orgbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4847D3A91C147D75004634F5 /* orgbtn@2x.png */; };
 		4847D3AC1C147D8C004634F5 /* orgbtn_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4847D3AB1C147D8C004634F5 /* orgbtn_pressed@2x.png */; };
 		4847D3AF1C148D82004634F5 /* CouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4847D3AE1C148D82004634F5 /* CouponModel.m */; };
+		485C3D1A1C60C95100CB1AAF /* people@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 485C3D191C60C95000CB1AAF /* people@2x.png */; };
+		485C3D201C60CC0E00CB1AAF /* HitchhikeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 485C3D1F1C60CC0E00CB1AAF /* HitchhikeVC.m */; };
 		4867CDB41C22FD56003B1744 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4867CDB31C22FD56003B1744 /* PushConfig.plist */; };
 		4867CDBB1C26AF0F003B1744 /* DuDuAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CDBA1C26AF0E003B1744 /* DuDuAPIClient.m */; };
 		4867CDBF1C26B0E7003B1744 /* ZBCProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867CDBE1C26B0E7003B1744 /* ZBCProgressHUD.m */; };
@@ -126,7 +128,7 @@
 		487956F31C439F4500193530 /* QMapKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 487956F21C439F4500193530 /* QMapKit.bundle */; };
 		487956F51C439F8700193530 /* icon_my_location_48px@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 487956F41C439F8700193530 /* icon_my_location_48px@2x.png */; };
 		48EA70CA1C5604D90086BC64 /* icon60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48EA70C91C5604D90086BC64 /* icon60@3x.png */; };
-		48EA70E51C5E6C150086BC64 /* hitchhikeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EA70E41C5E6C140086BC64 /* hitchhikeView.m */; };
+		48EA70E51C5E6C150086BC64 /* HitchhikeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EA70E41C5E6C140086BC64 /* HitchhikeView.m */; };
 		48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D01BE7A65500AFF1D4 /* main.m */; };
 		48EAD5D41BE7A65500AFF1D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EAD5D31BE7A65500AFF1D4 /* AppDelegate.m */; };
 		48EAD6361BE7B7C400AFF1D4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EAD6351BE7B7C400AFF1D4 /* AudioToolbox.framework */; };
@@ -229,6 +231,9 @@
 		4847D3AB1C147D8C004634F5 /* orgbtn_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orgbtn_pressed@2x.png"; sourceTree = "<group>"; };
 		4847D3AD1C148D82004634F5 /* CouponModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponModel.h; sourceTree = "<group>"; };
 		4847D3AE1C148D82004634F5 /* CouponModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponModel.m; sourceTree = "<group>"; };
+		485C3D191C60C95000CB1AAF /* people@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "people@2x.png"; sourceTree = "<group>"; };
+		485C3D1E1C60CC0E00CB1AAF /* HitchhikeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HitchhikeVC.h; sourceTree = "<group>"; };
+		485C3D1F1C60CC0E00CB1AAF /* HitchhikeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HitchhikeVC.m; sourceTree = "<group>"; };
 		48606E7B1BE7C15D00F34138 /* DuDuURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuDuURL.h; sourceTree = "<group>"; };
 		4861C4DD1BECB88A008FA0A5 /* DuDu-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DuDu-Prefix.pch"; sourceTree = "<group>"; };
 		4861C4DE1BECB8D1008FA0A5 /* FastCodeDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FastCodeDefines.h; sourceTree = "<group>"; };
@@ -361,8 +366,8 @@
 		487956F21C439F4500193530 /* QMapKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = QMapKit.bundle; sourceTree = "<group>"; };
 		487956F41C439F8700193530 /* icon_my_location_48px@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_my_location_48px@2x.png"; sourceTree = "<group>"; };
 		48EA70C91C5604D90086BC64 /* icon60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon60@3x.png"; sourceTree = "<group>"; };
-		48EA70E31C5E6C140086BC64 /* hitchhikeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hitchhikeView.h; sourceTree = "<group>"; };
-		48EA70E41C5E6C140086BC64 /* hitchhikeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hitchhikeView.m; sourceTree = "<group>"; };
+		48EA70E31C5E6C140086BC64 /* HitchhikeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HitchhikeView.h; sourceTree = "<group>"; };
+		48EA70E41C5E6C140086BC64 /* HitchhikeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HitchhikeView.m; sourceTree = "<group>"; };
 		48EAD5CC1BE7A65500AFF1D4 /* DuDu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuDu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48EAD5D01BE7A65500AFF1D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		48EAD5D21BE7A65500AFF1D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -657,6 +662,33 @@
 			name = "首页";
 			sourceTree = "<group>";
 		};
+		485C3D1B1C60CBA600CB1AAF /* 顺风车发单页 */ = {
+			isa = PBXGroup;
+			children = (
+				485C3D1C1C60CBC000CB1AAF /* Controllers */,
+				485C3D1D1C60CBC900CB1AAF /* Views */,
+			);
+			name = "顺风车发单页";
+			sourceTree = "<group>";
+		};
+		485C3D1C1C60CBC000CB1AAF /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				485C3D1E1C60CC0E00CB1AAF /* HitchhikeVC.h */,
+				485C3D1F1C60CC0E00CB1AAF /* HitchhikeVC.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		485C3D1D1C60CBC900CB1AAF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				48EA70E31C5E6C140086BC64 /* HitchhikeView.h */,
+				48EA70E41C5E6C140086BC64 /* HitchhikeView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		4867CDBC1C26B0D5003B1744 /* ProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -797,8 +829,6 @@
 				486F527F1BEE093F0043874E /* TopToolBar.m */,
 				486F52811BEE0DE20043874E /* BottomToolBar.h */,
 				486F52821BEE0DE20043874E /* BottomToolBar.m */,
-				48EA70E31C5E6C140086BC64 /* hitchhikeView.h */,
-				48EA70E41C5E6C140086BC64 /* hitchhikeView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -869,6 +899,7 @@
 				4867CE521C364016003B1744 /* tiny_clock@2x.png */,
 				486F52861BEE225E0043874E /* tiny_circle_green@2x.png */,
 				486F52871BEE225E0043874E /* tiny_circle_red@2x.png */,
+				485C3D191C60C95000CB1AAF /* people@2x.png */,
 			);
 			path = imgs;
 			sourceTree = "<group>";
@@ -1044,6 +1075,7 @@
 		48EAD5EB1BE7B6F500AFF1D4 /* Featrues */ = {
 			isa = PBXGroup;
 			children = (
+				485C3D1B1C60CBA600CB1AAF /* 顺风车发单页 */,
 				487956E01C3D44AD00193530 /* Models */,
 				4803E5C61C19CF8A000395AA /* 登录注册页 */,
 				480E50451BFB4CA8006D545A /* 菜单页 */,
@@ -1290,6 +1322,7 @@
 				480E50441BFB2BF1006D545A /* icon_huge@2x.png in Resources */,
 				486F527A1BEE08140043874E /* README.txt in Resources */,
 				487956D31C3AA24700193530 /* gn_icon_scoreinput@2x.png in Resources */,
+				485C3D1A1C60C95100CB1AAF /* people@2x.png in Resources */,
 				48F08F331C4D38E900724CEC /* circle_orange@2x.png in Resources */,
 				48F08F311C4CEF3B00724CEC /* gn_pop_icon_shut@2x.png in Resources */,
 				48F08EEF1C47919400724CEC /* commbtn_pressed@2x.png in Resources */,
@@ -1430,6 +1463,7 @@
 				486F52621BEE07F40043874E /* UIButton+KAddition.m in Sources */,
 				48F08F2B1C4BFC0500724CEC /* ApiXml.mm in Sources */,
 				486F52D41BFB28AD0043874E /* MMDrawerController.m in Sources */,
+				485C3D201C60CC0E00CB1AAF /* HitchhikeVC.m in Sources */,
 				32F03A311C0FF49A00A2C4BD /* CouponCell.m in Sources */,
 				486F52761BEE08140043874E /* NSData+Additions.m in Sources */,
 				48EAD5D11BE7A65500AFF1D4 /* main.m in Sources */,
@@ -1441,7 +1475,7 @@
 				32F03A0F1C0E0EFF00A2C4BD /* WalletCell.m in Sources */,
 				486F525D1BEE07F40043874E /* KUIAlertView.m in Sources */,
 				486F52631BEE07F40043874E /* UIDevice+Hardware.m in Sources */,
-				48EA70E51C5E6C150086BC64 /* hitchhikeView.m in Sources */,
+				48EA70E51C5E6C150086BC64 /* HitchhikeView.m in Sources */,
 				48F08EF71C480C4400724CEC /* WebVC.m in Sources */,
 				32F03A6F1C226C6600A2C4BD /* DuDuJSONResponseSerializer.m in Sources */,
 				32F039FA1C0CA95000A2C4BD /* MyRouteVC.m in Sources */,
