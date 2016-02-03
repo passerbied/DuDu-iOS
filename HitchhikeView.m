@@ -15,13 +15,13 @@
     self = [super init];
     if (self) {
         self.backgroundColor = COLORRGB(0xffffff);
-        UIImageView *startLocIcon = [[UIImageView alloc] initWithFrame:ccr(10, 10, 16, 16)];
+        UIImageView *startLocIcon = [[UIImageView alloc] initWithFrame:ccr(10, 15, 16, 16)];
         startLocIcon.image = IMG(@"tiny_circle_green");
         [self addSubview:startLocIcon];
         
-        _startLocationLabel = [UILabel labelWithFrame:ccr(36, 10, SCREEN_WIDTH-36, 16)
+        _startLocationLabel = [UILabel labelWithFrame:ccr(36, startLocIcon.y, SCREEN_WIDTH-36, 16)
                                                 color:COLORRGB(0xdedede)
-                                                 font:HSFONT(14)
+                                                 font:HSFONT(15)
                                                  text:@"从哪儿出发"
                                             alignment:NSTextAlignmentLeft
                                         numberOfLines:1];
@@ -38,7 +38,7 @@
         UIImageView *horizontalLine_1st =
         [[UIImageView alloc] initWithFrame:ccr(
                                                _startLocationLabel.x,
-                                               CGRectGetMaxY(_startLocationLabel.frame)+10,
+                                               CGRectGetMaxY(_startLocationLabel.frame)+15,
                                                SCREEN_WIDTH-_startLocationLabel.x,
                                                0.5)];
         horizontalLine_1st.backgroundColor = COLORRGB(0xdedede);
@@ -46,7 +46,7 @@
         
         UIImageView *destLocIcon =
         [[UIImageView alloc] initWithFrame:ccr(10,
-                                               CGRectGetMaxY(horizontalLine_1st.frame)+10,
+                                               CGRectGetMaxY(horizontalLine_1st.frame)+15,
                                                16,
                                                16
                                                )];
@@ -55,7 +55,7 @@
         
         _destLocationLabel = [UILabel labelWithFrame:ccr(36, destLocIcon.y, SCREEN_WIDTH-36, 16)
                                                 color:COLORRGB(0xdedede)
-                                                 font:HSFONT(14)
+                                                 font:HSFONT(15)
                                                  text:@"你要去哪儿"
                                             alignment:NSTextAlignmentLeft
                                         numberOfLines:1];
@@ -72,7 +72,7 @@
         UIImageView *horizontalLine_2st =
         [[UIImageView alloc] initWithFrame:ccr(
                                                horizontalLine_1st.x,
-                                               CGRectGetMaxY(_destLocationLabel.frame)+10,
+                                               CGRectGetMaxY(_destLocationLabel.frame)+15,
                                                horizontalLine_1st.width,
                                                0.5)];
         horizontalLine_2st.backgroundColor = COLORRGB(0xdedede);
@@ -81,7 +81,7 @@
         
         UIImageView *timeIcon =
         [[UIImageView alloc] initWithFrame:ccr(10,
-                                               CGRectGetMaxY(horizontalLine_2st.frame)+10,
+                                               CGRectGetMaxY(horizontalLine_2st.frame)+15,
                                                16,
                                                16
                                                )];
@@ -90,7 +90,7 @@
         
         _startTimeLabel = [UILabel labelWithFrame:ccr(36, timeIcon.y, SCREEN_WIDTH-36, 16)
                                                color:COLORRGB(0xdedede)
-                                                font:HSFONT(14)
+                                                font:HSFONT(15)
                                                 text:@"什么时候出发"
                                            alignment:NSTextAlignmentLeft
                                        numberOfLines:1];
@@ -107,7 +107,7 @@
         UIImageView *horizontalLine_3st =
         [[UIImageView alloc] initWithFrame:ccr(
                                                horizontalLine_1st.x,
-                                               CGRectGetMaxY(_startTimeLabel.frame)+10,
+                                               CGRectGetMaxY(_startTimeLabel.frame)+15,
                                                horizontalLine_1st.width,
                                                0.5)];
         horizontalLine_3st.backgroundColor = COLORRGB(0xdedede);
@@ -116,16 +116,16 @@
         
         UIImageView *peopleIcon =
         [[UIImageView alloc] initWithFrame:ccr(14,
-                                               CGRectGetMaxY(horizontalLine_3st.frame)+14,
+                                               CGRectGetMaxY(horizontalLine_3st.frame)+15+4,
                                                10,
                                                10
                                                )];
         peopleIcon.image = IMG(@"people");
         [self addSubview:peopleIcon];
         
-        _peopleCountLabel = [UILabel labelWithFrame:ccr(36, peopleIcon.y-4, SCREEN_WIDTH-36, 16)
+        _peopleCountLabel = [UILabel labelWithFrame:ccr(36, peopleIcon.y-3, SCREEN_WIDTH-36, 16)
                                             color:COLORRGB(0xdedede)
-                                             font:HSFONT(14)
+                                             font:HSFONT(15)
                                              text:@"几人乘车"
                                         alignment:NSTextAlignmentLeft
                                     numberOfLines:1];
@@ -142,7 +142,7 @@
         UIImageView *horizontalLine_4st =
         [[UIImageView alloc] initWithFrame:ccr(
                                                0,
-                                               CGRectGetMaxY(_peopleCountLabel.frame)+10,
+                                               CGRectGetMaxY(_peopleCountLabel.frame)+15,
                                                SCREEN_WIDTH,
                                                0.5)];
         horizontalLine_4st.backgroundColor = COLORRGB(0xdedede);

@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIPickerView *pickerView;
 @property (nonatomic, strong) id <TimePickerDelegate> delegate;
 @property (assign) NSInteger pickedTime;
+@property (nonatomic, assign) BOOL isAppointment;
 
 @end
 

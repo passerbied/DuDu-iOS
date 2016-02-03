@@ -39,28 +39,29 @@
     UILabel *content = [UILabel labelWithFrame:ccr(20, 0, SCREEN_WIDTH, headerView.height)
                                          color:COLORRGB(0x63666b)
                                           font:HSFONT(18)
-                                          text:@"每一位车主，\n都是顺路的热心上班族"
+                                          text:@"嘟嘟会热心的服务每一位乘客"
                                      alignment:NSTextAlignmentLeft
-                                 numberOfLines:2];
+                                 numberOfLines:1];
     [headerView addSubview:content];
     _hitchhikeView = [[HitchhikeView alloc] init];
     _hitchhikeView.delegate = self;
     _hitchhikeView.origin = ccp(0, CGRectGetMaxY(headerView.frame));
     [self.view addSubview:_hitchhikeView];
     
+    UIButton *submitBtn = [UIButton buttonWithImageName:@"orgbtn" hlImageName:@"orgbtn_pressed" title:@"确认发布" titleColor:COLORRGB(0xffffff) font:HSFONT(15) onTapBlock:^(UIButton *btn) {
+        [self sentOrder];
+    }];
+    submitBtn.frame = ccr(10, CGRectGetMaxY(_hitchhikeView.frame)+40, SCREEN_WIDTH-20, 40);
+    [self.view addSubview:submitBtn];
+    
     _timePicker = [[TimePicker alloc] initWithFrame:ccr(0, SCREEN_HEIGHT, SCREEN_WIDTH, 264)];
     _timePicker.delegate = self;
+    _timePicker.isAppointment = YES;
     [self.view addSubview:_timePicker];
     
     _countPicker = [[CountPicker alloc] initWithFrame:ccr(0, SCREEN_HEIGHT, SCREEN_WIDTH, 264)];
     _countPicker.delegate = self;
     [self.view addSubview:_countPicker];
-    
-    UIButton *submitBtn = [UIButton buttonWithImageName:@"orgbtn" hlImageName:@"orgbtn_pressed" title:@"确认发布" titleColor:COLORRGB(0xffffff) font:HSFONT(15) onTapBlock:^(UIButton *btn) {
-        [self sentOrder];
-    }];
-    submitBtn.frame = ccr(10, CGRectGetMaxY(_hitchhikeView.frame)+20, SCREEN_WIDTH-20, 40);
-    [self.view addSubview:submitBtn];
 }
 
 - (void)sentOrder
@@ -87,7 +88,8 @@
                               order.car_style,
                               order.startTimeType,
                               order.startTimeStr,
-                              @"");
+                              @"",
+                              _peopleCount);
     
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];

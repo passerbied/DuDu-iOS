@@ -39,6 +39,11 @@
     _loadingFooter.delegate = self;
     _bookList = [NSMutableArray array];
     [self createTableView];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self getBooksForPage:0 isMore:NO];
 }
 

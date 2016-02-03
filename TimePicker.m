@@ -48,11 +48,8 @@
                                               title:@"确定" font:HSFONT(16)
                                          titleColor:[UIColor blackColor]
                                          onTapBlock:^(UIButton *btn){
-            self.pickedTime = [self getTime];
-            if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectTime:isRightNow:)]) {
-                [self.delegate timePickerView:self didSelectTime:self.pickedTime isRightNow:_isNow];
-            }
-        }];
+                                             [self okBtnDidTapped];
+                                         }];
         okBtn.showsTouchWhenHighlighted = YES;
         [toolBar addSubview:okBtn];
         
@@ -65,6 +62,27 @@
         [self addSubview:self.pickerView];
     }
     return self;
+}
+
+- (void)okBtnDidTapped
+{
+    self.pickedTime = [self getTime];
+    if (self.isAppointment) {
+        NSDate *now = [NSDate date];
+        NSInteger timeStamp = [now timeIntervalSince1970];
+        if (self.pickedTime - timeStamp < 20*60) {
+            [ZBCToast showMessage:@"顺风车订单需将出发时间设置成20分钟以后"];
+            return;
+        } else {
+            if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectTime:isRightNow:)]) {
+                [self.delegate timePickerView:self didSelectTime:self.pickedTime isRightNow:_isNow];
+            }
+        }
+    } else {
+        if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectTime:isRightNow:)]) {
+            [self.delegate timePickerView:self didSelectTime:self.pickedTime isRightNow:_isNow];
+        }
+    }
 }
 
 #pragma mark - UIPickerViewDelegate

@@ -121,7 +121,7 @@
     _locationBtn.frame = ccr(PADDING, CGRectGetMaxY(self.topToolBar.frame)+PADDING, 30, 30);
     [self.view addSubview:_locationBtn];
     
-//    [self.navigationController.view addSubview:[self adView]];
+    [self.navigationController.view addSubview:[self adView]];
     [self startLocation];
     [self getAd];
     
@@ -441,7 +441,8 @@
                               order.car_style,
                               order.startTimeType,
                               order.startTimeStr,
-                              _isUnuseCoupon?nil:_currentCoupon.coupon_id);
+                              _isUnuseCoupon?nil:_currentCoupon.coupon_id,
+                              0);
     
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
