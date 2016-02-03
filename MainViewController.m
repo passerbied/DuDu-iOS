@@ -411,7 +411,6 @@
     CouponVC *couponVC =[[CouponVC alloc] init];
     couponVC.title = @"选择优惠券";
     couponVC.showUnuseHeader = YES;
-//    couponVC.coupons = [[CouponStore sharedCouponStore] sortedCouponsWithMoney:_currentMoney];
     couponVC.delegate = self;
     [self.navigationController pushViewController:couponVC animated:YES];
 }
@@ -442,7 +441,8 @@
                               order.startTimeType,
                               order.startTimeStr,
                               _isUnuseCoupon?nil:_currentCoupon.coupon_id,
-                              0);
+                              0,
+                              _currentMoney);
     
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
@@ -585,11 +585,9 @@
     }
     
     //夜间服务费
-    NSDate * date = [NSDate date];
-    NSTimeInterval sec = [date timeIntervalSinceNow];
-    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_startTimeStr];
     
-    if ([Utils checkNightService:currentDate]) {
+    if ([Utils checkNightService:date]) {
         charge = charge * [_currentCar.night_service_times floatValue];
     }
     
@@ -615,7 +613,7 @@
     if (charge < 0) {
         charge = 0;
     }
-    
+    _currentMoney = charge;
     [_bottomToolBar updateCharge:[NSString stringWithFormat:@"%.1f",charge] coupon:coupon];
 }
 

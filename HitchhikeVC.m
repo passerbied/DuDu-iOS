@@ -8,6 +8,7 @@
 
 #import "HitchhikeVC.h"
 #import "OrderVC.h"
+#import <objc/runtime.h>
 
 @interface HitchhikeVC ()
 
@@ -18,9 +19,24 @@
     HitchhikeView   *_hitchhikeView;
     TimePicker      *_timePicker;
     CountPicker     *_countPicker;
+    UILabel         *_priceLabel;
     
     NSTimeInterval  _startTimeStr;
     int             _peopleCount;
+    
+    QMSRoutePlan    *_currentRoutPlan;
+    float           _currentMoney;
+    BOOL            _isCalculated;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _fromLocation = [[QUserLocation alloc] init];
+        _toLocation = [[QUserLocation alloc] init];
+    }
+    return self;
 }
 
 - (void)viewDidLoad
@@ -28,7 +44,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createSubviews];
-    
+    self.search = [[QMSSearcher alloc] initWithDelegate:self];
 }
 
 - (void)createSubviews
@@ -47,11 +63,26 @@
     _hitchhikeView.delegate = self;
     _hitchhikeView.origin = ccp(0, CGRectGetMaxY(headerView.frame));
     [self.view addSubview:_hitchhikeView];
+
+    _priceLabel = [UILabel labelWithFrame:ccr(0,
+                                              CGRectGetMaxY(_hitchhikeView.frame)+10,
+                                              SCREEN_WIDTH,
+                                              20)
+                                    color:COLORRGB(0xf39a00)
+                                     font:HSFONT(15)
+                                     text:@""
+                                alignment:NSTextAlignmentCenter
+                            numberOfLines:1];
+    [self.view addSubview:_priceLabel];
+    
     
     UIButton *submitBtn = [UIButton buttonWithImageName:@"orgbtn" hlImageName:@"orgbtn_pressed" title:@"确认发布" titleColor:COLORRGB(0xffffff) font:HSFONT(15) onTapBlock:^(UIButton *btn) {
-        [self sentOrder];
+        if ([self checkValidity]) {
+            [self sentOrder];
+        }
+        
     }];
-    submitBtn.frame = ccr(10, CGRectGetMaxY(_hitchhikeView.frame)+40, SCREEN_WIDTH-20, 40);
+    submitBtn.frame = ccr(10, CGRectGetMaxY(_priceLabel.frame)+10, SCREEN_WIDTH-20, 40);
     [self.view addSubview:submitBtn];
     
     _timePicker = [[TimePicker alloc] initWithFrame:ccr(0, SCREEN_HEIGHT, SCREEN_WIDTH, 264)];
@@ -62,6 +93,19 @@
     _countPicker = [[CountPicker alloc] initWithFrame:ccr(0, SCREEN_HEIGHT, SCREEN_WIDTH, 264)];
     _countPicker.delegate = self;
     [self.view addSubview:_countPicker];
+}
+
+- (BOOL)checkValidity
+{
+    if (!(_fromLocation.title && _toLocation.title && _peopleCount && _startTimeStr)){
+        [ZBCToast showMessage:@"订单信息填写不完整"];
+        return NO;
+    }
+    if (!_isCalculated) {
+        [ZBCToast showMessage:@"正在计算价格，请稍等"];
+        return NO;
+    }
+    return YES;
 }
 
 - (void)sentOrder
@@ -89,7 +133,8 @@
                               order.startTimeType,
                               order.startTimeStr,
                               @"",
-                              _peopleCount);
+                              _peopleCount,
+                              _currentMoney);
     
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
@@ -151,18 +196,71 @@
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 
+#pragma mark - 估算费用
+- (void)guessChargeWithRoutPlan:(QMSRoutePlan *)plan carStyle:(CarModel *)car
+{
+    float distance = plan.distance/1000; //距离
+    float duration = plan.duration; //时长
+    float per_kilometer_money = car.per_kilometer_money; //起步里程每公里价格
+    float per_max_kilometer = car.per_max_kilometer; //起步公里数
+    float per_max_kilometer_money = car.per_max_kilometer_money; //超长每公里价格
+    float wait_time_money = car.wait_time_money; //等时费
+    float start_money = car.start_money; //起步价
+    
+    float charge = 0;
+    
+    //实际价格计算
+    if (distance <= per_max_kilometer) {
+        charge = distance*per_kilometer_money
+        + duration*wait_time_money;
+    } else {
+        charge = per_max_kilometer*per_kilometer_money
+        + (distance - per_max_kilometer)*per_max_kilometer_money
+        + duration*wait_time_money;
+    }
+    
+    //夜间服务费
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_startTimeStr];
+    
+    if ([Utils checkNightService:date]) {
+        charge = charge * [_currentCar.night_service_times floatValue];
+    }
+    
+    //保证费用不少于起步价
+    if (charge < start_money) {
+        charge = start_money;
+    }
+    
+    //保证费用为非负数
+    if (charge < 0) {
+        charge = 0;
+    }
+    _currentMoney = charge;
+    if (_isCalculated && _peopleCount && _startTimeStr) {
+        _priceLabel.text = [NSString stringWithFormat:@"一口价：%.1f元",charge];
+    } else {
+        _priceLabel.text = @"";
+    }
+}
+
 #pragma mark - HitchhikeViewDelegate
 
 - (void)hitchhikeView:(HitchhikeView *)hitchhikeView didTapped:(UILabel *)label
 {
     if (label == hitchhikeView.startLocationLabel) {
         [self showFromAddressPicker];
+        [self showCountPicker:NO];
+        [self showTimePicker:NO];
     } else if (label == hitchhikeView.destLocationLabel) {
         [self showToAddressPicker];
+        [self showCountPicker:NO];
+        [self showTimePicker:NO];
     } else if (label == hitchhikeView.startTimeLabel) {
         [self showTimePicker:YES];
+        [self showCountPicker:NO];
     } else if (label == hitchhikeView.peopleCountLabel) {
         [self showCountPicker:YES];
+        [self showTimePicker:NO];
     }
 }
 
@@ -175,6 +273,7 @@
     _hitchhikeView.startTimeLabel.textColor = COLORRGB(0x63666b);
     _startTimeStr = timeStamp;
     [self showTimePicker:NO];
+    [self guessChargeWithRoutPlan:_currentRoutPlan carStyle:_currentCar];
 }
 
 - (void)timePickerViewDidCancel
@@ -190,6 +289,7 @@
     _hitchhikeView.peopleCountLabel.text = [NSString stringWithFormat:@"%d人",count];
     _hitchhikeView.peopleCountLabel.textColor = COLORRGB(0x63666b);
     [self showCountPicker:NO];
+    [self guessChargeWithRoutPlan:_currentRoutPlan carStyle:_currentCar];
 }
 
 - (void)countPickerViewDidCancel
@@ -217,6 +317,132 @@
         _hitchhikeView.destLocationLabel.text = toLoc.title;
         _hitchhikeView.destLocationLabel.textColor = COLORRGB(0x63666b);
     }
+    if (_fromLocation.title && _toLocation.title) {
+        QMSDrivingRouteSearchOption *driving = [[QMSDrivingRouteSearchOption alloc] init];
+        [driving setFromCoordinate:_fromLocation.coordinate];
+        [driving setToCoordinate:_toLocation.coordinate];
+        //驾车路线规划支持多种规划策略（设置成综合最优策略）
+        [driving setPolicyWithType:QMSDrivingRoutePolicyTypeRealTraffic];
+        [self.search searchWithDrivingRouteSearchOption:driving];
+        
+        _isCalculated = NO;
+    }
+}
+
+- (void)searchWithDrivingRouteSearchOption:(QMSDrivingRouteSearchOption *)drivingRouteSearchOption didRecevieResult:(QMSDrivingRouteSearchResult *)drivingRouteSearchResult
+{
+    _isCalculated = YES;
+    _currentRoutPlan = [[drivingRouteSearchResult routes] firstObject];
+    NSLog(@"距离：%@ | 时间：%@ | 路段数%d", [self humanReadableForDistance:_currentRoutPlan.distance], [self humanReadableForTimeDuration:_currentRoutPlan.duration],(int)_currentRoutPlan.steps.count);
+    
+    NSUInteger count = _currentRoutPlan.polyline.count;
+    CLLocationCoordinate2D coordinateArray[count];
+    for (int i = 0; i < count; ++i)
+    {
+        [[_currentRoutPlan.polyline objectAtIndex:i] getValue:&coordinateArray[i]];
+    }
+    
+    [self guessChargeWithRoutPlan:_currentRoutPlan carStyle:_currentCar];
+}
+
+#pragma mark - Utils
+
+/*!
+ *  @brief  格式化距离
+ *
+ *  @param distance 距离,单位是米
+ *  @return 格式化字符串
+ *  @detial
+ *  (1) 567  ---> 567米
+ *  (2) 1567 ---> 1.5公里
+ *  (3) 2000 ---> 2公里
+ */
+- (NSString*) humanReadableForDistance:(double)distance
+{
+    NSString *humanReadable = nil;
+    
+    NSInteger theLength = (NSInteger)distance;
+    
+    // 米.
+    if (theLength < 1000)
+    {
+        humanReadable = [NSString stringWithFormat:@"%ld米", (long)theLength];
+    }
+    // 公里.
+    else
+    {
+#define WCLUtilityZeroEnd @".0"
+        
+        humanReadable = [NSString stringWithFormat:@"%.1f", theLength / 1000.0];
+        
+        BOOL zeroEnd = [humanReadable hasSuffix:WCLUtilityZeroEnd];
+        
+        // .0结尾, 去掉尾数.
+        if (zeroEnd)
+        {
+            humanReadable = [humanReadable substringWithRange:NSMakeRange(0, humanReadable.length - WCLUtilityZeroEnd.length)];
+        }
+        
+        humanReadable = [humanReadable stringByAppendingString:@"公里"];
+    }
+    
+    return humanReadable;
+}
+
+/*!
+ *  @brief  格式化时间
+ *
+ *  @param timeDuration 时间,单位是分钟
+ *  @return 格式化字符串
+ *  @detial
+ *  (1) 10  ---> 10分钟
+ *  (2) 120 ---> 2小时
+ *  (3) 124 ---> 2小时4分钟
+ */
+- (NSString *)humanReadableForTimeDuration:(double) timeDuration
+{
+    NSString *humanReadable = nil;
+    
+    NSInteger theDuration = (NSInteger)timeDuration;
+    
+    // 分.
+    if (theDuration < 60)
+    {
+        humanReadable = [NSString stringWithFormat:@"%ld分钟", (long)theDuration];
+    }
+    // 小时.
+    else
+    {
+        humanReadable = [NSString stringWithFormat:@"%ld小时", (long)theDuration / 60];
+        
+        double remainder = fmod(theDuration, 60.0);
+        
+        if (remainder != 0)
+        {
+            NSString *remainderHumanReadable = [self humanReadableForTimeDuration:remainder];
+            
+            humanReadable = [humanReadable stringByAppendingString:remainderHumanReadable];
+        }
+    }
+    
+    return humanReadable;
+}
+
+@end
+
+static char *QMSPolylineDashKey = "kQMSPolylineDashKey";
+
+@implementation QPolyline (RouteExtention)
+
+- (void)setDash:(BOOL)dash
+{
+    objc_setAssociatedObject(self, QMSPolylineDashKey, [NSNumber numberWithBool:dash], OBJC_ASSOCIATION_RETAIN);
+}
+
+- (BOOL)dash
+{
+    NSNumber *dashNum = objc_getAssociatedObject(self, QMSPolylineDashKey);
+    return [dashNum boolValue];
 }
 
 @end

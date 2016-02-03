@@ -18,7 +18,8 @@
 HitchhikeViewDelegate,
 GeoAndSuggestionViewControllerDelegate,
 TimePickerDelegate,
-CountPickerDelegate
+CountPickerDelegate,
+QMSSearchDelegate
 >
 
 @property (nonatomic, strong) OrderStore *orderStore;
@@ -26,5 +27,6 @@ CountPickerDelegate
 @property (nonatomic, strong) CarModel *currentCar;
 @property (nonatomic, strong) QUserLocation *fromLocation;
 @property (nonatomic, strong) QUserLocation *toLocation;
+@property (nonatomic, strong) QMSSearcher   *search;
 
 @end
