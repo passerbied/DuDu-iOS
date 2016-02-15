@@ -427,7 +427,7 @@
         [self showRightTitle:YES withButton:_cancelBtn];
         if (![self.orderInfo.startTimeType intValue]) {
             self.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
-            if (!_countDownTimer) {
+            if (!_countDownTimer && self.canTimerShow) {
                 _timerCount = [CouponStore sharedCouponStore].shareInfo.wait_order_time_seconds;
                 [_countDownTimer setFireDate:[NSDate distantPast]];
                 _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
@@ -491,7 +491,7 @@
 
     }
     
-    [self showTimerView:([self.orderInfo.order_status intValue]==OrderStatusWatingForDriver && ![self.orderInfo.startTimeType intValue])];
+    [self showTimerView:([self.orderInfo.order_status intValue]==OrderStatusWatingForDriver && ![self.orderInfo.startTimeType intValue] && self.canTimerShow)];
     [self showDriverView:([self.orderInfo.order_status intValue]>OrderStatusWatingForDriver)];
     [self showOtherCars:(self.resultStatus==OrderResultHaveOtherCar)];
 }
@@ -506,9 +506,11 @@
         [_countDownTimer invalidate];
         
         if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
-            _alertView = [[SIAlertView alloc] initWithTitle:@""
-                                                 andMessage:@"\n您等待了较长的时间，系统会赠送您优惠券\n\n是否继续等待嘟嘟为您服务？\n"];
-            _alertView.messageFont = HSFONT(14);
+            _alertView = [[SIAlertView alloc] initWithTitle:@"亲，很抱歉，让您久等了"
+                                                 andMessage:@"我们的服务正在逐步完善中，请给我时间\n\n系统会赠送给您优惠券,\n\n是否继续等待嘟嘟为您服务？"];
+            _alertView.messageFont = HSFONT(13);
+            _alertView.titleFont = HSFONT(13);
+            _alertView.titleColor = [UIColor darkGrayColor];
             _alertView.buttonColor = COLORRGB(0xf39a00);
             _alertView.buttonFont = HSFONT(15);
             _alertView.cancelButtonColor = COLORRGB(0xf39a00);

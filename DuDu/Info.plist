@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201601251755</string>
+	<string>201602151722</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>baidumap</string>
@@ -49,10 +49,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>只有开启定位功能才能正常使用嘟嘟出行</string>
 	<key>UIBackgroundModes</key>
-	<array>
-		<string>audio</string>
-		<string>location</string>
-	</array>
+	<array/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

@@ -18,6 +18,7 @@
 @property (nonatomic, copy) NSString *orderStatusInfo;
 @property (nonatomic, strong) CarStore *carStore;
 @property (nonatomic, assign) BOOL isModal;
+@property (nonatomic, assign) BOOL canTimerShow;
 
 //+ (instancetype)sharedOrderVC;
 

@@ -274,6 +274,7 @@
                 OrderVC *orderVC = [[OrderVC alloc] init];
                 orderVC.orderInfo = orderInfo;
                 orderVC.isModal = YES;
+                orderVC.canTimerShow = NO;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
                 orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
@@ -296,6 +297,7 @@
                 OrderVC *orderVC = [[OrderVC alloc] init];
                 orderVC.orderInfo = orderInfo;
                 orderVC.isModal = YES;
+                orderVC.canTimerShow = NO;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
                 orderVC.orderStatusInfo = [NSString stringWithFormat:@"行程中，%@正在为您服务",[MainViewController sharedMainViewController].currentCar.car_style_name];
@@ -320,6 +322,7 @@
                 OrderVC *orderVC = [[OrderVC alloc] init];
                 orderVC.orderInfo = orderInfo;
                 orderVC.isModal = YES;
+                orderVC.canTimerShow = NO;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
                 orderVC.orderStatusInfo = @"司机正在前往，请耐心等待";
@@ -482,6 +485,7 @@
                 orderVC.orderInfo = orderInfo;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
+                orderVC.canTimerShow = YES;
                 orderVC.orderStatusInfo = dic[@"order_info"];
                 if ([orderInfo.startTimeType intValue]) {
                     orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
@@ -506,6 +510,7 @@
                 orderVC.isModal = YES;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
+                orderVC.canTimerShow = YES;
                 orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
                 ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
                 [nav.navigationBar setTranslucent:NO];
@@ -591,11 +596,6 @@
         charge = charge * [_currentCar.night_service_times floatValue];
     }
     
-    //保证费用不少于起步价
-    if (charge < start_money) {
-        charge = start_money;
-    }
-    
     //给出最优惠券
     if (!_isUnuseCoupon && !_isCheckedCoupon) {
         coupon = [[CouponStore sharedCouponStore] cheapestCoupon:charge];
@@ -607,6 +607,11 @@
         charge = charge * [coupon.coupon_discount floatValue];
     } else {
         charge = charge - [coupon.coupon_discount floatValue];
+    }
+    
+    //保证费用不少于起步价
+    if (charge < start_money) {
+        charge = start_money;
     }
 
     //保证费用为非负数
