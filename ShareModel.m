@@ -17,6 +17,8 @@
              @"weixin_title"          : @"weixin_title",
              @"weixin_link"           : @"weixin_link",
              @"wait_order_time"       : @"wait_order_time",
+             @"distance_length"       : @"distance_length",
+             @"user_isFreeTaxi"       : @"user_isFreeTaxi"
              };
 }
 

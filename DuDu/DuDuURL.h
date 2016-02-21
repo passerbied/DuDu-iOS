@@ -6,7 +6,7 @@
 
 #else
 #warning is testing
-#define BASE_URL                        @"http://101.201.145.241:81"
+#define BASE_URL                        @"http://101.201.145.241:8988"
 
 #endif
 

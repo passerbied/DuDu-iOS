@@ -26,7 +26,7 @@
                   moduleName = "DuDu"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Passerbied/Desktop/DuDu-iOS/RouteDetailVC.m"
-                  timestampString = "477765152.885013"
+                  timestampString = "477765795.985043"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1017"
@@ -41,7 +41,7 @@
                   moduleName = "DuDu"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Passerbied/Desktop/DuDu-iOS/RouteDetailVC.m"
-                  timestampString = "477765152.885336"
+                  timestampString = "477765795.98537"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1017"
@@ -49,6 +49,22 @@
                   offsetFromSymbolStart = "48">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MainViewController.m"
+            timestampString = "477765423.579298"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "615"
+            endingLineNumber = "615"
+            landmarkName = "-guessChargeWithCoupon:routPlan:carStyle:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
