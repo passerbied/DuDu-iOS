@@ -570,6 +570,7 @@
 - (void)guessChargeWithCoupon:(CouponModel *)coupon routPlan:(QMSRoutePlan *)plan carStyle:(CarModel *)car
 {
     float distance = plan.distance/1000; //距离
+     distance = distance * [[CouponStore sharedCouponStore].shareInfo.distance_length floatValue];//距离*距离系数(客户要求)
     float duration = plan.duration; //时长
     float per_kilometer_money = car.per_kilometer_money; //起步里程每公里价格
     float per_max_kilometer = car.per_max_kilometer; //起步公里数
@@ -609,8 +610,8 @@
         charge = charge - [coupon.coupon_discount floatValue];
     }
     
-    //保证费用不少于起步价
-    if (charge < start_money) {
+    //保证费用不少于起步价（首单不受此约束）
+    if (charge < start_money && ![[CouponStore sharedCouponStore].shareInfo.user_isFreeTaxi intValue]) {
         charge = start_money;
     }
 
@@ -695,6 +696,9 @@
     if ([car.car_style_name isEqualToString:@"顺风车"] ) {
         HitchhikeVC *hitchhikeVC = [[HitchhikeVC alloc] init];
         hitchhikeVC.title = @"发布顺风车订单";
+        hitchhikeVC.fromLocationStr = _bottomToolBar.fromAddressLabel
+        .text;
+        hitchhikeVC.fromLocation = _fromLocation;
         hitchhikeVC.currentCity = _currentCity;
         hitchhikeVC.currentCar = car;
         hitchhikeVC.orderStore = self.orderStore;

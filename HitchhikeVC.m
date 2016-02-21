@@ -9,6 +9,7 @@
 #import "HitchhikeVC.h"
 #import "OrderVC.h"
 #import <objc/runtime.h>
+#import "CouponStore.h"
 
 @interface HitchhikeVC ()
 
@@ -27,14 +28,15 @@
     QMSRoutePlan    *_currentRoutPlan;
     float           _currentMoney;
     BOOL            _isCalculated;
+    BOOL            _isUpdated;
 }
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        _fromLocation = [[QUserLocation alloc] init];
-        _toLocation = [[QUserLocation alloc] init];
+        self.fromLocation = [[QUserLocation alloc] init];
+        self.toLocation = [[QUserLocation alloc] init];
     }
     return self;
 }
@@ -45,6 +47,7 @@
     self.view.backgroundColor = COLORRGB(0xf0f0f0);
     [self createSubviews];
     self.search = [[QMSSearcher alloc] initWithDelegate:self];
+//    self.mapView.showsUserLocation = YES;
 }
 
 - (void)createSubviews
@@ -62,6 +65,12 @@
     _hitchhikeView = [[HitchhikeView alloc] init];
     _hitchhikeView.delegate = self;
     _hitchhikeView.origin = ccp(0, CGRectGetMaxY(headerView.frame));
+    if (self.fromLocationStr.length) {
+        _hitchhikeView.startLocationLabel.textColor = COLORRGB(0x63666b);
+    }
+    _hitchhikeView.startLocationLabel.text = self.fromLocationStr;
+    self.fromLocation.title = _hitchhikeView.startLocationLabel.text;
+//    _fromLocation = self.fromLocation;
     [self.view addSubview:_hitchhikeView];
 
     _priceLabel = [UILabel labelWithFrame:ccr(0,
@@ -97,7 +106,7 @@
 
 - (BOOL)checkValidity
 {
-    if (!(_fromLocation.title && _toLocation.title && _peopleCount && _startTimeStr)){
+    if (!(self.fromLocation.title && self.toLocation.title && _peopleCount && _startTimeStr)){
         [ZBCToast showMessage:@"订单信息填写不完整"];
         return NO;
     }
@@ -113,10 +122,10 @@
     OrderModel *order = [[OrderModel alloc] init];
     order.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] intValue]];
     
-    order.start_lat = [NSString stringWithFormat:@"%.6f",_fromLocation.coordinate.latitude];
-    order.start_lng = [NSString stringWithFormat:@"%.6f",_fromLocation.coordinate.longitude];
-    order.dest_lat = [NSString stringWithFormat:@"%.6f",_toLocation.coordinate.latitude];
-    order.dest_lng = [NSString stringWithFormat:@"%.6f",_toLocation.coordinate.longitude];
+    order.start_lat = [NSString stringWithFormat:@"%.6f",self.fromLocation.coordinate.latitude];
+    order.start_lng = [NSString stringWithFormat:@"%.6f",self.fromLocation.coordinate.longitude];
+    order.dest_lat = [NSString stringWithFormat:@"%.6f",self.toLocation.coordinate.latitude];
+    order.dest_lng = [NSString stringWithFormat:@"%.6f",self.toLocation.coordinate.longitude];
     order.star_loc_str = _hitchhikeView.startLocationLabel.text;
     order.dest_loc_str = _hitchhikeView.destLocationLabel.text;
     order.car_style = self.currentCar.car_style_id;
@@ -200,6 +209,7 @@
 - (void)guessChargeWithRoutPlan:(QMSRoutePlan *)plan carStyle:(CarModel *)car
 {
     float distance = plan.distance/1000; //距离
+    distance = distance * [[CouponStore sharedCouponStore].shareInfo.distance_length floatValue];//距离*距离系数(客户要求)
     float duration = plan.duration; //时长
     float per_kilometer_money = car.per_kilometer_money; //起步里程每公里价格
     float per_max_kilometer = car.per_max_kilometer; //起步公里数
@@ -226,8 +236,8 @@
         charge = charge * [_currentCar.night_service_times floatValue];
     }
     
-    //保证费用不少于起步价
-    if (charge < start_money) {
+    //保证费用不少于起步价(首单不受此约束)
+    if (charge < start_money && ![[CouponStore sharedCouponStore].shareInfo.user_isFreeTaxi intValue]) {
         charge = start_money;
     }
     
@@ -303,24 +313,24 @@
 {
     if (fromLoc) {
         NSLog(@"fromLoc:%f,%f",fromLoc.location.latitude,fromLoc.location.longitude);
-        [_fromLocation setCoordinate:fromLoc.location];
-        [_fromLocation setTitle:fromLoc.title];
+        [self.fromLocation setCoordinate:fromLoc.location];
+        [self.fromLocation setTitle:fromLoc.title];
         
         _hitchhikeView.startLocationLabel.text = fromLoc.title;
         _hitchhikeView.startLocationLabel.textColor = COLORRGB(0x63666b);
     }
     if (toLoc){
-        [_toLocation setCoordinate:toLoc.location];
-        [_toLocation setTitle:toLoc.title];
+        [self.toLocation setCoordinate:toLoc.location];
+        [self.toLocation setTitle:toLoc.title];
         NSLog(@"toLoc:%f,%f,",toLoc.location.latitude,toLoc.location.longitude);
         
         _hitchhikeView.destLocationLabel.text = toLoc.title;
         _hitchhikeView.destLocationLabel.textColor = COLORRGB(0x63666b);
     }
-    if (_fromLocation.title && _toLocation.title) {
+    if (self.fromLocation.title && self.toLocation.title) {
         QMSDrivingRouteSearchOption *driving = [[QMSDrivingRouteSearchOption alloc] init];
-        [driving setFromCoordinate:_fromLocation.coordinate];
-        [driving setToCoordinate:_toLocation.coordinate];
+        [driving setFromCoordinate:self.fromLocation.coordinate];
+        [driving setToCoordinate:self.toLocation.coordinate];
         //驾车路线规划支持多种规划策略（设置成综合最优策略）
         [driving setPolicyWithType:QMSDrivingRoutePolicyTypeRealTraffic];
         [self.search searchWithDrivingRouteSearchOption:driving];
@@ -344,6 +354,59 @@
     
     [self guessChargeWithRoutPlan:_currentRoutPlan carStyle:_currentCar];
 }
+
+//#pragma mark - 地图开始定位 delegate
+//
+//- (void)mapViewWillStartLocatingUser:(QMapView *)mapView
+//{
+//    NSLog(@"开始定位");
+//    _hitchhikeView.startLocationLabel.text = @"定位中...";
+//}
+//
+//#pragma mark - 地图停止定位 delegate
+//
+//- (void)mapViewDidStopLocatingUser:(QMapView *)mapView
+//{
+//    NSLog(@"停止定位");
+//}
+//
+//#pragma mark - 地图更新定位 delegate
+//
+//- (void)mapView:(QMapView *)mapView didUpdateUserLocation:(QUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
+//{
+//    if (updatingLocation && !_isUpdated) {
+//        _fromLocation = userLocation;
+//        QMSReverseGeoCodeSearchOption *regeocoder = [[QMSReverseGeoCodeSearchOption alloc] init];
+//        [regeocoder setLocation:[NSString stringWithFormat:@"%f,%f",userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude]];
+//        //返回坐标点附近poi列表
+//        [regeocoder setGet_poi:NO];
+//        [self.search searchWithReverseGeoCodeSearchOption:regeocoder];
+//        _isUpdated = YES;
+//    }
+//}
+//
+//#pragma mark - ------------- MapView Search 相关代码 -------------
+//
+//#pragma mark - 根据定位解析出位置信息
+//
+//- (void)searchWithSearchOption:(QMSSearchOption *)searchOption didFailWithError:(NSError *)error
+//{
+//    _hitchhikeView.startLocationLabel.text = @"从哪儿出发";
+//    _hitchhikeView.startLocationLabel.textColor = COLORRGB(0xdedede);
+//}
+//
+//- (void)searchWithReverseGeoCodeSearchOption:(QMSReverseGeoCodeSearchOption *)reverseGeoCodeSearchOption didReceiveResult:(QMSReverseGeoCodeSearchResult *)reverseGeoCodeSearchResult
+//{
+//    if (reverseGeoCodeSearchResult.formatted_addresses) {
+//        _hitchhikeView.startLocationLabel.text = reverseGeoCodeSearchResult.formatted_addresses.recommend;
+//        _hitchhikeView.startLocationLabel.textColor = COLORRGB(0x63666b);
+//    } else {
+//        _hitchhikeView.startLocationLabel.text = @"从哪儿出发";
+//        _hitchhikeView.startLocationLabel.textColor = COLORRGB(0xdedede);
+//    }
+//    _currentCity = reverseGeoCodeSearchResult.ad_info.province;
+//}
+
 
 #pragma mark - Utils
 

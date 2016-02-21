@@ -12,6 +12,7 @@
 #import "TimePicker.h"
 #import "CountPicker.h"
 #import <QMapKit/QMapKit.h>
+#import <QMapSearchKit/QMapSearchKit.h>
 
 @interface HitchhikeVC : BaseViewController
 <
@@ -22,11 +23,13 @@ CountPickerDelegate,
 QMSSearchDelegate
 >
 
+@property (nonatomic, strong) QMapView   *mapView;
 @property (nonatomic, strong) OrderStore *orderStore;
 @property (nonatomic, copy)   NSString *currentCity;
 @property (nonatomic, strong) CarModel *currentCar;
 @property (nonatomic, strong) QUserLocation *fromLocation;
 @property (nonatomic, strong) QUserLocation *toLocation;
 @property (nonatomic, strong) QMSSearcher   *search;
+@property (nonatomic, strong) NSString *fromLocationStr;
 
 @end

@@ -137,7 +137,13 @@
     } else {
         cell.detail = [NSString stringWithFormat:@"%.1f元",[coupon.coupon_discount floatValue]];
     }
-    cell.condition = [NSString stringWithFormat:@"限消费满%.1f元，且在%@~%@时段使用(%@专用)",[coupon.coupon_max_monny floatValue],coupon.coupon_user_start_time,coupon.coupon_user_end_time,coupon.car_style_name];
+    NSString *condition;
+    if ([coupon.coupon_user_start_time length] && [coupon.coupon_user_end_time length]) {
+        condition = [NSString stringWithFormat:@"限消费满%.1f元，且在%@~%@时段使用(%@专用)",[coupon.coupon_max_monny floatValue],coupon.coupon_user_start_time,coupon.coupon_user_end_time,coupon.car_style_name];
+    } else {
+        condition = [NSString stringWithFormat:@"限消费满%.1f元(%@专用)",[coupon.coupon_max_monny floatValue],coupon.car_style_name];
+    }
+    cell.condition = condition;
     cell.bgImage.backgroundColor = COLORRGB(0xffffff);
 }
 
