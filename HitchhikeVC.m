@@ -209,7 +209,9 @@
 - (void)guessChargeWithRoutPlan:(QMSRoutePlan *)plan carStyle:(CarModel *)car
 {
     float distance = plan.distance/1000; //距离
-    distance = distance * [[CouponStore sharedCouponStore].shareInfo.distance_length floatValue];//距离*距离系数(客户要求)
+    if ([CouponStore sharedCouponStore].shareInfo.distance_length.length) {
+        distance = distance * [[CouponStore sharedCouponStore].shareInfo.distance_length floatValue];//距离*距离系数(客户要求)
+    }
     float duration = plan.duration; //时长
     float per_kilometer_money = car.per_kilometer_money; //起步里程每公里价格
     float per_max_kilometer = car.per_max_kilometer; //起步公里数
