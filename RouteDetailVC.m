@@ -263,6 +263,28 @@
         _chargeView.height = payPriceY;
     }
     
+    if ([self.orderInfo.car_style intValue] == 2) {
+        _mileageLabel.alpha = 0;
+        _mileageLine.alpha  = 0;
+        _mileagePrice.alpha = 0;
+        _duringLabel.alpha  = 0;
+        _duringLine.alpha   = 0;
+        _duringPrice.alpha  = 0;
+        _nightLabel.alpha   = 0;
+        _nightLine.alpha    = 0;
+        _nightPrice.alpha   = 0;
+        _couponLabel.alpha  = 0;
+        _couponLine.alpha   = 0;
+        _couponPrice.alpha  = 0;
+        _minPriceLabel.alpha = 0;
+        _minPriceLine.alpha = 0;
+        _minPrice.alpha     = 0;
+        _payTypeLabel.alpha = 0;
+        _payLine.alpha      = 0;
+        _payPrice.alpha     = 0;
+        _chargeView.height = 50;
+    }
+    
     _driverView.alpha = 1;
     _chargeView.y = CGRectGetMaxY(_driverView.frame)+10;
     _ratingView.y = CGRectGetMaxY(_chargeView.frame)+30;
@@ -302,6 +324,7 @@
         if (dic && dic[@"info"]) {
             self.orderInfo.car_position_id = dic[@"info"][@"car_position_id"];
             self.orderInfo.car_color = dic[@"info"][@"car_color"];
+            self.orderInfo.car_style = dic[@"info"][@"car_style_id"];
             self.orderInfo.car_plate_number = dic[@"info"][@"car_plate_number"];
             self.orderInfo.driver_nickname = dic[@"info"][@"driver_nickname"];
             self.orderInfo.driver_telephone = dic[@"info"][@"driver_telephone"];
