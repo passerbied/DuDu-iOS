@@ -83,7 +83,12 @@
                                        fromJSONArray:dic[@"info"]
                                                error:nil];
         [CouponStore sharedCouponStore].info = arr;
-        self.coupons = [CouponStore sharedCouponStore].info;
+        if (self.showUnuseHeader) {
+            self.coupons = [[CouponStore sharedCouponStore] useableCouponsForCarStyle:self.carStyle money:self.money];
+        } else {
+            self.coupons = [CouponStore sharedCouponStore].info;
+        }
+        
 
         [_tableView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

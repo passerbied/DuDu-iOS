@@ -19,6 +19,8 @@ UITableViewDelegate>
 @property (nonatomic, strong) NSArray *coupons;
 @property (nonatomic, strong) id<CouponVCDelegate> delegate;
 @property (nonatomic, assign) BOOL showUnuseHeader;
+@property (assign) float money;
+@property (nonatomic, strong) CarModel *carStyle;
 
 @end
 

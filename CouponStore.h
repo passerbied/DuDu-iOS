@@ -17,7 +17,8 @@
 @property (nonatomic, strong) NSArray *useableCoupons;
 
 + (instancetype)sharedCouponStore;
-- (CouponModel *)cheapestCoupon:(float)money;
-- (NSArray *)sortedCouponsWithMoney:(float)money;
+- (CouponModel *)cheapestCoupon:(float)money carStyle:(CarModel *)carStyle;
+- (NSArray *)sortedCouponsWithMoney:(float)money carStyle:(CarModel *)carStyle;
+- (NSArray *)useableCouponsForCarStyle:(CarModel *)carStyle money:(float)money;
 
 @end

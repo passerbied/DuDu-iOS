@@ -39,7 +39,8 @@
     BOOL            _isUpdated;
     QMSRoutePlan    *_currentRoutPlan;
     CouponModel     *_currentCoupon;
-    float           _currentMoney;
+    float           _currentMoney; //优惠之前的价格
+    float           _chargeMoney; //结算用的价格
     
     UIView          *_adView;
     UIImageView     *_adImageView;
@@ -415,6 +416,8 @@
     couponVC.title = @"选择优惠券";
     couponVC.showUnuseHeader = YES;
     couponVC.delegate = self;
+    couponVC.money = _currentMoney;
+    couponVC.carStyle = _currentCar;
     [self.navigationController pushViewController:couponVC animated:YES];
 }
 
@@ -445,7 +448,7 @@
                               order.startTimeStr,
                               _isUnuseCoupon?nil:_currentCoupon.coupon_id,
                               0,
-                              _currentMoney);
+                              _chargeMoney);
     
     if (![UICKeyChainStore stringForKey:KEY_STORE_ACCESS_TOKEN service:KEY_STORE_SERVICE]) {
         [ZBCToast showMessage:@"请先登录"];
@@ -558,7 +561,7 @@
                                 
         [MenuTableViewController sharedMenuTableViewController].coupons = [CouponStore sharedCouponStore];
         
-        _currentCoupon = [CouponStore sharedCouponStore].info.count?[CouponStore sharedCouponStore].info[0]:nil;
+        _currentCoupon = [CouponStore sharedCouponStore].useableCoupons.count?[CouponStore sharedCouponStore].useableCoupons[0]:nil;
         [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -599,10 +602,10 @@
     if ([Utils checkNightService:date]) {
         charge = charge * [_currentCar.night_service_times floatValue];
     }
-    
+    _currentMoney = charge;
     //给出最优惠券
     if (!_isUnuseCoupon && !_isCheckedCoupon) {
-        coupon = [[CouponStore sharedCouponStore] cheapestCoupon:charge];
+        coupon = [[CouponStore sharedCouponStore] cheapestCoupon:charge carStyle:_currentCar];
         _currentCoupon = coupon;
     }
     
@@ -622,7 +625,7 @@
     if (charge < 0) {
         charge = 0;
     }
-    _currentMoney = charge;
+    _chargeMoney = charge;
     [_bottomToolBar updateCharge:[NSString stringWithFormat:@"%.1f",charge] coupon:coupon];
 }
 
