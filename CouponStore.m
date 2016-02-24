@@ -28,8 +28,8 @@
 
 - (NSArray *)sortedCouponsWithMoney:(float)money
 {
-    if (_info.count > 1) {
-        NSMutableArray *coupons = [_info mutableCopy];
+    if (self.useableCoupons.count > 1) {
+        NSMutableArray *coupons = [self.useableCoupons mutableCopy];
         
         //冒泡排序找出最优惠的券
         for (int i = 0;i < coupons.count; i++) {
@@ -57,7 +57,20 @@
         }
         return coupons;
     }
-    return _info;
+    return self.useableCoupons;
+}
+
+//filterInfoByStartTime:(NSDate *)start endTime:(NSDate *)end carStyle:(CarModel *)carStyle limitedMoney:(float)limit
+
+- (NSArray *)useableCoupons
+{
+    NSMutableArray *coupons = [_info mutableCopy];
+    for (CouponModel *coupon in coupons) {
+        if (coupon.coupon_user_start_time) {
+            
+        }
+    }
+    return coupons;
 }
 
 //- (NSArray *)info
@@ -98,9 +111,9 @@
 - (CouponModel *)cheapestCoupon:(float)money
 {
     CouponModel *cheapestCoupon = [[CouponModel alloc] init];
-    if (self.info.count>1) {
+    if (self.useableCoupons.count>1) {
         
-        NSMutableArray *coupons = [self.info mutableCopy];
+        NSMutableArray *coupons = [self.useableCoupons mutableCopy];
         
         //冒泡排序找出最优惠的券
         for (int i = 0;i < coupons.count; i++) {
@@ -128,7 +141,7 @@
         }
         cheapestCoupon = coupons[0];
     } else {
-        cheapestCoupon = self.info[0];
+        cheapestCoupon = self.useableCoupons[0];
     }
     
     return cheapestCoupon;

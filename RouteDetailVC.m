@@ -43,7 +43,7 @@
     
     UILabel     *_mileageLabel;
     UILabel     *_duringLabel;
-    UILabel     *_nightLabel;
+//    UILabel     *_nightLabel;
     UILabel     *_minPriceLabel;
     UILabel     *_couponLabel;
     UILabel     *_payTypeLabel;
@@ -178,29 +178,29 @@
     
     CGFloat minPriceY = CGRectGetMaxY(_duringLabel.frame)+5;
     
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
+//    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.orderInfo.startTimeStr floatValue]];
     
-    if ([Utils checkNightService:date]) { //夜间服务
-        CGSize nightLabelSize = [self getTextFromLabel:_nightLabel];
-        _nightLabel.frame = ccr(_mileageLabel.x,
-                                CGRectGetMaxY(_duringLabel.frame)+5,
-                                nightLabelSize.width,
-                                nightLabelSize.height);
-        
-        CGSize nightPriceSize = [self getTextFromLabel:_nightPrice];
-        _nightPrice.frame = ccr(SCREEN_WIDTH-20-nightPriceSize.width,
-                                       CGRectGetMaxY(_duringPrice.frame)+5,
-                                       nightPriceSize.width,
-                                       nightPriceSize.height);
-        
-        
-        _nightLine.frame = ccr(CGRectGetMaxX(_nightLabel.frame)+5,
-                                      CGRectGetMaxY(_nightLabel.frame)-_nightLabel.height/2,
-                                      _nightPrice.x-5*2-CGRectGetMaxX(_nightLabel.frame),
-                                      0.5);
-        
-        minPriceY = CGRectGetMaxY(_nightLabel.frame)+5;
-    }
+//    if ([Utils checkNightService:date]) { //夜间服务
+//        CGSize nightLabelSize = [self getTextFromLabel:_nightLabel];
+//        _nightLabel.frame = ccr(_mileageLabel.x,
+//                                CGRectGetMaxY(_duringLabel.frame)+5,
+//                                nightLabelSize.width,
+//                                nightLabelSize.height);
+//        
+//        CGSize nightPriceSize = [self getTextFromLabel:_nightPrice];
+//        _nightPrice.frame = ccr(SCREEN_WIDTH-20-nightPriceSize.width,
+//                                       CGRectGetMaxY(_duringPrice.frame)+5,
+//                                       nightPriceSize.width,
+//                                       nightPriceSize.height);
+//        
+//        
+//        _nightLine.frame = ccr(CGRectGetMaxX(_nightLabel.frame)+5,
+//                                      CGRectGetMaxY(_nightLabel.frame)-_nightLabel.height/2,
+//                                      _nightPrice.x-5*2-CGRectGetMaxX(_nightLabel.frame),
+//                                      0.5);
+//        
+//        minPriceY = CGRectGetMaxY(_nightLabel.frame)+5;
+//    }
     
     CGSize minSize = [self getTextFromLabel:_minPriceLabel];
     _minPriceLabel.frame = ccr(_mileageLabel.x,
@@ -270,7 +270,7 @@
         _duringLabel.alpha  = 0;
         _duringLine.alpha   = 0;
         _duringPrice.alpha  = 0;
-        _nightLabel.alpha   = 0;
+//        _nightLabel.alpha   = 0;
         _nightLine.alpha    = 0;
         _nightPrice.alpha   = 0;
         _couponLabel.alpha  = 0;
@@ -375,30 +375,53 @@
     _carNumLabel.text = self.orderInfo.car_plate_number;
     
     _priceLabel.text = [NSString stringWithFormat:@"%.1f元",[self.orderInfo.order_allMoney floatValue]];
-    
     NSMutableAttributedString *priceString = [[NSMutableAttributedString alloc] initWithString:_priceLabel.text];
     NSUInteger priceLength = _priceLabel.text.length-1;
     [priceString addAttributes:@{NSFontAttributeName:HSFONT(20)}
                          range:NSMakeRange(0, priceLength)];
     _priceLabel.attributedText = priceString;
     
-    float mileage = [self.orderInfo.order_mileage floatValue];
-    _mileageLabel.text = [NSString stringWithFormat:@"里程(%.1f公里)",mileage];
-    float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
-    _mileagePrice.text = [NSString stringWithFormat:@"%.1f元",mileagePrice];
-    int during = [self.orderInfo.order_allTime intValue];
-    _duringLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",during];
-    float duringPrice = [self.orderInfo.order_duration_money floatValue];
-    _duringPrice.text = [NSString stringWithFormat:@"%.1f元",duringPrice];
-    float couponPrice = [self.orderInfo.coupon_discount floatValue];
-    if (couponPrice<1) {
-        _couponLabel.text = @"打折优惠";
-        _couponPrice.text = [NSString stringWithFormat:@"%.2f折",couponPrice];
+    if ([Utils checkNightService:date]) { //夜间服务
+        
+        float mileage = [self.orderInfo.order_mileage floatValue];
+        _mileageLabel.text = [NSString stringWithFormat:@"里程(%.1f公里)",mileage];
+        float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
+        _mileagePrice.text = [NSString stringWithFormat:@"%.1f元(夜间)",mileagePrice];
+        int during = [self.orderInfo.order_allTime intValue];
+        _duringLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",during];
+        float duringPrice = [self.orderInfo.order_duration_money floatValue];
+        _duringPrice.text = [NSString stringWithFormat:@"%.1f元(夜间)",duringPrice];
+        float couponPrice = [self.orderInfo.coupon_discount floatValue];
+        if (couponPrice<1) {
+            _couponLabel.text = @"打折优惠";
+            _couponPrice.text = [NSString stringWithFormat:@"%.2f折",couponPrice];
+        } else {
+            _couponLabel.text = @"满减优惠";
+            _couponPrice.text = [NSString stringWithFormat:@"%.1f元",couponPrice];
+        }
+        _minPrice.text = [NSString stringWithFormat:@"%.1f元(夜间)",[MainViewController sharedMainViewController].currentCar.start_money];
+
     } else {
-        _couponLabel.text = @"满减优惠";
-        _couponPrice.text = [NSString stringWithFormat:@"%.1f元",couponPrice];
+        
+        float mileage = [self.orderInfo.order_mileage floatValue];
+        _mileageLabel.text = [NSString stringWithFormat:@"里程(%.1f公里)",mileage];
+        float mileagePrice = [self.orderInfo.order_mileage_money floatValue];
+        _mileagePrice.text = [NSString stringWithFormat:@"%.1f元",mileagePrice];
+        int during = [self.orderInfo.order_allTime intValue];
+        _duringLabel.text = [NSString stringWithFormat:@"时长费(%d分钟)",during];
+        float duringPrice = [self.orderInfo.order_duration_money floatValue];
+        _duringPrice.text = [NSString stringWithFormat:@"%.1f元",duringPrice];
+        float couponPrice = [self.orderInfo.coupon_discount floatValue];
+        if (couponPrice<1) {
+            _couponLabel.text = @"打折优惠";
+            _couponPrice.text = [NSString stringWithFormat:@"%.2f折",couponPrice];
+        } else {
+            _couponLabel.text = @"满减优惠";
+            _couponPrice.text = [NSString stringWithFormat:@"%.1f元",couponPrice];
+        }
+        _minPrice.text = [NSString stringWithFormat:@"%.1f元",[MainViewController sharedMainViewController].currentCar.start_money];
     }
-    _minPrice.text = [NSString stringWithFormat:@"%.1f元",[MainViewController sharedMainViewController].currentCar.start_money];
+    
     if ([self.orderInfo.order_status intValue]== OrderStatusComleted) {
         _payTypeLabel.text = self.orderInfo.order_payStatus_str;
         _payPrice.text = [NSString stringWithFormat:@"%.1f元",[self.orderInfo.order_allMoney floatValue]];
@@ -607,7 +630,7 @@
                                               SCREEN_WIDTH,
                                               20)
                                     color:COLORRGB(0x000000)
-                                     font:HSFONT(20)
+                                     font:HSFONT(13)
                                      text:@""
                                 alignment:NSTextAlignmentCenter
                             numberOfLines:1];
@@ -653,26 +676,26 @@
                            numberOfLines:1];
     [_chargeView addSubview:_duringPrice];
     
-    _nightLabel = [UILabel labelWithFrame:CGRectZero
-                                           color:COLORRGB(0x000000)
-                                            font:HSFONT(13)
-                                            text:@"夜间服务"
-                                       alignment:NSTextAlignmentRight
-                                   numberOfLines:1];
-    [_chargeView addSubview:_nightLabel];
-    
-    _nightLine = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _nightLine.backgroundColor = COLORRGB(0xd7d7d7);
-    [_chargeView addSubview:_nightLine];
-    
-    NSString *times = [NSString stringWithFormat:@"%.1f倍",self.orderInfo.night_service_times];
-    _nightPrice = [UILabel labelWithFrame:CGRectZero
-                                     color:COLORRGB(0x000000)
-                                      font:HSFONT(13)
-                                      text:times
-                                 alignment:NSTextAlignmentRight
-                             numberOfLines:1];
-    [_chargeView addSubview:_nightPrice];
+//    _nightLabel = [UILabel labelWithFrame:CGRectZero
+//                                           color:COLORRGB(0x000000)
+//                                            font:HSFONT(13)
+//                                            text:@"夜间服务"
+//                                       alignment:NSTextAlignmentRight
+//                                   numberOfLines:1];
+//    [_chargeView addSubview:_nightLabel];
+//    
+//    _nightLine = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    _nightLine.backgroundColor = COLORRGB(0xd7d7d7);
+//    [_chargeView addSubview:_nightLine];
+//    
+//    NSString *times = [NSString stringWithFormat:@"%.1f倍",self.orderInfo.night_service_times];
+//    _nightPrice = [UILabel labelWithFrame:CGRectZero
+//                                     color:COLORRGB(0x000000)
+//                                      font:HSFONT(13)
+//                                      text:times
+//                                 alignment:NSTextAlignmentRight
+//                             numberOfLines:1];
+//    [_chargeView addSubview:_nightPrice];
     
     
     _couponLabel = [UILabel labelWithFrame:CGRectZero

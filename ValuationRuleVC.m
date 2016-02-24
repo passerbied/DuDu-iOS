@@ -18,6 +18,7 @@
     UILabel     *_valuationRuleLabel;
     UILabel     *_perMinutePriceLabel;
     UILabel     *_lowestPriceLabel;
+    UILabel     *_nightPriceLabel;
     UIImageView *_plusIcon;
 }
 
@@ -84,6 +85,15 @@
                                       alignment:NSTextAlignmentCenter
                                   numberOfLines:1];
     [self.view addSubview:_lowestPriceLabel];
+    
+    _nightPriceLabel = [UILabel labelWithFrame:CGRectZero
+                                         color:COLORRGB(0x939393)
+                                          font:HSFONT(12)
+                                          text:@""
+                                     alignment:NSTextAlignmentCenter
+                                 numberOfLines:1];
+    [self.view addSubview:_nightPriceLabel];
+    
     [self calculateFrame];
 }
 
@@ -94,6 +104,7 @@
     _valuationRuleLabel.text = [NSString stringWithFormat:@"%.1f元/公里(%d公里以上时，%.1f元/公里)",self.carStyle.per_kilometer_money,(int)self.carStyle.per_max_kilometer,self.carStyle.per_max_kilometer_money];
     _perMinutePriceLabel.text = [NSString stringWithFormat:@"%.1f元/分钟",self.carStyle.wait_time_money];
     _lowestPriceLabel.text = [NSString stringWithFormat:@"%.1f元最低消费",self.carStyle.start_money];
+    _nightPriceLabel.text = [NSString stringWithFormat:@"夜间10点之后%@倍价格",self.carStyle.night_service_times];
 }
 
 - (void)calculateFrame
@@ -151,6 +162,13 @@
                                   CGRectGetMaxY(_perMinutePriceLabel.frame)+40,
                                   lowSize.width,
                                   lowSize.height);
+    
+    CGSize nightSize = [self getTextFromLabel:_nightPriceLabel];
+    _nightPriceLabel.frame = ccr((SCREEN_WIDTH-nightSize.width)/2,
+                                 CGRectGetMaxY(_lowestPriceLabel.frame)+40,
+                                 nightSize.width,
+                                 nightSize.height);
+
 }
 
 - (CGSize)getTextFromLabel:(UILabel *)label

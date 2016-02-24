@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) NSArray *info;
 @property (nonatomic, strong) ShareModel *shareInfo;
+@property (nonatomic, strong) NSArray *useableCoupons;
 
 + (instancetype)sharedCouponStore;
 - (CouponModel *)cheapestCoupon:(float)money;

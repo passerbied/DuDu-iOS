@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RouteDetailVC.m"
-            timestampString = "477933485.617271"
+            timestampString = "477974894.365677"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1040"
-            endingLineNumber = "1040"
+            startingLineNumber = "1063"
+            endingLineNumber = "1063"
             landmarkName = "-starsSelectionChanged:rating:"
             landmarkType = "5">
          </BreakpointContent>
