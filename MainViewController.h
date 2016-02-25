@@ -42,6 +42,7 @@ CouponVCDelegate
 @property (nonatomic, strong) OrderStore    *orderStore;
 
 - (void)clearData;
+- (void)locateMapView;
 
 @end
 

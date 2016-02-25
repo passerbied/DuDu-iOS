@@ -990,6 +990,7 @@
     _isPayed = YES;
     [self flushOrderStatus:nil];
     [[MainViewController sharedMainViewController] clearData];
+    [[MainViewController sharedMainViewController] locateMapView];
 }
 
 - (NSString *)createMd5Sign:(NSMutableDictionary*)dict
