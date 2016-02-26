@@ -34,6 +34,7 @@
     NSTimer     *_countDownTimer;
     NSTimer     *_fetchDataTimer;
     SIAlertView *_alertView;
+    SIAlertView *_waitAlertView;
     UILabel     *_timerTitle;
     UIButton    *_cancelBtn;
     
@@ -66,7 +67,10 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [_alertView removeFromSuperview];
     _alertView = nil;
+    [_waitAlertView removeFromSuperview];
+    _waitAlertView = nil;
     [_countDownTimer invalidate];
     _countDownTimer = nil;
     [_fetchDataTimer invalidate];
@@ -75,30 +79,32 @@
 
 - (void)cancelDidTapped
 {
-    _alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"\n您确定要取消订单吗？\n"];
-    _alertView.messageFont = HSFONT(14);
-    _alertView.buttonColor = COLORRGB(0xf39a00);
-    _alertView.buttonFont = HSFONT(15);
-    _alertView.cancelButtonColor = COLORRGB(0xf39a00);
-    _alertView.didShowHandler = ^(SIAlertView *alertView) {
-    };
-    _alertView.didDismissHandler = ^(SIAlertView *alertView) {
-        alertView = nil;
-    };
-    _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
-    
-    __weak id weakSelf = self;
-    [_alertView addButtonWithTitle:@"取消订单"
-                              type:SIAlertViewButtonTypeDefault
-                           handler:^(SIAlertView *alert) {
-                               [weakSelf cancelOrder];
-                           }];
-    [_alertView addButtonWithTitle:@"继续等待"
-                              type:SIAlertViewButtonTypeCancel
-                           handler:^(SIAlertView *alert) {
-                               [alert dismissAnimated:YES];
-                           }];
-    [_alertView show];
+    if (!_waitAlertView) {
+        _waitAlertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"\n您确定要取消订单吗？\n"];
+        _waitAlertView.messageFont = HSFONT(14);
+        _waitAlertView.buttonColor = COLORRGB(0xf39a00);
+        _waitAlertView.buttonFont = HSFONT(15);
+        _waitAlertView.cancelButtonColor = COLORRGB(0xf39a00);
+        _waitAlertView.didShowHandler = ^(SIAlertView *alertView) {
+        };
+        _waitAlertView.didDismissHandler = ^(SIAlertView *alertView) {
+            alertView = nil;
+        };
+        _waitAlertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+        
+        __weak id weakSelf = self;
+        [_waitAlertView addButtonWithTitle:@"取消订单"
+                                  type:SIAlertViewButtonTypeDefault
+                               handler:^(SIAlertView *alert) {
+                                   [weakSelf cancelOrder];
+                               }];
+        [_waitAlertView addButtonWithTitle:@"继续等待"
+                                  type:SIAlertViewButtonTypeCancel
+                               handler:^(SIAlertView *alert) {
+                                   [alert dismissAnimated:YES];
+                               }];
+    }
+    [_waitAlertView show];
 }
 
 - (UIView *)routeView
@@ -426,9 +432,10 @@
     if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
         [self showRightTitle:YES withButton:_cancelBtn];
         if (![self.orderInfo.startTimeType intValue]) {
-            self.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+            self.orderStatusInfo = @"嘟嘟正在为您分派司机，请稍候...";
             if (!_countDownTimer && self.canTimerShow) {
                 _timerCount = [CouponStore sharedCouponStore].shareInfo.wait_order_time_seconds;
+                _timerCount = 4;
                 [_countDownTimer setFireDate:[NSDate distantPast]];
                 _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                                    target:self
@@ -437,7 +444,7 @@
                                                                   repeats:YES];
             }
         } else {
-            self.orderStatusInfo = @"嘟嘟已经接单，出发前20分钟司机会主动联系您";
+            self.orderStatusInfo = @"嘟嘟正在为您分派司机，请稍候...";
         }
         
     } else if ([self.orderInfo.order_status intValue] == OrderStatusDriverIsComing) {
@@ -506,31 +513,33 @@
         [_countDownTimer invalidate];
         
         if ([self.orderInfo.order_status intValue] == OrderStatusWatingForDriver) {
-            _alertView = [[SIAlertView alloc] initWithTitle:@"亲，很抱歉，让您久等了"
-                                                 andMessage:@"我们的服务正在逐步完善中，请给我时间\n\n系统会赠送给您优惠券,\n\n是否继续等待嘟嘟为您服务？"];
-            _alertView.messageFont = HSFONT(13);
-            _alertView.titleFont = HSFONT(13);
-            _alertView.titleColor = [UIColor darkGrayColor];
-            _alertView.buttonColor = COLORRGB(0xf39a00);
-            _alertView.buttonFont = HSFONT(15);
-            _alertView.cancelButtonColor = COLORRGB(0xf39a00);
-            __weak id weakSelf = self;
-            [_alertView addButtonWithTitle:@"取消订单"
-                                      type:SIAlertViewButtonTypeDefault
-                                   handler:^(SIAlertView *alert) {
-                                       [weakSelf cancelOrder];
-                                   }];
-            [_alertView addButtonWithTitle:@"继续等待"
-                                      type:SIAlertViewButtonTypeCancel
-                                   handler:^(SIAlertView *alert) {
-                                       [alert dismissAnimated:YES];
-                                   }];
-            _alertView.didShowHandler = ^(SIAlertView *alertView) {
-            };
-            _alertView.didDismissHandler = ^(SIAlertView *alertView) {
-                alertView = nil;
-            };
-            _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+            if (!_alertView) {
+                _alertView = [[SIAlertView alloc] initWithTitle:@"亲，很抱歉，让您久等了"
+                                                     andMessage:@"我们的服务正在逐步完善中，请给我时间\n\n系统会赠送给您优惠券,\n\n是否继续等待嘟嘟为您服务？"];
+                _alertView.messageFont = HSFONT(13);
+                _alertView.titleFont = HSFONT(13);
+                _alertView.titleColor = [UIColor darkGrayColor];
+                _alertView.buttonColor = COLORRGB(0xf39a00);
+                _alertView.buttonFont = HSFONT(15);
+                _alertView.cancelButtonColor = COLORRGB(0xf39a00);
+                __weak id weakSelf = self;
+                [_alertView addButtonWithTitle:@"取消订单"
+                                          type:SIAlertViewButtonTypeDefault
+                                       handler:^(SIAlertView *alert) {
+                                           [weakSelf cancelOrder];
+                                       }];
+                [_alertView addButtonWithTitle:@"继续等待"
+                                          type:SIAlertViewButtonTypeCancel
+                                       handler:^(SIAlertView *alert) {
+                                           [alert dismissAnimated:YES];
+                                       }];
+                _alertView.didShowHandler = ^(SIAlertView *alertView) {
+                };
+                _alertView.didDismissHandler = ^(SIAlertView *alertView) {
+                    alertView = nil;
+                };
+                _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+            }
             [_alertView show];
         }
     }

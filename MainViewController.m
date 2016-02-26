@@ -278,7 +278,7 @@
                 orderVC.canTimerShow = NO;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
-                orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                orderVC.orderStatusInfo = @"嘟嘟正在为您分派司机，请稍候...";
                 ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
                 [nav.navigationBar setTranslucent:NO];
                 [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
@@ -489,12 +489,13 @@
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
                 orderVC.canTimerShow = YES;
-                orderVC.orderStatusInfo = dic[@"order_info"];
-                if ([orderInfo.startTimeType intValue]) {
-                    orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
-                } else {
-                    orderVC.orderStatusInfo = @"嘟嘟已经接单，出发前20分钟我们的司机会主动联系您";
-                }
+//                orderVC.orderStatusInfo = dic[@"order_info"];
+                orderVC.orderStatusInfo = @"嘟嘟正在为您分派司机，请稍候...";
+//                if ([orderInfo.startTimeType intValue]) {
+//                    orderVC.orderStatusInfo = @"嘟嘟正在为您分派司机，请稍候...";
+//                } else {
+//                    orderVC.orderStatusInfo = @"嘟嘟正在为您分派司机，请稍候...";
+//                }
                 
                 ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
                 [nav.navigationBar setTranslucent:NO];
@@ -514,7 +515,7 @@
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
                 orderVC.canTimerShow = YES;
-                orderVC.orderStatusInfo = @"嘟嘟正在为您派车，请耐心等候";
+                orderVC.orderStatusInfo = @"嘟嘟正在为您分派司机，请稍候...";
                 ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
                 [nav.navigationBar setTranslucent:NO];
                 [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
@@ -599,8 +600,9 @@
     //夜间服务费
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:_startTimeStr];
     
-    if ([Utils checkNightService:date]) {
+    if ([Utils checkNightService:date] && _currentCar.night_service_times.length) {
         charge = charge * [_currentCar.night_service_times floatValue];
+        start_money = start_money * [_currentCar.night_service_times floatValue];
     }
     _currentMoney = charge;
     //给出最优惠券
@@ -758,7 +760,7 @@
 {
     _isCheckedCoupon = YES;
     _isUnuseCoupon = NO;
-    _currentCoupon = [CouponStore sharedCouponStore].info.count?[CouponStore sharedCouponStore].info[index]:nil;
+    _currentCoupon = [CouponStore sharedCouponStore].useableCoupons.count?[CouponStore sharedCouponStore].useableCoupons[index]:nil;
     [self guessChargeWithCoupon:_currentCoupon routPlan:_currentRoutPlan carStyle:_currentCar];
 }
 

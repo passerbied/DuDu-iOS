@@ -57,7 +57,7 @@
     if (indexPath.row == 0) {
         cell.textLabel.text = @"法律声明及隐私政策";
     } else if (indexPath.row == 1) {
-        cell.textLabel.text = @"快车使用条款";
+        cell.textLabel.text = @"用车使用条款";
     } else {
         
     }
@@ -73,7 +73,7 @@
         webVC.title = @"法律声明及隐私政策";
     } else {
         webVC.resourcePath = @"agreement";
-        webVC.title = @"快车使用条款";
+        webVC.title = @"用车使用条款";
     }
     [self.navigationController pushViewController:webVC animated:YES];
 }
