@@ -435,7 +435,6 @@
             self.orderStatusInfo = @"嘟嘟正在为您分派司机，请稍候...";
             if (!_countDownTimer && self.canTimerShow) {
                 _timerCount = [CouponStore sharedCouponStore].shareInfo.wait_order_time_seconds;
-                _timerCount = 4;
                 [_countDownTimer setFireDate:[NSDate distantPast]];
                 _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                                    target:self
