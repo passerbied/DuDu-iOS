@@ -456,9 +456,9 @@
         [ZBCToast showMessage:@"司机取消订单"];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } else if ([self.orderInfo.order_status intValue] == OrderStatusTravelStart) {
-        self.orderStatusInfo = [NSString stringWithFormat:@"行程中，%@正在为您服务",[MainViewController sharedMainViewController].currentCar.car_style_name];
+        self.orderStatusInfo = @"行程中，嘟嘟正在为您服务";
         [self showRightTitle:NO withButton:nil];
-        [ZBCToast showMessage:[NSString stringWithFormat:@"行程中，%@正在为您服务",[MainViewController sharedMainViewController].currentCar.car_style_name] ];
+        [ZBCToast showMessage:@"行程中，嘟嘟正在为您服务"];
     } else if ([self.orderInfo.order_status intValue] == OrderStatusComleted) {
         self.orderStatusInfo = @"订单完成";
         [self showRightTitle:NO withButton:nil];

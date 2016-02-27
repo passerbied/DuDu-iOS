@@ -74,8 +74,6 @@ font-size:13px
 <div class="container-aboutus">
 <div class="content">
 
-<p>大连酷跑科技有限公司
-</p>
 <p>电话：<a tel:4009016008="">4009016008</a>
 </p>
 <p>邮箱：<a href="mailto:dachesoftapp@sina.com">dachesoftapp@sina.com</a>

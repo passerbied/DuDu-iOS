@@ -281,7 +281,17 @@
 - (void)timePickerView:(TimePicker *)pickerView didSelectTime:(NSInteger)timeStamp isRightNow:(BOOL)isRightNow
 {
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeStamp];
-    _hitchhikeView.startTimeLabel.text = [NSString stringWithFormat:@"%@ 出发",[date displayWithFormat:@"M月d日 HH:mm"]];
+    NSString *day;
+    if ([date isToday]) {
+        day = [date displayWithFormat:@"今天 HH:mm"];//@"今天  HH:mm";
+    } else if ([date isTomorrow]) {
+        day = [date displayWithFormat:@"明天 HH:mm"];//@"明天  HH:mm";
+    } else if ([date isEqualToDateIgnoringTime:[NSDate dateWithDaysFromNow:2]]){
+        day = [date displayWithFormat:@"后天 HH:mm"];//@"后天  HH:mm";
+    } else {
+        day = [date displayWithFormat:@"M月d日  HH:mm"];
+    }
+    _hitchhikeView.startTimeLabel.text = [NSString stringWithFormat:@"%@ 出发",day];
     _hitchhikeView.startTimeLabel.textColor = COLORRGB(0x63666b);
     _startTimeStr = timeStamp;
     [self showTimePicker:NO];

@@ -301,7 +301,7 @@
                 orderVC.canTimerShow = NO;
                 orderVC.resultStatus = [dic[@"err"] intValue];
                 orderVC.title = @"当前订单";
-                orderVC.orderStatusInfo = [NSString stringWithFormat:@"行程中，%@正在为您服务",[MainViewController sharedMainViewController].currentCar.car_style_name];
+                orderVC.orderStatusInfo = @"行程中，嘟嘟正在为您服务";
                 ZBCNavVC *nav = [[ZBCNavVC alloc] initWithRootViewController:orderVC];
                 [nav.navigationBar setTranslucent:NO];
                 [nav.navigationBar setBarTintColor:COLORRGB(0xf39a00)];
@@ -744,7 +744,17 @@
 {
     _isAppointment = !isRightNow;
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeStamp];
-    _bottomToolBar.startTimeLabel.text = [date displayWithFormat:@"d号H点mm分"];
+    NSString *day;
+    if ([date isToday]) {
+        day = [date displayWithFormat:@"今天 HH:mm"];//@"今天  HH:mm";
+    } else if ([date isTomorrow]) {
+        day = [date displayWithFormat:@"明天 HH:mm"];//@"明天  HH:mm";
+    } else if ([date isEqualToDateIgnoringTime:[NSDate dateWithDaysFromNow:2]]){
+        day = [date displayWithFormat:@"后天 HH:mm"];//@"后天  HH:mm";
+    } else {
+        day = [date displayWithFormat:@"M月d日  HH:mm"];
+    }
+    _bottomToolBar.startTimeLabel.text = day;//[date displayWithFormat:@"d号H点mm分"];
     _startTimeStr = timeStamp;
     [self showTimePicker:NO];
 }
