@@ -234,7 +234,7 @@
                             service:KEY_STORE_SERVICE];
         
         [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
-                     alias:[_userInfo.user_id description]
+                     alias:[_userInfo.user_id stringValue]
           callbackSelector:@selector(tagsAliasCallback:tags:alias:)
                     object:self];
         

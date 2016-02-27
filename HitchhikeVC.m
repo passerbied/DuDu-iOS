@@ -231,11 +231,19 @@
         + duration*wait_time_money;
     }
     
+//    //夜间服务费
+//    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_startTimeStr];
+//    
+//    if ([Utils checkNightService:date]) {
+//        charge = charge * [_currentCar.night_service_times floatValue];
+//    }
+//    
     //夜间服务费
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:_startTimeStr];
     
-    if ([Utils checkNightService:date]) {
+    if ([Utils checkNightService:date] && _currentCar.night_service_times.length) {
         charge = charge * [_currentCar.night_service_times floatValue];
+        start_money = start_money * [_currentCar.night_service_times floatValue];
     }
     
     //保证费用不少于起步价(首单不受此约束)

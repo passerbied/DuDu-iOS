@@ -41,6 +41,19 @@
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
     [self setUpViewController];
+    
+    if ([UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE]) {
+        [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                     alias:[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE]
+          callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                    object:self];
+    } else {
+        [APService setTags:[NSSet setWithObjects:@"dudu_ios", nil]
+                     alias:@"-1"
+          callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                    object:self];
+    }
+    
 
     //可以添加自定义categories
     [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
@@ -61,6 +74,11 @@
 //                        service:KEY_STORE_SERVICE];
 
     return YES;
+}
+
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
+{
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 
 - (void)setUpViewController

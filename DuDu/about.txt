@@ -37,20 +37,6 @@ padding-left: 10px;
 padding-right: 10px;
 text-align: justify;
 }
-.container-aboutus .content span{
-text-align: left;
-color: #172B70;
-}
-.container-aboutus .content .contact{
-color: #00bbf8;
-}
-.container-aboutus .content .img{
-max-width: 200px;
-width: 50%;
-max-height: 200px;
-height: 50%;
-position: relative;
-}
 
 .container-aboutus .footer {
 background: #FFF;
