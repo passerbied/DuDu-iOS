@@ -10,6 +10,7 @@
 #import "OrderVC.h"
 #import <objc/runtime.h>
 #import "CouponStore.h"
+#import "SIAlertView.h"
 
 @interface HitchhikeVC ()
 
@@ -29,6 +30,7 @@
     float           _currentMoney;
     BOOL            _isCalculated;
     BOOL            _isUpdated;
+    SIAlertView     *_alertView;
 }
 
 - (id)init
@@ -112,6 +114,29 @@
     }
     if (!_isCalculated) {
         [ZBCToast showMessage:@"正在计算价格，请稍等"];
+        return NO;
+    }
+    if (![_currentCity isEqualToString:@"大连"]) {
+        if (!_alertView) {
+            _alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"\n很抱歉，不能为您提供服务，暂时只支持大连地区。期待嘟嘟将来为您服务。\n"];
+            _alertView.messageFont = HSFONT(14);
+            _alertView.buttonColor = COLORRGB(0xf39a00);
+            _alertView.buttonFont = HSFONT(15);
+            _alertView.cancelButtonColor = COLORRGB(0xf39a00);
+            _alertView.didShowHandler = ^(SIAlertView *alertView) {
+            };
+            _alertView.didDismissHandler = ^(SIAlertView *alertView) {
+                alertView = nil;
+            };
+            _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+            
+            [_alertView addButtonWithTitle:@"确定"
+                                      type:SIAlertViewButtonTypeCancel
+                                   handler:^(SIAlertView *alert) {
+                                       [alert dismissAnimated:YES];
+                                   }];
+        }
+        [_alertView show];
         return NO;
     }
     return YES;
