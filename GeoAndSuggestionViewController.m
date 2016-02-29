@@ -66,8 +66,21 @@
 
 - (void)getHistoryLocDescriptions:(NSArray *)historyOrders
 {
-    for (int i = 0; i<historyOrders.count; i++) {
-        OrderModel *order = historyOrders[i];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    if (self.isFrom) {
+        for (OrderModel *order in historyOrders) {
+            [dict setObject:order forKey:order.star_loc_str];
+        }
+    } else {
+        for (OrderModel *order in historyOrders) {
+            [dict setObject:order forKey:order.dest_loc_str];
+        }
+    }
+    
+    self.historyOrders = [[dict allValues] mutableCopy];
+    
+    for (int i = 0; i<self.historyOrders.count; i++) {
+        OrderModel *order = self.historyOrders[i];
         QMSReverseGeoCodeSearchOption *option = [[QMSReverseGeoCodeSearchOption alloc] init];
         [option setGet_poi:NO];
         if (self.isFrom) {
