@@ -24,6 +24,7 @@
 {
     NSArray *_start_List;
     NSArray *_dest_List;
+    NSMutableArray *_citys;
 
 }
 - (void)viewDidLoad
@@ -31,6 +32,7 @@
     [super viewDidLoad];
     _start_List = [NSArray array];
     _dest_List = [NSArray array];
+    _citys = [NSMutableArray array];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.mapSearcher = [[QMSSearcher alloc] initWithDelegate:self];
@@ -78,15 +80,17 @@
     }
     
     self.historyOrders = [[dict allValues] mutableCopy];
-    
+    [_citys removeAllObjects];
     for (int i = 0; i<self.historyOrders.count; i++) {
         OrderModel *order = self.historyOrders[i];
         QMSReverseGeoCodeSearchOption *option = [[QMSReverseGeoCodeSearchOption alloc] init];
         [option setGet_poi:NO];
         if (self.isFrom) {
             option.location = [NSString stringWithFormat:@"%@,%@",order.start_lat,order.start_lng];
+            [_citys addObject:order.star_loc_str];
         } else {
             option.location = [NSString stringWithFormat:@"%@,%@",order.dest_lat,order.dest_lng];
+            [_citys addObject:order.dest_loc_str];
         }
         [self.mapSearcher searchWithReverseGeoCodeSearchOption:option];
     }
@@ -102,6 +106,12 @@
 - (void)searchWithSuggestionSearchOption:(QMSSuggestionSearchOption *)suggestionSearchOption didReceiveResult:(QMSSuggestionResult *)suggestionSearchResult
 {
     self.suggestionResut = suggestionSearchResult;
+    [_citys removeAllObjects];
+    for (QMSSuggestionPoiData *poi in self.suggestionResut.dataArray) {
+        [_citys addObject:poi.city];
+    }
+    
+    NSLog(@"%@",_currentCity);
     [self.tableView reloadData];
 }
 
@@ -114,6 +124,7 @@
                 if ([reverseGeoCodeSearchOption.location isEqualToString:[NSString stringWithFormat:@"%@,%@",order.start_lat,order.start_lng]]) {
                     order.star_loc_description = reverseGeoCodeSearchResult.formatted_addresses.recommend;
                     [self.historyOrders setObject:order atIndexedSubscript:i];
+                    [_citys setObject:reverseGeoCodeSearchResult.ad_info.city atIndexedSubscript:i];
                     NSArray *rows = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:i inSection:0], nil];
                     [self.tableView reloadRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationNone];
                 }
@@ -121,6 +132,7 @@
                 if ([reverseGeoCodeSearchOption.location isEqualToString:[NSString stringWithFormat:@"%@,%@",order.dest_lat,order.dest_lng]]) {
                     order.dest_loc_description = reverseGeoCodeSearchResult.formatted_addresses.recommend;
                     [self.historyOrders setObject:order atIndexedSubscript:i];
+                    [_citys setObject:reverseGeoCodeSearchResult.ad_info.city atIndexedSubscript:i];
                     NSArray *rows = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:i inSection:0], nil];
                     [self.tableView reloadRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationNone];
                 }
@@ -153,6 +165,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QMSSuggestionPoiData *poi;
+    _currentCity = _citys[indexPath.row];
     if ([self.suggestionResut.dataArray count]) {
         poi = self.suggestionResut.dataArray[indexPath.row];
     } else {
@@ -197,7 +210,6 @@
     if (self.suggestionResut.dataArray.count) {
         QMSSuggestionPoiData *poi = [self.suggestionResut.dataArray objectAtIndex:[indexPath row
                                                                                    ]];
-        
         [cell.textLabel setText:poi.title];
         [cell.detailTextLabel setText:poi.address];
     } else {
