@@ -271,7 +271,13 @@
     [_driverView addSubview:_avator];
     
     
-    NSString *driver_acount = [NSString stringWithFormat:@"%@",self.orderInfo.driver_nickname];
+    NSString *driver_acount;
+    
+    if ([self.orderInfo.car_style_flg intValue] == 2) { //顺风车订单
+        driver_acount = [NSString stringWithFormat:@"%@（%@）",self.orderInfo.driver_nickname,self.orderInfo.free_ride_telephone];
+    } else {
+        driver_acount = [NSString stringWithFormat:@"%@（%@）",self.orderInfo.driver_nickname,self.orderInfo.driver_telephone];
+    }
     _driverNameLabel = [UILabel labelWithFrame:ccr(CGRectGetMaxX(_avator.frame)+10,
                                                    _avator.y,
                                                    150,
@@ -305,7 +311,12 @@
     [_driverView addSubview:_carStyleLabel];
     
     UIButton *phoneBtn = [UIButton buttonWithImageName:@"phone-icon2" hlImageName:@"phone-icon2" onTapBlock:^(UIButton *btn) {
-        [self makeACall:self.orderInfo.driver_telephone];
+        if ([self.orderInfo.car_style_flg intValue] == 2) { //顺风车订单
+            [self makeACall:self.orderInfo.free_ride_telephone];
+        } else {
+            [self makeACall:self.orderInfo.driver_telephone];
+        }
+        
     }];
     phoneBtn.frame = ccr(SCREEN_WIDTH-35-20, _avator.y+5, 35, 35);
     [_driverView addSubview:phoneBtn];
@@ -345,7 +356,6 @@
 
 - (void)showTimerView:(BOOL)show
 {
-    _timerTitle.alpha = show;
     _timerImageView.alpha = show;
 }
 
@@ -399,6 +409,8 @@
         if (dic && dic[@"info"]) {
             self.orderInfo.car_position_id = dic[@"info"][@"car_position_id"];
             self.orderInfo.car_color = dic[@"info"][@"car_color"];
+            self.orderInfo.car_style = dic[@"info"][@"car_style_id"];
+            self.orderInfo.car_style_flg = dic[@"info"][@"car_style_flg"];
             self.orderInfo.car_plate_number = dic[@"info"][@"car_plate_number"];
             self.orderInfo.driver_nickname = dic[@"info"][@"driver_nickname"];
             self.orderInfo.driver_telephone = dic[@"info"][@"driver_telephone"];
@@ -413,6 +425,7 @@
             self.orderInfo.order_allMoney = dic[@"info"][@"order_allMoney"];
             self.orderInfo.startTimeType = dic[@"info"][@"startTimeType"];
             self.orderInfo.location = dic[@"info"][@"location"];
+            self.orderInfo.free_ride_telephone = dic[@"info"][@"free_ride_telephone"];
         } else {
             self.orderInfo.car_color = @"";
             self.orderInfo.car_brand = @"未知车型";
@@ -478,12 +491,27 @@
     _startLabel.text = self.orderInfo.star_loc_str;
     _endLabel.text = self.orderInfo.dest_loc_str;
     _noticeLabel.text = self.orderStatusInfo;
+    
     [_avator setImageWithURL:URL([Utils emptyIfNull:self.orderInfo.driver_photo])
             placeholderImage:IMG(@"account")];
     _carStyleLabel.text = [NSString stringWithFormat:@"%@ %@",self.orderInfo.car_color, self.orderInfo.car_brand];
     _carColorLabel.text = self.orderInfo.car_color;
+    _timerTitle.alpha = 1;
+    NSString *driver_acount;
     
-    _driverNameLabel.text = [NSString stringWithFormat:@"%@",self.orderInfo.driver_nickname];
+    if ([self.orderInfo.car_style intValue] == 2) { //顺风车订单
+        driver_acount = [NSString stringWithFormat:@"%@（%@）",self.orderInfo.driver_nickname,self.orderInfo.free_ride_telephone];
+        if (_timerImageView.alpha == 0) {
+            _timerTitle.text= @"顺风车订单";
+        }
+
+    } else {
+        driver_acount = [NSString stringWithFormat:@"%@（%@）",self.orderInfo.driver_nickname,self.orderInfo.driver_telephone];
+        if (_timerImageView.alpha == 0) {
+            _timerTitle.text= @"快车订单";
+        }
+    }
+    _driverNameLabel.text = driver_acount;
     _carNumLabel.text = self.orderInfo.car_plate_number;
     
     

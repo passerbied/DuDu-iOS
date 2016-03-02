@@ -50,6 +50,8 @@
              @"driver_photo"         : @"driver_photo",
              @"car_brand"            : @"car_brand",
              @"location"             : @"location",
+             @"free_ride_telephone"  : @"free_ride_telephone",
+             @"car_style_flg"        : @"car_style_flg",
              };
 }
 

@@ -263,7 +263,7 @@
         _chargeView.height = payPriceY;
     }
     
-    if ([self.orderInfo.car_style intValue] == 2) {
+    if ([self.orderInfo.car_style_flg intValue] == 2) { //顺风车订单
         _mileageLabel.alpha = 0;
         _mileageLine.alpha  = 0;
         _mileagePrice.alpha = 0;
@@ -325,6 +325,7 @@
             self.orderInfo.car_position_id = dic[@"info"][@"car_position_id"];
             self.orderInfo.car_color = dic[@"info"][@"car_color"];
             self.orderInfo.car_style = dic[@"info"][@"car_style_id"];
+            self.orderInfo.car_style_flg = dic[@"info"][@"car_style_flg"];
             self.orderInfo.car_plate_number = dic[@"info"][@"car_plate_number"];
             self.orderInfo.driver_nickname = dic[@"info"][@"driver_nickname"];
             self.orderInfo.driver_telephone = dic[@"info"][@"driver_telephone"];
@@ -339,7 +340,7 @@
             self.orderInfo.order_allMoney = dic[@"info"][@"order_allMoney"];
             self.orderInfo.location = dic[@"info"][@"location"];
             self.orderInfo.order_payStatus = dic[@"info"][@"order_payStatus"];
-            self.orderInfo.order_payStatus = dic[@"info"][@"order_payStatus"];
+            self.orderInfo.free_ride_telephone = dic[@"info"][@"free_ride_telephone"];
         } else {
             self.orderInfo.car_color = @"";
             self.orderInfo.car_brand = @"未知车型";

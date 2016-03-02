@@ -76,6 +76,8 @@ typedef NS_ENUM(NSUInteger, OrderStatus) {
 @property (nonatomic, copy) NSString *driver_photo;
 @property (nonatomic, copy) NSString *car_brand;
 @property (nonatomic, copy) NSArray  *location;
+@property (nonatomic, copy) NSNumber *free_ride_telephone;
+@property (nonatomic, copy) NSNumber *car_style_flg;
 
 @property (nonatomic, assign) BOOL  isSelected;
 @property (nonatomic, assign) float night_service_times;
