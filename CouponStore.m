@@ -85,20 +85,18 @@
             NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:currentDate];
             NSString *currentTime = [NSString stringWithFormat:@"%d.%d",(int)[dateComponent hour],(int)[dateComponent minute]];
             
-            
-            
             if ([currentTime floatValue] < [startTime floatValue] || [currentTime floatValue] > [endTime floatValue]) {
                 [coupons removeObject:coupon];
                 break;
             }
-            if (carStyle && [carStyle.car_style_id intValue] != [coupon.car_style_id intValue]) {
-                [coupons removeObject:coupon];
-                break;
-            }
-            if (money && money < [coupon.coupon_max_monny floatValue]) {
-                [coupons removeObject:coupon];
-                break;
-            }
+        }
+        if (carStyle && [carStyle.car_style_id intValue] != [coupon.car_style_id intValue]) {
+            [coupons removeObject:coupon];
+            break;
+        }
+        if (money && money < [coupon.coupon_max_monny floatValue]) {
+            [coupons removeObject:coupon];
+            break;
         }
     }
     return coupons;

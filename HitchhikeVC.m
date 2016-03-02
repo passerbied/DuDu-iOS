@@ -116,7 +116,7 @@
         [ZBCToast showMessage:@"正在计算价格，请稍等"];
         return NO;
     }
-    if (![_currentCity isEqualToString:@"大连"]) {
+    if (![_currentCity isEqualToString:@"大连市"]) {
         if (!_alertView) {
             _alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"\n很抱歉，不能为您提供服务，暂时只支持大连地区。期待嘟嘟将来为您服务。\n"];
             _alertView.messageFont = HSFONT(14);
@@ -356,6 +356,7 @@
 
 - (void)addressPicker:(GeoAndSuggestionViewController *)vc fromAddress:(QMSSuggestionPoiData *)fromLoc toAddress:(QMSSuggestionPoiData *)toLoc
 {
+    _currentCity = vc.currentCity;
     if (fromLoc) {
         NSLog(@"fromLoc:%f,%f",fromLoc.location.latitude,fromLoc.location.longitude);
         [self.fromLocation setCoordinate:fromLoc.location];
