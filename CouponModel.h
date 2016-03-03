@@ -26,5 +26,7 @@
 @property (nonatomic, copy) NSNumber *coupon_isUsed;
 @property (nonatomic, copy) NSNumber *coupon_isShare;
 @property (nonatomic, copy) NSString *coupon_exp_at;
+@property (nonatomic, strong) NSDate *coupon_exp_at_date;
+@property (assign) BOOL invalid;
 
 @end

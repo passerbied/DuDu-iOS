@@ -68,8 +68,17 @@
 
 - (NSArray *)useableCouponsForCarStyle:(CarModel *)carStyle money:(float)money
 {
-    NSMutableArray *coupons = [_info mutableCopy];
-    for (CouponModel *coupon in coupons) {
+    for (CouponModel *coupon in _info) {
+        //过期券
+        if (coupon.coupon_exp_at_date) {
+            NSDate *date = [NSDate date];
+            NSTimeInterval sec = [date timeIntervalSinceNow];
+            NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
+            if (currentDate > coupon.coupon_exp_at_date){
+                coupon.invalid = YES;
+            }
+        }
+        //不在使用时间范围内
         if (coupon.coupon_user_start_time && [coupon.coupon_user_start_time length] && coupon.coupon_user_end_time && [coupon.coupon_user_end_time length]) {
             
             NSString *startTime = [coupon.coupon_user_start_time stringByReplacingOccurrencesOfString:@":" withString:@"."];
@@ -86,17 +95,22 @@
             NSString *currentTime = [NSString stringWithFormat:@"%d.%d",(int)[dateComponent hour],(int)[dateComponent minute]];
             
             if ([currentTime floatValue] < [startTime floatValue] || [currentTime floatValue] > [endTime floatValue]) {
-                [coupons removeObject:coupon];
-                break;
+                coupon.invalid = YES;
             }
         }
+        //不是适用车型
         if (carStyle && [carStyle.car_style_id intValue] != [coupon.car_style_id intValue]) {
-            [coupons removeObject:coupon];
-            break;
+            coupon.invalid = YES;
         }
+        //不在适用金额范围内
         if (money && money < [coupon.coupon_max_monny floatValue]) {
-            [coupons removeObject:coupon];
-            break;
+            coupon.invalid = YES;
+        }
+    }
+    NSMutableArray *coupons = [NSMutableArray array];
+    for (CouponModel *coupon in _info) {
+        if (!coupon.invalid) {
+            [coupons addObject:coupon];
         }
     }
     return coupons;

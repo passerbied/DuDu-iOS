@@ -43,6 +43,21 @@
     return [[CarStore sharedCarStore] getCarStyleNameForCarStyleID:_car_style_id];
 }
 
+static NSString *format = @"yyyy-MM-dd HH:mm:ss";
+
+- (NSString *)coupon_exp_at
+{
+    return [NSDate convertDateToStringWithFormat:format date:[self coupon_exp_at_date]];
+}
+
+- (NSDate *)coupon_exp_at_date
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:format];
+    NSDate *get_date = [formatter dateFromString:_coupon_get_datetime];
+    return [get_date dateByAddingDays:[_coupon_exp_day intValue]];
+}
+
 - (NSString *)coupon_type
 {
     if ([_coupon_discount floatValue] < 1) {
