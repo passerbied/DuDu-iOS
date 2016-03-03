@@ -148,9 +148,14 @@
                 }
             }
         }
-        cheapestCoupon = coupons[0];
+        return coupons[0];
     } else {
-        cheapestCoupon = _useableCoupons[0];
+        if (_useableCoupons.count) {
+            return _useableCoupons[0];
+        } else {
+            return nil;
+        }
+        
     }
     
     return cheapestCoupon;
