@@ -286,6 +286,7 @@
                                           font:HSFONT(12)
                                           text:driver_acount];
     [_driverView addSubview:_driverNameLabel];
+
     
     _carNumLabel = [UILabel labelWithFrame:ccr(_driverNameLabel.x,
                                                CGRectGetMaxY(_driverNameLabel.frame),
@@ -499,7 +500,7 @@
     _timerTitle.alpha = 1;
     NSString *driver_acount;
     
-    if ([self.orderInfo.car_style intValue] == 2) { //顺风车订单
+    if ([self.orderInfo.car_style_flg intValue] == 2) { //顺风车订单
         driver_acount = [NSString stringWithFormat:@"%@（%@）",self.orderInfo.driver_nickname,self.orderInfo.free_ride_telephone];
         if (_timerImageView.alpha == 0) {
             _timerTitle.text= @"顺风车订单";
