@@ -283,6 +283,7 @@
         _payLine.alpha      = 0;
         _payPrice.alpha     = 0;
         _chargeView.height = 50;
+        _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
     }
     
     _driverView.alpha = 1;
@@ -821,7 +822,7 @@
     if (IS_BETTER_THAN_IPHONE_5) {
         cashPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
     } else {
-        cashPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, 667 - 50, 260, 40);
+        cashPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, 600 - 50, 260, 40);
     }
     
     return cashPayBtn;
@@ -840,7 +841,7 @@
     if (IS_BETTER_THAN_IPHONE_5) {
         weixinPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
     } else {
-        weixinPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, 667 - 50, 260, 40);
+        weixinPayBtn.frame = ccr((SCREEN_WIDTH-260)/2, 600 - 50, 260, 40);
     }
     weixinPayBtn.enabled = YES;
     return weixinPayBtn;
@@ -860,7 +861,7 @@
         if (IS_BETTER_THAN_IPHONE_5) {
             _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
         } else {
-            _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, 667 - 50, 260, 40);
+            _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, 600 - 50, 260, 40);
         }
     }
     return _shareBtn;
