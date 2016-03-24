@@ -284,6 +284,7 @@
         _payPrice.alpha     = 0;
         _chargeView.height = 50;
         _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+        _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_payBtn.frame));
     }
     
     _driverView.alpha = 1;
@@ -292,16 +293,24 @@
     
     if(self.isForCharge) {
         _ratingView.alpha = 0;
+        _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
         _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_payBtn.frame));
     } else {
         _ratingView.alpha = 1;
     }
     if (([self.orderInfo.order_status intValue] == 5 || _isPayed)) {
-        _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_shareBtn.frame)+10);
         _payBtn.alpha = 0;
         _shareBtn.alpha = 1;
+        if ([self.orderInfo.car_style_flg intValue] == 2) {
+            _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, SCREEN_HEIGHT - 50, 260, 40);
+            _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_shareBtn.frame)+10);
+        } else {
+            _shareBtn.frame = ccr((SCREEN_WIDTH-260)/2, 600 - 50, 260, 40);
+            _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_shareBtn.frame)+10);
+        }
     } else {
-        _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_payBtn.frame)+10);
+//        _payBtn.frame = ccr((SCREEN_WIDTH-260)/2, 600 - 50, 260, 40);
+//        _scrollView.contentSize = ccs(SCREEN_WIDTH, CGRectGetMaxY(_payBtn.frame)+10);
         _payBtn.alpha = 1;
         _shareBtn.alpha = 0;
     }
@@ -435,7 +444,7 @@
     } else {
         _payBtn = [self weixinPayBtn];
     }
-    [self.view addSubview:_payBtn];
+    [_scrollView addSubview:_payBtn];
     
     
     self.starRating.editable = ([self.orderInfo.order_status intValue] == 5 || _isPayed); //只有已付款并且没评过星的才可以评星, _isPayed是因为服务器刷新数据比微信回调速度慢造成支付成功但数据未更新成已支付。

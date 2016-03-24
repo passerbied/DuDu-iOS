@@ -638,30 +638,30 @@
 - (void)didSubmited
 {
     
-    if (![_currentCity isEqualToString:@"大连市"]) {
-        if (!_alertView) {
-            NSString *message  =[NSString stringWithFormat:@"\n很抱歉，不能为您提供服务，暂时只支持大连地区。期待嘟嘟将来为您服务。\n"];
-            _alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:message];
-            _alertView.messageFont = HSFONT(14);
-            _alertView.buttonColor = COLORRGB(0xf39a00);
-            _alertView.buttonFont = HSFONT(15);
-            _alertView.cancelButtonColor = COLORRGB(0xf39a00);
-            _alertView.didShowHandler = ^(SIAlertView *alertView) {
-            };
-            _alertView.didDismissHandler = ^(SIAlertView *alertView) {
-                alertView = nil;
-            };
-            _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
-            
-            [_alertView addButtonWithTitle:@"确定"
-                                          type:SIAlertViewButtonTypeCancel
-                                       handler:^(SIAlertView *alert) {
-                                           [alert dismissAnimated:YES];
-                                       }];
-        }
-        [_alertView show];
-        return;
-    }
+//    if (![_currentCity isEqualToString:@"大连市"]) {
+//        if (!_alertView) {
+//            NSString *message  =[NSString stringWithFormat:@"\n很抱歉，不能为您提供服务，暂时只支持大连地区。期待嘟嘟将来为您服务。\n"];
+//            _alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:message];
+//            _alertView.messageFont = HSFONT(14);
+//            _alertView.buttonColor = COLORRGB(0xf39a00);
+//            _alertView.buttonFont = HSFONT(15);
+//            _alertView.cancelButtonColor = COLORRGB(0xf39a00);
+//            _alertView.didShowHandler = ^(SIAlertView *alertView) {
+//            };
+//            _alertView.didDismissHandler = ^(SIAlertView *alertView) {
+//                alertView = nil;
+//            };
+//            _alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+//            
+//            [_alertView addButtonWithTitle:@"确定"
+//                                          type:SIAlertViewButtonTypeCancel
+//                                       handler:^(SIAlertView *alert) {
+//                                           [alert dismissAnimated:YES];
+//                                       }];
+//        }
+//        [_alertView show];
+//        return;
+//    }
     OrderModel *orderInfo = [[OrderModel alloc] init];
     orderInfo.user_id = [NSNumber numberWithInt:[[UICKeyChainStore stringForKey:KEY_STORE_USERID service:KEY_STORE_SERVICE] intValue]];
     
